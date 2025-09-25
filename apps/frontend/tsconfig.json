@@ -1,70 +1,43 @@
+```json
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src/app",
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "jsx": "preserve",
     "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "paths": {
-      "@components/*": [
-        "components/*"
-      ],
-      "@hooks/*": [
-        "hooks/*"
-      ],
-      "@controllers/*": [
-        "controllers/*"
-      ],
-      "@api/*": [
-        "api/*"
-      ],
-      "@services/*": [
-        "services/*"
-      ],
-      "@styles/*": [
-        "styles/*"
-      ],
-      "@config/*": [
-        "config/*"
-      ],
-      "@shared/types/*": [
-        "../../../../packages/shared/src/libs/types/*"
-      ],
-      "@shared/utils/*": [
-        "../../../../packages/shared/src/libs/utils/*"
-      ],
-      "@shared/models/*": [
-        "../../../../packages/shared/src/libs/models/*"
-      ]
-    },
     "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
-    "src/**/*",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
     ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "../backend/**/*"
   ]
 }
+```
