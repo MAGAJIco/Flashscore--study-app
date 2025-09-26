@@ -8,11 +8,18 @@ import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import { MongoClient } from 'mongodb'
 import bcrypt from 'bcryptjs'
 
-const client = new MongoClient(process.env.MONGODB_URI!)
-const clientPromise = client.connect()
+// Conditional MongoDB connection - only if MONGODB_URI is provided
+let client: MongoClient | null = null
+let clientPromise: Promise<MongoClient> | null = null
+
+if (process.env.MONGODB_URI) {
+  client = new MongoClient(process.env.MONGODB_URI)
+  clientPromise = client.connect()
+}
 
 const authOptions = {
-  adapter: MongoDBAdapter(clientPromise),
+  // Only use MongoDB adapter if we have a connection
+  ...(clientPromise && { adapter: MongoDBAdapter(clientPromise) }),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -45,20 +52,31 @@ const authOptions = {
           return null
         }
 
-        const db = client.db()
-        const user = await db.collection('users').findOne({
-          email: credentials.email
-        })
-
-        if (!user || !await bcrypt.compare(credentials.password, user.password)) {
+        // Only attempt database operations if MongoDB is connected
+        if (!client) {
+          console.log('⚠️ MongoDB not configured, skipping credentials auth')
           return null
         }
 
-        return {
-          id: user._id,
-          email: user.email,
-          name: user.name,
-          image: user.image
+        try {
+          const db = client.db()
+          const user = await db.collection('users').findOne({
+            email: credentials.email
+          })
+
+          if (!user || !await bcrypt.compare(credentials.password, user.password)) {
+            return null
+          }
+
+          return {
+            id: user._id,
+            email: user.email,
+            name: user.name,
+            image: user.image
+          }
+        } catch (error) {
+          console.error('Database auth error:', error)
+          return null
         }
       }
     })
@@ -86,6 +104,12 @@ const authOptions = {
       return session
     },
     async signIn({ user, account, profile }) {
+      // Only attempt database operations if MongoDB is connected
+      if (!client) {
+        console.log('✅ Social auth successful (no database configured)')
+        return true
+      }
+
       try {
         const db = client.db()
         
@@ -112,7 +136,8 @@ const authOptions = {
         return true
       } catch (error) {
         console.error('Sign in error:', error)
-        return false
+        // Don't fail auth just because database is unavailable
+        return true
       }
     }
   },

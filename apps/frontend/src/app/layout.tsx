@@ -15,7 +15,7 @@ import ProductionErrorBoundary from "./components/ProductionErrorBoundary";
 import PrivacyNotice from "./components/PrivacyNotice";
 import MobileInstallPrompter from "./components/MobileInstallPrompter";
 import PWAServiceWorker from "./components/PWAServiceWorker";
-import iOSInterface from "./components/iOSInterface";
+import IOSInterface from "./components/iOSInterface";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,8 +42,8 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://flashstudy-ri0g.onrender.com" />
         <link rel="dns-prefetch" href="https://flashstudy-ri0g.onrender.com" />
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
+        <title>{String(metadata.title)}</title>
+        <meta name="description" content={String(metadata.description)} />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#00ff88" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,7 +57,7 @@ export default function RootLayout({
       <body className="relative flex sports">
         <NextAuthSessionProvider>
           <ProductionErrorBoundary>
-            <iOSInterface showStatusBar enableHapticFeedback>
+            <IOSInterface showStatusBar enableHapticFeedback>
               <React.Suspense fallback={null}>
                 <BackgroundParticles />
               </React.Suspense>
@@ -74,14 +74,14 @@ export default function RootLayout({
 
                   {/* Mobile nav (always visible at bottom on small screens) */}
                   <React.Suspense fallback={null}>
-                    <MobileNav items={navItems} />
+                    <MobileNav />
                   </React.Suspense>
                 </div>
               </OfflineManager>
 
               <MobileInstallPrompter />
               <PWAServiceWorker />
-            </iOSInterface>
+            </IOSInterface>
           </ProductionErrorBoundary>
         </NextAuthSessionProvider>
         <PrivacyNotice />
