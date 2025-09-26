@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import MagajicoCEOSportsDashboard from "./components/MagajicoCEOSportsDashboard";
+import EnhancedCEOSportsDashboard from "./components/EnhancedCEOSportsDashboard";
 import ComprehensiveSportsHub from "./components/ComprehensiveSportsHub";
 import UnifiedSoccerHub from "./components/UnifiedSoccerHub";
 
@@ -26,7 +26,7 @@ export default function HomePage() {
         setTimeout(checkBackend, 5000);
       }
     };
-    
+
     checkBackend();
   }, []);
 
@@ -98,13 +98,13 @@ export default function HomePage() {
   const renderDashboard = () => {
     switch (currentDashboard) {
       case 'ceo':
-        return <MagajicoCEOSportsDashboard />;
+        return <EnhancedCEOSportsDashboard />;
       case 'comprehensive':
         return <ComprehensiveSportsHub />;
       case 'soccer':
         return <UnifiedSoccerHub />;
       default:
-        return <MagajicoCEOSportsDashboard />;
+        return <EnhancedCEOSportsDashboard />;
     }
   };
 
@@ -112,7 +112,7 @@ export default function HomePage() {
     <>
       <DashboardSelector />
       {renderDashboard()}
-      
+
       {/* Status indicator */}
       <div style={{
         position: 'fixed',
