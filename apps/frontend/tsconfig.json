@@ -25,7 +25,13 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@hooks/*": ["./src/app/hooks/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@utils/*": ["./src/app/utils/*"],
+      "@api/*": ["./src/app/api/*"],
+      "@magajico/shared/*": ["../../packages/shared/src/*"]
     }
   },
   "include": [

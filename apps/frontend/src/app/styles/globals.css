@@ -758,7 +758,7 @@ input:focus, textarea:focus, select:focus {
 .signal-bars {
   display: flex;
   gap: 2px;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .signal-bars span {

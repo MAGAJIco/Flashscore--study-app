@@ -39,6 +39,7 @@ const start = async () => {
     if (err) throw err;
     console.log(`🚀 Backend server running at ${address}`);
     console.log(`🔗 Frontend can connect via: http://0.0.0.0:8000`);
+    console.log(`🔗 API Health check: ${address}/api/health`);
   });
 };
 

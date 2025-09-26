@@ -1,61 +1,98 @@
-import { createSportsAPIService } from '@api/service';
+
+import { NextRequest, NextResponse } from 'next/server';
 
 interface Match {
   id: number;
-  home: string;
-  away: string;
-  prediction: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number;
+  awayScore: number;
+  status: 'Live' | 'Finished' | 'Scheduled';
+  time: string;
+  league: string;
+  sport: 'Football' | 'Basketball' | 'Tennis' | 'Baseball' | 'Soccer';
 }
 
-const sportsAPI = createSportsAPIService();
+interface MarketData {
+  matchId: string;
+  odds: { home: number; draw: number; away: number };
+  volume: number;
+  trend: 'up' | 'down' | 'stable';
+}
 
-const fallbackMatches: Match[] = [
-  { id: 1, home: "Manchester United", away: "Liverpool", prediction: "Liverpool to win 2-1" },
-  { id: 2, home: "Barcelona", away: "Real Madrid", prediction: "Draw 1-1" },
-  { id: 3, home: "Bayern Munich", away: "Borussia Dortmund", prediction: "Bayern Munich to win 3-0" },
-  { id: 4, home: "Arsenal", away: "Chelsea", prediction: "Arsenal to win 2-0" },
+// Mock data generators for development
+const generateMockMatches = (): Match[] => [
+  {
+    id: 1,
+    homeTeam: 'Manchester City',
+    awayTeam: 'Liverpool',
+    homeScore: 2,
+    awayScore: 1,
+    status: 'Live',
+    time: "78'",
+    league: 'Premier League',
+    sport: 'Soccer'
+  },
+  {
+    id: 2,
+    homeTeam: 'Arsenal',
+    awayTeam: 'Chelsea',
+    homeScore: 1,
+    awayScore: 1,
+    status: 'Live',
+    time: "65'",
+    league: 'Premier League',
+    sport: 'Soccer'
+  }
 ];
 
-export async function GET(req: Request) {
+const generateMockMarketData = (): Record<string, MarketData> => ({
+  '1': {
+    matchId: '1',
+    odds: { home: 2.2, draw: 3.4, away: 3.1 },
+    volume: 2500000,
+    trend: 'up'
+  },
+  '2': {
+    matchId: '2',
+    odds: { home: 2.8, draw: 3.2, away: 2.6 },
+    volume: 1800000,
+    trend: 'stable'
+  }
+});
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { path: string[] } }
+) {
   try {
-    const liveMatches = await sportsAPI.fetchEnhancedLiveMatches();
-
-    const matches: Match[] = liveMatches.map((match, index) => ({
-      id: Number(match.id) || index + 1,
-      home: match.homeTeam || 'Unknown',
-      away: match.awayTeam || 'Unknown',
-      prediction: match.prediction || `Analysis: ${match.homeTeam} vs ${match.awayTeam}`,
-    }));
-
-    return new Response(JSON.stringify(matches.length ? matches : fallbackMatches), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-  } catch (error) {
-    console.error('Error fetching enhanced live matches:', error);
-
-    try {
-      const regularMatches = await sportsAPI.fetchAllLiveMatches();
-
-      const matches: Match[] = regularMatches.map((match, index) => ({
-        id: Number(match.id) || index + 1,
-        home: match.homeTeam || 'Unknown',
-        away: match.awayTeam || 'Unknown',
-        prediction: `Prediction for ${match.homeTeam} vs ${match.awayTeam}`,
-      }));
-
-      return new Response(JSON.stringify(matches.length ? matches : fallbackMatches), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-    } catch (fallbackError) {
-      console.error('Fallback fetch failed:', fallbackError);
-      return new Response(JSON.stringify(fallbackMatches), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    const path = params.path?.join('/') || '';
+    
+    // Handle different API endpoints
+    switch (path) {
+      case 'live-matches':
+        return NextResponse.json({
+          success: true,
+          data: generateMockMatches()
+        });
+        
+      case 'market-data':
+        return NextResponse.json({
+          success: true,
+          data: generateMockMarketData()
+        });
+        
+      default:
+        return NextResponse.json({
+          success: false,
+          error: 'Endpoint not found'
+        }, { status: 404 });
     }
+  } catch (error) {
+    console.error('Sports proxy error:', error);
+    return NextResponse.json({
+      success: false,
+      error: 'Internal server error'
+    }, { status: 500 });
   }
 }
