@@ -40,10 +40,7 @@ export default function iOSInterface({
   };
 
   return (
-    <div
-      data-show-status-bar={showStatusBar}
-      data-enable-haptic-feedback={enableHapticFeedback}
-    >
+    <div className="ios-interface">
       {showStatusBar && (
         <div className="ios-status-bar">
           <div className="ios-status-left">
