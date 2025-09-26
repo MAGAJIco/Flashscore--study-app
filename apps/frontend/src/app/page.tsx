@@ -7,11 +7,24 @@ export default function HomePage() {
   const [backendStatus, setBackendStatus] = useState("checking...");
 
   useEffect(() => {
-    // Test backend health endpoint
-    fetch("/api/backend/health")
-      .then(res => res.ok ? res.json() : Promise.reject())
-      .then(() => setBackendStatus("✅ Connected"))
-      .catch(() => setBackendStatus("❌ Disconnected"));
+    // Test backend health endpoint with retry logic
+    const checkBackend = async () => {
+      try {
+        const response = await fetch("/api/backend/health");
+        if (response.ok) {
+          setBackendStatus("✅ Connected");
+        } else {
+          throw new Error(`Backend returned ${response.status}`);
+        }
+      } catch (error) {
+        console.warn("Backend connection failed:", error);
+        setBackendStatus("❌ Disconnected");
+        // Retry after 5 seconds
+        setTimeout(checkBackend, 5000);
+      }
+    };
+    
+    checkBackend();
   }, []);
 
   return (

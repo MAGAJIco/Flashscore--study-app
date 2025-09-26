@@ -3,14 +3,14 @@ run = "cd apps/frontend && npm run dev"
 
 [nix]
 channel = "stable-25_05"
-packages = ["miktex", "nix-output-monitor"]
+packages = ["miktex", "nix-output-monitor", "u-root-cmds"]
 
 [deployment]
 run = ["sh", "-c", "cd apps/backend && npm start & cd apps/frontend && npm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
 [workflows]
-runButton = "Project"
+runButton = "Full Stack Connected"
 
 [[workflows.workflow]]
 name = "Start Sports API"
@@ -234,6 +234,19 @@ args = "cd apps/backend && npm install && npm run start"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd apps/frontend && npm install --legacy-peer-deps && npm run dev"
+
+[[workflows.workflow]]
+name = "Full Stack Connected"
+author = 46296136
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend && npm install && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && npm run dev"
 
 [[ports]]
 localPort = 3000
