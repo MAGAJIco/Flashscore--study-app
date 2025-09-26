@@ -10,6 +10,11 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
 
+  // Allow dev origins for Replit environment
+  experimental: {
+    allowedDevOrigins: ['127.0.0.1']
+  },
+
   // Security headers
   async headers() {
     return [
