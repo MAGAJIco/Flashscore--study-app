@@ -19,11 +19,12 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 20%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(0, 162, 255, 0.1) 0%, transparent 50%),
-    linear-gradient(90deg, transparent 0%, rgba(0, 255, 136, 0.03) 50%, transparent 100%);
+    radial-gradient(ellipse at 20% 20%, rgba(0, 255, 136, 0.15) 0%, rgba(0, 255, 136, 0.05) 30%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(0, 162, 255, 0.15) 0%, rgba(0, 162, 255, 0.05) 30%, transparent 60%),
+    radial-gradient(ellipse at 50% 10%, rgba(147, 51, 234, 0.1) 0%, transparent 40%),
+    linear-gradient(135deg, rgba(0, 255, 136, 0.02) 0%, rgba(0, 162, 255, 0.02) 50%, rgba(147, 51, 234, 0.02) 100%);
   z-index: -2;
-  animation: pulseEnergy 8s ease-in-out infinite;
+  animation: pulseEnergy 12s ease-in-out infinite;
 }
 
 @keyframes pulseEnergy {
@@ -70,16 +71,22 @@
 }
 
 .statCard {
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 162, 255, 0.05) 100%);
-  backdrop-filter: blur(20px);
-  padding: 30px;
-  border-radius: 20px;
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 136, 0.08) 0%, 
+    rgba(0, 162, 255, 0.08) 50%,
+    rgba(147, 51, 234, 0.06) 100%);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  padding: 32px;
+  border-radius: 24px;
   text-align: center;
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(0, 255, 136, 0.2);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    0 4px 16px rgba(0, 255, 136, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  border: 1.5px solid rgba(0, 255, 136, 0.25);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   position: relative;
   overflow: hidden;
 }
@@ -101,12 +108,19 @@
 }
 
 .statCard:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-12px) scale(1.03) rotateX(5deg);
   box-shadow: 
-    0 20px 60px rgba(0, 255, 136, 0.15),
-    0 0 40px rgba(0, 255, 136, 0.1);
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 162, 255, 0.1) 100%);
-  border-color: rgba(0, 255, 136, 0.4);
+    0 30px 80px rgba(0, 255, 136, 0.2),
+    0 12px 32px rgba(0, 162, 255, 0.15),
+    0 0 60px rgba(0, 255, 136, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 136, 0.15) 0%, 
+    rgba(0, 162, 255, 0.15) 50%,
+    rgba(147, 51, 234, 0.1) 100%);
+  border-color: rgba(0, 255, 136, 0.5);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
 }
 
 .statCard h3 {

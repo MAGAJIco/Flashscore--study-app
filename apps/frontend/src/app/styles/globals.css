@@ -10,7 +10,7 @@
   --ios-red: #FF3B30;
   --ios-teal: #5AC8FA;
   --ios-yellow: #FFCC00;
-  
+
   /* iOS 17 System Colors */
   --ios-system-background: #000000;
   --ios-secondary-background: #1C1C1E;
@@ -18,17 +18,17 @@
   --ios-quaternary-background: #3A3A3C;
   --ios-grouped-background: #1C1C1E;
   --ios-secondary-grouped-background: #2C2C2E;
-  
+
   /* iOS 17 Labels */
   --ios-label: #FFFFFF;
   --ios-secondary-label: #EBEBF5;
   --ios-tertiary-label: #EBEBF5;
   --ios-quaternary-label: #EBEBF5;
-  
+
   /* iOS 17 Materials */
   --ios-blur-effect: blur(20px);
   --ios-vibrancy-effect: saturate(1.8) blur(20px);
-  
+
   /* iOS 17 Shadows */
   --ios-shadow-small: 0 1px 3px rgba(0, 0, 0, 0.3);
   --ios-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -389,7 +389,7 @@ body {
     /* Improve touch responsiveness */
     touch-action: manipulation;
   }
-  
+
   * {
     /* Hardware acceleration for smoother animations */
     -webkit-transform: translateZ(0);
@@ -398,20 +398,20 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Prevent horizontal scroll issues */
   html, body {
     max-width: 100vw;
     overflow-x: hidden;
   }
-  
+
   /* Optimize button sizes for touch */
   button, .btn {
     min-height: 44px;
     min-width: 44px;
     touch-action: manipulation;
   }
-  
+
   /* Reduce animations on mobile for performance */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -420,7 +420,7 @@ body {
       transition-duration: 0.01ms !important;
     }
   }
-  
+
   /* Optimize scrolling performance */
   .scroll-container {
     -webkit-overflow-scrolling: touch;
@@ -673,4 +673,105 @@ input:focus, textarea:focus, select:focus {
 .hover-glow:hover {
   filter: brightness(1.1);
   box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+}
+
+/* iOS Interface Wrapper */
+.ios-interface-wrapper {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* iOS 17 Status Bar */
+.ios-status-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+  z-index: 9999;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+
+.status-bar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-left .time {
+  font-variant-numeric: tabular-nums;
+}
+
+.status-center .notch {
+  width: 140px;
+  height: 30px;
+  background: #000;
+  border-radius: 0 0 15px 15px;
+  position: relative;
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.battery-indicator {
+  width: 24px;
+  height: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  position: relative;
+}
+
+.battery-indicator::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 3px;
+  width: 2px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 0 1px 1px 0;
+}
+
+.battery-level {
+  height: 100%;
+  width: 80%;
+  background: #34c759;
+  border-radius: 1px;
+}
+
+.signal-bars {
+  display: flex;
+  gap: 2px;
+  align-items: end;
+}
+
+.signal-bars span {
+  width: 3px;
+  background: white;
+  border-radius: 1px;
+}
+
+.signal-bars span:nth-child(1) { height: 4px; }
+.signal-bars span:nth-child(2) { height: 6px; }
+.signal-bars span:nth-child(3) { height: 8px; }
+
+.ios-content {
+  min-height: calc(100vh - 44px);
+  margin-top: 44px;
 }

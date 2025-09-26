@@ -57,7 +57,7 @@ export default function RootLayout({
       <body className="relative flex sports">
         <NextAuthSessionProvider>
           <ProductionErrorBoundary>
-            <iOSInterface showStatusBar={true} enableHapticFeedback={true}>
+            <iOSInterface showStatusBar enableHapticFeedback>
               <React.Suspense fallback={null}>
                 <BackgroundParticles />
               </React.Suspense>
