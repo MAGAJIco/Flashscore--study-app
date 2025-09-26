@@ -3,14 +3,14 @@ run = "cd apps/frontend && npm run dev"
 
 [nix]
 channel = "stable-25_05"
-packages = ["miktex", "nix-output-monitor", "u-root-cmds"]
+packages = ["miktex", "nix-output-monitor", "u-root-cmds", "pnpm"]
 
 [deployment]
 run = ["sh", "-c", "cd apps/backend && npm start & cd apps/frontend && npm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
 [workflows]
-runButton = "Full Stack Connected"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Start Sports API"
@@ -109,7 +109,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && pnpm run dev"
+args = "cd apps/frontend && pnpm dev"
 waitForPort = 5000
 
 [[workflows.workflow]]
@@ -121,7 +121,7 @@ outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/backend && pnpm run dev"
+args = "cd apps/backend && pnpm dev"
 waitForPort = 8000
 
 [[workflows.workflow]]
@@ -263,6 +263,10 @@ externalPort = 80
 [[ports]]
 localPort = 8000
 externalPort = 8000
+
+[[ports]]
+localPort = 44567
+externalPort = 3002
 
 [agent]
 expertMode = true
