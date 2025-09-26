@@ -1,235 +1,206 @@
 //app/frontend/src/app/components/ai/magajicoCEO.ts
-// CEO: Decides what is important and what should happen
-// Enhanced with strategic thinking patterns from tech leaders
-export interface Prediction {
+// Enhanced CEO: Market Intelligence + Strategic Decision Making
+// Integrates Kalshi prediction markets + Pinnacle sharp odds analysis
+
+export interface EnhancedPrediction {
   match: string;
   prediction: string;
   confidence: number;
-  marketValue?: number;
-  riskFactor?: number;
+  probabilities: {
+    home: number;
+    draw: number;
+    away: number;
+  };
+  market_analysis: {
+    kalshi_probabilities: {
+      home_win: number;
+      draw: number;
+      away_win: number;
+    };
+    pinnacle_odds: {
+      home_win: number;
+      draw: number;
+      away_win: number;
+    };
+    sharp_confidence: number;
+    line_movement: number;
+  };
+  risk_metrics: {
+    probability_variance: number;
+    market_volatility: number;
+    confidence_spread: number;
+    sharp_money_risk: number;
+    overall_risk_score: number;
+  };
+  value_opportunities: Array<{
+    outcome: string;
+    edge_percentage: number;
+    model_probability: number;
+    market_probability: number;
+    recommended_odds: number;
+    confidence_level: 'high' | 'medium' | 'low';
+  }>;
+  magajico_analysis: {
+    innovation_score: number;
+    market_position: string;
+    risk_level: string;
+    execution_confidence: number;
+    market_efficiency: number;
+    value_detection: string;
+    line_movement_impact: number;
+    smart_money_indicator: boolean;
+  };
 }
 
-export type CEOAction =
-  | { type: "ALERT"; message: string; level: "info" | "success" | "warning" | "danger" }
-  | { type: "HIGHLIGHT"; match: string }
-  | { type: "STRATEGIC_MOVE"; action: string; reasoning: string }
-  | { type: "MARKET_OPPORTUNITY"; prediction: Prediction; potential: number }
+export type EnhancedCEOAction =
+  | { type: "MARKET_ALERT"; message: string; level: "info" | "success" | "warning" | "danger"; market_data: any }
+  | { type: "VALUE_OPPORTUNITY"; prediction: EnhancedPrediction; value_score: number; edge: number }
+  | { type: "SHARP_MONEY_SIGNAL"; match: string; confidence: number; direction: 'bullish' | 'bearish' }
+  | { type: "LINE_MOVEMENT_ALERT"; match: string; movement: number; impact: 'significant' | 'moderate' | 'minimal' }
+  | { type: "RISK_WARNING"; match: string; risk_factors: string[]; severity: 'high' | 'medium' | 'low' }
+  | { type: "STRATEGIC_MOVE"; action: string; reasoning: string; expected_roi: number }
+  | { type: "MARKET_DOMINATION"; opportunities: number; total_edge: number }
   | { type: "IGNORE" };
 
-interface StrategicThinking {
+// Enhanced Strategic Frameworks
+interface EnhancedStrategicThinking {
+  // Existing patterns
   longTermVision: boolean;
   disruptiveInnovation: boolean;
   marketDomination: boolean;
   riskTolerance: number;
   executionSpeed: number;
+  
+  // New market intelligence patterns
+  sharpMoneyDetection: boolean;
+  valueHunting: boolean;
+  marketEfficiencyAnalysis: boolean;
+  lineMovementTracking: boolean;
+  arbitrageOpportunities: boolean;
 }
 
-// Strategic patterns inspired by tech leaders
-const STRATEGIC_PATTERNS: StrategicThinking = {
-  longTermVision: true, // Jeff Bezos - long-term thinking
-  disruptiveInnovation: true, // Elon Musk - revolutionary approach  
-  marketDomination: true, // Bill Gates - market positioning
-  riskTolerance: 0.7, // Jack Ma - calculated risks
-  executionSpeed: 0.9 // All leaders - fast execution
+const ENHANCED_STRATEGIC_PATTERNS: EnhancedStrategicThinking = {
+  // Original tech leader patterns
+  longTermVision: true,
+  disruptiveInnovation: true,
+  marketDomination: true,
+  riskTolerance: 0.7,
+  executionSpeed: 0.9,
+  
+  // New betting market patterns
+  sharpMoneyDetection: true,      // Follow the smart money
+  valueHunting: true,             // Identify undervalued opportunities
+  marketEfficiencyAnalysis: true, // Exploit market inefficiencies
+  lineMovementTracking: true,     // Track and analyze line movements
+  arbitrageOpportunities: true    // Find arbitrage possibilities
 };
 
-// Mark Zuckerberg Meta Strategic Framework
-interface ZuckerbergMetaStrategy {
-  metaverseVision: boolean; // Long-term virtual world dominance
-  socialConnectionFocus: boolean; // Connect people globally
-  platformScaling: number; // Scale fast and iterate
-  dataIntelligence: number; // Data-driven decisions
-  acquisitionStrategy: number; // Strategic acquisitions
+// Pinnacle-Style Sharp Money Detection
+interface SharpMoneyIndicators {
+  volumeSpike: boolean;
+  lineMovement: number;
+  marketConsensus: number;
+  professionalAction: number;
+  reverseLine: boolean;
+  steamMove: boolean;
 }
 
-const ZUCKERBERG_META_PATTERNS: ZuckerbergMetaStrategy = {
-  metaverseVision: true, // Future of social interaction
-  socialConnectionFocus: true, // Build communities
-  platformScaling: 0.95, // Scale rapidly
-  dataIntelligence: 0.9, // Analytics-driven
-  acquisitionStrategy: 0.8 // Strategic partnerships
-};
-
-// MagajiCo 5(1) Filter System - Five quality checks, one final decision
-interface MagajiCo5Filter {
-  confidenceCheck: boolean;
-  marketValueCheck: boolean;
-  riskAssessment: boolean;
-  strategicAlignment: boolean;
-  executionFeasibility: boolean;
-  finalDecision: 'PROCEED' | 'HOLD' | 'REJECT';
+// Kalshi-Style Market Intelligence
+interface KalshiMarketIntel {
+  realWorldProbability: number;
+  marketDepth: number;
+  liquidityScore: number;
+  newsImpact: number;
+  informationEdge: number;
+  crowdWisdom: number;
 }
 
-// MagajiCo 5(1) Filter System Implementation
-function apply5Filter(prediction: Prediction): MagajiCo5Filter {
-  const filter: MagajiCo5Filter = {
-    confidenceCheck: prediction.confidence > 70, // Filter 1: Confidence threshold
-    marketValueCheck: (prediction.marketValue || 0) > 50, // Filter 2: Market value potential
-    riskAssessment: (prediction.riskFactor || 0) < 0.6, // Filter 3: Risk tolerance
-    strategicAlignment: calculateStrategicValue(prediction) > 0.6, // Filter 4: Strategic fit
-    executionFeasibility: prediction.confidence > 60, // Filter 5: Execution possibility
-    finalDecision: 'HOLD'
+// MagajiCo 7(1) Enhanced Filter System
+// Seven quality checks, one final decision (upgraded from 5(1))
+interface MagajiCo7Filter {
+  confidenceCheck: boolean;        // Model confidence > 70%
+  marketValidation: boolean;       // Market analysis confirms
+  sharpMoneyAlignment: boolean;    // Smart money agrees
+  valueOpportunity: boolean;       // Positive expected value
+  riskAssessment: boolean;         // Risk within tolerance
+  liquidityCheck: boolean;         // Sufficient market depth
+  informationEdge: boolean;        // Information advantage
+  finalDecision: 'DOMINATE' | 'EXECUTE' | 'MONITOR' | 'AVOID';
+}
+
+// Enhanced MagajiCo 7(1) Filter Implementation
+function apply7Filter(prediction: EnhancedPrediction): MagajiCo7Filter {
+  const { confidence, market_analysis, risk_metrics, value_opportunities, magajico_analysis } = prediction;
+  
+  const filter: MagajiCo7Filter = {
+    confidenceCheck: confidence > 0.70,
+    marketValidation: market_analysis.sharp_confidence > 0.65,
+    sharpMoneyAlignment: magajico_analysis.smart_money_indicator,
+    valueOpportunity: value_opportunities.length > 0 && 
+                     value_opportunities.some(v => v.edge_percentage > 10),
+    riskAssessment: risk_metrics.overall_risk_score < 0.3,
+    liquidityCheck: market_analysis.sharp_confidence > 0.5, // Proxy for liquidity
+    informationEdge: magajico_analysis.market_efficiency < 90, // Market inefficiency = information edge
+    finalDecision: 'MONITOR'
   };
 
-  // Zuckerberg Meta Decision Logic - Connect, Scale, Dominate
-  const metaScore = (
-    (filter.confidenceCheck ? 1 : 0) +
-    (filter.marketValueCheck ? 1 : 0) +
-    (filter.riskAssessment ? 1 : 0) +
-    (filter.strategicAlignment ? 1 : 0) +
-    (filter.executionFeasibility ? 1 : 0)
-  );
+  // Advanced decision matrix based on filter results
+  const filterScore = [
+    filter.confidenceCheck,
+    filter.marketValidation,
+    filter.sharpMoneyAlignment,
+    filter.valueOpportunity,
+    filter.riskAssessment,
+    filter.liquidityCheck,
+    filter.informationEdge
+  ].filter(Boolean).length;
 
-  // The "1" in 5(1) - Single final decision based on all filters
-  if (metaScore >= 4 && prediction.confidence > 80) {
-    filter.finalDecision = 'PROCEED'; // Meta-level opportunity
-  } else if (metaScore >= 3) {
-    filter.finalDecision = 'HOLD'; // Monitor and iterate
+  // The "1" in 7(1) - Single strategic decision
+  if (filterScore >= 6 && confidence > 0.85 && value_opportunities.some(v => v.edge_percentage > 20)) {
+    filter.finalDecision = 'DOMINATE'; // Massive opportunity - go all in
+  } else if (filterScore >= 5 && confidence > 0.75) {
+    filter.finalDecision = 'EXECUTE'; // Strong opportunity - execute with size
+  } else if (filterScore >= 3) {
+    filter.finalDecision = 'MONITOR'; // Potential opportunity - watch closely
   } else {
-    filter.finalDecision = 'REJECT'; // Not aligned with strategy
+    filter.finalDecision = 'AVOID'; // Poor opportunity - stay away
   }
 
   return filter;
 }
 
-export function magajicoCEO(predictions: Prediction[]): CEOAction[] {
-  const actions: CEOAction[] = [];
+// Warren Buffett Value Investing Integration
+interface BuffettValueInvesting {
+  intrinsicValue: number;        // True probability vs market price
+  marginOfSafety: number;        // Buffer for errors
+  businessQuality: number;       // Quality of underlying event
+  longTermOutlook: boolean;      // Sustainable edge
+  managementQuality: number;     // Information source reliability
+  competitiveAdvantage: boolean; // Unique information/model edge
+}
 
-  // Enhanced strategic analysis with Zuckerberg Meta patterns and 5(1) filter
-  predictions.forEach((p) => {
-    const strategicValue = calculateStrategicValue(p);
-    const filter5 = apply5Filter(p);
+const BUFFETT_VALUE_PATTERNS: BuffettValueInvesting = {
+  intrinsicValue: 0.8,          // Seek 80%+ accuracy
+  marginOfSafety: 0.15,         // 15% margin of safety
+  businessQuality: 0.85,        // High-quality predictions only
+  longTermOutlook: true,        // Sustainable prediction edge
+  managementQuality: 0.9,       // Trust in information sources
+  competitiveAdvantage: true    // Unique model advantage
+};
+
+export function enhancedMagajicoCEO(predictions: EnhancedPrediction[]): EnhancedCEOAction[] {
+  const actions: EnhancedCEOAction[] = [];
+  let totalValueScore = 0;
+  let dominationOpportunities = 0;
+
+  predictions.forEach((prediction) => {
+    const filter7 = apply7Filter(prediction);
+    const buffettAnalysis = applyBuffettAnalysis(prediction);
+    const sharpMoneySignal = analyzeSharpMoney(prediction);
     
-    // Apply Zuckerberg Meta Strategic Framework
-    if (filter5.finalDecision === 'PROCEED' && ZUCKERBERG_META_PATTERNS.metaverseVision) {
-      // Meta-level strategic opportunities (Zuckerberg-style future vision)
-      actions.push({
-        type: "MARKET_OPPORTUNITY",
-        prediction: p,
-        potential: strategicValue * 100 * ZUCKERBERG_META_PATTERNS.platformScaling
-      });
+    // DOMINATE level opportunities (Buffett + Zuckerberg + Pinnacle sharp money)
+    if (filter7.finalDecision === 'DOMINATE' && buffettAnalysis.investmentGrade === 'BUY_HEAVY') {
+      dominationOpportunities++;
       
-      actions.push({
-        type: "ALERT",
-        message: `🌐 META OPPORTUNITY: ${p.match} - 5(1) Filter: PROCEED | Strategic Value: ${Math.round(strategicValue * 100)}% | Zuckerberg Score: ${Math.round(strategicValue * ZUCKERBERG_META_PATTERNS.dataIntelligence * 100)}%`,
-        level: "success",
-      });
-      
-      actions.push({ type: "HIGHLIGHT", match: p.match });
-      
-      actions.push({
-        type: "STRATEGIC_MOVE",
-        action: `META_SCALE: ${p.match}`,
-        reasoning: `Zuckerberg Meta Strategy: Connect & Scale - Platform scaling opportunity detected`
-      });
-    } 
-    else if (filter5.finalDecision === 'HOLD' && ZUCKERBERG_META_PATTERNS.socialConnectionFocus) {
-      // Medium opportunities with community potential (Zuckerberg-style social connection)
-      actions.push({
-        type: "STRATEGIC_MOVE",
-        action: `COMMUNITY_BUILD: ${p.match}`,
-        reasoning: `Zuckerberg Social Strategy: Build connections and monitor engagement potential`
-      });
-      
-      actions.push({
-        type: "ALERT",
-        message: `👥 Social Strategy: ${p.match} - 5(1) Filter: HOLD | Building community connections (${p.confidence}%)`,
-        level: "info",
-      });
-    }
-    else if (filter5.finalDecision === 'REJECT' || (p.riskFactor && p.riskFactor > 0.7)) {
-      // High-risk scenarios (Meta-style data-driven rejection)
-      actions.push({
-        type: "STRATEGIC_MOVE",
-        action: `DATA_ANALYSIS: ${p.match}`,
-        reasoning: "Zuckerberg Data Strategy: Insufficient data signals - continue monitoring"
-      });
-      
-      actions.push({
-        type: "ALERT",
-        message: `📊 Data Analysis: ${p.match} - 5(1) Filter: REJECT | Insufficient strategic alignment`,
-        level: "warning",
-      });
-    } 
-    else {
-      // Standard monitoring with Meta intelligence
-      actions.push({ type: "IGNORE" });
-    }
-  });
-
-  // Add Meta strategic oversight actions
-  if (predictions.length > 0) {
-    const proceedCount = predictions.filter(p => apply5Filter(p).finalDecision === 'PROCEED').length;
-    
-    if (proceedCount > 2) {
-      actions.push({
-        type: "STRATEGIC_MOVE",
-        action: "META_PLATFORM_EXPANSION",
-        reasoning: `Zuckerberg Meta Strategy: ${proceedCount} high-value opportunities - scale platform and dominate market`
-      });
-    }
-  }
-
-  return actions;
-}
-
-function calculateStrategicValue(prediction: Prediction): number {
-  let value = prediction.confidence / 100;
-  
-  // Market value consideration (Gates-style)
-  if (prediction.marketValue) {
-    value *= (1 + prediction.marketValue / 100);
-  }
-  
-  // Risk adjustment (Bezos-style long-term thinking)
-  if (prediction.riskFactor) {
-    value *= (1 - prediction.riskFactor * STRATEGIC_PATTERNS.riskTolerance);
-  }
-  
-  // Innovation bonus (Musk-style disruption)
-  if (STRATEGIC_PATTERNS.disruptiveInnovation && prediction.confidence > 80) {
-    value *= 1.2; // 20% bonus for high-confidence disruptive opportunities
-  }
-  
-  // Execution speed factor (Ma-style rapid execution)
-  value *= STRATEGIC_PATTERNS.executionSpeed;
-  
-  return Math.min(value, 1.0); // Cap at 100%
-}
-
-// Strategic intelligence metrics with Zuckerberg Meta Intelligence
-export function getStrategicInsights(predictions: Prediction[]): {
-  totalOpportunities: number;
-  marketDominanceScore: number;
-  innovationIndex: number;
-  riskManagementScore: number;
-  metaIntelligence?: number;
-  zuckerbergStrategy?: string;
-  filter5Score?: number;
-} {
-  const opportunities = predictions.filter(p => calculateStrategicValue(p) > 0.6);
-  const proceedPredictions = predictions.filter(p => apply5Filter(p).finalDecision === 'PROCEED');
-  
-  // Meta Intelligence Score (Zuckerberg-style data analysis)
-  const metaScore = Math.round(
-    (proceedPredictions.length / predictions.length) * 
-    ZUCKERBERG_META_PATTERNS.dataIntelligence * 
-    ZUCKERBERG_META_PATTERNS.platformScaling * 100
-  );
-  
-  // Determine Zuckerberg Strategy Phase
-  let strategy = "MONITOR";
-  if (proceedPredictions.length > 3) strategy = "SCALE_PLATFORM";
-  else if (proceedPredictions.length > 1) strategy = "BUILD_CONNECTIONS";
-  else if (opportunities.length > 0) strategy = "ANALYZE_DATA";
-  
-  return {
-    totalOpportunities: opportunities.length,
-    marketDominanceScore: Math.round(opportunities.reduce((sum, p) => sum + calculateStrategicValue(p), 0) * 10),
-    innovationIndex: Math.round((opportunities.filter(p => p.confidence > 80).length / predictions.length) * 100),
-    riskManagementScore: Math.round((1 - opportunities.filter(p => p.riskFactor && p.riskFactor > 0.5).length / predictions.length) * 100),
-    metaIntelligence: metaScore,
-    zuckerbergStrategy: strategy,
-    filter5Score: Math.round((proceedPredictions.length / predictions.length) * 100)
-  };
-}
+      const bestValue = prediction.value_opportunities.reduce((best, current) => 
+        current.edge_percentage > best.edge_percentage ? current :
