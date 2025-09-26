@@ -9,6 +9,33 @@ const __dirname = path.dirname(__filename);
 const nextConfig = {
   reactStrictMode: true,
   compress: true,
+  
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' *.replit.dev *.replit.com",
+          },
+        ],
+      },
+    ];
+  },
 
   images: {
     formats: ["image/webp", "image/avif"],

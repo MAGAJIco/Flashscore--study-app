@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import MagajiCoManager from "./components/MagajiCoManager";
+import MagajicoCEOSportsDashboard from "./components/MagajicoCEOSportsDashboard";
+import ComprehensiveSportsHub from "./components/ComprehensiveSportsHub";
+import UnifiedSoccerHub from "./components/UnifiedSoccerHub";
 
 export default function HomePage() {
+  const [currentDashboard, setCurrentDashboard] = useState('ceo');
   const [backendStatus, setBackendStatus] = useState("checking...");
 
   useEffect(() => {
@@ -27,41 +30,105 @@ export default function HomePage() {
     checkBackend();
   }, []);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 text-white p-5 font-sans">
-      <header className="text-center mb-10">
-        <h1 className="text-4xl mb-2">⚽ MagajiCo</h1>
-        <p className="text-lg opacity-90">Smart Football Predictions Platform</p>
-      </header>
-
-      <div className="max-w-6xl mx-auto grid gap-5 grid-cols-1 md:grid-cols-2">
-        <div className="bg-white/10 backdrop-blur rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4">System Status</h2>
-          <p>Backend: {backendStatus}</p>
-          <p>Frontend: ✅ Running</p>
-        </div>
-
-        <div className="bg-white/10 backdrop-blur rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
-          <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded mr-2">
-            View Predictions
-          </button>
-          <button className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">
-            Test Backend
-          </button>
-        </div>
-
-        <div className="bg-white/10 backdrop-blur rounded-lg p-6 md:col-span-2">
-          <h2 className="text-xl font-bold mb-4">Welcome to MagajiCo</h2>
-          <p>This is a smart football predictions platform. The application is now running successfully with both frontend and backend services connected.</p>
-        </div>
-      </div>
-
-      <footer className="text-center mt-10 opacity-70">
-        <p>🏆 Powered by MagajiCo Technology | Next.js + Fastify</p>
-      </footer>
-      
-      <MagajiCoManager />
+  const DashboardSelector = () => (
+    <div style={{
+      position: 'fixed',
+      top: '20px',
+      left: '20px',
+      zIndex: 1000,
+      display: 'flex',
+      gap: '8px',
+      background: 'rgba(0, 0, 0, 0.7)',
+      backdropFilter: 'blur(10px)',
+      padding: '8px',
+      borderRadius: '12px',
+      border: '1px solid rgba(255, 255, 255, 0.2)'
+    }}>
+      <button
+        onClick={() => setCurrentDashboard('ceo')}
+        style={{
+          background: currentDashboard === 'ceo' ? 'linear-gradient(135deg, #00ff88, #00a2ff)' : 'transparent',
+          color: currentDashboard === 'ceo' ? '#000' : '#fff',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '8px 12px',
+          fontSize: '12px',
+          fontWeight: '600',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease'
+        }}
+      >
+        🏆 CEO
+      </button>
+      <button
+        onClick={() => setCurrentDashboard('comprehensive')}
+        style={{
+          background: currentDashboard === 'comprehensive' ? 'linear-gradient(135deg, #00ff88, #00a2ff)' : 'transparent',
+          color: currentDashboard === 'comprehensive' ? '#000' : '#fff',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '8px 12px',
+          fontSize: '12px',
+          fontWeight: '600',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease'
+        }}
+      >
+        📊 Pro
+      </button>
+      <button
+        onClick={() => setCurrentDashboard('soccer')}
+        style={{
+          background: currentDashboard === 'soccer' ? 'linear-gradient(135deg, #00ff88, #00a2ff)' : 'transparent',
+          color: currentDashboard === 'soccer' ? '#000' : '#fff',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '8px 12px',
+          fontSize: '12px',
+          fontWeight: '600',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease'
+        }}
+      >
+        ⚽ Soccer
+      </button>
     </div>
+  );
+
+  const renderDashboard = () => {
+    switch (currentDashboard) {
+      case 'ceo':
+        return <MagajicoCEOSportsDashboard />;
+      case 'comprehensive':
+        return <ComprehensiveSportsHub />;
+      case 'soccer':
+        return <UnifiedSoccerHub />;
+      default:
+        return <MagajicoCEOSportsDashboard />;
+    }
+  };
+
+  return (
+    <>
+      <DashboardSelector />
+      {renderDashboard()}
+      
+      {/* Status indicator */}
+      <div style={{
+        position: 'fixed',
+        bottom: '20px',
+        left: '20px',
+        background: 'rgba(0, 0, 0, 0.7)',
+        backdropFilter: 'blur(10px)',
+        padding: '8px 12px',
+        borderRadius: '8px',
+        fontSize: '12px',
+        color: '#fff',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        zIndex: 1000
+      }}>
+        Backend: {backendStatus}
+      </div>
+    </>
   );
 }
