@@ -1,4 +1,4 @@
-
+//app/frontend/src/app/components/ai/magajicoCEO.ts
 // CEO: Decides what is important and what should happen
 // Enhanced with strategic thinking patterns from tech leaders
 export interface Prediction {
