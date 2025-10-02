@@ -40,10 +40,22 @@ async function fetchScrapedMatches(): Promise<any[]> {
 
 // Service: ML Layer
 async function getMlPrediction(match: any): Promise<any> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/ml/predict`, {
+  const response = await fetch(`http://localhost:8000/predict-match`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(match),
+    body: JSON.stringify({
+      homeTeam: match.homeTeam,
+      awayTeam: match.awayTeam,
+      homeTeamStats: {
+        strength: 0.7,
+        form: 0.6,
+        injuries: 0.8
+      },
+      awayTeamStats: {
+        strength: 0.65,
+        form: 0.55
+      }
+    }),
   });
   if (!response.ok) {
     throw new Error("Failed to get ML prediction");

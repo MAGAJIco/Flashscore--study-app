@@ -32,6 +32,12 @@ class PredictionRequest(BaseModel):
         max_items=7
     )
 
+class MatchPredictionRequest(BaseModel):
+    homeTeam: str
+    awayTeam: str
+    homeTeamStats: Dict[str, Any] = {}
+    awayTeamStats: Dict[str, Any] = {}
+
 class PredictionResponse(BaseModel):
     prediction: str
     confidence: float
@@ -73,6 +79,38 @@ async def predict(request: PredictionRequest):
     except Exception as e:
         logger.error(f"Prediction error: {str(e)}")
         raise HTTPException(status_code=500, detail="Prediction failed")
+
+@app.post("/predict-match")
+async def predict_match(request: MatchPredictionRequest):
+    """Predict match outcome from team data"""
+    try:
+        # Extract features from team stats or use defaults
+        home_strength = request.homeTeamStats.get("strength", 0.7)
+        away_strength = request.awayTeamStats.get("strength", 0.6)
+        home_advantage = 0.65
+        recent_form_home = request.homeTeamStats.get("form", 0.6)
+        recent_form_away = request.awayTeamStats.get("form", 0.5)
+        head_to_head = 0.5
+        injuries = request.homeTeamStats.get("injuries", 0.8)
+        
+        features = [
+            home_strength, away_strength, home_advantage,
+            recent_form_home, recent_form_away, head_to_head, injuries
+        ]
+        
+        result = predictor.predict(features)
+        
+        return {
+            "homeTeam": request.homeTeam,
+            "awayTeam": request.awayTeam,
+            "predictedWinner": result["prediction"],
+            "confidence": result["confidence"],
+            "probabilities": result["probabilities"],
+            "modelVersion": result["model_version"]
+        }
+    except Exception as e:
+        logger.error(f"Match prediction error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Match prediction failed")
 
 if __name__ == "__main__":
     import uvicorn
