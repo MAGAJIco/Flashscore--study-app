@@ -190,12 +190,12 @@ const start = async () => {
 
     await server.listen({
       port: Number(process.env.PORT) || 3001,
-      host: "0.0.0.0",
+      host: "localhost",
     });
 
     server.log.info({
       port: Number(process.env.PORT) || 3001,
-      host: "0.0.0.0",
+      host: "localhost",
       environment: process.env.NODE_ENV || 'development',
       nodeVersion: process.version
     }, '🚀 MagajiCo Enhanced Server started successfully');
