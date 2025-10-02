@@ -14,6 +14,20 @@ const nextConfig = {
     formats: ["image/webp", "image/avif"],
   },
 
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
+          },
+        ],
+      },
+    ];
+  },
+
   async rewrites() {
     // For Vercel deployment, use Replit backend
     const backendUrl = process.env.NODE_ENV === 'production'
