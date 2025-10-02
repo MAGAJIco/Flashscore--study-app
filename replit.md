@@ -8,19 +8,22 @@ The application is designed as a full-stack platform featuring real-time sports 
 
 ## Recent Changes
 
-### Replit Environment Setup (October 1, 2025)
-- Configured monorepo for Replit environment with pnpm workspaces
-- Frontend running on port 5000 (0.0.0.0) for public access
+### Replit Environment Setup (October 2, 2025)
+- Successfully configured monorepo for Replit environment with pnpm workspaces
+- All dependencies installed using pnpm (root, frontend, backend, shared packages)
+- Frontend running on port 5000 (0.0.0.0) for public access through Replit proxy
 - Backend running on port 3000 (localhost) for internal API calls
-- Next.js configured to work with Replit's proxy/iframe system
-- Database-dependent routes temporarily disabled (require MongoDB setup)
-- Python ML service dependencies installed for future use
-- Deployment configured for autoscale with frontend deployment
+- Next.js configured with cache control headers to work with Replit's proxy/iframe system
+- Created start-dev.sh script to run both frontend and backend services together
+- Workflow configured to start both services with frontend on port 5000
+- Deployment configured for VM (always-on) to support both frontend and backend
+- Application successfully tested and displaying properly in Replit environment
 
 ### Important Notes
 - **Database**: MongoDB connection is optional - backend will run without it but with limited functionality
 - **Routes**: Most backend routes are commented out pending database configuration
-- **ML Service**: Python dependencies installed but ML routes not active yet
+- **Package Manager**: Uses pnpm for workspace management (not npm or yarn)
+- **Development**: Both frontend and backend start together via start-dev.sh script
 - **Environment Variables**: MONGODB_URI needed to enable full backend functionality
 
 ## User Preferences
