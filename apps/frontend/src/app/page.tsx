@@ -54,7 +54,7 @@ export default function HomePage() {
               Smart Football Predictions Platform
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-green-400 to-blue-500 mx-auto mt-4 rounded-full"></div>
-            
+
             {/* Dashboard View Toggle - Fixed */}
             <div className="absolute top-4 right-4">
               <button
@@ -177,7 +177,7 @@ export default function HomePage() {
             </div>
             <div className="space-y-6">
               <PreviewManager />
-              
+
               {/* Enhanced Features Card */}
               <div className="glass-card p-6 hover-lift group">
                 <div className="flex items-center gap-3 mb-4">

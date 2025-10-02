@@ -50,7 +50,7 @@ export default function MagajiCoManager({
         setCurrentTime(new Date().toLocaleTimeString());
       }
     };
-    
+
     updateTime();
     const timer = setInterval(updateTime, 1000);
     return () => clearInterval(timer);
@@ -220,7 +220,7 @@ export default function MagajiCoManager({
 
     try {
       // Check if user is requesting a prediction
-      const isPredictionRequest = inputMessage.toLowerCase().includes('predict') || 
+      const isPredictionRequest = inputMessage.toLowerCase().includes('predict') ||
                                  inputMessage.toLowerCase().includes('match') ||
                                  inputMessage.toLowerCase().includes('game');
 
