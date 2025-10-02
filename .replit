@@ -11,7 +11,7 @@ build = ["sh", "-c", "cd apps/frontend && pnpm build"]
 deploymentTarget = "autoscale"
 
 [workflows]
-runButton = "Enhanced Full Stack"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Start Sports API"
@@ -110,7 +110,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && pnpm run dev"
+args = "bash start-dev.sh"
 waitForPort = 5000
 
 [[workflows.workflow]]
@@ -286,18 +286,18 @@ args = "chmod +x start-enhanced.sh && ./start-enhanced.sh"
 [[ports]]
 localPort = 3000
 externalPort = 3000
+exposeLocalhost = true
 
 [[ports]]
 localPort = 3001
 
 [[ports]]
 localPort = 5000
-externalPort = 5000
+externalPort = 80
 
 [[ports]]
-localPort = 8000
-externalPort = 8000
-exposeLocalhost = true
+localPort = 44647
+externalPort = 3001
 
 [agent]
 expertMode = true
