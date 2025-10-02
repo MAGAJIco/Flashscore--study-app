@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const response = await fetch('http://0.0.0.0:3000/health', {
+    const response = await fetch('http://localhost:3000/api/health', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

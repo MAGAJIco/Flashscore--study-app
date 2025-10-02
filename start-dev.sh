@@ -7,11 +7,15 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$SCRIPT_DIR/apps/backend" && pnpm dev &
 BACKEND_PID=$!
 
-# Give backend a moment to start
-sleep 2
+# Start ML FastAPI service in background
+cd "$SCRIPT_DIR/apps/backend/ml" && python main.py &
+ML_PID=$!
+
+# Give services a moment to start
+sleep 3
 
 # Start frontend in foreground
 cd "$SCRIPT_DIR/apps/frontend" && pnpm dev
 
 # Cleanup on exit
-trap "kill $BACKEND_PID" EXIT
+trap "kill $BACKEND_PID $ML_PID 2>/dev/null" EXIT
