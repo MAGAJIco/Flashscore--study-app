@@ -11,20 +11,27 @@ The application is designed as a full-stack platform featuring real-time sports 
 ### Replit Environment Setup (October 2, 2025)
 - Successfully configured monorepo for Replit environment with pnpm workspaces
 - All dependencies installed using pnpm (root, frontend, backend, shared packages)
+- **Node.js 20** and **Python 3.11** modules installed
+- Python ML dependencies installed (FastAPI, scikit-learn, pandas, etc.)
 - Frontend running on port 5000 (0.0.0.0) for public access through Replit proxy
-- Backend running on port 3000 (localhost) for internal API calls
-- Next.js configured with cache control headers to work with Replit's proxy/iframe system
-- Created start-dev.sh script to run both frontend and backend services together
-- Workflow configured to start both services with frontend on port 5000
-- Deployment configured for VM (always-on) to support both frontend and backend
-- Application successfully tested and displaying properly in Replit environment
+- Backend API running on port 3001 (localhost) for internal API calls
+- ML service running on port 8000 (0.0.0.0) for prediction endpoints
+- Next.js configured with `allowedDevOrigins: ['*']` for Replit proxy support
+- TypeScript backend configuration fixed with Node.js type definitions
+- Created start-dev.sh script to run frontend, backend, and ML services together
+- Workflow configured to start all services with frontend on port 5000
+- Deployment configured for **autoscale** (stateless Next.js deployment)
+- .gitignore updated with Node.js and Python-specific entries
+- Application successfully tested and running in Replit environment
 
 ### Important Notes
 - **Database**: MongoDB connection is optional - backend will run without it but with limited functionality
 - **Routes**: Most backend routes are commented out pending database configuration
 - **Package Manager**: Uses pnpm for workspace management (not npm or yarn)
-- **Development**: Both frontend and backend start together via start-dev.sh script
+- **Development**: Frontend, backend, and ML service all start together via start-dev.sh script
 - **Environment Variables**: MONGODB_URI needed to enable full backend functionality
+- **ML Service**: Python FastAPI service provides prediction endpoints at port 8000
+- **Deployment**: Configured for autoscale deployment with Next.js production build
 
 ## User Preferences
 

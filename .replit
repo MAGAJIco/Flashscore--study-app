@@ -6,9 +6,9 @@ channel = "stable-25_05"
 packages = ["miktex", "nix-output-monitor"]
 
 [deployment]
-run = ["bash", "start-dev.sh"]
-build = ["bash", "-c", "pnpm install && cd apps/frontend && pnpm build && cd ../backend && pnpm build"]
-deploymentTarget = "vm"
+run = ["bash", "-c", "cd apps/frontend && pnpm run start"]
+build = ["bash", "-c", "pnpm install && cd apps/frontend && pnpm run build"]
+deploymentTarget = "autoscale"
 
 [workflows]
 runButton = "Project"
