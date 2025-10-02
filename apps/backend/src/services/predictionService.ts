@@ -17,7 +17,7 @@ export async function predictMatch(
 ): Promise<PredictionResult> {
   // Try FastAPI first
   try {
-    const response = await fetch("http://localhost:8000/predict", {
+    const response = await fetch("http://0.0.0.0:8000/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ homeTeam, awayTeam }),

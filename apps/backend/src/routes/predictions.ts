@@ -62,7 +62,7 @@ export async function predictionRoutes(server: FastifyInstance) {
 
         if (mode !== "scraping") {
           // Step 2: Call ML microservice
-          mlResult = await fetch("http://localhost:8000/predict", {
+          mlResult = await fetch("http://0.0.0.0:8000/predict", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(match),

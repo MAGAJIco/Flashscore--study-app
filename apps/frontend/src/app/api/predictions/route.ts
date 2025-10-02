@@ -40,7 +40,7 @@ async function fetchScrapedMatches(): Promise<any[]> {
 
 // Service: ML Layer
 async function getMlPrediction(match: any): Promise<any> {
-  const response = await fetch(`http://localhost:8000/predict-match`, {
+  const response = await fetch(`http://0.0.0.0:8000/predict-match`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

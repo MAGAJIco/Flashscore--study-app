@@ -189,13 +189,13 @@ const start = async () => {
     server.log.info('✅ Database connected successfully');
 
     await server.listen({
-      port: Number(process.env.PORT) || 3000,
-      host: "localhost",
+      port: Number(process.env.PORT) || 3001,
+      host: "0.0.0.0",
     });
 
     server.log.info({
-      port: Number(process.env.PORT) || 3000,
-      host: "localhost",
+      port: Number(process.env.PORT) || 3001,
+      host: "0.0.0.0",
       environment: process.env.NODE_ENV || 'development',
       nodeVersion: process.version
     }, '🚀 MagajiCo Enhanced Server started successfully');
