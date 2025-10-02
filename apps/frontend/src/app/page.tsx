@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import MagajiCoManager from "./components/MagajiCoManager";
-import PredictionsPreview from "./components/PredictionsPreview";
+import PredictionPreview from "./components/PredictionPreview";
 import PredictionPreview from "./components/PredictionPreview";
 import PreviewManager from "./components/PreviewManager";
 import SmartPersonalization from "./components/SmartPersonalization";
@@ -174,7 +174,7 @@ export default function HomePage() {
           {/* Main Content Grid - Lazy loaded */}
           <div className="grid gap-8 grid-cols-1 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">
-              <PredictionsPreview />
+              <PredictionPreview />
               <PredictionPreview />
             </div>
             <div className="space-y-6">
