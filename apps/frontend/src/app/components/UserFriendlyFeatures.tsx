@@ -919,6 +919,22 @@ const UserFriendlyFeatures: React.FC<UserFriendlyFeaturesProps> = ({
               Peak activity: Evenings | Best prediction time: 7-9 PM
             </p>
           </div>
+
+          {/* Smart Watch Complications */}
+          <div style={{
+            background: 'rgba(59, 130, 246, 0.1)',
+            borderRadius: '12px',
+            padding: '16px',
+            border: '1px solid rgba(59, 130, 246, 0.3)'
+          }}>
+            <h4 style={{ color: '#3b82f6', marginBottom: '8px', fontSize: '1rem' }}>
+              ⌚ Smart Watch Complications
+            </h4>
+            <p style={{ fontSize: '0.9rem', color: '#dbeafe', margin: 0 }}>
+              View live scores, predictions, and stats on your wrist. Auto-syncs every 5 minutes. 
+              Compatible with Apple Watch & Wear OS
+            </p>
+          </div>
         </div>
       </div>
     );
