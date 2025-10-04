@@ -248,6 +248,52 @@ args = "chmod +x start-production.sh"
 task = "shell.exec"
 args = "./start-production.sh"
 
+[[workflows.workflow]]
+name = "Debug Full Stack"
+author = 48298283
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔍 Starting Debug Process...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"📦 Installing Backend Dependencies...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend && pnpm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"📦 Installing Frontend Dependencies...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && pnpm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🏥 Running Health Check...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node health-check.js"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Debug Complete - Check output above\""
+
+[[workflows.workflow]]
+name = "Quick Debug"
+author = 48298283
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node debug-system.js"
+
 [[ports]]
 localPort = 3000
 externalPort = 3000
