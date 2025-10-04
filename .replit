@@ -300,10 +300,19 @@ externalPort = 3000
 [[ports]]
 localPort = 3001
 externalPort = 3001
+exposeLocalhost = true
+
+[[ports]]
+localPort = 5000
+externalPort = 80
 
 [[ports]]
 localPort = 8000
 externalPort = 8000
+
+[[ports]]
+localPort = 33615
+externalPort = 3002
 
 [agent]
 expertMode = true
