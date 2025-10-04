@@ -275,7 +275,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && pnpm dev -- -p 5001 -H 0.0.0.0"
+args = "cd apps/frontend && pnpm dev"
 
 [[ports]]
 localPort = 3000
