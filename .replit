@@ -9,84 +9,6 @@ packages = ["miktex", "nix-output-monitor"]
 run = ["sh", "-c", "cd apps/backend && npm start & cd apps/frontend && npm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
-[workflows]
-runButton = "Project"
-
-[[workflows.workflow]]
-name = "Start Sports API"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npx ts-node --esm Sports-api.ts"
-
-[[workflows.workflow]]
-name = "Full Stack Next.js"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm install tsx --save-dev && npx tsx server.ts"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
-
-[[workflows.workflow]]
-name = "Full Stack Monorepo"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm run dev"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm run dev"
-
-[[workflows.workflow]]
-name = "Backend Only"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm run dev"
-
-[[workflows.workflow]]
-name = "Frontend Only"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm run dev"
-
-[[workflows.workflow]]
-name = "Frontend Port 3001"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm run dev"
-
-[[workflows.workflow]]
-name = "Full Stack Monorepo Fixed"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm run dev"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && PORT=3001 npm run dev"
-
 [[workflows.workflow]]
 name = "Project"
 mode = "parallel"
@@ -124,115 +46,35 @@ task = "shell.exec"
 args = "cd apps/backend && pnpm run dev"
 
 [[workflows.workflow]]
-name = "Full Stack NPM"
+name = "Full Stack Monorepo"
 author = 46296136
 mode = "parallel"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/backend && npm run dev"
+args = "cd apps/backend && pnpm run dev"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && npm run dev"
+args = "cd apps/frontend && pnpm run dev"
 
 [[workflows.workflow]]
-name = "Frontend Only App"
+name = "Frontend Only"
 author = 46296136
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && npm install && npm run dev"
+args = "cd apps/frontend && pnpm install && pnpm run dev"
 
 [[workflows.workflow]]
-name = "Frontend Only App Clean"
+name = "Backend Only"
 author = 46296136
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && npm install && npm run dev"
-
-[[workflows.workflow]]
-name = "Production Frontend"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm ci --only=production && npm run build && npm run start"
-
-[[workflows.workflow]]
-name = "Frontend Development Clean"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && rm -rf node_modules .next && npm install && npm run dev"
-
-[[workflows.workflow]]
-name = "Frontend Development Clean"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && rm -rf node_modules .next && npm install && npm run dev"
-
-[[workflows.workflow]]
-name = "Test Backend API"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm install && npm run dev"
-
-[[workflows.workflow]]
-name = "Health Check"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node health-check.js"
-
-[[workflows.workflow]]
-name = "Frontend Debug Mode"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm install --legacy-peer-deps && npm run dev"
-
-[[workflows.workflow]]
-name = "Full Stack Working"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm install && npm run start"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm install --legacy-peer-deps && npm run dev"
-
-[[workflows.workflow]]
-name = "Full Stack Working"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm install && npm run start"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm install --legacy-peer-deps && npm run dev"
+args = "cd apps/backend && pnpm run dev"
 
 [[workflows.workflow]]
 name = "Production Deployment"
@@ -248,50 +90,13 @@ task = "shell.exec"
 args = "./start-production.sh"
 
 [[workflows.workflow]]
-name = "Debug Full Stack"
-author = 48298283
+name = "Health Check"
+author = 46296136
 mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "echo \"🔍 Starting Debug Process...\""
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "echo \"📦 Installing Backend Dependencies...\""
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && pnpm install"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "echo \"📦 Installing Frontend Dependencies...\""
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && pnpm install"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "echo \"🏥 Running Health Check...\""
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node health-check.js"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "echo \"✅ Debug Complete - Check output above\""
-
-[[workflows.workflow]]
-name = "Quick Debug"
-author = 48298283
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node debug-system.js"
 
 [[ports]]
 localPort = 3000
