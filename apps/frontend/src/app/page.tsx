@@ -1,6 +1,7 @@
 // apps/frontend/src/app/page.tsx
 "use client";
 import React, { useEffect, useState } from "react";
+import dynamic from 'next/dynamic'; // Import dynamic from next/dynamic
 import HorizontalCarousel from "./components/HorizontalCarousel";
 import PWAInstaller from "./components/PWAInstaller";
 import Link from "next/link";
@@ -23,6 +24,17 @@ const predictions = [
   { id: 2, match: "Team Z vs Team W", prediction: "Draw", confidence: "65%" },
 ];
 
+// Dynamically import LazyComponent and AdvancedAnalytics
+const LazyComponent = dynamic(() => import('./components/LazyComponent'), {
+  ssr: false,
+  loading: () => <div className="loading-skeleton">Loading component...</div>
+});
+
+const AdvancedAnalytics = dynamic(() => import('./components/AdvancedAnalytics'), {
+  ssr: false,
+  loading: () => <div className="loading-skeleton">Loading analytics...</div>
+});
+
 export default function HomePage() {
   return (
     <IOSInterface showStatusBar={true} enableHapticFeedback={true}>
@@ -41,6 +53,11 @@ export default function HomePage() {
           <p className="text-gray-600">Get the latest sports news and predictions in one place.</p>
           <p className="text-sm text-gray-500 mt-2">Click the apps menu (⋮⋮⋮) in the top right to explore all features</p>
         </div>
+
+        {/* Render AdvancedAnalytics component */}
+        <section className="p-4">
+          <AdvancedAnalytics />
+        </section>
 
         {/* Horizontal Carousel for Featured Content */}
         <section className="p-4">
