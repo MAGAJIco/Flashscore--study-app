@@ -23,7 +23,6 @@
     "@tsparticles/updater-rotate": "^3.9.1",
     "@tsparticles/updater-size": "^3.9.1",
     "@tsparticles/updater-stroke-color": "^3.9.1",
-    "@types/node": "^20.0.0",
     "@vercel/functions": "^3.1.0",
     "autoprefixer": "^10.4.0",
     "axios": "^1.12.2",
@@ -43,11 +42,11 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^22.9.0",
-    "@types/react": "^18.3.12",
+    "@types/node": "^20.19.19",
+    "@types/react": "^18.3.25",
     "@types/react-dom": "^18.3.1",
     "eslint": "^9.13.0",
     "eslint-config-next": "15.0.3",
-    "typescript": "^5.6.3"
+    "typescript": "^5.9.3"
   }
 }
