@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { usePerformanceMonitor } from '../hooks/usePerformanceMonitor';
 
 interface DashboardMetrics {
@@ -20,6 +20,13 @@ interface QuickAction {
   action: () => void;
 }
 
+interface ActivityItem {
+  time: string;
+  action: string;
+  detail: string;
+  type: 'prediction' | 'reward' | 'quiz' | 'league';
+}
+
 const OptimizedDashboard: React.FC = () => {
   const [activeSection, setActiveSection] = useState<'overview' | 'predictions' | 'analytics'>('overview');
   const [metrics] = useState<DashboardMetrics>({
@@ -31,6 +38,11 @@ const OptimizedDashboard: React.FC = () => {
   });
 
   const { trackPerformance } = usePerformanceMonitor();
+
+  const handleSectionChange = useCallback((section: 'overview' | 'predictions' | 'analytics') => {
+    trackPerformance(`section_change_${section}`);
+    setActiveSection(section);
+  }, [trackPerformance]);
 
   const quickActions = useMemo<QuickAction[]>(() => [
     {
@@ -50,7 +62,7 @@ const OptimizedDashboard: React.FC = () => {
       color: 'from-green-500 to-green-600',
       action: () => {
         trackPerformance('quick_action_wallet');
-        // Navigate to wallet
+        window.location.href = '/wallet';
       }
     },
     {
@@ -70,12 +82,19 @@ const OptimizedDashboard: React.FC = () => {
       color: 'from-orange-500 to-orange-600',
       action: () => {
         trackPerformance('quick_action_community');
-        // Navigate to community
+        window.location.href = '/community';
       }
     }
   ], [trackPerformance]);
 
-  const getHealthColor = (health: string) => {
+  const recentActivity: ActivityItem[] = useMemo(() => [
+    { time: '2 min ago', action: 'New prediction made', detail: 'Lakers vs Warriors', type: 'prediction' },
+    { time: '15 min ago', action: 'Pi coins earned', detail: '+25 π from correct prediction', type: 'reward' },
+    { time: '1 hour ago', action: 'Quiz completed', detail: 'NBA Statistics Quiz - 90%', type: 'quiz' },
+    { time: '3 hours ago', action: 'League position updated', detail: 'Moved to #127 in Premier League', type: 'league' }
+  ], []);
+
+  const getHealthColor = (health: string): string => {
     switch (health) {
       case 'excellent': return 'text-green-400 bg-green-500/20';
       case 'good': return 'text-blue-400 bg-blue-500/20';
@@ -85,13 +104,33 @@ const OptimizedDashboard: React.FC = () => {
     }
   };
 
-  const getHealthIcon = (health: string) => {
+  const getHealthIcon = (health: string): string => {
     switch (health) {
       case 'excellent': return '🟢';
       case 'good': return '🔵';
       case 'warning': return '🟡';
       case 'error': return '🔴';
       default: return '⚪';
+    }
+  };
+
+  const getActivityIcon = (type: ActivityItem['type']): string => {
+    switch (type) {
+      case 'prediction': return '🎯';
+      case 'reward': return '💰';
+      case 'quiz': return '🧠';
+      case 'league': return '🏆';
+      default: return '📌';
+    }
+  };
+
+  const getActivityColor = (type: ActivityItem['type']): string => {
+    switch (type) {
+      case 'prediction': return 'bg-blue-500/20 text-blue-400';
+      case 'reward': return 'bg-green-500/20 text-green-400';
+      case 'quiz': return 'bg-purple-500/20 text-purple-400';
+      case 'league': return 'bg-orange-500/20 text-orange-400';
+      default: return 'bg-gray-500/20 text-gray-400';
     }
   };
 
@@ -111,13 +150,13 @@ const OptimizedDashboard: React.FC = () => {
             {/* Section Navigation */}
             <div className="flex gap-2 p-1 bg-white/5 rounded-xl">
               {[
-                { id: 'overview', label: 'Overview', icon: '📊' },
-                { id: 'predictions', label: 'Predictions', icon: '🔮' },
-                { id: 'analytics', label: 'Analytics', icon: '📈' }
+                { id: 'overview' as const, label: 'Overview', icon: '📊' },
+                { id: 'predictions' as const, label: 'Predictions', icon: '🔮' },
+                { id: 'analytics' as const, label: 'Analytics', icon: '📈' }
               ].map(section => (
                 <button
                   key={section.id}
-                  onClick={() => setActiveSection(section.id as any)}
+                  onClick={() => handleSectionChange(section.id)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
                     activeSection === section.id
                       ? 'bg-white/20 text-white'
@@ -206,22 +245,10 @@ const OptimizedDashboard: React.FC = () => {
               🕒 Recent Activity
             </h2>
             <div className="space-y-3">
-              {[
-                { time: '2 min ago', action: 'New prediction made', detail: 'Lakers vs Warriors', type: 'prediction' },
-                { time: '15 min ago', action: 'Pi coins earned', detail: '+25 π from correct prediction', type: 'reward' },
-                { time: '1 hour ago', action: 'Quiz completed', detail: 'NBA Statistics Quiz - 90%', type: 'quiz' },
-                { time: '3 hours ago', action: 'League position updated', detail: 'Moved to #127 in Premier League', type: 'league' }
-              ].map((activity, index) => (
+              {recentActivity.map((activity, index) => (
                 <div key={index} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${
-                    activity.type === 'prediction' ? 'bg-blue-500/20 text-blue-400' :
-                    activity.type === 'reward' ? 'bg-green-500/20 text-green-400' :
-                    activity.type === 'quiz' ? 'bg-purple-500/20 text-purple-400' :
-                    'bg-orange-500/20 text-orange-400'
-                  }`}>
-                    {activity.type === 'prediction' ? '🎯' :
-                     activity.type === 'reward' ? '💰' :
-                     activity.type === 'quiz' ? '🧠' : '🏆'}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${getActivityColor(activity.type)}`}>
+                    {getActivityIcon(activity.type)}
                   </div>
                   <div className="flex-1">
                     <div className="text-white font-medium text-sm">{activity.action}</div>

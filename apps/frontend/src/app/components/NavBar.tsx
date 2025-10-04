@@ -1,3 +1,6 @@
+
+"use client";
+
 import React, { useState } from "react";
 import {
   Menu,
@@ -10,8 +13,23 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 
-// Navigation structure
-const navItems = [
+interface SubItem {
+  label: string;
+  link: string;
+}
+
+interface NavItem {
+  label: string;
+  link: string;
+  subItems?: SubItem[];
+}
+
+interface QuickMenuItem {
+  label: string;
+  link: string;
+}
+
+const navItems: NavItem[] = [
   {
     label: "Sports",
     link: "/sports",
@@ -35,7 +53,7 @@ const navItems = [
   },
 ];
 
-const quickMenuItems = [
+const quickMenuItems: QuickMenuItem[] = [
   { label: "🏠 Home", link: "/" },
   { label: "📰 News", link: "/news" },
   { label: "📊 Predictions", link: "/predictions" },
@@ -44,7 +62,7 @@ const quickMenuItems = [
 ];
 
 const NavBar: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const handleMenuToggle = () => {

@@ -7,6 +7,7 @@ import PWAInstaller from "./components/PWAInstaller";
 import Navbar from "./components/NavBar";
 import IOSInterface from "./components/iOSInterface";
 import AppDrawer from "./components/AppDrawer";
+import EchoSystem from "./components/EchoSystem";
 
 const AdvancedAnalytics = dynamic(() => import('./components/AdvancedAnalytics'), {
   ssr: false,
@@ -219,6 +220,7 @@ export default function HomePage() {
           </section>
 
           <PWAInstaller />
+          <EchoSystem position="top-right" maxNotifications={5} autoHideDuration={5000} />
         </div>
       </div>
     </IOSInterface>
