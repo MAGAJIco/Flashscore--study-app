@@ -9,6 +9,7 @@
   min-height: 100vh;
   color: #ffffff;
   font-family: 'Segoe UI', 'Roboto', sans-serif;
+  z-index: 1;
 }
 
 .dashboard::before {

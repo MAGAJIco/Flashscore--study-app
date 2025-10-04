@@ -11,7 +11,7 @@ build = ["bash", "-c", "pnpm install && cd apps/frontend && pnpm build"]
 deploymentTarget = "autoscale"
 
 [workflows]
-runButton = "Project"
+runButton = "Frontend Fixed Port"
 
 [[workflows.workflow]]
 name = "Start Sports API"
@@ -267,6 +267,15 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "chmod +x start-enhanced.sh && ./start-enhanced.sh"
+
+[[workflows.workflow]]
+name = "Frontend Fixed Port"
+author = 48293218
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && pnpm dev -- -p 5001 -H 0.0.0.0"
 
 [[ports]]
 localPort = 3000

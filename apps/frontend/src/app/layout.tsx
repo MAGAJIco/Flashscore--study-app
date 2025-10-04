@@ -31,45 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Register service worker for PWA */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/service-worker.js')
-                    .then(reg => console.log('✅ Service Worker registered:', reg))
-                    .catch(err => console.error('❌ Service Worker failed:', err));
-                });
-              }
-            `,
-          }}
-        />
-      </head>
       <body className="bg-gray-50 text-gray-900">
-        {/* Floating Install Button */}
-        <button
-          id="install-button"
-          style={{
-            display: "none",
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            background: "#00ff88",
-            color: "#1a1f3a",
-            border: "none",
-            padding: "12px 24px",
-            borderRadius: "25px",
-            fontWeight: "bold",
-            fontSize: "16px",
-            boxShadow: "0 4px 12px rgba(0,255,136,0.4)",
-            cursor: "pointer",
-            zIndex: 1000,
-          }}
-        >
-          📲 Install App
-        </button>
         {children}
       </body>
     </html>

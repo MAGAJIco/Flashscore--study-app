@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import HorizontalCarousel from "../components/HorizontalCarousel";
+import PWAInstaller from "../components/PWAInstaller";
 
 interface Prediction {
   id: string;

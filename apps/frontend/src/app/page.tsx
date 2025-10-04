@@ -1,6 +1,8 @@
 // apps/frontend/src/app/page.tsx
 "use client";
-
+import React, { useEffect, useState } from "react";
+import HorizontalCarousel from "./components/HorizontalCarousel";
+import PWAInstaller from "./components/PWAInstaller";
 import Link from "next/link";
 import Navbar from "./components/NavBar";
 import IOSInterface from "./components/iOSInterface";
@@ -27,7 +29,7 @@ export default function HomePage() {
       <div className="min-h-screen bg-gray-100">
         {/* App Drawer */}
         <AppDrawer />
-        
+
         {/* NavBar Component */}
         <Navbar />
 
@@ -39,6 +41,11 @@ export default function HomePage() {
           <p className="text-gray-600">Get the latest sports news and predictions in one place.</p>
           <p className="text-sm text-gray-500 mt-2">Click the apps menu (⋮⋮⋮) in the top right to explore all features</p>
         </div>
+
+        {/* Horizontal Carousel for Featured Content */}
+        <section className="p-4">
+          <HorizontalCarousel />
+        </section>
 
         {/* Latest News */}
         <section className="p-6">
@@ -72,6 +79,9 @@ export default function HomePage() {
             </div>
           ))}
         </section>
+
+        {/* PWA Installer Component */}
+        <PWAInstaller />
       </div>
     </div>
     </IOSInterface>

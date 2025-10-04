@@ -114,32 +114,33 @@ export default function HorizontalCarousel() {
   }
 
   return (
-    <div className="w-full mb-6">
+    <div className="w-full mb-8 relative z-10">
       {/* Minimal Section Header */}
-      <div className="flex items-center justify-between mb-3 px-1">
-        <h3 className="text-lg font-bold text-white flex items-center gap-2">
+      <div className="flex items-center justify-between mb-4 px-2">
+        <h3 className="text-xl font-bold text-white flex items-center gap-2">
           <span className="text-green-400">⚡</span>
           Quick Actions
         </h3>
         {visibleCards.length > 2 && (
-          <span className="text-xs text-gray-500">Swipe →</span>
+          <span className="text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded-full">Swipe →</span>
         )}
       </div>
 
       {/* Horizontal Scrolling Container */}
-      <div className="relative -mx-6 px-6">
+      <div className="relative -mx-4 px-4">
         <div 
-          className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory"
+          className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory"
           style={{
             scrollbarWidth: 'none',
-            msOverflowStyle: 'none'
+            msOverflowStyle: 'none',
+            scrollPaddingLeft: '1rem'
           }}
         >
           {visibleCards.map((card, index) => (
             <button
               key={card.id}
               onClick={card.action}
-              className="min-w-[160px] flex-shrink-0 snap-start focus:outline-none focus:ring-2 focus:ring-blue-500/50 rounded-xl transition-all duration-300"
+              className="min-w-[170px] flex-shrink-0 snap-start focus:outline-none focus:ring-2 focus:ring-blue-500/50 rounded-2xl transition-all duration-300"
               style={{ 
                 animationDelay: `${index * 50}ms`,
                 animation: 'slideInUp 0.5s ease-out forwards',
@@ -148,7 +149,7 @@ export default function HorizontalCarousel() {
               aria-label={`${card.title}: ${card.value}`}
             >
               {/* Glass Card with Gradient */}
-              <div className="backdrop-blur-md bg-white/15 border-2 border-white/30 p-4 rounded-xl hover:scale-105 hover:bg-white/20 group cursor-pointer h-full relative overflow-hidden transition-all duration-300 shadow-xl">
+              <div className="backdrop-blur-lg bg-white/10 border border-white/20 p-5 rounded-2xl hover:scale-105 hover:bg-white/15 hover:border-white/40 group cursor-pointer h-full relative overflow-hidden transition-all duration-300 shadow-2xl hover:shadow-green-500/20">
                 {/* Gradient Background Effect */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${card.bgGradient} opacity-40 group-hover:opacity-60 transition-opacity duration-300`}></div>
                 
@@ -188,8 +189,8 @@ export default function HorizontalCarousel() {
         {/* Fade Edges Effect - Only if multiple cards */}
         {visibleCards.length > 2 && (
           <>
-            <div className="absolute left-0 top-0 bottom-3 w-6 bg-gradient-to-r from-[#0a0e1a] to-transparent pointer-events-none"></div>
-            <div className="absolute right-0 top-0 bottom-3 w-6 bg-gradient-to-l from-[#0a0e1a] to-transparent pointer-events-none"></div>
+            <div className="absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent pointer-events-none z-10"></div>
+            <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-gray-900 via-gray-900/80 to-transparent pointer-events-none z-10"></div>
           </>
         )}
       </div>

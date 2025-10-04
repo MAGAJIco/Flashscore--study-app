@@ -54,7 +54,7 @@ export default function GoogleStyleMenu() {
           />
           
           {/* Menu Panel */}
-          <div className="absolute right-0 mt-2 w-[400px] bg-[#1f2937] rounded-2xl shadow-2xl border border-gray-700/50 z-50 overflow-hidden">
+          <div className="absolute right-0 mt-2 w-[400px] bg-[#1f2937] rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden" style={{ zIndex: 9999 }}>
             <div className="p-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-white font-semibold text-lg">Sports Central Apps</h3>
