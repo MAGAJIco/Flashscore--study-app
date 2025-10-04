@@ -99,12 +99,15 @@ export const connectDB = async (): Promise<void> => {
       console.error('Error details:', err.message);
       console.error('Stack trace:', err.stack);
     } else {
-      console.error('Unknown error:', err);
+      coconsole.error('Unknown error:', err);
     }
 
     if (process.env.NODE_ENV === 'production') {
       console.log('⚠️  Retrying connection in 5 seconds...');
       setTimeout(() => connectDB(), 5000);
+    } else {
+      process.exit(1);
+    }, 5000);
     } else {
       throw err;
     }

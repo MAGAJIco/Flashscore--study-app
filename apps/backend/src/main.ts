@@ -87,8 +87,7 @@ server.addHook('onResponse', async (request, reply) => {
     method: request.method,
     url: request.url,
     statusCode: reply.statusCode,
-    // Fixed: getResponseTime doesn't exist, use elapsedTime
-    responseTime: reply.elapsedTime
+    responseTime: reply.getResponseTime()
   }, 'Request completed');
 });
 
