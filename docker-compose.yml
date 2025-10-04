@@ -9,7 +9,7 @@ services:
     depends_on:
       - backend
     environment:
-      - BACKEND_URL=http://backend:3000
+      - BACKEND_URL=http://backend:3001
 
   backend:
     build:
@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile   # Node API
     container_name: backend
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
       - ML_URL=http://ml:8000
 

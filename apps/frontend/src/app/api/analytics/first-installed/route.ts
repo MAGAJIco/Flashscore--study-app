@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const backend = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
+    const backend = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
     const apiKey = process.env.NEXT_PUBLIC_ANALYTICS_API_KEY;
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (apiKey) headers["x-analytics-key"] = apiKey;

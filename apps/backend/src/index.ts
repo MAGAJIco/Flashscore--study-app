@@ -11,6 +11,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/sportscentral");
 // Routes
 app.use("/news", newsRoutes);
 
-app.listen(3000, () => {
-  console.log("Backend running on http://localhost:3000");
+app.listen(3001, () => {
+  console.log("Backend running on http://localhost:3001");
 });

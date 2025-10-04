@@ -53,7 +53,7 @@ export async function predictionRoutes(server: FastifyInstance) {
       const { mode } = request.body as { mode: "scraping" | "ml" | "hybrid" };
 
       // Step 1: Scrape fixtures (replace with cheerio service)
-      const scrapedMatches = await fetch("http://localhost:3000/scrape/matches").then(r => r.json());
+      const scrapedMatches = await fetch("http://localhost:3001/scrape/matches").then(r => r.json());
 
       const results: any[] = [];
 

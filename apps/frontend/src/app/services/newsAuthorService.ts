@@ -1,6 +1,6 @@
 import { NewsAuthor, NewsItem } from './newsService';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
 
 export class NewsAuthorService {
   // Get all active authors

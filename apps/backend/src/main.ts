@@ -53,8 +53,8 @@ const allowedOrigins = [
   process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : undefined,
   'http://localhost:5000',
   'http://0.0.0.0:5000',
-  'http://localhost:3000',
-  'http://0.0.0.0:3000'
+  'http://localhost:3001',
+  'http://0.0.0.0:3001'
 ].filter((origin): origin is string => typeof origin === 'string');
 
 server.register(cors, {

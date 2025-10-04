@@ -1,8 +1,8 @@
 
 const axios = require('axios');
 
-const BACKEND_URL = 'http://localhost:4000';
-const FRONTEND_URL = 'http://localhost:3000';
+const BACKEND_URL = 'http://localhost:3001';
+const FRONTEND_URL = 'http://localhost:5000';
 
 async function checkHealth() {
   console.log('🏥 MagajiCo Health Check Started\n');
