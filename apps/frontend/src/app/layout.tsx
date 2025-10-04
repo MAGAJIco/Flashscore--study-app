@@ -1,6 +1,7 @@
-// apps/frontend/src/app/layout.tsx
+
 import "./styles/globals.css";
 import type { Metadata } from "next";
+import PWAServiceWorker from "./components/PWAServiceWorker";
 
 export const metadata: Metadata = {
   title: "Sports Central",
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-gray-50 text-gray-900">
+        <PWAServiceWorker />
         {children}
       </body>
     </html>
