@@ -44,7 +44,8 @@ export const connectDB = async (): Promise<void> => {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       bufferMaxEntries: 0,
-      bufferCommands: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     };
 
     // Add server API settings for Atlas connections
@@ -107,9 +108,6 @@ export const connectDB = async (): Promise<void> => {
       setTimeout(() => connectDB(), 5000);
     } else {
       process.exit(1);
-    }, 5000);
-    } else {
-      throw err;
     }
   }
 };

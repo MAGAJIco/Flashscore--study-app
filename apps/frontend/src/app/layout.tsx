@@ -1,7 +1,7 @@
-
 import "./styles/globals.css";
 import type { Metadata } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 export const metadata: Metadata = {
   title: "Sports Central",
