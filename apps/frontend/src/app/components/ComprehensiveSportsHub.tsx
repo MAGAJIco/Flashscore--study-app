@@ -400,7 +400,7 @@ const ComprehensiveSportsHub: React.FC = () => {
           <div style={{ display: 'flex', gap: '8px' }}>
             {Object.entries(match.socialData.reactions).map(([emoji, count]) => (
               <span key={emoji} style={{ fontSize: '12px' }}>
-                {emoji} {count}
+                {emoji} {String(count)}
               </span>
             ))}
           </div>
