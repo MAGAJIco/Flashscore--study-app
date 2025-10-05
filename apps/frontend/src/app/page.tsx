@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
 import ComprehensiveSportsHub from "@/components/ComprehensiveSportsHub";
-import AppDrawer from "@/components/AppDrawer";
+import AuthorsSidebar from "@/components/AuthorsSidebar";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      <AppDrawer />
-      <div className="md:ml-80">
+      <AuthorsSidebar />
+      <div className="ml-80">
         <ComprehensiveSportsHub />
       </div>
     </div>
