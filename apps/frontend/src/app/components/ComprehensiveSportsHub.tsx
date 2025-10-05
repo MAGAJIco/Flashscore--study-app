@@ -256,29 +256,20 @@ const ComprehensiveSportsHub: React.FC = () => {
   const TabButton = ({ id, label, icon, count }: any) => (
     <button
       onClick={() => setActiveTab(id)}
+      className={activeTab === id ? 'ios-button' : 'ios-button-secondary'}
       style={{
-        background: activeTab === id 
-          ? 'linear-gradient(135deg, #00ff88, #00a2ff)' 
-          : 'rgba(255, 255, 255, 0.1)',
-        color: activeTab === id ? '#000' : '#fff',
-        border: 'none',
-        borderRadius: '12px',
         padding: isMobile ? '8px 12px' : '10px 16px',
         fontSize: isMobile ? '12px' : '14px',
-        fontWeight: '600',
         display: 'flex',
         alignItems: 'center',
-        gap: '6px',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        position: 'relative'
+        gap: '6px'
       }}
     >
       <span>{icon}</span>
       {!isMobile && <span>{label}</span>}
-      {count && (
+      {count > 0 && (
         <span style={{
-          background: '#ff4444',
+          background: 'var(--ios-red)',
           color: 'white',
           borderRadius: '10px',
           padding: '2px 6px',
@@ -296,17 +287,14 @@ const ComprehensiveSportsHub: React.FC = () => {
   );
 
   const MatchCard = ({ match }: { match: EnhancedMatch }) => (
-    <div style={{
-      background: 'rgba(255, 255, 255, 0.08)',
-      backdropFilter: 'blur(20px)',
-      borderRadius: '16px',
-      border: '1px solid rgba(255, 255, 255, 0.15)',
-      padding: '20px',
-      margin: '12px',
-      cursor: 'pointer',
-      transition: 'all 0.3s ease'
-    }}
-    onClick={() => setSelectedMatch(match.id)}
+    <div 
+      className="ios-card hover-lift"
+      style={{
+        padding: '20px',
+        margin: '12px',
+        cursor: 'pointer'
+      }}
+      onClick={() => setSelectedMatch(match.id)}
     >
       {/* Match Header */}
       <div style={{
@@ -414,11 +402,7 @@ const ComprehensiveSportsHub: React.FC = () => {
   );
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
-      color: '#ffffff'
-    }}>
+    <div className="sports" style={{ minHeight: '100vh' }}>
       {/* Floating Notifications */}
       <div ref={notificationRef} style={{
         position: 'fixed',
@@ -446,22 +430,9 @@ const ComprehensiveSportsHub: React.FC = () => {
       </div>
 
       {/* Header */}
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.5)',
-        backdropFilter: 'blur(20px)',
-        padding: '16px',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100
-      }}>
-        <h1 style={{
-          margin: 0,
+      <div className="ios-nav-bar" style={{ padding: '16px' }}>
+        <h1 className="ios-nav-title gradient-text" style={{
           fontSize: isMobile ? '20px' : '24px',
-          fontWeight: '800',
-          background: 'linear-gradient(135deg, #00ff88, #00a2ff)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
           textAlign: 'center'
         }}>
           🏆 Sports Central Pro
