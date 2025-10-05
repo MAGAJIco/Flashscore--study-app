@@ -29,19 +29,21 @@ export default function GoogleStyleMenu() {
 
   return (
     <div className="relative">
-      {/* Menu Button */}
+      {/* Enhanced Menu Button with Label */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-full hover:bg-gray-700/50 transition-all duration-200 group"
+        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl group"
         aria-label="Apps menu"
       >
         <svg 
-          className="w-6 h-6 text-gray-300 group-hover:text-white transition-colors" 
+          className="w-5 h-5 text-white transition-transform group-hover:scale-110" 
           fill="currentColor" 
           viewBox="0 0 24 24"
         >
           <path d="M6 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm2 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-2 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8-10c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm2 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-2 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8-10c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm2 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-2 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
         </svg>
+        <span className="text-white font-semibold text-sm">Apps</span>
+        <span className="text-white/70 text-xs">({appMenuItems.length})</span>
       </button>
 
       {/* Menu Dropdown */}
