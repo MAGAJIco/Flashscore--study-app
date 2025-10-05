@@ -413,6 +413,26 @@ body {
   animation: ios-haptic 0.1s ease-in-out;
 }
 
+/* Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  button, a, .interactive {
+    min-height: 44px;
+    min-width: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  input, textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
 .glass-card:hover {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.25);

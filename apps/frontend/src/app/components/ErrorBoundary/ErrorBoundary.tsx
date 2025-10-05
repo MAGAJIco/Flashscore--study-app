@@ -43,6 +43,13 @@ class ErrorBoundary extends Component<Props, State> {
       .catch(() => console.warn('SecurityUtils not available for error logging'));
 
     this.props.onError?.(error, errorInfo);
+
+    // Auto-retry for network errors after 3 seconds
+    if (error.message.includes('fetch') || error.message.includes('network')) {
+      setTimeout(() => {
+        this.setState({ hasError: false });
+      }, 3000);
+    }
   }
 
   private handleRetry = async () => {
