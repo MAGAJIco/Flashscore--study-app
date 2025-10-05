@@ -9,6 +9,9 @@ packages = ["miktex", "nix-output-monitor", "psmisc"]
 run = ["sh", "-c", "cd apps/backend && npm start & cd apps/frontend && npm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
+[workflows]
+runButton = "Project"
+
 [[workflows.workflow]]
 name = "Project"
 mode = "parallel"
@@ -31,7 +34,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && pnpm run dev"
+args = "cd apps/frontend && pnpm dev"
 waitForPort = 5000
 
 [[workflows.workflow]]
@@ -109,10 +112,11 @@ exposeLocalhost = true
 
 [[ports]]
 localPort = 5000
+externalPort = 80
 
 [[ports]]
-localPort = 8000
-externalPort = 8000
+localPort = 39465
+externalPort = 3002
 
 [agent]
 expertMode = true

@@ -18,6 +18,9 @@
       "DOM.Iterable"
     ],
     "paths": {
+      "@/*": [
+        "./*"
+      ],
       "@components/*": [
         "components/*"
       ],
