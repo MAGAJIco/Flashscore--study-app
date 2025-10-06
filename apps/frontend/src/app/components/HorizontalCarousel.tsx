@@ -129,8 +129,7 @@ export default function HorizontalCarousel() {
               onClick={card.action}
               className="carousel-item min-w-[170px] flex-shrink-0 snap-start focus:outline-none focus:ring-2 focus:ring-blue-500/50 rounded-2xl transition-all duration-300"
               style={{
-                animationDelay: `${index * 50}ms`,
-                animation: "slideInUp 0.5s ease-out forwards",
+                animation: `slideInUp 0.5s ease-out ${index * 0.1}s forwards`,
                 opacity: 0,
               }}
               aria-label={`${card.title}: ${card.value}`}

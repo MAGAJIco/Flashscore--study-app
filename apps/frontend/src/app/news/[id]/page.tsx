@@ -28,11 +28,13 @@ export default function NewsDetails() {
         setNews(data.data || data);
       } catch (error) {
         console.error('Failed to fetch news:', error);
-        setNews(null);
+        setNews(null); // Set news to null on error to display loading or an error message
       }
     };
 
-    fetchNews();
+    if (params.id) {
+      fetchNews();
+    }
   }, [params.id]);
 
   if (!news) return <div className="p-6">Loading...</div>;

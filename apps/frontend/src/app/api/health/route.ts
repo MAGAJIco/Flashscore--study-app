@@ -23,20 +23,24 @@ export async function GET(request: NextRequest) {
   // Check backend health
   try {
     const backendRes = await fetch(`${backendUrl}/api/health`, { 
-      signal: AbortSignal.timeout(3000) 
+      signal: AbortSignal.timeout(3000),
+      headers: { 'Content-Type': 'application/json' }
     });
     services.backend = backendRes.ok ? 'ok' : 'error';
-  } catch {
+  } catch (error) {
+    console.warn('Backend health check failed:', error instanceof Error ? error.message : 'Unknown error');
     services.backend = 'offline';
   }
 
   // Check ML service health
   try {
     const mlRes = await fetch(`${mlUrl}/health`, { 
-      signal: AbortSignal.timeout(3000) 
+      signal: AbortSignal.timeout(3000),
+      headers: { 'Content-Type': 'application/json' }
     });
     services.ml = mlRes.ok ? 'ok' : 'error';
-  } catch {
+  } catch (error) {
+    console.warn('ML service health check failed:', error instanceof Error ? error.message : 'Unknown error');
     services.ml = 'offline';
   }
 
