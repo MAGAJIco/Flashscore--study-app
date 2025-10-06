@@ -88,6 +88,16 @@ cd apps/backend/ml && python main.py
 - **ML Service (FastAPI)**: Port 8000 (0.0.0.0)
 
 ## Recent Changes
+- **2025-10-06**: Project cleanup and shared package setup
+  - Created packages/shared/src/index.ts as central export barrel
+  - Properly exported all utilities, models, services, and types from shared package
+  - Resolved ApiResponse type conflict between apifoundation and types modules
+  - Added explicit default exports for all modules (PiCoinManager, UserManager, etc.)
+  - Cleaned up root directory: moved unused scripts to recyclebin (server.js, start-*.sh, dockerfile)
+  - Removed duplicate empty CacheManager.ts file
+  - Installed all pnpm dependencies (997 packages)
+  - Frontend workflow running successfully on port 5000
+
 - **2025-10-06**: Deployment configuration
   - Configured backend for Render deployment with pnpm
   - Configured frontend for Vercel deployment

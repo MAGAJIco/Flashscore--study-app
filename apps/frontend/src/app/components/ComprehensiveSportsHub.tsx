@@ -435,7 +435,7 @@ const ComprehensiveSportsHub: React.FC = () => {
           fontSize: isMobile ? '20px' : '24px',
           textAlign: 'center'
         }}>
-          🏆 Sports Central Pro
+          ⚽ Sports Central
         </h1>
       </div>
 

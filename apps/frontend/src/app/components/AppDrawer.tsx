@@ -19,6 +19,7 @@ const drawerSections: DrawerSection[] = [
     title: 'Main',
     items: [
       { name: 'Home', icon: '🏠', href: '/' },
+      { name: 'Empire', icon: '👑', href: '/empire' },
       { name: 'News', icon: '📰', href: '/news', badge: 'New' },
       { name: 'Predictions', icon: '📊', href: '/predictions', badge: 'AI' },
     ]

@@ -18,6 +18,34 @@ const STATIC_ASSETS = [
   '/icons/icon-512x512.png'
 ];
 
+// Cache strategies with battery optimization
+const CACHE_STRATEGIES = {
+  networkFirst: ['api', 'predictions', 'matches'],
+  cacheFirst: ['images', 'styles', 'scripts', 'fonts'],
+  staleWhileRevalidate: ['news', 'scores']
+};
+
+// Battery-aware fetch strategy
+async function batteryAwareFetch(request) {
+  try {
+    if ('getBattery' in navigator) {
+      const battery = await navigator.getBattery();
+
+      // If battery is low and not charging, prefer cache
+      if (battery.level < 0.2 && !battery.charging) {
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+      }
+    }
+  } catch (error) {
+    console.log('Battery API not available');
+  }
+
+  return fetch(request);
+}
+
 self.addEventListener('install', (event) => {
   console.log('[SW] Install');
   event.waitUntil(
@@ -78,7 +106,7 @@ self.addEventListener('fetch', (event) => {
     if (cached) return cached;
 
     try {
-      const networkResponse = await fetch(req);
+      const networkResponse = await batteryAwareFetch(req);
       if (url.origin === location.origin && !url.pathname.startsWith('/api/')) {
         const cache = await caches.open(DYNAMIC_CACHE);
         cache.put(req, networkResponse.clone());
