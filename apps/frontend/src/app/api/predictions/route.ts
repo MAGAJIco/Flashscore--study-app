@@ -74,6 +74,7 @@ export async function GET(request: Request) {
     const limit = searchParams.get('limit') || '50';
 
     const response = await fetch(`${backendUrl}/api/predictions?limit=${limit}`, {
+      signal: AbortSignal.timeout(5000),
       headers: {
         'Content-Type': 'application/json'
       }
