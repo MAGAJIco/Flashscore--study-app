@@ -88,7 +88,7 @@ const CrossPlatformSync: React.FC = () => {
         settings: null,
         devices: []
       });
-      
+
       if (saved?.settings) {
         setSyncSettings(saved.settings);
       }

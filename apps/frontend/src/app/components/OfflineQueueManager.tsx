@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -38,7 +37,8 @@ const OfflineQueueManager: React.FC = () => {
   }, []);
 
   const syncQueue = async () => {
-    if (queue.length === 0 || syncing) return;
+    const queueLength = queue?.length ?? 0;
+    if (queueLength === 0 || syncing) return;
 
     setSyncing(true);
     const remainingQueue: QueuedAction[] = [];
@@ -93,7 +93,7 @@ const OfflineQueueManager: React.FC = () => {
           </div>
           <span className="text-gray-300 text-sm">{queue.length} items</span>
         </div>
-        
+
         <p className="text-gray-400 text-sm mb-3">
           {isOnline
             ? syncing

@@ -294,8 +294,8 @@ const MicroPredictions: React.FC = () => {
                 onClick={() => setSelectedOption(option.id)}
                 disabled={activePrediction.stake > 0}
                 style={{
-                  background: selectedOption === option.id 
-                    ? 'linear-gradient(135deg, #eab308, #ca8a04)' 
+                  background: selectedOption === option.id
+                    ? 'linear-gradient(135deg, #eab308, #ca8a04)'
                     : 'rgba(255, 255, 255, 0.1)',
                   border: selectedOption === option.id ? '2px solid #eab308' : '1px solid rgba(255, 255, 255, 0.2)',
                   borderRadius: '12px',
@@ -347,8 +347,8 @@ const MicroPredictions: React.FC = () => {
                 disabled={!selectedOption || stakeAmount > balance}
                 style={{
                   width: '100%',
-                  background: selectedOption && stakeAmount <= balance 
-                    ? 'linear-gradient(135deg, #22c55e, #16a34a)' 
+                  background: selectedOption && stakeAmount <= balance
+                    ? 'linear-gradient(135deg, #22c55e, #16a34a)'
                     : 'rgba(255, 255, 255, 0.1)',
                   color: 'white',
                   border: 'none',
@@ -359,7 +359,7 @@ const MicroPredictions: React.FC = () => {
                   cursor: selectedOption && stakeAmount <= balance ? 'pointer' : 'not-allowed'
                 }}
               >
-                {selectedOption 
+                {selectedOption
                   ? `⚡ Place Bet - Potential Win: π${(stakeAmount * (activePrediction.options.find(o => o.id === selectedOption)?.odds || 0)).toFixed(2)}`
                   : 'Select an option to bet'
                 }
