@@ -19,6 +19,7 @@ const drawerSections: DrawerSection[] = [
     title: 'Main',
     items: [
       { name: 'Home', icon: '🏠', href: '/' },
+      { name: 'Empire', icon: '👑', href: '/empire' },
       { name: 'News', icon: '📰', href: '/news', badge: 'New' },
       { name: 'Predictions', icon: '📊', href: '/predictions', badge: 'AI' },
     ]
@@ -54,24 +55,38 @@ const drawerSections: DrawerSection[] = [
 export default function AppDrawer() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       {/* Drawer Toggle Button - Mobile Friendly */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed left-4 top-20 z-50 p-3 bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 transition-all md:hidden"
-        aria-label="Open app drawer"
+        aria-label={isOpen ? "Close app drawer" : "Open app drawer"}
       >
-        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        {isOpen ? (
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        ) : (
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        )}
       </button>
 
       {/* Backdrop */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => setIsOpen(false)}
+          onClick={handleClose}
         />
       )}
 
@@ -84,8 +99,9 @@ export default function AppDrawer() {
         <div className="p-4 border-b border-gray-700/50 flex items-center justify-between">
           <h2 className="text-white text-xl font-bold">⚡ Sports Central</h2>
           <button 
-            onClick={() => setIsOpen(false)}
+            onClick={handleClose}
             className="text-gray-400 hover:text-white md:hidden"
+            aria-label="Close drawer"
           >
             ✕
           </button>
@@ -102,7 +118,7 @@ export default function AppDrawer() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => setIsOpen(false)}
+                    onClick={handleLinkClick}
                     className="flex items-center gap-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all group"
                   >
                     <span className="text-xl">{item.icon}</span>
