@@ -11,6 +11,8 @@ import SmartErrorRecovery from "./components/SmartErrorRecovery";
 import OfflineQueueManager from "./components/OfflineQueueManager";
 import AuthorsLeaderboard from "./components/AuthorsLeaderboard";
 import MagajiCoManager from "./components/MagajiCoManager";
+import PredictionPreview from "./components/PredictionPreview";
+import PredictiveConfidenceEvolution from "./components/PredictiveConfidenceEvolution";
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState('home');
@@ -71,10 +73,10 @@ export default function HomePage() {
                   width: '100%',
                   padding: sidebarOpen ? '15px 20px' : '12px 10px',
                   marginBottom: '10px',
-                  background: activeSection === item.id 
+                  background: activeSection === item.id
                     ? 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 162, 255, 0.2))'
                     : 'rgba(255, 255, 255, 0.03)',
-                  border: activeSection === item.id 
+                  border: activeSection === item.id
                     ? '1px solid rgba(0, 255, 136, 0.3)'
                     : '1px solid rgba(255, 255, 255, 0.05)',
                   borderRadius: '12px',
@@ -109,6 +111,9 @@ export default function HomePage() {
               <Suspense fallback={<SmartLoadingState type="dashboard" />}>
                 <ComprehensiveSportsHub />
               </Suspense>
+              <Suspense fallback={<SmartLoadingState type="card" />}>
+                <PredictiveConfidenceEvolution />
+              </Suspense>
             </>
           )}
 
@@ -135,7 +140,7 @@ export default function HomePage() {
                     Build your empire from foundation to legendary rooftop. Chat with MagajiCo AI CEO for strategic predictions and insights.
                   </p>
                   <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                    <a 
+                    <a
                       href="/empire/MagajiCoFoundation"
                       style={{
                         padding: '12px 24px',
@@ -149,7 +154,7 @@ export default function HomePage() {
                     >
                       Start Building
                     </a>
-                    <a 
+                    <a
                       href="/empire/growth"
                       style={{
                         padding: '12px 24px',

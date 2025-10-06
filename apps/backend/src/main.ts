@@ -19,6 +19,7 @@ import { newsRoutes } from "./routes/news";
 import { enhancedPredictionRoutes } from "./routes/enhanced-predictions";
 // import { ceoAnalysisRoutes } from "./routes/ceo-analysis"; // Route file missing
 import { marketIntelligenceRoutes } from "./routes/market-intelligence";
+import { confidenceEvolutionRoutes } from "./routes/confidence-evolution";
 
 const server = Fastify({
   logger: {
@@ -195,6 +196,7 @@ server.register(newsAuthorsRoutes, { prefix: "/api" });
 // server.register(enhancedPredictionRoutes, { prefix: "/api/v2/predictions" });
 // server.register(ceoAnalysisRoutes, { prefix: "/api/v2/ceo" }); // Route file missing
 // server.register(marketIntelligenceRoutes, { prefix: "/api/v2/market" });
+server.register(confidenceEvolutionRoutes, { prefix: "/api/confidence-evolution" });
 
 // Root endpoint
 server.get('/', async (request, reply) => {
