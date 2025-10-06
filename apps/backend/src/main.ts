@@ -47,25 +47,80 @@ server.register(rateLimit, {
 });
 
 // Enhanced CORS configuration
-const allowedOrigins = [
-  'https://flashscore-study-app.vercel.app',
-  'https://302a3520-1a25-488e-b2d3-26ceed56ba96-00-4e1xep2o5f5l.kirk.replit.dev',
-  process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : undefined,
-  'http://localhost:5000',
-  'http://0.0.0.0:5000',
-  'http://localhost:3001',
-  'http://0.0.0.0:3001'
-].filter((origin): origin is string => typeof origin === 'string');
+const normalizeOrigin = (url: string): string => {
+  // Trim whitespace
+  let normalized = url.trim();
+  
+  // Remove trailing slash
+  if (normalized.endsWith('/')) {
+    normalized = normalized.slice(0, -1);
+  }
+  
+  return normalized;
+};
+
+const buildAllowedOrigins = (): string[] => {
+  const origins: string[] = [];
+
+  // Add origins from environment variable (comma-separated)
+  if (process.env.ALLOWED_ORIGINS) {
+    const envOrigins = process.env.ALLOWED_ORIGINS
+      .split(',')
+      .map(o => normalizeOrigin(o))
+      .filter(o => o.length > 0);
+    origins.push(...envOrigins);
+  }
+
+  // Add frontend URL if specified
+  if (process.env.FRONTEND_URL) {
+    origins.push(normalizeOrigin(process.env.FRONTEND_URL));
+  }
+
+  // Add Replit dev domain (normalize to handle full URLs or bare domains)
+  if (process.env.REPLIT_DEV_DOMAIN) {
+    const replitDomain = process.env.REPLIT_DEV_DOMAIN.trim();
+    // Check if it already has a scheme
+    const replitUrl = replitDomain.startsWith('http') 
+      ? replitDomain 
+      : `https://${replitDomain}`;
+    origins.push(normalizeOrigin(replitUrl));
+  }
+
+  // Development fallbacks (normalize these too for consistency)
+  if (process.env.NODE_ENV === 'development') {
+    origins.push(
+      normalizeOrigin('http://localhost:5000'),
+      normalizeOrigin('http://0.0.0.0:5000'),
+      normalizeOrigin('http://localhost:3001'),
+      normalizeOrigin('http://0.0.0.0:3001')
+    );
+  }
+
+  return [...new Set(origins)]; // Remove duplicates
+};
+
+const allowedOrigins = buildAllowedOrigins();
 
 server.register(cors, {
   origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
+    
+    // Normalize the incoming origin for comparison
+    const normalizedOrigin = normalizeOrigin(origin);
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(normalizedOrigin)) {
       return callback(null, true);
     }
+    
+    // Allow all origins in development mode
     if (process.env.NODE_ENV === 'development') {
       return callback(null, true);
     }
+    
+    // Reject in production
+    server.log.warn({ origin, normalizedOrigin, allowedOrigins }, 'CORS request rejected');
     return callback(new Error('Not allowed by CORS'), false);
   },
   credentials: true
