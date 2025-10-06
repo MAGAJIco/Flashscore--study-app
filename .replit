@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "python-3.11"]
+modules = ["nodejs-20"]
 run = "cd apps/frontend && npm run dev"
 
 [nix]
@@ -101,28 +101,6 @@ mode = "sequential"
 task = "shell.exec"
 args = "node health-check.js"
 
-[[workflows.workflow]]
-name = "ML Backend"
-author = 48356792
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend/ml && pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8000"
-
-[[workflows.workflow]]
-name = "Full Stack with ML"
-author = 48356792
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend/ml && uvicorn main:app --host 0.0.0.0 --port 8000"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && pnpm dev"
-
 [[ports]]
 localPort = 3000
 externalPort = 3000
@@ -142,12 +120,3 @@ externalPort = 3002
 
 [agent]
 expertMode = true
-
-
-
-[deployment]
-build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm run build"]
-run = ["sh", "-c", "cd apps/frontend && pnpm start"]
-deploymentTarget = "static"
-publicDir = "apps/frontend/.next"
-ignorePorts = false
