@@ -5,7 +5,7 @@ import AuthorsSidebar from "@/components/AuthorsSidebar";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <AuthorsSidebar />
       <div className="ml-80">
         <ComprehensiveSportsHub />
