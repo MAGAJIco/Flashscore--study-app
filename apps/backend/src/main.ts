@@ -86,8 +86,7 @@ server.addHook('onResponse', async (request, reply) => {
   request.log.info({
     method: request.method,
     url: request.url,
-    statusCode: reply.statusCode,
-    responseTime: reply.getResponseTime()
+    statusCode: reply.statusCode
   }, 'Request completed');
 });
 
@@ -187,14 +186,17 @@ const start = async () => {
     await connectDB();
     server.log.info('✅ Database connected successfully');
 
+    const port = Number(process.env.PORT) || 3001;
+    const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+
     await server.listen({
-      port: Number(process.env.PORT) || 3001,
-      host: "localhost",
+      port,
+      host,
     });
 
     server.log.info({
-      port: Number(process.env.PORT) || 3001,
-      host: "localhost",
+      port,
+      host,
       environment: process.env.NODE_ENV || 'development',
       nodeVersion: process.version
     }, '🚀 MagajiCo Enhanced Server started successfully');

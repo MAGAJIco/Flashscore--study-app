@@ -100,7 +100,7 @@ export const connectDB = async (): Promise<void> => {
       console.error('Error details:', err.message);
       console.error('Stack trace:', err.stack);
     } else {
-      coconsole.error('Unknown error:', err);
+      console.error('Unknown error:', err);
     }
 
     if (process.env.NODE_ENV === 'production') {

@@ -1,17 +1,12 @@
 {
-  "buildCommand": "cd apps/frontend && pnpm build",
-  "installCommand": "pnpm install --filter frontend",
+  "buildCommand": "pnpm install && cd apps/frontend && pnpm build",
+  "installCommand": "pnpm install",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
-  "env": {
-    "NODE_ENV": "production",
-    "NEXTAUTH_URL": "https://your-vercel-app-name.vercel.app",
-    "NEXT_PUBLIC_BACKEND_URL": "https://flashstudy-ri0g.onrender.com"
-  },
   "rewrites": [
     {
-      "source": "/api/backend/(.*)",
-      "destination": "https://flashstudy-ri0g.onrender.com/$1"
+      "source": "/api/backend/:path*",
+      "destination": "https://magajico-backend.onrender.com/api/:path*"
     }
   ]
 }
