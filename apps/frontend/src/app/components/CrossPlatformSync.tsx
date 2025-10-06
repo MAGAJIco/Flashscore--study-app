@@ -85,15 +85,15 @@ const CrossPlatformSync: React.FC = () => {
   const loadSyncSettings = () => {
     try {
       const saved = ClientStorage.getItem('cross_platform_sync', {
-        settings: null,
-        devices: []
+        settings: syncSettings,
+        devices: devices
       });
 
-      if (saved?.settings) {
+      if (saved && saved.settings) {
         setSyncSettings(saved.settings);
       }
 
-      if (saved?.devices && Array.isArray(saved.devices) && saved.devices.length > 0) {
+      if (saved && saved.devices && Array.isArray(saved.devices) && saved.devices.length > 0) {
         setDevices(saved.devices);
       }
     } catch (e) {
