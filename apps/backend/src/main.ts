@@ -8,11 +8,11 @@ import { connectDB } from "./config/db";
 // Existing routes
 import { healthRoutes } from "./routes/health";
 import { foundationRoutes } from "./routes/foundation";
+import newsAuthorsRoutes from "./routes/newsAuthors";
 // import { matchRoutes } from "./routes/matches";
 // import { predictionRoutes } from "./routes/predictions";
 // import { scraperRoutes } from "./routes/scraper";
 // import { mlRoutes } from "./routes/ml";
-// import { newsAuthorRoutes } from "./routes/newsAuthors";
 // import { newsAuthorRoutes as newsRoutes } from "./routes/news";
 
 // Enhanced MagajiCo routes
@@ -183,12 +183,12 @@ server.setNotFoundHandler((request, reply) => {
 // Register existing routes
 server.register(healthRoutes, { prefix: "/api" });
 server.register(foundationRoutes, { prefix: "/api" });
+server.register(newsAuthorsRoutes, { prefix: "/api" });
 // Database-dependent routes commented out until DB is configured
 // server.register(matchRoutes, { prefix: "/api" });
 // server.register(predictionRoutes, { prefix: "/api" });
 // server.register(scraperRoutes, { prefix: "/api" });
 // server.register(mlRoutes, { prefix: "/api/ml" });
-// server.register(newsAuthorRoutes, { prefix: "/api" });
 // server.register(newsRoutes, { prefix: "/api" });
 
 // Register enhanced MagajiCo routes

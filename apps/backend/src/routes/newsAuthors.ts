@@ -19,12 +19,6 @@ interface CreateCollaborationBody {
   tags?: string[];
 }
 
-interface TrackActivityBody {
-  authorId: string;
-  eventType: string;
-  eventData: any;
-}
-
 // ==== Routes ====
 export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
   // ----- Public Routes -----
@@ -86,13 +80,4 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
     return NewsAuthorController.generateAutoNews(request, reply);
   });
 
-  // Track author activity
-  fastify.post('/news-authors/activity', {
-    preHandler: authMiddleware.requireMemberAccess
-  }, async (
-    request: FastifyRequest<{ Body: TrackActivityBody }>,
-    reply: FastifyReply
-  ) => {
-    return NewsAuthorController.trackActivity(request, reply);
-  });
 }
