@@ -55,6 +55,7 @@ export default function AppDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   // Handle keyboard navigation and focus management
   useEffect(() => {
@@ -93,10 +94,12 @@ export default function AppDrawer() {
     };
   }, [isOpen]);
 
-  // Focus management when drawer opens
+  // Focus management when drawer opens/closes
   useEffect(() => {
     if (isOpen && closeButtonRef.current) {
       closeButtonRef.current.focus();
+    } else if (!isOpen && toggleButtonRef.current) {
+      toggleButtonRef.current.focus();
     }
   }, [isOpen]);
 
@@ -104,6 +107,7 @@ export default function AppDrawer() {
     <>
       {/* Drawer Toggle Button - Mobile Friendly */}
       <button
+        ref={toggleButtonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="fixed left-4 top-20 z-50 p-3 bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all md:hidden"
         aria-label={isOpen ? "Close app drawer" : "Open app drawer"}

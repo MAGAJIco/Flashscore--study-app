@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { signIn, getSession } from 'next-auth/react';
 import UserManager from '../../../../../packages/shared/src/libs/utils/userManager';
-import { PiCoinManager } from '../../../../../packages/shared/src/libs/utils/piCoinManager';
 import ResponsibleBettingTutorial from './ResponsibleBettingTutorial';
 
 interface User {
@@ -47,7 +46,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ isOpen, onClose, on
         const session = await getSession();
         if (session?.user) {
           const user: User = {
-            id: session.user.id || '',
+            id: (session.user as any).id || '',
             username: session.user.name || session.user.email?.split('@')[0] || '',
             email: session.user.email || '',
             role: 'user',
@@ -101,7 +100,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ isOpen, onClose, on
           getSession().then((session) => {
             if (session?.user) {
               const user: User = {
-                id: session.user.id || '',
+                id: (session.user as any).id || '',
                 username: session.user.name || username.trim(),
                 email: session.user.email || email.trim(),
                 role: 'user',
@@ -150,7 +149,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ isOpen, onClose, on
           const session = await getSession();
           if (session?.user) {
             const user: User = {
-              id: session.user.id || '',
+              id: (session.user as any).id || '',
               username: username.trim(),
               email: email.trim(),
               role: 'user',

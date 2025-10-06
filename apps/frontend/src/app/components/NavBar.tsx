@@ -64,38 +64,81 @@ const quickMenuItems: QuickMenuItem[] = [
 const NavBar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [quickMenuOpen, setQuickMenuOpen] = useState<boolean>(false);
+  const dropdownRefs = React.useRef<{ [key: string]: HTMLButtonElement | null }>({});
+  const quickMenuButtonRef = React.useRef<HTMLButtonElement | null>(null);
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleDropdownToggle = (label: string) => {
+    setOpenDropdown(openDropdown === label ? null : label);
+  };
+
+  const handleDropdownKeyDown = (e: React.KeyboardEvent, label: string, hasSubItems: boolean) => {
+    if (!hasSubItems) return;
+    
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleDropdownToggle(label);
+    } else if (e.key === 'Escape') {
+      setOpenDropdown(null);
+      dropdownRefs.current[label]?.focus();
+    }
+  };
+
+  const handleQuickMenuToggle = () => {
+    setQuickMenuOpen(!quickMenuOpen);
+  };
+
+  // Focus management for quick menu
+  React.useEffect(() => {
+    if (!quickMenuOpen && quickMenuButtonRef.current) {
+      quickMenuButtonRef.current.focus();
+    }
+  }, [quickMenuOpen]);
+
   return (
     <nav className="bg-[#0a0e1a] text-white shadow-md fixed top-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          {/* Logo with Hover Menu */}
-          <div className="flex-shrink-0 flex items-center relative group">
-            <a
-              href="/"
+          {/* Logo with Quick Menu */}
+          <div className="flex-shrink-0 flex items-center relative" onMouseLeave={() => setQuickMenuOpen(false)}>
+            <button
+              ref={quickMenuButtonRef}
+              onClick={handleQuickMenuToggle}
+              onMouseEnter={() => setQuickMenuOpen(true)}
               className="text-green-400 font-bold text-xl cursor-pointer hover:text-green-300 focus:outline-none focus:ring-2 focus:ring-green-400 rounded transition-colors"
-              aria-label="Sports Central - Home"
+              aria-label="Sports Central - Home and Quick Menu"
+              aria-haspopup="true"
+              aria-expanded={quickMenuOpen}
             >
               <span aria-hidden="true">⚡</span> Sports Central
-            </a>
+            </button>
 
-            {/* Hover Menu - Only shows on hover */}
-            <div className="absolute left-0 top-full mt-2 bg-[#1f2937] rounded-md shadow-lg overflow-hidden z-50 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200" role="menu" aria-label="Quick navigation">
-              {quickMenuItems.map((item) => (
-                <a
-                  key={item.link}
-                  href={item.link}
-                  className="block px-4 py-2 text-sm hover:bg-green-500 hover:text-white focus:outline-none focus:bg-green-500 focus:text-white transition cursor-pointer"
-                  role="menuitem"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
+            {/* Quick Menu - Shows on hover or keyboard activation */}
+            {quickMenuOpen && (
+              <div className="absolute left-0 top-full mt-2 bg-[#1f2937] rounded-md shadow-lg overflow-hidden z-50 min-w-[200px]" role="menu" aria-label="Quick navigation">
+                {quickMenuItems.map((item) => (
+                  <a
+                    key={item.link}
+                    href={item.link}
+                    className="block px-4 py-2 text-sm hover:bg-green-500 hover:text-white focus:outline-none focus:bg-green-500 focus:text-white transition cursor-pointer"
+                    role="menuitem"
+                    onClick={() => setQuickMenuOpen(false)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Escape') {
+                        setQuickMenuOpen(false);
+                        quickMenuButtonRef.current?.focus();
+                      }
+                    }}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Desktop Menu Items */}
@@ -104,18 +147,30 @@ const NavBar: React.FC = () => {
               <div
                 key={item.label}
                 className="relative group"
-                onMouseEnter={() => setOpenDropdown(item.label)}
+                onMouseEnter={() => item.subItems && setOpenDropdown(item.label)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <a
-                  href={item.link || "#"}
-                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-green-400 transition cursor-pointer"
-                  role="menuitem"
-                  aria-haspopup={item.subItems ? "true" : undefined}
-                  aria-expanded={item.subItems && openDropdown === item.label ? "true" : "false"}
-                >
-                  {item.label}
-                </a>
+                {item.subItems ? (
+                  <button
+                    ref={(el) => { dropdownRefs.current[item.label] = el; }}
+                    onClick={() => handleDropdownToggle(item.label)}
+                    onKeyDown={(e) => handleDropdownKeyDown(e, item.label, true)}
+                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-green-400 transition cursor-pointer"
+                    role="menuitem"
+                    aria-haspopup="true"
+                    aria-expanded={openDropdown === item.label ? "true" : "false"}
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <a
+                    href={item.link}
+                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-green-400 transition cursor-pointer"
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </a>
+                )}
 
                 {/* Dropdown */}
                 {item.subItems && openDropdown === item.label && (
@@ -126,6 +181,13 @@ const NavBar: React.FC = () => {
                         href={sub.link}
                         className="block px-4 py-2 text-sm hover:bg-green-500 hover:text-white focus:outline-none focus:bg-green-500 focus:text-white transition cursor-pointer"
                         role="menuitem"
+                        onClick={() => setOpenDropdown(null)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Escape') {
+                            setOpenDropdown(null);
+                            dropdownRefs.current[item.label]?.focus();
+                          }
+                        }}
                       >
                         {sub.label}
                       </a>
