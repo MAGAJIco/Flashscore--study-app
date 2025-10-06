@@ -13,6 +13,8 @@ import AuthorsLeaderboard from "./components/AuthorsLeaderboard";
 import MagajiCoManager from "./components/MagajiCoManager";
 import PredictionPreview from "./components/PredictionPreview";
 import PredictiveConfidenceEvolution from "./components/PredictiveConfidenceEvolution";
+import AICoachAssistant from "./components/AICoachAssistant";
+import PredictiveAlertSystem from "./components/PredictiveAlertSystem";
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState('home');
@@ -215,6 +217,10 @@ export default function HomePage() {
           )}
 
           <OfflineQueueManager />
+          
+          {/* Floating AI Features - Available on all sections */}
+          <AICoachAssistant />
+          <PredictiveAlertSystem />
         </div>
       </div>
     </SmartErrorRecovery>
