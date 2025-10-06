@@ -72,7 +72,8 @@ const UserFriendlyFeatures: React.FC<UserFriendlyFeaturesProps> = ({
       bottom: isMobile ? '80px' : '20px',
       right: '20px',
       zIndex: 999,
-      display: quickAccessOpen ? 'block' : 'none'
+      display: quickAccessOpen ? 'block' : 'none',
+      maxWidth: isMobile ? 'calc(100vw - 40px)' : '250px'
     }}>
       <div style={{
         background: 'rgba(0, 0, 0, 0.9)',

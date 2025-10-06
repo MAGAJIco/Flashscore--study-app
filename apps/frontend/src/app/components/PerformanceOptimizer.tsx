@@ -98,6 +98,28 @@ const PerformanceOptimizer: React.FC = () => {
     return Math.max(0, score);
   };
 
+  // Adaptive performance optimization
+  useEffect(() => {
+    const score = getPerformanceScore();
+    
+    if (score < 60) {
+      // Auto-enable performance optimizations
+      setOptimizations({
+        lazyLoading: true,
+        imageOptimization: true,
+        codesplitting: true,
+        prefetching: false, // Disable on poor performance
+        compression: true
+      });
+      
+      // Reduce animation quality
+      document.documentElement.style.setProperty('--animation-speed', '0.5');
+    } else if (score >= 80) {
+      // Enable all features on good performance
+      document.documentElement.style.setProperty('--animation-speed', '1');
+    }
+  }, [metrics]);
+
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-400';
     if (score >= 60) return 'text-yellow-400';
