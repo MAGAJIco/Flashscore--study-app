@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
+// Assume 'inter' font is defined elsewhere or will be imported
+// For example: import { Inter } from 'next/font/google'; const inter = Inter({ subsets: ['latin'] });
+
 export const metadata: Metadata = {
   title: "Sports Central",
   description: "Your complete sports prediction and live scores platform",
@@ -31,19 +34,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://api.sportsdata.io" />
+        {/* The viewport meta tag from the original code is kept for compatibility */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
-        <meta name="theme-color" content="#1a1f3a" media="(prefers-color-scheme: dark)" />
-        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-        <meta name="color-scheme" content="light dark" />
+        {/* The following meta tags are updated/added based on the changes provided */}
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="format-detection" content="telephone=no" />
+        {/* Theme color meta tags from original and changes are merged */}
+        <meta name="theme-color" content="#00ff88" /> {/* Original theme color */}
+        <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" /> {/* From changes */}
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" /> {/* From original */}
+        <meta name="color-scheme" content="light dark" /> {/* From original */}
+        <meta name="format-detection" content="telephone=no" /> {/* From original */}
+        <link rel="manifest" href="/manifest.json" /> {/* From changes */}
       </head>
-      <body className="sports">
+      {/* PWAServiceWorker from original code is kept */}
+      {/* The body class and style are updated based on the changes */}
+      <body className="sports" style={{ contentVisibility: 'auto' }}>
         <PWAServiceWorker />
         {children}
       </body>

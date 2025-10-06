@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { useBatteryOptimization } from '../hooks/useBatteryOptimization';
 
 interface PerformanceMetrics {
   loadTime: number;
@@ -9,24 +10,36 @@ interface PerformanceMetrics {
   memoryUsage: number;
   networkLatency: number;
   cacheHitRate: number;
+  batteryLevel: number;
 }
 
 const PerformanceOptimizer: React.FC = () => {
+  const { batteryLevel, isCharging, powerSaveMode, optimizationSettings } = useBatteryOptimization();
+  
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     loadTime: 0,
     renderTime: 0,
     memoryUsage: 0,
     networkLatency: 0,
-    cacheHitRate: 0
+    cacheHitRate: 0,
+    batteryLevel: batteryLevel * 100
   });
 
   const [optimizations, setOptimizations] = useState({
     lazyLoading: true,
     imageOptimization: true,
     codesplitting: true,
-    prefetching: true,
-    compression: true
+    prefetching: !optimizationSettings.disableBackgroundSync,
+    compression: true,
+    batteryOptimization: true
   });
+
+  useEffect(() => {
+    setMetrics(prev => ({
+      ...prev,
+      batteryLevel: batteryLevel * 100
+    }));
+  }, [batteryLevel]);
 
   useEffect(() => {
     // Performance monitoring
@@ -139,7 +152,7 @@ const PerformanceOptimizer: React.FC = () => {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
         <div className="text-center p-3 bg-white/5 rounded-lg">
           <div className="text-blue-400 font-bold">
             {metrics.renderTime.toFixed(0)}ms
@@ -165,7 +178,35 @@ const PerformanceOptimizer: React.FC = () => {
           <div className="text-orange-400 font-bold">95%</div>
           <div className="text-gray-400 text-xs">Cache Hit Rate</div>
         </div>
+        
+        <div className="text-center p-3 bg-white/5 rounded-lg relative">
+          <div className={`font-bold ${
+            metrics.batteryLevel > 50 ? 'text-green-400' : 
+            metrics.batteryLevel > 20 ? 'text-yellow-400' : 
+            'text-red-400'
+          }`}>
+            {metrics.batteryLevel.toFixed(0)}%
+          </div>
+          <div className="text-gray-400 text-xs">Battery</div>
+          {isCharging && <span className="absolute top-1 right-1 text-xs">⚡</span>}
+          {powerSaveMode && <span className="absolute top-1 left-1 text-xs">🔋</span>}
+        </div>
       </div>
+      
+      {/* Power Save Mode Alert */}
+      {powerSaveMode && (
+        <div className="mb-6 p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+          <h4 className="text-yellow-400 font-semibold mb-2 flex items-center gap-2">
+            🔋 Power Save Mode Active
+          </h4>
+          <ul className="text-yellow-300 text-sm space-y-1">
+            <li>• Animations disabled</li>
+            <li>• Polling reduced to 30s intervals</li>
+            <li>• Background sync paused</li>
+            <li>• Auto-refresh disabled</li>
+          </ul>
+        </div>
+      )}
 
       {/* Optimization Controls */}
       <div className="space-y-3 mb-6">

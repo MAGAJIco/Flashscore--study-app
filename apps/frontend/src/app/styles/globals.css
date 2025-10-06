@@ -420,13 +420,13 @@ body {
     min-width: 44px;
     -webkit-tap-highlight-color: transparent;
   }
-  
+
   * {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
   }
-  
+
   input, textarea {
     -webkit-user-select: text;
     user-select: text;
@@ -491,7 +491,7 @@ body {
 
   :root {
   color-scheme: light dark;
-  
+
   /* Light mode variables */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
@@ -597,12 +597,12 @@ button, .btn {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
-  
+
   /* Larger tap targets on mobile */
   button, .btn, a {
     min-height: 48px;
   }
-  
+
   /* Optimize font sizes for mobile */
   body {
     font-size: 16px;
@@ -886,8 +886,8 @@ input:focus, textarea:focus, select:focus {
 
 /* Enhanced Scrollbar - Minimized */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
