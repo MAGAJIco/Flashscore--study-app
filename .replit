@@ -99,9 +99,5 @@ exposeLocalhost = true
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 37109
-externalPort = 3002
-
 [agent]
 expertMode = true
