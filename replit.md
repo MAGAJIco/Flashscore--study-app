@@ -38,10 +38,24 @@ The app uses MongoDB for data persistence. Key environment variables:
 Environment variables can be configured through Replit's Secrets panel.
 
 ### Deployment
-Configured for **autoscale** deployment:
+
+The application is configured for production deployment:
+
+**Backend (Render)**:
+- Deployment config: `render.yaml`
+- Build: `npm install -g pnpm && pnpm install && cd apps/backend && pnpm run build`
+- Start: `cd apps/backend && pnpm start`
+- Port: 10000 (set via environment variable)
+- Host: 0.0.0.0 (production), localhost (development)
+
+**Frontend (Vercel)**:
+- Deployment config: `apps/frontend/vercel.json`
 - Build: `pnpm install && cd apps/frontend && pnpm build`
-- Run: `cd apps/frontend && pnpm start`
-- Production port: 5000
+- Output: `apps/frontend/.next`
+- Framework: Next.js
+- API rewrites configured for backend integration
+
+See `DEPLOYMENT.md` for detailed deployment instructions.
 
 ## Development
 
@@ -74,6 +88,14 @@ cd apps/backend/ml && python main.py
 - **ML Service (FastAPI)**: Port 8000 (0.0.0.0)
 
 ## Recent Changes
+- **2025-10-06**: Deployment configuration
+  - Configured backend for Render deployment with pnpm
+  - Configured frontend for Vercel deployment
+  - Implemented dynamic CORS with environment variable support
+  - Added URL normalization for CORS origins (handles trailing slashes)
+  - Created comprehensive deployment guide (DEPLOYMENT.md)
+  - Added clean .env.example files for both frontend and backend
+  
 - **2025-10-04**: Initial Replit setup
   - Installed Node.js 20 and Python 3.11 modules
   - Configured Next.js to allow Replit dev origins
