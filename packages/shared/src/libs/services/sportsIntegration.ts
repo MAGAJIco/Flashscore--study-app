@@ -45,7 +45,7 @@ export const sportsIntegration = {
         console.warn('Failed to fetch predictions, returning empty array');
         return [];
       }
-      const data = await response.json();
+      const data = await response.json() as { predictions?: UserPrediction[] };
       return data.predictions || [];
     } catch (error) {
       console.error('Error fetching user predictions:', error);

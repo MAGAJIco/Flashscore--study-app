@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import GrowthDashboard from '../components/GrowthDashboard';
 import EmpireLeaderboard from '../components/EmpireLeaderboard';
-import { foundationApi } from '../../../../../../packages/shared/src/libs/utils/apifoundation';
+import { foundationApi, Phase } from '../../../../../../packages/shared/src/libs/utils/apifoundation';
 
 export default function GrowthPage() {
   const [userId, setUserId] = useState<string>('');
   const [totalPower, setTotalPower] = useState(0);
-  const [phases, setPhases] = useState([]);
+  const [phases, setPhases] = useState<Phase[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
