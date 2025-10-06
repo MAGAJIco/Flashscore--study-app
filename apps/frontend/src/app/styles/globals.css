@@ -484,6 +484,8 @@ body {
 @media (max-width: 768px) {
   body {
     overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+}
     -webkit-overflow-scrolling: touch;
     /* Improve touch responsiveness */
     touch-action: manipulation;
