@@ -1,4 +1,4 @@
-modules = ["nodejs-20"]
+modules = ["nodejs-20", "python-3.11"]
 run = "cd apps/frontend && npm run dev"
 
 [nix]
@@ -115,7 +115,7 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 39465
+localPort = 37257
 externalPort = 3002
 
 [agent]
