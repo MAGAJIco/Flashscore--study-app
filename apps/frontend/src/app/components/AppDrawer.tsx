@@ -54,6 +54,7 @@ const drawerSections: DrawerSection[] = [
 
 export default function AppDrawer() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
@@ -143,7 +144,8 @@ export default function AppDrawer() {
         ref={drawerRef}
         className={`
           fixed left-0 top-0 h-full w-80 bg-[#0a0e1a] border-r border-gray-700/50 
-          transform transition-transform duration-300 z-50
+          transform z-50
+          ${isTransitioning ? 'transition-transform duration-300' : ''}
           ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
         aria-label="Main navigation"
@@ -172,7 +174,11 @@ export default function AppDrawer() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsTransitioning(false);
+                      setIsOpen(false);
+                      setTimeout(() => setIsTransitioning(true), 0);
+                    }}
                     className="flex items-center gap-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-lg transition-all group"
                     aria-label={`${item.name}${item.badge ? ` - ${item.badge}` : ''}`}
                   >
