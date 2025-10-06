@@ -35,22 +35,26 @@ export default function AutoDiagnostics() {
 
     // Check for hydration markers
     if (typeof window !== 'undefined') {
-      const hydrationErrors = localStorage.getItem('error_logs');
-      if (hydrationErrors?.includes('hydration')) {
+      try {
+        const hydrationErrors = localStorage.getItem('error_logs');
+        if (hydrationErrors && hydrationErrors.includes('hydration')) {
         detected.push({
-          id: 'hydration-1',
-          severity: 'critical',
-          category: 'hydration',
-          message: 'Hydration mismatch detected',
-          autoFix: () => {
-            // Clear problematic cached data
-            ['crossPlatformSettings', 'offlineQueue', 'microPredictions'].forEach(key => {
-              localStorage.removeItem(key);
-            });
-            window.location.reload();
-          },
-          suggestion: 'Clear cached data and reload'
-        });
+            id: 'hydration-1',
+            severity: 'critical',
+            category: 'hydration',
+            message: 'Hydration mismatch detected',
+            autoFix: () => {
+              // Clear problematic cached data
+              ['crossPlatformSettings', 'offlineQueue', 'microPredictions'].forEach(key => {
+                localStorage.removeItem(key);
+              });
+              window.location.reload();
+            },
+            suggestion: 'Clear cached data and reload'
+          });
+        }
+      } catch (e) {
+        console.warn('Error checking hydration markers:', e);
       }
     }
 

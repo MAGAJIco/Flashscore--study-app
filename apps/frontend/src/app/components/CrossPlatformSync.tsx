@@ -84,25 +84,20 @@ const CrossPlatformSync: React.FC = () => {
 
   const loadSyncSettings = () => {
     try {
-      const saved = ClientStorage.getItem('cross_platform_sync', null);
-      if (saved && saved.settings) {
+      const saved = ClientStorage.getItem('cross_platform_sync', {
+        settings: null,
+        devices: []
+      });
+      
+      if (saved?.settings) {
         setSyncSettings(saved.settings);
       }
 
-      if (saved && saved.devices && saved.devices.length > 0) {
+      if (saved?.devices && Array.isArray(saved.devices) && saved.devices.length > 0) {
         setDevices(saved.devices);
       }
     } catch (e) {
       console.warn('Failed to load sync settings:', e);
-      // Initialize with defaults if loading fails
-      setSyncSettings({
-        autoSync: true,
-        syncInterval: 5,
-        syncPredictions: true,
-        syncBalance: true,
-        syncNotifications: true,
-        syncSettings: true
-      });
     }
   };
 

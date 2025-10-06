@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState, useEffect } from 'react';
 import { ClientStorage } from '../utils/clientStorage';
@@ -66,7 +65,7 @@ const MicroPredictions: React.FC = () => {
       const now = new Date().getTime();
       const expiry = new Date(activePrediction.expiresAt).getTime();
       const remaining = Math.max(0, Math.floor((expiry - now) / 1000));
-      
+
       setTimeRemaining(remaining);
 
       if (remaining === 0) {
@@ -119,7 +118,7 @@ const MicroPredictions: React.FC = () => {
     ];
 
     const randomType = predictionTypes[Math.floor(Math.random() * predictionTypes.length)];
-    
+
     const newPrediction: MicroPrediction = {
       id: Date.now().toString(),
       type: randomType.type,
