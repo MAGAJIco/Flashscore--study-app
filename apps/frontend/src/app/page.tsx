@@ -67,7 +67,7 @@ export default function HomePage() {
                 onClick={() => setActiveSection(item.id)}
                 style={{
                   width: '100%',
-                  padding: sidebarOpen ? '15px 20px' : '15px 10px',
+                  padding: sidebarOpen ? '15px 20px' : '12px 10px',
                   marginBottom: '10px',
                   background: activeSection === item.id 
                     ? 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 162, 255, 0.2))'
@@ -81,13 +81,13 @@ export default function HomePage() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  fontSize: sidebarOpen ? '1rem' : '1.2rem',
+                  fontSize: sidebarOpen ? '1rem' : '0.9rem',
                   fontWeight: activeSection === item.id ? '600' : '400',
                   transition: 'all 0.3s ease',
                   justifyContent: sidebarOpen ? 'flex-start' : 'center'
                 }}
               >
-                <span>{item.icon}</span>
+                <span style={{ fontSize: sidebarOpen ? '1.2rem' : '1rem' }}>{item.icon}</span>
                 {sidebarOpen && <span>{item.label}</span>}
               </button>
             ))}
