@@ -246,7 +246,7 @@ const start = async () => {
     server.log.info('✅ Database connected successfully');
 
     const port = Number(process.env.PORT) || 3001;
-    const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+    const host = '0.0.0.0';
 
     await server.listen({
       port,
