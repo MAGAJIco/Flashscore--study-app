@@ -2,12 +2,11 @@
 import React, { useState, useEffect } from "react";
 import PhaseCard from "./PhaseCard";
 import PowerDisplay from "./PowerDisplay";
-import Notification from "./Notification";
-import Leaderboard from "./Leaderboard";
 import { foundationApi, type Phase } from "../../lib/api/foundation";
 
 export default function MagajiCoFoundation() {
   const [userId] = useState(() => {
+    // Get or create user ID from localStorage
     if (typeof window !== 'undefined') {
       let id = localStorage.getItem('magajico-user-id');
       if (!id) {
@@ -26,12 +25,7 @@ export default function MagajiCoFoundation() {
   const [phases, setPhases] = useState<Phase[]>([]);
   const [newlyUnlocked, setNewlyUnlocked] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
-
-  const showNotification = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
-    setNotification({ message, type });
-  };
+  const [error, setError] = useState<string | null>(null);
 
   // Load foundation progress from backend
   useEffect(() => {
@@ -41,9 +35,11 @@ export default function MagajiCoFoundation() {
         const data = await foundationApi.getProgress(userId);
         setPhases(data.phases);
         setTotalPower(data.totalPower);
+        setError(null);
       } catch (err) {
         console.error('Failed to load foundation progress:', err);
-        showNotification('Failed to load progress. Using offline mode.', 'error');
+        setError('Failed to load progress. Using offline mode.');
+        // Fallback to local state if API fails
         const buildingPhases = await import('./phasesData');
         setPhases(buildingPhases.default);
       } finally {
@@ -54,7 +50,7 @@ export default function MagajiCoFoundation() {
     loadProgress();
   }, [userId]);
 
-  // Simulate building progress
+  // ⏳ Simulate building progress
   useEffect(() => {
     if (isBuilding) {
       const interval = setInterval(() => {
@@ -71,59 +67,48 @@ export default function MagajiCoFoundation() {
     }
   }, [isBuilding]);
 
-  // Check for newly unlocked phases
+  // ⚡ Check for newly unlocked phases
   useEffect(() => {
     phases.forEach((phase) => {
       if (totalPower >= phase.requiredPower && !phase.unlocked && !phase.completed) {
         setNewlyUnlocked(phase.id);
-        showNotification(`🎉 ${phase.name} unlocked!`, 'success');
         setTimeout(() => setNewlyUnlocked(null), 1500);
       }
     });
   }, [totalPower, phases]);
 
   const startBuilding = async (phaseId: string) => {
-    const phase = phases.find(p => p.id === phaseId);
-    if (!phase) return;
-
     try {
       setCurrentPhase(phaseId);
       setIsBuilding(true);
       setBuildingProgress(0);
 
-      // Optimistic update
-      setPhases((prev) =>
-        prev.map((p) => (p.id === phaseId ? { ...p, building: true } : p))
-      );
-
       // Update backend
       const data = await foundationApi.startBuilding(userId, phaseId);
       setPhases(data.phases);
       setTotalPower(data.totalPower);
-      showNotification(`Building ${phase.name}...`, 'info');
     } catch (err) {
       console.error('Failed to start building:', err);
-      showNotification('Failed to start building. Retrying...', 'error');
+      setError('Failed to start building. Please try again.');
       setIsBuilding(false);
       
-      // Revert optimistic update
+      // Fallback to local state
       setPhases((prev) =>
-        prev.map((p) => (p.id === phaseId ? { ...p, building: false } : p))
+        prev.map((p) => (p.id === phaseId ? { ...p, building: true } : p))
       );
     }
   };
 
   const completeCurrentPhase = async () => {
-    const phase = phases.find(p => p.id === currentPhase);
-    
     try {
+      // Complete phase on backend
       const { data, powerBoost } = await foundationApi.completePhase(userId, currentPhase);
       setPhases(data.phases);
       setTotalPower(data.totalPower);
-      showNotification(`✨ ${phase?.name} completed! +${powerBoost} power!`, 'success');
+      setError(null);
     } catch (err) {
       console.error('Failed to complete phase:', err);
-      showNotification('Failed to save progress. Please check your connection.', 'error');
+      setError('Failed to complete phase. Please try again.');
       
       // Fallback to local state
       setPhases((prev) =>
@@ -151,22 +136,6 @@ export default function MagajiCoFoundation() {
     }
   };
 
-  const handleReset = async () => {
-    if (!confirm('Are you sure you want to reset your progress? This cannot be undone.')) {
-      return;
-    }
-
-    try {
-      const data = await foundationApi.reset(userId);
-      setPhases(data.phases);
-      setTotalPower(data.totalPower);
-      showNotification('Progress reset successfully', 'info');
-    } catch (err) {
-      console.error('Failed to reset:', err);
-      showNotification('Failed to reset progress', 'error');
-    }
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6 text-white flex items-center justify-center">
@@ -180,76 +149,46 @@ export default function MagajiCoFoundation() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6 text-white transition-all duration-300">
-      {notification && (
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification(null)}
-        />
+      <h1 className="text-center text-5xl font-bold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent mb-4">
+        🏗️ MagajiCo Empire Builder
+      </h1>
+      <p className="text-center text-xl text-gray-300 mb-6">
+        Building from Foundation to Legendary Rooftop
+      </p>
+
+      {error && (
+        <div className="max-w-2xl mx-auto mb-4 bg-yellow-900/50 border border-yellow-500 rounded-lg p-4 text-yellow-200">
+          ⚠️ {error}
+        </div>
       )}
 
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent mb-2">
-            🏗️ MagajiCo Empire Builder
-          </h1>
-          <p className="text-xl text-gray-300">
-            Building from Foundation to Legendary Rooftop
-          </p>
+      <PowerDisplay totalPower={totalPower} />
+
+      {isBuilding && (
+        <div className="w-full max-w-lg mx-auto bg-gray-700 rounded-full h-4 mt-6 mb-6 overflow-hidden">
+          <div
+            className="bg-gradient-to-r from-yellow-400 to-pink-500 h-4 transition-all duration-100"
+            style={{ width: `${buildingProgress}%` }}
+          />
         </div>
-        <div className="flex gap-3">
-          <button
-            onClick={() => setShowLeaderboard(!showLeaderboard)}
-            className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors flex items-center gap-2"
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {phases.map((phase) => (
+          <div
+            key={phase.id}
+            className={`transition-all duration-700 ${
+              newlyUnlocked === phase.id ? "animate-pulse ring-4 ring-yellow-400 rounded-2xl" : ""
+            }`}
           >
-            🏆 {showLeaderboard ? 'Hide' : 'Show'} Leaderboard
-          </button>
-          <button
-            onClick={handleReset}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
-          >
-            🔄 Reset
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <PowerDisplay totalPower={totalPower} />
-
-          {isBuilding && (
-            <div className="w-full bg-gray-700 rounded-full h-4 mt-6 mb-6 overflow-hidden">
-              <div
-                className="bg-gradient-to-r from-yellow-400 to-pink-500 h-4 transition-all duration-100"
-                style={{ width: `${buildingProgress}%` }}
-              />
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 gap-6 mt-6">
-            {phases.map((phase) => (
-              <div
-                key={phase.id}
-                className={`transition-all duration-700 ${
-                  newlyUnlocked === phase.id ? "animate-pulse ring-4 ring-yellow-400 rounded-2xl" : ""
-                }`}
-              >
-                <PhaseCard
-                  phase={phase}
-                  currentPhase={currentPhase}
-                  isBuilding={isBuilding}
-                  startBuilding={startBuilding}
-                />
-              </div>
-            ))}
+            <PhaseCard
+              phase={phase}
+              currentPhase={currentPhase}
+              isBuilding={isBuilding}
+              startBuilding={startBuilding}
+            />
           </div>
-        </div>
-
-        {showLeaderboard && (
-          <div className="lg:col-span-1">
-            <Leaderboard />
-          </div>
-        )}
+        ))}
       </div>
     </div>
   );

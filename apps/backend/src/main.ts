@@ -7,6 +7,7 @@ import { connectDB } from "./config/db";
 
 // Existing routes
 import { healthRoutes } from "./routes/health";
+import { foundationRoutes } from "./routes/foundation";
 // import { matchRoutes } from "./routes/matches";
 // import { predictionRoutes } from "./routes/predictions";
 // import { scraperRoutes } from "./routes/scraper";
@@ -181,6 +182,7 @@ server.setNotFoundHandler((request, reply) => {
 
 // Register existing routes
 server.register(healthRoutes, { prefix: "/api" });
+server.register(foundationRoutes, { prefix: "/api" });
 // Database-dependent routes commented out until DB is configured
 // server.register(matchRoutes, { prefix: "/api" });
 // server.register(predictionRoutes, { prefix: "/api" });
@@ -202,6 +204,8 @@ server.get('/', async (request, reply) => {
     description: 'Advanced sports prediction system with market intelligence',
     endpoints: {
       health: '/api/health',
+      foundation: '/api/foundation/:userId',
+      foundation_leaderboard: '/api/foundation/leaderboard',
       predictions_v1: '/api/predictions',
       predictions_v2: '/api/v2/predictions',
       ceo_analysis: '/api/v2/ceo',

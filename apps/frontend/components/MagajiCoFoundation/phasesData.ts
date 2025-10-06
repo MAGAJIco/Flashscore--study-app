@@ -8,8 +8,8 @@ const buildingPhases = [
     building: false,
     completed: false,
     components: [
-      { name: "Vision Blueprint", type: "ai", powerBoost: 10, installed: false },
-      { name: "Faith Reinforcement", type: "community", powerBoost: 5, installed: false },
+      { name: "Vision Blueprint", type: "ai" as const, powerBoost: 10, installed: false },
+      { name: "Faith Reinforcement", type: "community" as const, powerBoost: 5, installed: false },
     ],
   },
   {
@@ -21,8 +21,8 @@ const buildingPhases = [
     building: false,
     completed: false,
     components: [
-      { name: "Discipline Beam", type: "security", powerBoost: 10, installed: false },
-      { name: "Growth Column", type: "prediction", powerBoost: 10, installed: false },
+      { name: "Discipline Beam", type: "security" as const, powerBoost: 10, installed: false },
+      { name: "Growth Column", type: "prediction" as const, powerBoost: 10, installed: false },
     ],
   },
   {
@@ -34,8 +34,8 @@ const buildingPhases = [
     building: false,
     completed: false,
     components: [
-      { name: "Brand Polish", type: "crypto", powerBoost: 15, installed: false },
-      { name: "Strategic Reach", type: "ai", powerBoost: 20, installed: false },
+      { name: "Brand Polish", type: "crypto" as const, powerBoost: 15, installed: false },
+      { name: "Strategic Reach", type: "ai" as const, powerBoost: 20, installed: false },
     ],
   },
   {
@@ -47,8 +47,8 @@ const buildingPhases = [
     building: false,
     completed: false,
     components: [
-      { name: "Legacy Seal", type: "community", powerBoost: 25, installed: false },
-      { name: "Cultural Impact", type: "security", powerBoost: 30, installed: false },
+      { name: "Legacy Seal", type: "community" as const, powerBoost: 25, installed: false },
+      { name: "Cultural Impact", type: "security" as const, powerBoost: 30, installed: false },
     ],
   },
 ];
