@@ -6,8 +6,13 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-  allowedDevOrigins: ['*.replit.dev'],
   experimental: {
+    allowedDevOrigins: [
+      '*.replit.dev',
+      '*.replit.app',
+      'http://localhost:5000',
+      'http://0.0.0.0:5000'
+    ],
     serverActions: {
       allowedOrigins: ['*'],
     },

@@ -185,11 +185,11 @@ server.setNotFoundHandler((request, reply) => {
 server.register(healthRoutes, { prefix: "/api" });
 server.register(foundationRoutes, { prefix: "/api" });
 server.register(newsAuthorsRoutes, { prefix: "/api" });
-// Database-dependent routes commented out until DB is configured
+// Database-dependent routes - enabled with fallback handling
 // server.register(matchRoutes, { prefix: "/api" });
 // server.register(predictionRoutes, { prefix: "/api" });
 // server.register(scraperRoutes, { prefix: "/api" });
-// server.register(mlRoutes, { prefix: "/api/ml" });
+server.register(mlRoutes, { prefix: "/api/ml" });
 // server.register(newsRoutes, { prefix: "/api" });
 
 // Register enhanced MagajiCo routes

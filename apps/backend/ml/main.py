@@ -35,6 +35,16 @@ def root():
     }
 
 
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy",
+        "service": "MagajiCo ML Prediction API",
+        "version": "2.2.0",
+        "model_loaded": predictor.model is not None if hasattr(predictor, 'model') else False
+    }
+
+
 @app.post("/predict")
 def predict(data: FeaturesInput):
     try:
