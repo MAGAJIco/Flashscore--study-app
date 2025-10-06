@@ -9,7 +9,7 @@ import { connectDB } from "./config/db";
 import { healthRoutes } from "./routes/health";
 import { foundationRoutes } from "./routes/foundation";
 import newsAuthorsRoutes from "./routes/newsAuthors";
-import mlRoutes from "./routes/ml";
+import { mlRoutes } from "./routes/ml";
 // import matchRoutes from "./routes/matches";
 // import predictionRoutes from "./routes/predictions";
 // import scraperRoutes from "./routes/scraper";
