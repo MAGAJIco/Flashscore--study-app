@@ -6,7 +6,7 @@ channel = "stable-25_05"
 packages = ["miktex", "nix-output-monitor", "psmisc"]
 
 [deployment]
-run = ["sh", "-c", "cd apps/backend && npm start & cd apps/frontend && npm start"]
+run = ["sh", "-c", "cd apps/frontend && pnpm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
 [workflows]
@@ -149,10 +149,6 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd apps/backend/ml && python main.py"
-
-[[ports]]
-localPort = 3000
-externalPort = 3000
 
 [[ports]]
 localPort = 3001
