@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:3001';
 
 // Retry logic for failed requests
 async function fetchWithRetry(url: string, options?: RequestInit, retries = 3): Promise<Response> {

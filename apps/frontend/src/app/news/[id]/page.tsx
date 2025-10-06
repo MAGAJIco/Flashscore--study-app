@@ -11,16 +11,29 @@ interface NewsItem {
 }
 
 export default function NewsDetails() {
-  const { id } = useParams();
+  const params = useParams();
   const [news, setNews] = useState<NewsItem | null>(null);
 
   useEffect(() => {
-    if (id) {
-      fetch(`http://localhost:5000/news/${id}`)
-        .then((res) => res.json())
-        .then((data) => setNews(data));
-    }
-  }, [id]);
+    const fetchNews = async () => {
+      try {
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:3001';
+        const res = await fetch(`${backendUrl}/api/news/${params.id}`);
+
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+
+        const data = await res.json();
+        setNews(data.data || data);
+      } catch (error) {
+        console.error('Failed to fetch news:', error);
+        setNews(null);
+      }
+    };
+
+    fetchNews();
+  }, [params.id]);
 
   if (!news) return <div className="p-6">Loading...</div>;
 

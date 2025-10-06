@@ -10,7 +10,7 @@ async function getClient() {
   if (!uri) {
     throw new Error('MONGODB_URI environment variable is not set. Please configure it in your Replit Secrets.');
   }
-  
+
   if (!client) {
     client = new MongoClient(uri);
     await client.connect();
@@ -67,29 +67,29 @@ async function getMlPrediction(match: any): Promise<any> {
 }
 
 // GET - Fetch all predictions
-export async function GET(req: NextRequest) {
+export async function GET(request: Request) {
   try {
-    const client = await getClient();
-    const db = client.db("magajico");
-    const predictions = db.collection<Prediction>("predictions");
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:3001';
+    const { searchParams } = new URL(request.url);
+    const limit = searchParams.get('limit') || '50';
 
-    const searchParams = req.nextUrl.searchParams;
-    const status = searchParams.get("status");
-    const limit = parseInt(searchParams.get("limit") || "50");
+    const response = await fetch(`${backendUrl}/api/predictions?limit=${limit}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
-    const query: any = {};
-    if (status) {
-      query.status = status;
+    if (!response.ok) {
+      throw new Error(`Backend returned ${response.status}`);
     }
 
-    const results = await predictions
-      .find(query)
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .toArray();
+    const data = await response.json();
 
-    return NextResponse.json({ success: true, predictions: results }, { status: 200 });
-  } catch (error: any) {
+    return NextResponse.json({
+      success: true,
+      predictions: data.data || data.predictions || []
+    });
+  } catch (error) {
     console.error("GET /api/predictions error:", error);
     return NextResponse.json(
       { error: error.message || "Failed to fetch predictions" },
