@@ -7,15 +7,12 @@ const nextConfig = {
     ignoreDuringBuilds: false,
   },
   experimental: {
-    allowedDevOrigins: [
-      '*.replit.dev',
-      '*.replit.app',
-      'http://localhost:5000',
-      'http://0.0.0.0:5000'
-    ],
     serverActions: {
       allowedOrigins: ['*'],
     },
+  },
+  devIndicators: {
+    buildActivityPosition: 'bottom-right',
   },
   async headers() {
     return [

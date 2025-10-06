@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { useMobile } from '@hooks/useMobile';
@@ -55,7 +54,7 @@ const ComprehensiveSportsHub: React.FC = () => {
   useEffect(() => {
     loadInitialData();
     setupLiveUpdates();
-    
+
     return () => {
       // Cleanup intervals
     };
@@ -228,9 +227,9 @@ const ComprehensiveSportsHub: React.FC = () => {
         message: '⚽ GOAL! Manchester United 3-1 Liverpool',
         timestamp: new Date()
       };
-      
+
       setNotifications(prev => [newNotification, ...prev.slice(0, 4)]);
-      
+
       // Auto-remove after 5 seconds
       setTimeout(() => {
         setNotifications(prev => prev.filter(n => n.id !== newNotification.id));
@@ -287,7 +286,7 @@ const ComprehensiveSportsHub: React.FC = () => {
   );
 
   const MatchCard = ({ match }: { match: EnhancedMatch }) => (
-    <div 
+    <div
       className="ios-card hover-lift"
       style={{
         padding: '20px',
@@ -313,7 +312,7 @@ const ComprehensiveSportsHub: React.FC = () => {
         }}>
           {match.status === 'Live' ? `🔴 ${match.time}` : match.status}
         </div>
-        
+
         <div style={{
           fontSize: '12px',
           color: '#aaa'
@@ -333,7 +332,7 @@ const ComprehensiveSportsHub: React.FC = () => {
         <div style={{ textAlign: 'left' }}>
           <div style={{ fontWeight: '600', fontSize: '16px' }}>{match.homeTeam}</div>
         </div>
-        
+
         <div style={{
           textAlign: 'center',
           background: 'rgba(0, 255, 136, 0.1)',
@@ -348,7 +347,7 @@ const ComprehensiveSportsHub: React.FC = () => {
             {match.homeScore} - {match.awayScore}
           </div>
         </div>
-        
+
         <div style={{ textAlign: 'right' }}>
           <div style={{ fontWeight: '600', fontSize: '16px' }}>{match.awayTeam}</div>
         </div>
@@ -392,7 +391,7 @@ const ComprehensiveSportsHub: React.FC = () => {
               </span>
             ))}
           </div>
-          
+
           <div style={{ fontSize: '12px', color: '#aaa' }}>
             👥 {match.socialData.liveViewers?.toLocaleString()} watching
           </div>
@@ -400,6 +399,8 @@ const ComprehensiveSportsHub: React.FC = () => {
       )}
     </div>
   );
+
+  const filteredMatches = matches.filter(match => match.status === 'Live');
 
   return (
     <div className="sports" style={{ minHeight: '100vh' }}>
@@ -458,8 +459,8 @@ const ComprehensiveSportsHub: React.FC = () => {
       <div style={{ padding: '0 4px 100px 4px' }}>
         {activeTab === 'live' && (
           <div>
-            {matches.map(match => (
-              <MatchCard key={match.id} match={match} />
+            {filteredMatches.map((match, index) => (
+              <MatchCard key={`${match.id}-${index}`} match={match} />
             ))}
           </div>
         )}
@@ -587,7 +588,7 @@ const ComprehensiveSportsHub: React.FC = () => {
             margin: '12px'
           }}>
             <h3 style={{ margin: '0 0 16px 0', color: '#fff' }}>Match Discussion</h3>
-            
+
             {/* Comment Input */}
             <div style={{
               display: 'flex',
