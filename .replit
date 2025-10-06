@@ -142,3 +142,12 @@ externalPort = 3002
 
 [agent]
 expertMode = true
+
+
+
+[deployment]
+build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm run build"]
+run = ["sh", "-c", "cd apps/frontend && pnpm start"]
+deploymentTarget = "static"
+publicDir = "apps/frontend/.next"
+ignorePorts = false
