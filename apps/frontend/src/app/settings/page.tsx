@@ -3,6 +3,7 @@
 
 import React from 'react';
 import CrossPlatformSync from '../components/CrossPlatformSync';
+import SmartNotifications from '../components/SmartNotifications';
 
 export default function SettingsPage() {
   return (
@@ -32,6 +33,35 @@ export default function SettingsPage() {
         }}>
           Manage your account preferences and cross-platform sync
         </p>
+
+        {/* Notification Settings Section */}
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.05)',
+          borderRadius: '16px',
+          padding: '24px',
+          marginBottom: '24px',
+          border: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          <h2 style={{
+            color: '#fff',
+            fontSize: '1.5rem',
+            marginBottom: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
+            <span>🔔</span>
+            Notification Preferences
+          </h2>
+          <p style={{
+            color: '#9ca3af',
+            fontSize: '0.95rem',
+            marginBottom: '20px'
+          }}>
+            Customize how and when you receive alerts about matches, predictions, and achievements
+          </p>
+          <SmartNotifications />
+        </div>
 
         <CrossPlatformSync />
       </div>
