@@ -1,138 +1,124 @@
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
-
-// Retry logic for failed requests
-async function fetchWithRetry(url: string, options?: RequestInit, retries = 3): Promise<Response> {
-  for (let i = 0; i < retries; i++) {
-    try {
-      const response = await fetch(url, options);
-      return response;
-    } catch (error) {
-      if (i === retries - 1) throw error;
-      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1))); // Exponential backoff
-    }
-  }
-  throw new Error('Max retries reached');
-}
-
-export interface Component {
-  name: string;
-  type: 'ai' | 'prediction' | 'community' | 'crypto' | 'security';
-  powerBoost: number;
-  installed: boolean;
-}
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 export interface Phase {
   id: string;
   name: string;
   description: string;
   requiredPower: number;
-  unlocked: boolean;
-  building: boolean;
-  completed: boolean;
-  components: Component[];
+  powerBoost: number;
+  category: string;
+  unlocked?: boolean;
+  completed?: boolean;
+  building?: boolean;
+  components: Array<{
+    id: string;
+    title: string;
+    description: string;
+    powerGain: number;
+  }>;
 }
 
-export interface FoundationData {
-  _id?: string;
+interface LeaderboardEntry {
+  rank: number;
   userId: string;
   totalPower: number;
-  phases: Phase[];
-  createdAt?: string;
-  updatedAt?: string;
+  completedPhases: number;
+  totalPhases: number;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-  powerBoost?: number;
+interface ProgressResponse {
+  phases: Phase[];
+  totalPower: number;
+}
+
+interface BuildingResponse {
+  phases: Phase[];
+  totalPower: number;
+}
+
+interface CompletePhaseResponse {
+  data: {
+    phases: Phase[];
+    totalPower: number;
+  };
+  powerBoost: number;
 }
 
 export const foundationApi = {
-  // Get user's foundation progress
-  async getProgress(userId: string): Promise<FoundationData> {
-    const response = await fetchWithRetry(`${API_URL}/api/foundation/${userId}`);
-    const result: ApiResponse<FoundationData> = await response.json();
-    
-    if (!result.success || !result.data) {
-      throw new Error(result.error || 'Failed to fetch foundation progress');
+  async getProgress(userId: string): Promise<ProgressResponse> {
+    try {
+      const response = await fetch(`${API_BASE}/foundation/progress/${userId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch progress');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching progress:', error);
+      throw error;
     }
-    
-    return result.data;
   },
 
-  // Start building a phase
-  async startBuilding(userId: string, phaseId: string): Promise<FoundationData> {
-    const response = await fetchWithRetry(`${API_URL}/api/foundation/${userId}/start-building`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ phaseId }),
-    });
-    
-    const result: ApiResponse<FoundationData> = await response.json();
-    
-    if (!result.success || !result.data) {
-      throw new Error(result.error || 'Failed to start building phase');
+  async getLeaderboard(): Promise<LeaderboardEntry[]> {
+    try {
+      const response = await fetch(`${API_BASE}/foundation/leaderboard`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch leaderboard');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+      return [];
     }
-    
-    return result.data;
   },
 
-  // Complete a phase
-  async completePhase(userId: string, phaseId: string): Promise<{ data: FoundationData; powerBoost: number }> {
-    const response = await fetchWithRetry(`${API_URL}/api/foundation/${userId}/complete-phase`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ phaseId }),
-    });
-    
-    const result: ApiResponse<FoundationData> = await response.json();
-    
-    if (!result.success || !result.data) {
-      throw new Error(result.error || 'Failed to complete phase');
+  async getUserProgress(userId: string) {
+    try {
+      const response = await fetch(`${API_BASE}/foundation/progress/${userId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch user progress');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching user progress:', error);
+      return null;
     }
-    
-    return { 
-      data: result.data, 
-      powerBoost: result.powerBoost || 0 
-    };
   },
 
-  // Reset foundation progress
-  async reset(userId: string): Promise<FoundationData> {
-    const response = await fetch(`${API_URL}/api/foundation/${userId}/reset`, {
-      method: 'POST',
-    });
-    
-    const result: ApiResponse<FoundationData> = await response.json();
-    
-    if (!result.success || !result.data) {
-      throw new Error(result.error || 'Failed to reset foundation');
+  async startBuilding(userId: string, phaseId: string): Promise<BuildingResponse> {
+    try {
+      const response = await fetch(`${API_BASE}/foundation/start-building`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, phaseId }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to start building');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error starting building:', error);
+      throw error;
     }
-    
-    return result.data;
   },
 
-  // Get leaderboard
-  async getLeaderboard(): Promise<Array<{
-    rank: number;
-    userId: string;
-    totalPower: number;
-    completedPhases: number;
-    totalPhases: number;
-  }>> {
-    const response = await fetch(`${API_URL}/api/foundation/leaderboard`);
-    const result: ApiResponse<any[]> = await response.json();
-    
-    if (!result.success || !result.data) {
-      throw new Error(result.error || 'Failed to fetch leaderboard');
+  async completePhase(userId: string, phaseId: string): Promise<CompletePhaseResponse> {
+    try {
+      const response = await fetch(`${API_BASE}/foundation/complete-phase`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, phaseId }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to complete phase');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error completing phase:', error);
+      throw error;
     }
-    
-    return result.data;
   },
 };
