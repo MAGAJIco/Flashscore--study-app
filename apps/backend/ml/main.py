@@ -15,6 +15,10 @@ app = FastAPI(
     description="⚡ MagajiCo sports prediction system with training + prediction endpoints"
 )
 
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
 MODEL_PATH = "model_data.pkl"
 predictor = MagajiCoMLPredictor(model_path=MODEL_PATH)
 

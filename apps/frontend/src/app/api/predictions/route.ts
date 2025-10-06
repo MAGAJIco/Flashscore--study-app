@@ -44,7 +44,7 @@ async function fetchScrapedMatches(): Promise<any[]> {
 
 // Service: ML Layer
 async function getMlPrediction(match: any): Promise<any> {
-  const mlServiceUrl = process.env.ML_SERVICE_URL || "http://0.0.0.0:8000";
+  const mlServiceUrl = process.env.ML_SERVICE_URL || "http://127.0.0.1:8000";
   const response = await fetch(`${mlServiceUrl}/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
