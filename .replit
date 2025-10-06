@@ -121,7 +121,7 @@ args = "cd apps/backend && pnpm run dev"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && pnpm dev -p 5000 -H 0.0.0.0"
+args = "cd apps/frontend && pnpm dev -p 3000 -H 0.0.0.0"
 
 [[ports]]
 localPort = 3000

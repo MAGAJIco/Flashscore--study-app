@@ -56,45 +56,24 @@ export default function HorizontalCarousel() {
       bgGradient: "from-red-500/20 to-orange-500/20",
       icon: "🔴",
       action: () => {
-        document
-          .getElementById("prediction-preview")
-          ?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("prediction-preview")?.scrollIntoView({ behavior: "smooth" });
       },
       priority: 1,
       show: liveMatches > 0,
       category: 'sports'
     },
     {
-      id: "friends-online",
-      title: "Friends Online",
-      subtitle: "Connect & compete",
-      value: `${friendsOnline} active`,
-      gradient: "from-green-500 to-teal-500",
-      bgGradient: "from-green-500/20 to-teal-500/20",
-      icon: "👥",
-      action: () => {
-        document
-          .getElementById("social-hub")
-          ?.scrollIntoView({ behavior: "smooth" });
-      },
-      priority: 2,
-      show: friendsOnline > 0,
-      category: 'social'
-    },
-    {
-      id: "community-users",
-      title: "Active Community",
-      subtitle: "People online now",
-      value: `${activeUsers.toLocaleString()}`,
-      gradient: "from-cyan-500 to-blue-500",
-      bgGradient: "from-cyan-500/20 to-blue-500/20",
+      id: "community-hub",
+      title: "Community Hub",
+      subtitle: `${friendsOnline} friends • ${activeUsers.toLocaleString()} online`,
+      value: `${communityEvents} events`,
+      gradient: "from-green-500 to-cyan-500",
+      bgGradient: "from-green-500/20 to-cyan-500/20",
       icon: "🌍",
       action: () => {
-        document
-          .getElementById("social-hub")
-          ?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("social-hub")?.scrollIntoView({ behavior: "smooth" });
       },
-      priority: 3,
+      priority: 2,
       show: activeUsers > 0,
       category: 'community'
     },
@@ -107,45 +86,26 @@ export default function HorizontalCarousel() {
       bgGradient: "from-blue-500/20 to-purple-500/20",
       icon: "💡",
       action: () => {
-        document
-          .getElementById("prediction-preview")
-          ?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("prediction-preview")?.scrollIntoView({ behavior: "smooth" });
       },
-      priority: 4,
+      priority: 3,
       show: true,
       category: 'sports'
     },
     {
       id: "achievements",
-      title: "New Achievements",
-      subtitle: "Unlocked today",
-      value: `${todayAchievements} 🎯`,
+      title: "Achievements",
+      subtitle: `Rank #${userRank}`,
+      value: `${todayAchievements} new 🎯`,
       gradient: "from-amber-500 to-orange-500",
       bgGradient: "from-amber-500/20 to-orange-500/20",
-      icon: "🏅",
+      icon: "🏆",
       action: () => {
-        alert("Opening Achievements...");
+        document.getElementById("prediction-league")?.scrollIntoView({ behavior: "smooth" });
       },
-      priority: 5,
-      show: todayAchievements > 0,
+      priority: 4,
+      show: todayAchievements > 0 || userRank > 0,
       category: 'achievements'
-    },
-    {
-      id: "community-events",
-      title: "Live Events",
-      subtitle: "Join the action",
-      value: `${communityEvents} happening`,
-      gradient: "from-pink-500 to-rose-500",
-      bgGradient: "from-pink-500/20 to-rose-500/20",
-      icon: "🎉",
-      action: () => {
-        document
-          .getElementById("social-hub")
-          ?.scrollIntoView({ behavior: "smooth" });
-      },
-      priority: 6,
-      show: communityEvents > 0,
-      category: 'community'
     },
     {
       id: "pi-balance",
@@ -158,26 +118,9 @@ export default function HorizontalCarousel() {
       action: () => {
         alert("Opening Pi Wallet...");
       },
-      priority: 7,
+      priority: 5,
       show: true,
       category: 'finance'
-    },
-    {
-      id: "user-rank",
-      title: "Your Rank",
-      subtitle: "Global leaderboard",
-      value: `#${userRank}`,
-      gradient: "from-purple-500 to-pink-500",
-      bgGradient: "from-purple-500/20 to-pink-500/20",
-      icon: "🏆",
-      action: () => {
-        document
-          .getElementById("prediction-league")
-          ?.scrollIntoView({ behavior: "smooth" });
-      },
-      priority: 8,
-      show: userRank > 0,
-      category: 'achievements'
     },
   ];
 
