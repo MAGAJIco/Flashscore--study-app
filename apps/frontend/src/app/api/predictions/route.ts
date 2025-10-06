@@ -7,6 +7,10 @@ const uri = process.env.MONGODB_URI as string;
 let client: MongoClient | null = null;
 
 async function getClient() {
+  if (!uri) {
+    throw new Error('MONGODB_URI environment variable is not set. Please configure it in your Replit Secrets.');
+  }
+  
   if (!client) {
     client = new MongoClient(uri);
     await client.connect();

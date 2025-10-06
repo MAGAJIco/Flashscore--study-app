@@ -21,9 +21,71 @@ export default function Leaderboard() {
   const loadLeaderboard = async () => {
     try {
       setLoading(true);
-      const data = await foundationApi.getLeaderboard();
-      setLeaderboard(data);
-      setError(null);
+      
+      // Try foundation API first
+      try {
+        const data = await foundationApi.getLeaderboard();
+        if (data && data.length > 0) {
+          setLeaderboard(data);
+          setError(null);
+          setLoading(false);
+          return;
+        }
+      } catch (apiErr) {
+        console.warn('Foundation API unavailable, using predictions data');
+      }
+      
+      // Fallback to predictions API
+      const response = await fetch('/api/predictions?limit=100');
+      
+      if (response.ok) {
+        const data = await response.json();
+        
+        if (data.success && data.predictions) {
+          // Calculate leaderboard from predictions
+          const userPowerMap = new Map<string, any>();
+          
+          data.predictions.forEach((pred: any) => {
+            const userId = pred.userId || pred.authorId || `user-${pred._id?.toString().slice(-8)}`;
+            
+            if (!userPowerMap.has(userId)) {
+              userPowerMap.set(userId, {
+                userId,
+                totalPower: 0,
+                completedPhases: 0,
+                totalPhases: 5,
+              });
+            }
+            
+            const userPower = userPowerMap.get(userId);
+            
+            // Award power based on prediction quality
+            if (pred.confidence && pred.confidence > 80) {
+              userPower.totalPower += 100;
+              userPower.completedPhases = Math.min(5, Math.floor(userPower.totalPower / 500));
+            } else if (pred.confidence && pred.confidence > 60) {
+              userPower.totalPower += 50;
+            } else {
+              userPower.totalPower += 25;
+            }
+          });
+          
+          const leaderboardData = Array.from(userPowerMap.values())
+            .sort((a, b) => b.totalPower - a.totalPower)
+            .map((entry, index) => ({
+              ...entry,
+              rank: index + 1
+            }))
+            .slice(0, 10);
+          
+          setLeaderboard(leaderboardData);
+          setError(null);
+        } else {
+          setError('No prediction data available');
+        }
+      } else {
+        setError('Failed to load leaderboard');
+      }
     } catch (err) {
       console.error('Failed to load leaderboard:', err);
       setError('Failed to load leaderboard');
