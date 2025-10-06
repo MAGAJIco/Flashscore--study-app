@@ -44,21 +44,20 @@ async function fetchScrapedMatches(): Promise<any[]> {
 
 // Service: ML Layer
 async function getMlPrediction(match: any): Promise<any> {
-  const response = await fetch(`http://0.0.0.0:8000/predict-match`, {
+  const mlServiceUrl = process.env.ML_SERVICE_URL || "http://0.0.0.0:8000";
+  const response = await fetch(`${mlServiceUrl}/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      homeTeam: match.homeTeam,
-      awayTeam: match.awayTeam,
-      homeTeamStats: {
-        strength: 0.7,
-        form: 0.6,
-        injuries: 0.8
-      },
-      awayTeamStats: {
-        strength: 0.65,
-        form: 0.55
-      }
+      features: [
+        0.7,  // home strength
+        0.65, // away strength
+        0.6,  // home form
+        0.55, // away form
+        0.5,  // head to head
+        2.0,  // home goals for
+        1.0   // away goals against
+      ]
     }),
   });
   if (!response.ok) {

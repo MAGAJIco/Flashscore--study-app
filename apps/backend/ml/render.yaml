@@ -1,22 +1,14 @@
-# =======================================
-# Render Deployment Configuration
-# MagajiCo ML Prediction API
-# =======================================
 
 services:
   - type: web
-    name: magajico-api
-    env: docker
-    plan: free
-    autoDeploy: true
-
-    # Optional: If your Dockerfile is in a subfolder, specify:
-    # dockerContext: ./backend
-
+    name: magajico-ml-api
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 8000
     envVars:
-      - key: MONGO_URI
-        sync: false
-      - key: ENVIRONMENT
-        value: production
-      - key: PORT
-        value: 10000
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: MODEL_PATH
+        value: model_data.pkl
+    healthCheckPath: /
