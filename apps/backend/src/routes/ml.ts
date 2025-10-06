@@ -1,12 +1,13 @@
 
 import { FastifyInstance } from "fastify";
 import mlPredictionService from "../services/mlPredictionService";
+import aiEnhancementService from "../services/aiEnhancementService";
 
 export async function mlRoutes(server: FastifyInstance) {
-  // ML Prediction endpoint
+  // ML Prediction endpoint with AI enhancement
   server.post("/predict", async (request, reply) => {
     try {
-      const { homeTeam, awayTeam, features } = request.body as any;
+      const { homeTeam, awayTeam, features, enableAI } = request.body as any;
 
       if (!homeTeam || !awayTeam || !features) {
         return reply.status(400).send({ 
@@ -19,6 +20,27 @@ export async function mlRoutes(server: FastifyInstance) {
         awayTeam,
         features
       });
+
+      // Optional AI enhancement
+      if (enableAI) {
+        const enhanced = await aiEnhancementService.enhancePredictionWithInsights(
+          prediction,
+          { homeTeam, awayTeam }
+        );
+
+        return {
+          success: true,
+          data: enhanced.prediction,
+          aiInsights: enhanced.aiInsights,
+          strategicAdvice: enhanced.strategicAdvice,
+          magajico: {
+            version: "MagajiCo-ML-v2.1-AI",
+            ceo_approved: true,
+            strategic_level: "executive",
+            ai_enhanced: true
+          }
+        };
+      }
 
       return {
         success: true,
