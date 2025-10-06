@@ -88,12 +88,12 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       success: true,
-      predictions: data.data || data.predictions || []
+      predictions: Array.isArray(data?.data) ? data.data : (Array.isArray(data?.predictions) ? data.predictions : [])
     });
   } catch (error) {
     console.error("GET /api/predictions error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to fetch predictions" },
+      { error: (error instanceof Error ? error.message : null) || "Failed to fetch predictions" },
       { status: 500 }
     );
   }

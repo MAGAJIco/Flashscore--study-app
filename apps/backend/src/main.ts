@@ -13,12 +13,12 @@ import newsAuthorsRoutes from "./routes/newsAuthors";
 // import { predictionRoutes } from "./routes/predictions";
 // import { scraperRoutes } from "./routes/scraper";
 // import { mlRoutes } from "./routes/ml";
-// import { newsAuthorRoutes as newsRoutes } from "./routes/news";
+import { newsRoutes } from "./routes/news";
 
 // Enhanced MagajiCo routes
-// import { enhancedPredictionRoutes } from "./routes/enhanced-predictions";
+import { enhancedPredictionRoutes } from "./routes/enhanced-predictions";
 // import { ceoAnalysisRoutes } from "./routes/ceo-analysis"; // Route file missing
-// import { marketIntelligenceRoutes } from "./routes/market-intelligence";
+import { marketIntelligenceRoutes } from "./routes/market-intelligence";
 
 const server = Fastify({
   logger: {

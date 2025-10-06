@@ -28,8 +28,10 @@ export async function GET() {
       { level: 6, title: 'Legendary Rooftop', minWinRate: 0.8 },
     ];
     
-    predictionsData.predictions.forEach((pred: any) => {
-      const userId = pred.userId?.toString() || pred.authorId?.toString() || `user-${pred._id?.toString().slice(-8)}`;
+    (predictionsData.predictions || []).forEach((pred: any) => {
+      if (!pred) return;
+      
+      const userId = pred.userId?.toString() || pred.authorId?.toString() || `user-${pred._id?.toString()?.slice(-8) || 'unknown'}`;
       
       if (!userStatsMap.has(userId)) {
         userStatsMap.set(userId, {

@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   description: "Your complete sports prediction and live scores platform",
   applicationName: "Sports Central",
   manifest: "/manifest.json",
-  themeColor: "#00ff88",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -26,6 +25,10 @@ export const metadata: Metadata = {
       { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
     ],
   },
+};
+
+export const viewport = {
+  themeColor: "#00ff88",
 };
 
 export default function RootLayout({
