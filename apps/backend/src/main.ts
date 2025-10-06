@@ -9,11 +9,11 @@ import { connectDB } from "./config/db";
 import { healthRoutes } from "./routes/health";
 import { foundationRoutes } from "./routes/foundation";
 import newsAuthorsRoutes from "./routes/newsAuthors";
-// import { matchRoutes } from "./routes/matches";
-// import { predictionRoutes } from "./routes/predictions";
-// import { scraperRoutes } from "./routes/scraper";
-// import { mlRoutes } from "./routes/ml";
-import { newsRoutes } from "./routes/news";
+import mlRoutes from "./routes/ml";
+// import matchRoutes from "./routes/matches";
+// import predictionRoutes from "./routes/predictions";
+// import scraperRoutes from "./routes/scraper";
+// import newsRoutes from "./routes/news";
 
 // Enhanced MagajiCo routes
 import { enhancedPredictionRoutes } from "./routes/enhanced-predictions";
@@ -52,12 +52,12 @@ server.register(rateLimit, {
 const normalizeOrigin = (url: string): string => {
   // Trim whitespace
   let normalized = url.trim();
-  
+
   // Remove trailing slash
   if (normalized.endsWith('/')) {
     normalized = normalized.slice(0, -1);
   }
-  
+
   return normalized;
 };
 
@@ -82,8 +82,8 @@ const buildAllowedOrigins = (): string[] => {
   if (process.env.REPLIT_DEV_DOMAIN) {
     const replitDomain = process.env.REPLIT_DEV_DOMAIN.trim();
     // Check if it already has a scheme
-    const replitUrl = replitDomain.startsWith('http') 
-      ? replitDomain 
+    const replitUrl = replitDomain.startsWith('http')
+      ? replitDomain
       : `https://${replitDomain}`;
     origins.push(normalizeOrigin(replitUrl));
   }
@@ -107,20 +107,20 @@ server.register(cors, {
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
+
     // Normalize the incoming origin for comparison
     const normalizedOrigin = normalizeOrigin(origin);
-    
+
     // Check if origin is in allowed list
     if (allowedOrigins.includes(normalizedOrigin)) {
       return callback(null, true);
     }
-    
+
     // Allow all origins in development mode
     if (process.env.NODE_ENV === 'development') {
       return callback(null, true);
     }
-    
+
     // Reject in production
     server.log.warn({ origin, normalizedOrigin, allowedOrigins }, 'CORS request rejected');
     return callback(new Error('Not allowed by CORS'), false);
@@ -185,11 +185,10 @@ server.setNotFoundHandler((request, reply) => {
 server.register(healthRoutes, { prefix: "/api" });
 server.register(foundationRoutes, { prefix: "/api" });
 server.register(newsAuthorsRoutes, { prefix: "/api" });
-// Database-dependent routes - enabled with fallback handling
+server.register(mlRoutes, { prefix: "/api/ml" });
 // server.register(matchRoutes, { prefix: "/api" });
 // server.register(predictionRoutes, { prefix: "/api" });
 // server.register(scraperRoutes, { prefix: "/api" });
-server.register(mlRoutes, { prefix: "/api/ml" });
 // server.register(newsRoutes, { prefix: "/api" });
 
 // Register enhanced MagajiCo routes
