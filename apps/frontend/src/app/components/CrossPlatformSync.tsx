@@ -83,13 +83,26 @@ const CrossPlatformSync: React.FC = () => {
   }, [syncSettings.autoSync, syncSettings.syncInterval]);
 
   const loadSyncSettings = () => {
-    const saved = ClientStorage.getItem('cross_platform_sync', null);
-    if (saved && saved.settings) {
-      setSyncSettings(saved.settings);
-    }
+    try {
+      const saved = ClientStorage.getItem('cross_platform_sync', null);
+      if (saved && saved.settings) {
+        setSyncSettings(saved.settings);
+      }
 
-    if (saved && saved.devices && saved.devices.length > 0) {
-      setDevices(saved.devices);
+      if (saved && saved.devices && saved.devices.length > 0) {
+        setDevices(saved.devices);
+      }
+    } catch (e) {
+      console.warn('Failed to load sync settings:', e);
+      // Initialize with defaults if loading fails
+      setSyncSettings({
+        autoSync: true,
+        syncInterval: 5,
+        syncPredictions: true,
+        syncBalance: true,
+        syncNotifications: true,
+        syncSettings: true
+      });
     }
   };
 
@@ -123,16 +136,16 @@ const CrossPlatformSync: React.FC = () => {
     }
 
     // Update device status
-    setDevices(devices.map(d => 
-      d.id === deviceId 
+    setDevices(devices.map(d =>
+      d.id === deviceId
         ? { ...d, status: 'syncing' as const }
         : d
     ));
 
     // Simulate connection
     setTimeout(() => {
-      setDevices(devices.map(d => 
-        d.id === deviceId 
+      setDevices(devices.map(d =>
+        d.id === deviceId
           ? { ...d, status: 'connected' as const, lastSync: new Date() }
           : d
       ));
@@ -143,8 +156,8 @@ const CrossPlatformSync: React.FC = () => {
   };
 
   const disconnectDevice = (deviceId: string) => {
-    setDevices(devices.map(d => 
-      d.id === deviceId 
+    setDevices(devices.map(d =>
+      d.id === deviceId
         ? { ...d, status: 'disconnected' as const }
         : d
     ));
@@ -182,8 +195,8 @@ const CrossPlatformSync: React.FC = () => {
         break;
     }
 
-    setDevices(devices.map(d => 
-      d.id === deviceId 
+    setDevices(devices.map(d =>
+      d.id === deviceId
         ? { ...d, lastSync: new Date() }
         : d
     ));

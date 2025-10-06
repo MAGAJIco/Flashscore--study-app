@@ -5,3 +5,5 @@ export { default as SmartLoadingState } from './SmartLoadingState';
 export { default as AdaptiveImageLoader } from './AdaptiveImageLoader';
 export { default as SmartErrorRecovery } from './SmartErrorRecovery';
 export { default as OfflineQueueManager } from './OfflineQueueManager';
+export { default as AutoDiagnostics } from './AutoDiagnostics';
+export { default as BackendHealthMonitor } from './BackendHealthMonitor';

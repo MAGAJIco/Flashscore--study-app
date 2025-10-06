@@ -10,7 +10,7 @@ run = ["sh", "-c", "cd apps/backend && npm start & cd apps/frontend && npm start
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
 [workflows]
-runButton = "Project"
+runButton = "Full Stack Dev"
 
 [[workflows.workflow]]
 name = "Project"
@@ -109,6 +109,19 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd apps/backend && pnpm install && pnpm run dev"
+
+[[workflows.workflow]]
+name = "Full Stack Dev"
+author = 48361168
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend && pnpm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && pnpm dev -p 5000 -H 0.0.0.0"
 
 [[ports]]
 localPort = 3000
