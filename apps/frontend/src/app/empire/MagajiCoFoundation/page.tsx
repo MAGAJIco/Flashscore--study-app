@@ -4,7 +4,7 @@ import PhaseCard from "./PhaseCard";
 import PowerDisplay from "./PowerDisplay";
 import Notification from "./Notification";
 import Leaderboard from "./Leaderboard";
-import { foundationApi, type Phase } from "../../lib/api/foundation";
+import { foundationApi, type Phase } from "@repo/shared";
 
 export default function MagajiCoFoundation() {
   const [userId] = useState(() => {
