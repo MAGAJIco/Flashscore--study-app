@@ -24,6 +24,7 @@ import DraggableWidgets from './components/DraggableWidgets';
 import SmartOnboarding from './components/SmartOnboarding';
 import QuickAccessBar from './components/QuickAccessBar';
 import { useHapticFeedback } from './components/HapticFeedback';
+import EnhancedPersonalization from './components/EnhancedPersonalization';
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState('home');
@@ -269,6 +270,9 @@ export default function HomePage() {
             )}
 
             <OfflineQueueManager />
+
+            {/* Enhanced Personalization Section */}
+            <EnhancedPersonalization />
 
             {/* Floating AI Features - Available on all sections */}
             <AICoachAssistant />

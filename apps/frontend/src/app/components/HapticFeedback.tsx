@@ -8,7 +8,7 @@ class HapticManager {
   private isSupported: boolean = false;
 
   private constructor() {
-    this.isSupported = 'vibrate' in navigator;
+    this.isSupported = typeof window !== 'undefined' && 'vibrate' in navigator;
   }
 
   static getInstance(): HapticManager {

@@ -1,11 +1,13 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { NewsAuthorService } from "../services/newsAuthorService";
 
+const newsAuthorService = new NewsAuthorService(); // Instantiate the service
+
 export class NewsAuthorController {
   // GET /api/news-authors - Get all active authors
   static async getAllAuthors(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const authors = await NewsAuthorService.getActiveAuthors();
+      const authors = await newsAuthorService.getActiveAuthors(); // Updated to use instance
 
       reply.code(200).send({
         success: true,
@@ -28,7 +30,7 @@ export class NewsAuthorController {
   ) {
     try {
       const { id } = request.params;
-      const author = await NewsAuthorService.getAuthorById(id);
+      const author = await newsAuthorService.getAuthorById(id); // Updated to use instance
 
       if (!author) {
         return reply.code(404).send({
@@ -74,7 +76,7 @@ export class NewsAuthorController {
         });
       }
 
-      const author = await NewsAuthorService.createOrUpdateAuthor(authorData);
+      const author = await newsAuthorService.createOrUpdateAuthor(authorData); // Updated to use instance
 
       reply.code(200).send({
         success: true,
@@ -119,7 +121,7 @@ export class NewsAuthorController {
         });
       }
 
-      const news = await NewsAuthorService.createCollaborationNews(
+      const news = await newsAuthorService.createCollaborationNews( // Updated to use instance
         id,
         collaborationData,
       );
@@ -159,7 +161,7 @@ export class NewsAuthorController {
         });
       }
 
-      const news = await NewsAuthorService.generateAutoNews(
+      const news = await newsAuthorService.generateAutoNews( // Updated to use instance
         authorId,
         eventType,
         eventData,
@@ -192,7 +194,7 @@ export class NewsAuthorController {
     reply: FastifyReply,
   ) {
     try {
-      await NewsAuthorService.initializeDefaultAuthors();
+      await newsAuthorService.initializeDefaultAuthors(); // Updated to use instance
 
       reply.code(200).send({
         success: true,
