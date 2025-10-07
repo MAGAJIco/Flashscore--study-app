@@ -25,6 +25,7 @@ import SmartOnboarding from './components/SmartOnboarding';
 import QuickAccessBar from './components/QuickAccessBar';
 import { useHapticFeedback } from './components/HapticFeedback';
 import EnhancedPersonalization from './components/EnhancedPersonalization';
+import HorizontalCarousel from './components/HorizontalCarousel';
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState('home');
@@ -157,6 +158,9 @@ export default function HomePage() {
           <PullToRefresh onRefresh={handleRefresh} isRefreshing={isRefreshing}>
             {activeSection === 'home' && (
               <>
+                <Suspense fallback={<SmartLoadingState type="card" />}>
+                  <HorizontalCarousel />
+                </Suspense>
                 <Suspense fallback={<SmartLoadingState type="dashboard" />}>
                   <ComprehensiveSportsHub />
                 </Suspense>
