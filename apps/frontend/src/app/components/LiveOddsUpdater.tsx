@@ -42,7 +42,9 @@ export default function LiveOddsUpdater({
             setPreviousOdds(currentOdds);
             setCurrentOdds(newOdds);
             setLastUpdate(new Date());
-            haptic.oddsChanged();
+            if (typeof window !== 'undefined') {
+              haptic.oddsChanged();
+            }
             onOddsChange?.(newOdds);
           }
         }

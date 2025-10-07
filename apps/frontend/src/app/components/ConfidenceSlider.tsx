@@ -27,6 +27,10 @@ export default function ConfidenceSlider({
   const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
+    setUserAdjustment(0);
+  }, [baseConfidence]);
+
+  useEffect(() => {
     const totalImpact = factors.reduce((sum, factor) => sum + factor.impact, 0);
     const newConfidence = Math.max(0, Math.min(100, baseConfidence + totalImpact + userAdjustment));
     setAdjustedConfidence(newConfidence);

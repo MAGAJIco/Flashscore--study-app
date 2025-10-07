@@ -65,10 +65,12 @@ export default function PullToRefreshWrapper({
   const handleTouchEnd = async () => {
     if (pullDistance >= pullThreshold && !isRefreshing) {
       setIsRefreshing(true);
-      haptic.refreshComplete();
       
       try {
         await onRefresh();
+        if (typeof window !== 'undefined') {
+          haptic.refreshComplete();
+        }
       } catch (error) {
         console.error('Refresh failed:', error);
       } finally {

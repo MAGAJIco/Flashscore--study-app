@@ -171,10 +171,10 @@ export default function EnhancedMicroInteractions() {
                     onAction={(direction) => {
                       if (direction === 'left') {
                         console.log('Archived prediction');
-                        haptic.success();
+                        haptic.swipeAction();
                       } else {
                         console.log('Favorited prediction');
-                        haptic.success();
+                        haptic.swipeAction();
                       }
                     }}
                   />
@@ -183,10 +183,10 @@ export default function EnhancedMicroInteractions() {
                     onAction={(direction) => {
                       if (direction === 'left') {
                         console.log('Archived prediction');
-                        haptic.success();
+                        haptic.swipeAction();
                       } else {
                         console.log('Favorited prediction');
-                        haptic.success();
+                        haptic.swipeAction();
                       }
                     }}
                   />
@@ -347,6 +347,49 @@ export default function EnhancedMicroInteractions() {
             margin: 0;
             color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
+          }
+
+          .place-bet-btn {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          }
+
+          .place-bet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+          }
+
+          .place-bet-btn:active {
+            transform: translateY(0);
+          }
+
+          .prediction-placed {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            color: #10b981;
+            font-weight: 600;
+            animation: fadeInScale 0.3s ease;
+          }
+
+          @keyframes fadeInScale {
+            from {
+              opacity: 0;
+              transform: scale(0.8);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
           }
 
           .swipe-actions {

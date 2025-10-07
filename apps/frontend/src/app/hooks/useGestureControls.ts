@@ -90,9 +90,14 @@ export function useGestureControls({
   }, [onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, threshold, enableHaptic]);
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     
-    if (!isTouchDevice) {
+    if (!isTouchDevice || !hasCoarsePointer) {
       return;
     }
 
