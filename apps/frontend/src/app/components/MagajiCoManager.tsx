@@ -19,11 +19,13 @@ interface ChatMessage {
 interface MagajiCoManagerProps {
   isOpen?: boolean;
   onToggle?: () => void;
+  embedded?: boolean; // New prop for embedded mode
 }
 
 export default function MagajiCoManager({
   isOpen = false,
   onToggle,
+  embedded = false,
 }: MagajiCoManagerProps) {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [isMinimized, setIsMinimized] = useState(!isOpen);
@@ -292,6 +294,88 @@ export default function MagajiCoManager({
   const strategicInsights =
     predictions.length > 0 ? getStrategicInsights(predictions) : null;
 
+  // Embedded mode - simplified layout
+  if (embedded) {
+    return (
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-xl shadow-xl border border-slate-700 flex flex-col max-h-[600px]">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-slate-700 bg-slate-800/50">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              🧠
+            </div>
+            <div>
+              <h2 className="text-sm font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                AI CEO Assistant
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        {/* Chat Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-900/20 max-h-[400px]">
+          {chatMessages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
+            >
+              <div
+                className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                  message.isUser
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+                    : message.type === "prediction"
+                      ? "bg-gradient-to-r from-green-600/20 to-blue-600/20 border border-green-500/30"
+                      : message.type === "action"
+                        ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30"
+                        : "bg-slate-700 text-slate-100"
+                }`}
+              >
+                <div className="whitespace-pre-wrap">{message.text}</div>
+              </div>
+            </div>
+          ))}
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className="bg-slate-700 p-3 rounded-2xl">
+                <div className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={chatEndRef} />
+        </div>
+
+        {/* Chat Input */}
+        <div className="p-4 border-t border-slate-700 bg-slate-800/50">
+          <div className="flex items-center gap-2">
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask AI CEO..."
+              className="flex-1 bg-slate-700 text-white placeholder-slate-400 px-3 py-2 rounded-lg border border-slate-600 focus:border-blue-500 focus:outline-none transition-colors text-sm"
+            />
+            <button
+              onClick={handleSendMessage}
+              disabled={!inputMessage.trim() || isTyping}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-2 rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Standalone mode - full layout
   return (
     <>
       {/* Toggle Button */}
