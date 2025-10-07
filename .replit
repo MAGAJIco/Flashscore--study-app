@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "python-3.11"]
+modules = ["python-3.12", "nodejs-20", "web"]
 run = "cd apps/frontend && npm run dev"
 
 [nix]
@@ -10,7 +10,7 @@ run = ["sh", "-c", "cd apps/frontend && pnpm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
 [workflows]
-runButton = "Test Backend + Frontend"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
