@@ -263,9 +263,11 @@ export default function MagajiCoManager({
       // Show floating alert for important predictions
       if (response.type === 'prediction') {
         triggerFloatingAlert({
-          type: 'success',
+          type: 'prediction',
           title: 'New Prediction Available',
-          message: `${response.prediction?.match} - Confidence: ${response.prediction?.confidence}%`,
+          message: `${response.prediction?.match}`,
+          confidence: parseFloat(response.prediction?.confidence || '0'),
+          category: 'AI Analysis',
           duration: 5000
         });
       }
