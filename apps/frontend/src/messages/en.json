@@ -1,0 +1,63 @@
+
+{
+  "common": {
+    "home": "Home",
+    "profile": "Profile",
+    "predictions": "Predictions",
+    "authors": "Authors",
+    "social": "Social",
+    "liveStreams": "Live Streams",
+    "quickBets": "Quick Bets",
+    "sync": "Sync",
+    "empireBuilder": "Empire Builder",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "header": {
+    "title": "SPORTS CENTRAL",
+    "subtitle": "AI-Powered Sports Intelligence",
+    "status": "Live • Accurate • Profitable",
+    "welcome": "Welcome",
+    "wallet": "Wallet",
+    "store": "Store",
+    "logout": "Logout",
+    "getStarted": "Get Started",
+    "joinWinners": "Join 1000+ Winners",
+    "liveDataActive": "Live Data Active",
+    "aiAnalysisRunning": "AI Analysis Running",
+    "lastUpdated": "Last updated"
+  },
+  "predictions": {
+    "title": "Predictions",
+    "confidence": "Confidence",
+    "odds": "Odds",
+    "stake": "Stake",
+    "potential": "Potential Return",
+    "placeBet": "Place Bet",
+    "viewDetails": "View Details",
+    "analysis": "Analysis",
+    "statistics": "Statistics"
+  },
+  "empire": {
+    "title": "MagajiCo Empire Builder",
+    "description": "Build your empire from foundation to legendary rooftop. Chat with MagajiCo AI CEO for strategic predictions and insights.",
+    "startBuilding": "Start Building",
+    "viewGrowth": "View Growth",
+    "foundation": "Foundation",
+    "growth": "Growth",
+    "rooftop": "Rooftop"
+  },
+  "settings": {
+    "language": "Language",
+    "theme": "Theme",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "selectLanguage": "Select Language"
+  }
+}

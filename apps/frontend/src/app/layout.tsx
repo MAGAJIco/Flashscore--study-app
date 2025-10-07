@@ -1,5 +1,7 @@
 
 import React from 'react';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import { KidsModeProvider } from "../context/KidsModeContext";
 import "./styles/globals.css";
 import type { Metadata } from "next";
@@ -32,25 +34,31 @@ export const viewport = {
   themeColor: "#00ff88",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params: { locale }
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale || 'en'} suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
       </head>
       <body className="sports" style={{ contentVisibility: 'auto' }}>
-        <KidsModeProvider>
-          <ErrorBoundary>
-            <PWAServiceWorker />
-            <MobilePerformanceOptimizer />
-            {children}
-          </ErrorBoundary>
-        </KidsModeProvider>
+        <NextIntlClientProvider messages={messages}>
+          <KidsModeProvider>
+            <ErrorBoundary>
+              <PWAServiceWorker />
+              <MobilePerformanceOptimizer />
+              {children}
+            </ErrorBoundary>
+          </KidsModeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,5 +1,7 @@
 "use client";
 import React, { Suspense, useState } from "react";
+import { useTranslations } from 'next-intl';
+import LanguageSwitcher from './components/LanguageSwitcher';
 import ComprehensiveSportsHub from "@/components/ComprehensiveSportsHub";
 import SocialHub from "./components/SocialHub";
 import PredictionLeague from "./components/PredictionLeague";
@@ -29,6 +31,7 @@ import HorizontalCarousel from './components/HorizontalCarousel';
 import ExtraSportsCoverage from './components/ExtraSportsCoverage';
 
 export default function HomePage() {
+  const t = useTranslations('common');
   const [activeSection, setActiveSection] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -79,34 +82,34 @@ export default function HomePage() {
           top: 0
         }}>
           {/* Toggle Button */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            style={{
-              width: '100%',
-              padding: '20px',
-              background: 'transparent',
-              border: 'none',
-              color: '#00ff88',
-              cursor: 'pointer',
-              fontSize: '1.5rem',
-              textAlign: sidebarOpen ? 'right' : 'center'
-            }}
-          >
-            {sidebarOpen ? '◀' : '▶'}
-          </button>
+          <div className="flex items-center justify-between p-4">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#00ff88',
+                cursor: 'pointer',
+                fontSize: '1.5rem'
+              }}
+            >
+              {sidebarOpen ? '◀' : '▶'}
+            </button>
+            {sidebarOpen && <LanguageSwitcher />}
+          </div>
 
           {/* Menu Items */}
           <div style={{ padding: sidebarOpen ? '20px' : '10px' }}>
             {[
-              { id: 'home', icon: '🏠', label: 'Home' },
-              { id: 'profile', icon: '👤', label: 'Profile' },
-              { id: 'empire', icon: '🏗️', label: 'Empire Builder' },
-              { id: 'predictions', icon: '📊', label: 'Predictions' },
-              { id: 'authors', icon: '✍️', label: 'Authors' },
-              { id: 'social', icon: '💬', label: 'Social' },
-              { id: 'streams', icon: '📡', label: 'Live Streams' },
-              { id: 'micro', icon: '⚡', label: 'Quick Bets' },
-              { id: 'sync', icon: '🔄', label: 'Sync' }
+              { id: 'home', icon: '🏠', label: t('home') },
+              { id: 'profile', icon: '👤', label: t('profile') },
+              { id: 'empire', icon: '🏗️', label: t('empireBuilder') },
+              { id: 'predictions', icon: '📊', label: t('predictions') },
+              { id: 'authors', icon: '✍️', label: t('authors') },
+              { id: 'social', icon: '💬', label: t('social') },
+              { id: 'streams', icon: '📡', label: t('liveStreams') },
+              { id: 'micro', icon: '⚡', label: t('quickBets') },
+              { id: 'sync', icon: '🔄', label: t('sync') }
             ].map(item => (
               <button
                 key={item.id}

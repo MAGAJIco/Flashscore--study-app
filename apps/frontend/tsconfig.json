@@ -53,7 +53,8 @@
       ],
       "@shared/models/*": [
         "../../../../packages/shared/src/libs/models/*"
-      ]
+      ],
+      "@/i18n": ["./src/i18n.ts"]
     },
     "allowJs": true,
     "noEmit": true,
