@@ -235,7 +235,9 @@ export function DashboardSkeleton() {
         className="animate-pulse"
         style={{
           height: '48px',
-          background: 'rgba(255, 255, 255, 0.1)',
+          background: 'linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%)',
+          backgroundSize: '200% 100%',
+          animation: 'shimmer 1.5s infinite',
           borderRadius: '12px',
           marginBottom: '24px',
           width: '300px',
@@ -252,6 +254,12 @@ export function DashboardSkeleton() {
         <NewsCardSkeleton />
         <LeaderboardSkeleton />
       </div>
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+      `}</style>
     </div>
   );
 }

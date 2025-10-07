@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -74,7 +73,7 @@ export default function PredictiveAlertSystem() {
   ]);
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [filter, setFilter] = useState<'all' | 'unread' | 'high'>('all');
+  const [filter, setFilter] = useState<'all' | 'unread' | 'high' | 'value' | 'injury' | 'weather'>('all');
 
   const unreadCount = alerts.filter(a => !a.isRead).length;
   const highPriorityCount = alerts.filter(a => a.priority === 'high' && !a.isRead).length;
@@ -82,6 +81,9 @@ export default function PredictiveAlertSystem() {
   const filteredAlerts = alerts.filter(alert => {
     if (filter === 'unread') return !alert.isRead;
     if (filter === 'high') return alert.priority === 'high';
+    if (filter === 'value') return alert.type === 'value';
+    if (filter === 'injury') return alert.type === 'injury';
+    if (filter === 'weather') return alert.type === 'weather';
     return true;
   });
 
@@ -279,27 +281,31 @@ export default function PredictiveAlertSystem() {
               </div>
             </div>
 
-            {/* Filter Buttons */}
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {(['all', 'unread', 'high'] as const).map(f => (
+            {/* Advanced Filter Buttons */}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {(['all', 'unread', 'high', 'value', 'injury', 'weather'] as const).map(f => (
                 <button
                   key={f}
-                  onClick={() => setFilter(f)}
+                  onClick={() => setFilter(f as any)}
                   style={{
-                    flex: 1,
-                    padding: '8px',
+                    flex: '1 1 auto',
+                    padding: '8px 12px',
                     background: filter === f ? 'rgba(59, 130, 246, 0.3)' : 'rgba(255, 255, 255, 0.05)',
                     border: `1px solid ${filter === f ? 'rgba(59, 130, 246, 0.5)' : 'rgba(255, 255, 255, 0.1)'}`,
                     borderRadius: '8px',
                     color: filter === f ? '#3b82f6' : '#9ca3af',
                     fontSize: '0.8rem',
                     cursor: 'pointer',
-                    fontWeight: filter === f ? 'bold' : 'normal'
+                    fontWeight: filter === f ? 'bold' : 'normal',
+                    whiteSpace: 'nowrap'
                   }}
                 >
-                  {f === 'all' && 'All'}
-                  {f === 'unread' && 'Unread'}
-                  {f === 'high' && 'High Priority'}
+                  {f === 'all' && '📋 All'}
+                  {f === 'unread' && '🔔 Unread'}
+                  {f === 'high' && '🔴 High'}
+                  {f === 'value' && '💰 Value'}
+                  {f === 'injury' && '🏥 Injury'}
+                  {f === 'weather' && '🌧️ Weather'}
                 </button>
               ))}
             </div>

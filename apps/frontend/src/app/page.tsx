@@ -16,6 +16,7 @@ import PredictiveConfidenceEvolution from "./components/PredictiveConfidenceEvol
 import AICoachAssistant from "./components/AICoachAssistant";
 import PredictiveAlertSystem from "./components/PredictiveAlertSystem";
 import UserProfile from "./components/UserProfile";
+import PullToRefresh from './components/PullToRefresh';
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState('home');
@@ -115,125 +116,127 @@ export default function HomePage() {
           height: '100vh',
           width: `calc(100% - ${sidebarOpen ? '280px' : '70px'})`
         }}>
-          {activeSection === 'home' && (
-            <>
-              <Suspense fallback={<SmartLoadingState type="dashboard" />}>
-                <ComprehensiveSportsHub />
-              </Suspense>
-              <Suspense fallback={<SmartLoadingState type="card" />}>
-                <PredictiveConfidenceEvolution />
-              </Suspense>
-            </>
-          )}
+          <PullToRefresh onRefresh={() => console.log("Refreshing...")}>
+            {activeSection === 'home' && (
+              <>
+                <Suspense fallback={<SmartLoadingState type="dashboard" />}>
+                  <ComprehensiveSportsHub />
+                </Suspense>
+                <Suspense fallback={<SmartLoadingState type="card" />}>
+                  <PredictiveConfidenceEvolution />
+                </Suspense>
+              </>
+            )}
 
-          {activeSection === 'profile' && (
-            <Suspense fallback={<SmartLoadingState type="card" count={3} />}>
-              <UserProfile />
-            </Suspense>
-          )}
+            {activeSection === 'profile' && (
+              <Suspense fallback={<SmartLoadingState type="card" count={3} />}>
+                <UserProfile />
+              </Suspense>
+            )}
 
-          {activeSection === 'empire' && (
-            <Suspense fallback={<SmartLoadingState type="card" count={2} />}>
-              <div style={{ display: 'grid', gap: '20px' }}>
-                <div style={{
-                  background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1))',
-                  borderRadius: '20px',
-                  padding: '30px',
-                  border: '1px solid rgba(255, 215, 0, 0.3)'
-                }}>
-                  <h1 style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    background: 'linear-gradient(to right, #ffd700, #ff8c00)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    marginBottom: '20px'
+            {activeSection === 'empire' && (
+              <Suspense fallback={<SmartLoadingState type="card" count={2} />}>
+                <div style={{ display: 'grid', gap: '20px' }}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1))',
+                    borderRadius: '20px',
+                    padding: '30px',
+                    border: '1px solid rgba(255, 215, 0, 0.3)'
                   }}>
-                    🏗️ MagajiCo Empire Builder
-                  </h1>
-                  <p style={{ color: '#ccc', marginBottom: '20px' }}>
-                    Build your empire from foundation to legendary rooftop. Chat with MagajiCo AI CEO for strategic predictions and insights.
-                  </p>
-                  <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                    <a
-                      href="/empire/MagajiCoFoundation"
-                      style={{
-                        padding: '12px 24px',
-                        background: 'linear-gradient(135deg, #ffd700, #ff8c00)',
-                        color: '#000',
-                        borderRadius: '10px',
-                        fontWeight: '600',
-                        textDecoration: 'none',
-                        display: 'inline-block'
-                      }}
-                    >
-                      Start Building
-                    </a>
-                    <a
-                      href="/empire/growth"
-                      style={{
-                        padding: '12px 24px',
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        color: '#fff',
-                        border: '1px solid rgba(255, 215, 0, 0.5)',
-                        borderRadius: '10px',
-                        fontWeight: '600',
-                        textDecoration: 'none',
-                        display: 'inline-block'
-                      }}
-                    >
-                      View Growth
-                    </a>
+                    <h1 style={{
+                      fontSize: '2.5rem',
+                      fontWeight: 'bold',
+                      background: 'linear-gradient(to right, #ffd700, #ff8c00)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      marginBottom: '20px'
+                    }}>
+                      🏗️ MagajiCo Empire Builder
+                    </h1>
+                    <p style={{ color: '#ccc', marginBottom: '20px' }}>
+                      Build your empire from foundation to legendary rooftop. Chat with MagajiCo AI CEO for strategic predictions and insights.
+                    </p>
+                    <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                      <a
+                        href="/empire/MagajiCoFoundation"
+                        style={{
+                          padding: '12px 24px',
+                          background: 'linear-gradient(135deg, #ffd700, #ff8c00)',
+                          color: '#000',
+                          borderRadius: '10px',
+                          fontWeight: '600',
+                          textDecoration: 'none',
+                          display: 'inline-block'
+                        }}
+                      >
+                        Start Building
+                      </a>
+                      <a
+                        href="/empire/growth"
+                        style={{
+                          padding: '12px 24px',
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          color: '#fff',
+                          border: '1px solid rgba(255, 215, 0, 0.5)',
+                          borderRadius: '10px',
+                          fontWeight: '600',
+                          textDecoration: 'none',
+                          display: 'inline-block'
+                        }}
+                      >
+                        View Growth
+                      </a>
+                    </div>
                   </div>
+                  <MagajiCoManager isOpen={true} />
                 </div>
-                <MagajiCoManager isOpen={true} />
-              </div>
-            </Suspense>
-          )}
+              </Suspense>
+            )}
 
-          {activeSection === 'predictions' && (
-            <Suspense fallback={<SmartLoadingState type="card" count={3} />}>
-              <PredictionLeague />
-            </Suspense>
-          )}
+            {activeSection === 'predictions' && (
+              <Suspense fallback={<SmartLoadingState type="card" count={3} />}>
+                <PredictionLeague />
+              </Suspense>
+            )}
 
-          {activeSection === 'authors' && (
-            <Suspense fallback={<SmartLoadingState type="card" count={5} />}>
-              <div style={{ marginBottom: '30px' }}>
-                <AuthorsLeaderboard />
-              </div>
-            </Suspense>
-          )}
+            {activeSection === 'authors' && (
+              <Suspense fallback={<SmartLoadingState type="card" count={5} />}>
+                <div style={{ marginBottom: '30px' }}>
+                  <AuthorsLeaderboard />
+                </div>
+              </Suspense>
+            )}
 
-          {activeSection === 'social' && (
-            <Suspense fallback={<SmartLoadingState type="list" count={5} />}>
-              <SocialHub />
-            </Suspense>
-          )}
+            {activeSection === 'social' && (
+              <Suspense fallback={<SmartLoadingState type="list" count={5} />}>
+                <SocialHub />
+              </Suspense>
+            )}
 
-          {activeSection === 'streams' && (
-            <Suspense fallback={<SmartLoadingState type="chart" />}>
-              <SocialPredictionStreams />
-            </Suspense>
-          )}
+            {activeSection === 'streams' && (
+              <Suspense fallback={<SmartLoadingState type="chart" />}>
+                <SocialPredictionStreams />
+              </Suspense>
+            )}
 
-          {activeSection === 'micro' && (
-            <Suspense fallback={<SmartLoadingState type="card" count={4} />}>
-              <MicroPredictions />
-            </Suspense>
-          )}
+            {activeSection === 'micro' && (
+              <Suspense fallback={<SmartLoadingState type="card" count={4} />}>
+                <MicroPredictions />
+              </Suspense>
+            )}
 
-          {activeSection === 'sync' && (
-            <Suspense fallback={<SmartLoadingState type="card" />}>
-              <CrossPlatformSync />
-            </Suspense>
-          )}
+            {activeSection === 'sync' && (
+              <Suspense fallback={<SmartLoadingState type="card" />}>
+                <CrossPlatformSync />
+              </Suspense>
+            )}
 
-          <OfflineQueueManager />
-          
-          {/* Floating AI Features - Available on all sections */}
-          <AICoachAssistant />
-          <PredictiveAlertSystem />
+            <OfflineQueueManager />
+
+            {/* Floating AI Features - Available on all sections */}
+            <AICoachAssistant />
+            <PredictiveAlertSystem />
+          </PullToRefresh>
         </div>
       </div>
     </SmartErrorRecovery>

@@ -81,14 +81,14 @@ export default function AchievementCelebration({ achievement, onComplete }: Achi
             position: 'absolute',
             left: '50%',
             top: '50%',
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            background: color.bg,
-            transform: `translate(${particle.x}px, ${particle.y}px)`,
+            width: particle.id % 3 === 0 ? '12px' : '8px',
+            height: particle.id % 3 === 0 ? '12px' : '8px',
+            borderRadius: particle.id % 2 === 0 ? '50%' : '0%',
+            background: particle.id % 4 === 0 ? '#fbbf24' : color.bg,
+            transform: `translate(${particle.x}px, ${particle.y}px) rotate(${particle.id * 45}deg)`,
             opacity: 0,
-            animation: `particleExplosion 1.5s ease-out ${particle.delay}s`,
-            boxShadow: `0 0 10px ${color.glow}`,
+            animation: `particleExplosion 1.5s ease-out ${particle.delay}s, sparkle 0.5s ease-in-out ${particle.delay}s infinite`,
+            boxShadow: `0 0 15px ${color.glow}, 0 0 25px ${particle.id % 2 === 0 ? '#fff' : color.glow}`,
           }}
         />
       ))}
@@ -238,6 +238,26 @@ export default function AchievementCelebration({ achievement, onComplete }: Achi
           100% {
             opacity: 0;
             transform: translate(var(--x), var(--y)) scale(0);
+          }
+        }
+
+        @keyframes sparkle {
+          0%, 100% {
+            filter: brightness(1);
+          }
+          50% {
+            filter: brightness(2);
+          }
+        }
+
+        @keyframes confetti {
+          0% {
+            transform: translateY(-100vh) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
           }
         }
       `}</style>

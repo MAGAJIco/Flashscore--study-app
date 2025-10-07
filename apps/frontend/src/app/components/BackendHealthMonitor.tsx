@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -69,6 +68,65 @@ export default function BackendHealthMonitor() {
   };
 
   const allOnline = health.backend === 'online' && health.ml === 'online' && health.database === 'online';
+  const healthStatus = allOnline ? 'online' : 'error'; // Simplified health status for the warning message
+
+  // Render the connection error message if any service is offline
+  if (healthStatus === 'error') {
+    return (
+      <div style={{
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.98), rgba(220, 38, 38, 0.98))',
+        backdropFilter: 'blur(10px)',
+        color: 'white',
+        padding: '20px',
+        borderRadius: '16px',
+        boxShadow: '0 8px 32px rgba(239, 68, 68, 0.4)',
+        zIndex: 9999,
+        maxWidth: '380px',
+        border: '1px solid rgba(255, 255, 255, 0.2)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+          <span style={{ fontSize: '2rem', animation: 'pulse 2s infinite' }}>⚠️</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '8px' }}>
+              Connection Issue Detected
+            </div>
+            <div style={{ fontSize: '0.9rem', opacity: 0.95, marginBottom: '12px', lineHeight: '1.5' }}>
+              We're having trouble connecting to our servers. Your predictions are saved locally and will sync when connection is restored.
+            </div>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <button
+                onClick={checkHealth}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  color: 'white',
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem',
+                  fontWeight: '600'
+                }}
+              >
+                🔄 Retry Now
+              </button>
+              <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>
+                Auto-retry in {60 - (Date.now() % 60000) / 1000 | 0}s
+              </span>
+            </div>
+          </div>
+        </div>
+        <style jsx>{`
+          @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed top-4 right-4 z-50">
@@ -84,7 +142,7 @@ export default function BackendHealthMonitor() {
       {isExpanded && (
         <div className="absolute top-12 right-0 bg-white rounded-lg shadow-2xl p-4 min-w-[250px]">
           <h4 className="font-bold mb-3">Service Status</h4>
-          
+
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-sm">Backend API</span>
