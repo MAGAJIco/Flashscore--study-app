@@ -22,6 +22,9 @@ import { enhancedPredictionRoutes } from "./routes/enhanced-predictions";
 import { marketIntelligenceRoutes } from "./routes/market-intelligence";
 import { confidenceEvolutionRoutes } from "./routes/confidence-evolution";
 
+// Payments route
+import paymentsRoutes from './routes/payments';
+
 const server = Fastify({
   logger: {
     level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
@@ -199,6 +202,9 @@ server.register(predictionsRoutes, { prefix: "/api/predictions" });
 server.register(confidenceEvolutionRoutes, { prefix: "/api/confidence-evolution" });
 server.register(authorsRoutes, { prefix: "/api/authors" });
 
+// Register payments routes
+server.register(paymentsRoutes, { prefix: '/api/payments' });
+
 
 // Root endpoint
 server.get('/', async (request, reply) => {
@@ -215,7 +221,8 @@ server.get('/', async (request, reply) => {
       ceo_analysis: '/api/v2/ceo',
       market_intelligence: '/api/v2/market',
       machine_learning: '/api/ml',
-      authors: '/api/authors'
+      authors: '/api/authors',
+      payments: '/api/payments'
     },
     features: [
       'Kalshi-style market intelligence',
