@@ -49,6 +49,8 @@ export default function LanguageSwitcher() {
                 {loc === 'en' && '🇬🇧'}
                 {loc === 'es' && '🇪🇸'}
                 {loc === 'fr' && '🇫🇷'}
+                {loc === 'de' && '🇩🇪'}
+                {loc === 'pt' && '🇵🇹'}
               </span>
               <span>{localeNames[loc]}</span>
               {locale === loc && <span className="ml-auto">✓</span>}

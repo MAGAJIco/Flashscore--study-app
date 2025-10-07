@@ -10,6 +10,8 @@ Sports Central now supports multiple languages using `next-intl` for seamless in
 - 🇬🇧 English (en) - Default
 - 🇪🇸 Spanish (es)
 - 🇫🇷 French (fr)
+- 🇩🇪 German (de)
+- 🇵🇹 Portuguese (pt)
 
 ## Translation Coverage
 

@@ -2,13 +2,15 @@
 import { notFound } from 'next/navigation';
 import { getRequestConfig } from 'next-intl/server';
 
-export const locales = ['en', 'es', 'fr'] as const;
+export const locales = ['en', 'es', 'fr', 'de', 'pt'] as const;
 export type Locale = (typeof locales)[number];
 
 export const localeNames: Record<Locale, string> = {
   en: 'English',
   es: 'Español',
-  fr: 'Français'
+  fr: 'Français',
+  de: 'Deutsch',
+  pt: 'Português'
 };
 
 export default getRequestConfig(async ({ locale }) => {
