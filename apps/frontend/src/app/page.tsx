@@ -26,6 +26,7 @@ import QuickAccessBar from './components/QuickAccessBar';
 import { useHapticFeedback } from './components/HapticFeedback';
 import EnhancedPersonalization from './components/EnhancedPersonalization';
 import HorizontalCarousel from './components/HorizontalCarousel';
+import ExtraSportsCoverage from './components/ExtraSportsCoverage';
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState('home');
@@ -163,6 +164,9 @@ export default function HomePage() {
                 </Suspense>
                 <Suspense fallback={<SmartLoadingState type="dashboard" />}>
                   <ComprehensiveSportsHub />
+                </Suspense>
+                <Suspense fallback={<SmartLoadingState type="card" />}>
+                  <ExtraSportsCoverage />
                 </Suspense>
                 <Suspense fallback={<SmartLoadingState type="card" />}>
                   <PredictiveConfidenceEvolution />

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -132,7 +131,10 @@ export default function AICoachAssistant() {
     }
   ]);
 
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
     // Calculate user statistics
     const total = recentPredictions.length;
     const correct = recentPredictions.filter(p => p.isCorrect).length;
@@ -150,25 +152,27 @@ export default function AICoachAssistant() {
 
   const analyzeWrongPrediction = (prediction: PredictionHistory) => {
     const reasons: string[] = [];
-    
+
     if (prediction.confidence > 80) {
       reasons.push('Your confidence was very high, but key factors were overlooked');
     }
-    
+
     if (prediction.factors.injuries.length > 0) {
       reasons.push(`Key injuries: ${prediction.factors.injuries.join(', ')} significantly impacted the result`);
     }
-    
+
     if (Math.abs(prediction.factors.homeForm - prediction.factors.awayForm) < 10) {
       reasons.push('Teams were more evenly matched than your prediction suggested');
     }
-    
+
     if (prediction.factors.headToHead < 50) {
       reasons.push('Historical head-to-head favored a different outcome');
     }
 
     return reasons;
   };
+
+  if (!mounted) return null;
 
   return (
     <>
@@ -337,7 +341,7 @@ export default function AICoachAssistant() {
                     <div style={{ fontSize: '0.8rem', color: '#9ca3af', marginTop: '5px' }}>
                       Confidence: {pred.confidence}%
                     </div>
-                    
+
                     {selectedPrediction?.id === pred.id && !pred.isCorrect && (
                       <div style={{
                         marginTop: '15px',
@@ -392,7 +396,7 @@ export default function AICoachAssistant() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div style={{ marginBottom: '8px' }}>
                       <div style={{
                         height: '6px',
