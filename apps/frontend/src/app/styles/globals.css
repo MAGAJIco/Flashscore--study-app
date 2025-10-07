@@ -582,6 +582,62 @@ button, .btn {
   }
 }
 
+/* Reduced Motion Global Class */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* High Contrast Mode */
+.high-contrast {
+  --bg-primary: #000000;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --border-color: #ffffff;
+  --accent-color: #ffff00;
+}
+
+.high-contrast .glass-card,
+.high-contrast .ios-card {
+  background: #000000;
+  border: 3px solid #ffffff;
+  backdrop-filter: none;
+}
+
+.high-contrast button,
+.high-contrast .btn {
+  border: 3px solid currentColor;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast button:focus,
+.high-contrast .btn:focus {
+  outline: 4px solid #ffff00;
+  outline-offset: 2px;
+}
+
+/* Enhanced Focus Indicators */
+:focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
 /* Optimize scrolling performance */
 .scroll-container {
   -webkit-overflow-scrolling: touch;
