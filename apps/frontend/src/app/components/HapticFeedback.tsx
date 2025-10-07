@@ -53,6 +53,37 @@ class HapticManager {
       navigator.vibrate(5);
     }
   }
+
+  // Enhanced haptic patterns for key actions
+  predictionPlaced() {
+    if (this.isSupported) {
+      navigator.vibrate([15, 30, 15]);
+    }
+  }
+
+  oddsChanged() {
+    if (this.isSupported) {
+      navigator.vibrate([5, 20, 5]);
+    }
+  }
+
+  swipeAction() {
+    if (this.isSupported) {
+      navigator.vibrate(8);
+    }
+  }
+
+  confidenceAdjust() {
+    if (this.isSupported) {
+      navigator.vibrate(3);
+    }
+  }
+
+  refreshComplete() {
+    if (this.isSupported) {
+      navigator.vibrate([10, 30, 10]);
+    }
+  }
 }
 
 export const haptic = HapticManager.getInstance();
