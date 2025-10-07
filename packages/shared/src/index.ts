@@ -40,6 +40,9 @@ export { default as PiCoinManager } from './libs/utils/piCoinManager';
 export * from './libs/utils/securityUtils';
 export { default as SecurityUtils } from './libs/utils/securityUtils';
 
+export * from './libs/utils/apifoundation';
+export { default as foundationApi } from './libs/utils/apifoundation';
+
 export * from './libs/utils/systemOptimizer';
 export { default as SystemOptimizer } from './libs/utils/systemOptimizer';
 
