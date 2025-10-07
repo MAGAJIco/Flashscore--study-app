@@ -1,27 +1,26 @@
 
-import { Router } from 'express';
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 
-const router = Router();
-
-router.get('/', async (req, res) => {
-  try {
-    const limit = parseInt(req.query.limit as string) || 50;
-    
-    // TODO: Fetch from database
-    const predictions = [];
-    
-    res.json({
-      success: true,
-      data: predictions,
-      count: predictions.length
-    });
-  } catch (error) {
-    console.error('Error fetching predictions:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch predictions'
-    });
-  }
-});
-
-export default router;
+export default async function predictionsRoutes(fastify: FastifyInstance) {
+  fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const { limit = '50' } = request.query as { limit?: string };
+      const limitNum = parseInt(limit) || 50;
+      
+      // TODO: Fetch from database
+      const predictions: any[] = [];
+      
+      return reply.send({
+        success: true,
+        data: predictions,
+        count: predictions.length
+      });
+    } catch (error) {
+      fastify.log.error('Error fetching predictions:', error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch predictions'
+      });
+    }
+  });
+}

@@ -12,6 +12,7 @@ import newsAuthorsRoutes from "./routes/newsAuthors";
 import { mlRoutes } from "./routes/ml";
 // import matchRoutes from "./routes/matches";
 import predictionsRoutes from "./routes/predictions";
+import authorsRoutes from "./routes/authors";
 // import scraperRoutes from "./routes/scraper";
 // import newsRoutes from "./routes/news";
 
@@ -20,7 +21,6 @@ import { enhancedPredictionRoutes } from "./routes/enhanced-predictions";
 // import { ceoAnalysisRoutes } from "./routes/ceo-analysis"; // Route file missing
 import { marketIntelligenceRoutes } from "./routes/market-intelligence";
 import { confidenceEvolutionRoutes } from "./routes/confidence-evolution";
-import authorsRoutes from "./routes/authors";
 
 const server = Fastify({
   logger: {

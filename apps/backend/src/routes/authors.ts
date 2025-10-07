@@ -1,25 +1,23 @@
 
-import { Router } from 'express';
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 
-const router = Router();
-
-router.get('/', async (req, res) => {
-  try {
-    // TODO: Fetch from database
-    const authors = [];
-    
-    res.json({
-      success: true,
-      data: authors,
-      count: authors.length
-    });
-  } catch (error) {
-    console.error('Error fetching authors:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch authors'
-    });
-  }
-});
-
-export default router;
+export default async function authorsRoutes(fastify: FastifyInstance) {
+  fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      // TODO: Fetch from database
+      const authors: any[] = [];
+      
+      return reply.send({
+        success: true,
+        data: authors,
+        count: authors.length
+      });
+    } catch (error) {
+      fastify.log.error('Error fetching authors:', error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch authors'
+      });
+    }
+  });
+}
