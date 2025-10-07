@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
     const result = await db.collection('users').insertOne(newUser);
 
     return NextResponse.json(
-      { 
+      {
         message: 'User created successfully',
         userId: result.insertedId
       },
