@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import GrowthDashboard from '../components/GrowthDashboard';
 import EmpireLeaderboard from '../components/EmpireLeaderboard';
-import { foundationApi, Phase } from '../../../../../../packages/shared/src/libs/utils/apifoundation';
+import { foundationApi, Phase } from '@/lib/api/foundation';
 
 export default function GrowthPage() {
   const [userId, setUserId] = useState<string>('');
