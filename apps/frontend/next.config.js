@@ -11,6 +11,7 @@ const nextConfig = {
       allowedOrigins: ['*'],
     },
   },
+  allowedDevOrigins: ['127.0.0.1', 'localhost'],
   devIndicators: {
     buildActivityPosition: 'bottom-right',
   },
