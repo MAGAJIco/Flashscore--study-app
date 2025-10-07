@@ -92,7 +92,6 @@
 
 .details:global([open]) .summary :global(span span) { transform: rotate(90deg); }
 
-button:focus { outline: 2px solid rgba(0,122,255,0.5); outline-offset: 2px; }
 .retryButton:focus,
 .refreshButton:focus { outline: 2px solid rgba(0,122,255,0.5); outline-offset: 2px; }
 .container :global(*) { -webkit-tap-highlight-color: transparent; }
