@@ -1,3 +1,5 @@
+import React from 'react';
+import { KidsModeProvider } from "../context/KidsModeContext";
 import "./styles/globals.css";
 import type { Metadata } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
@@ -51,4 +53,13 @@ export default function RootLayout({
       </body>
     </html>
   );
+
+  export default function RootLayout({ children }: { children: React.ReactNode }) {
+    return (
+      <html>
+        <body>
+          <KidsModeProvider>{children}</KidsModeProvider>
+        </body>
+      </html>
+    );
 }
