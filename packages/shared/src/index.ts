@@ -1,8 +1,6 @@
 export * from './libs/utils/alertUtils';
 export { default as AlertManager } from './libs/utils/alertUtils';
 
-export { foundationApi, Component, Phase, FoundationData } from './libs/utils/apifoundation';
-
 export * from './libs/utils/apiManager';
 export { default as APIManager } from './libs/utils/apiManager';
 

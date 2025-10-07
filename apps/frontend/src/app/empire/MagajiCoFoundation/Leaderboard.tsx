@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { foundationApi } from '@repo/shared';
+import { foundationApi } from '@/lib/api/foundation';
 
 interface LeaderboardEntry {
   rank: number;
@@ -21,7 +21,7 @@ export default function Leaderboard() {
   const loadLeaderboard = async () => {
     try {
       setLoading(true);
-      
+
       // Try foundation API first
       try {
         const data = await foundationApi.getLeaderboard();
@@ -34,20 +34,20 @@ export default function Leaderboard() {
       } catch (apiErr) {
         console.warn('Foundation API unavailable, using predictions data');
       }
-      
+
       // Fallback to predictions API
       const response = await fetch('/api/predictions?limit=100');
-      
+
       if (response.ok) {
         const data = await response.json();
-        
+
         if (data.success && data.predictions) {
           // Calculate leaderboard from predictions
           const userPowerMap = new Map<string, any>();
-          
+
           data.predictions.forEach((pred: any) => {
             const userId = pred.userId || pred.authorId || `user-${pred._id?.toString().slice(-8)}`;
-            
+
             if (!userPowerMap.has(userId)) {
               userPowerMap.set(userId, {
                 userId,
@@ -56,9 +56,9 @@ export default function Leaderboard() {
                 totalPhases: 5,
               });
             }
-            
+
             const userPower = userPowerMap.get(userId);
-            
+
             // Award power based on prediction quality
             if (pred.confidence && pred.confidence > 80) {
               userPower.totalPower += 100;
@@ -69,7 +69,7 @@ export default function Leaderboard() {
               userPower.totalPower += 25;
             }
           });
-          
+
           const leaderboardData = Array.from(userPowerMap.values())
             .sort((a, b) => b.totalPower - a.totalPower)
             .map((entry, index) => ({
@@ -77,7 +77,7 @@ export default function Leaderboard() {
               rank: index + 1
             }))
             .slice(0, 10);
-          
+
           setLeaderboard(leaderboardData);
           setError(null);
         } else {
@@ -125,7 +125,7 @@ export default function Leaderboard() {
   return (
     <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
       <h3 className="text-2xl font-bold mb-4 text-yellow-400">🏆 Top Builders</h3>
-      
+
       {leaderboard.length === 0 ? (
         <p className="text-gray-400">No builders yet. Be the first!</p>
       ) : (
@@ -164,7 +164,7 @@ export default function Leaderboard() {
           ))}
         </div>
       )}
-      
+
       <button 
         onClick={loadLeaderboard}
         className="mt-4 w-full py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-sm"

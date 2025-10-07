@@ -4,7 +4,7 @@ import PhaseCard from "./PhaseCard";
 import PowerDisplay from "./PowerDisplay";
 import Notification from "./Notification";
 import Leaderboard from "./Leaderboard";
-import { foundationApi, type Phase } from "@repo/shared";
+import { foundationApi, type Phase } from "@/lib/api/foundation";
 
 export default function MagajiCoFoundation() {
   const [userId] = useState(() => {
@@ -105,7 +105,7 @@ export default function MagajiCoFoundation() {
       console.error('Failed to start building:', err);
       showNotification('Failed to start building. Retrying...', 'error');
       setIsBuilding(false);
-      
+
       // Revert optimistic update
       setPhases((prev) =>
         prev.map((p) => (p.id === phaseId ? { ...p, building: false } : p))
@@ -115,7 +115,7 @@ export default function MagajiCoFoundation() {
 
   const completeCurrentPhase = async () => {
     const phase = phases.find(p => p.id === currentPhase);
-    
+
     try {
       const { data, powerBoost } = await foundationApi.completePhase(userId, currentPhase);
       setPhases(data.phases);
@@ -124,7 +124,7 @@ export default function MagajiCoFoundation() {
     } catch (err) {
       console.error('Failed to complete phase:', err);
       showNotification('Failed to save progress. Please check your connection.', 'error');
-      
+
       // Fallback to local state
       setPhases((prev) =>
         prev.map((p) => {

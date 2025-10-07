@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import PhaseCard from "./PhaseCard";
 import PowerDisplay from "./PowerDisplay";
-import { foundationApi, type Phase } from "@repo/shared";
+import { foundationApi, type Phase } from "@/lib/api/foundation";
 
 export default function MagajiCoFoundation() {
   const [userId] = useState(() => {
