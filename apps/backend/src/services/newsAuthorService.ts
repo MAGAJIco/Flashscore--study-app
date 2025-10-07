@@ -1,7 +1,7 @@
 import NewsAuthor, { INewsAuthor } from '../models/NewsAuthor';
 import News, { INews } from '../models/News';
 
-export class NewsAuthorService {
+class NewsAuthorService {
   // Create or update a news author
   static async createOrUpdateAuthor(authorData: {
     id: string;
@@ -192,3 +192,6 @@ export class NewsAuthorService {
     }
   }
 }
+
+
+export const newsAuthorService = new NewsAuthorService();

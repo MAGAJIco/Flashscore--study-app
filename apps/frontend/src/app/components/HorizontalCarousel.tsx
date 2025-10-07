@@ -28,8 +28,18 @@ export default function HorizontalCarousel() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLiveMatches(5);
-        setTodayPredictions(18);
+        // Fetch live matches count
+        const matchesRes = await fetch('/api/predictions?limit=10').catch(() => null);
+        if (matchesRes?.ok) {
+          const data = await matchesRes.json();
+          setLiveMatches(Array.isArray(data) ? Math.min(data.length, 10) : 5);
+          setTodayPredictions(Array.isArray(data) ? data.length : 18);
+        } else {
+          setLiveMatches(5);
+          setTodayPredictions(18);
+        }
+
+        // Set static data as fallback
         setPiBalance(342.5);
         setUserRank(89);
         setActiveUsers(1247);
@@ -38,6 +48,15 @@ export default function HorizontalCarousel() {
         setCommunityEvents(2);
       } catch (error) {
         console.error("Error fetching carousel data:", error);
+        // Set default values on error
+        setLiveMatches(5);
+        setTodayPredictions(18);
+        setPiBalance(342.5);
+        setUserRank(89);
+        setActiveUsers(1247);
+        setTodayAchievements(3);
+        setFriendsOnline(12);
+        setCommunityEvents(2);
       }
     };
 
@@ -230,6 +249,7 @@ export default function HorizontalCarousel() {
           scroll-behavior: smooth;
           overscroll-behavior-x: contain;
           touch-action: pan-x pinch-zoom;
+          scroll-padding: 0 16px;
         }
 
         .carousel-scroll::-webkit-scrollbar {
@@ -240,6 +260,32 @@ export default function HorizontalCarousel() {
         .carousel-item {
           scroll-snap-align: start;
           scroll-snap-stop: normal;
+          will-change: transform;
+        }
+
+        /* Better touch handling on mobile */
+        @media (hover: none) and (pointer: coarse) {
+          .carousel-scroll {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+          }
+          
+          .carousel-item {
+            scroll-snap-align: center;
+          }
+        }
+
+        /* Ensure proper spacing on different screen sizes */
+        @media (max-width: 640px) {
+          .carousel-item {
+            min-width: 160px;
+          }
+        }
+
+        @media (min-width: 641px) and (max-width: 1024px) {
+          .carousel-item {
+            min-width: 180px;
+          }
         }
       `}</style>
     </div>

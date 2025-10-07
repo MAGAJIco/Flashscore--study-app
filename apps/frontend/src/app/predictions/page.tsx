@@ -35,7 +35,12 @@ export default function PredictionsPage() {
       setError(null);
       setLoading(true);
       const res = await fetch("/api/predictions");
-      if (!res.ok) throw new Error("Failed to fetch predictions");
+      if (!res.ok) {
+        // If API fails, show empty state instead of error
+        setPredictions([]);
+        setLoading(false);
+        return;
+      }
       const data = await res.json();
       
       // Ensure data is an array
@@ -46,8 +51,9 @@ export default function PredictionsPage() {
         setPredictions([]);
       }
     } catch (err: any) {
-      setError(err.message);
-      setPredictions([]); // Reset to empty array on error
+      console.error("Error fetching predictions:", err);
+      setError("Unable to load predictions. Please try again later.");
+      setPredictions([]);
     } finally {
       setLoading(false);
     }
@@ -98,8 +104,17 @@ export default function PredictionsPage() {
         <HorizontalCarousel />
       </div>
 
-      {loading && <p className="text-gray-500">Loading...</p>}
-      {error && <p className="text-red-500">⚠ {error}</p>}
+      {loading && (
+        <div className="flex items-center justify-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <p className="ml-3 text-gray-500">Loading predictions...</p>
+        </div>
+      )}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-4">
+          <p className="text-red-500">⚠ {error}</p>
+        </div>
+      )}
 
       <ul className="space-y-3">
         {predictions.map((p) => (
