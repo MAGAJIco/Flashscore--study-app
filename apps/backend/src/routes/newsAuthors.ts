@@ -81,3 +81,51 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
   });
 
 }
+import { FastifyInstance } from 'fastify';
+import { newsAuthorService } from '../services/newsAuthorService';
+
+export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
+  fastify.get('/api/news-authors', async (request, reply) => {
+    try {
+      const { limit = 10 } = request.query as { limit?: number };
+      const authors = await newsAuthorService.getTopAuthors(Number(limit));
+      
+      return reply.send({
+        success: true,
+        authors,
+        total: authors.length
+      });
+    } catch (error) {
+      fastify.log.error('Error fetching news authors:', error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch news authors'
+      });
+    }
+  });
+
+  fastify.get('/api/news-authors/:id', async (request, reply) => {
+    try {
+      const { id } = request.params as { id: string };
+      const author = await newsAuthorService.getAuthorById(id);
+      
+      if (!author) {
+        return reply.status(404).send({
+          success: false,
+          error: 'Author not found'
+        });
+      }
+      
+      return reply.send({
+        success: true,
+        author
+      });
+    } catch (error) {
+      fastify.log.error('Error fetching author:', error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch author'
+      });
+    }
+  });
+}

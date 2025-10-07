@@ -17,10 +17,41 @@ import AICoachAssistant from "./components/AICoachAssistant";
 import PredictiveAlertSystem from "./components/PredictiveAlertSystem";
 import UserProfile from "./components/UserProfile";
 import PullToRefresh from './components/PullToRefresh';
+import BackendHealthMonitor from './components/BackendHealthMonitor';
+import UserFavorites from './components/UserFavorites';
+import SmartPersonalization from './components/SmartPersonalization';
+import DraggableWidgets from './components/DraggableWidgets';
+import SmartOnboarding from './components/SmartOnboarding';
+import QuickAccessBar from './components/QuickAccessBar';
+import { useHapticFeedback } from './components/HapticFeedback';
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useHapticFeedback();
+
+  const handleRefresh = async () => {
+    if (isRefreshing) return; // Prevent multiple simultaneous refreshes
+
+    console.log('Refreshing...');
+    setIsRefreshing(true);
+
+    try {
+      // Refresh data sources
+      await Promise.all([
+        fetch('/api/predictions?limit=100').catch(e => console.error('Predictions refresh failed:', e)),
+        fetch('/api/authors?top=10').catch(e => console.error('Authors refresh failed:', e))
+      ]);
+    } catch (error) {
+      console.error('Refresh error:', error);
+    } finally {
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setIsRefreshing(false);
+    }
+  };
 
   return (
     <SmartErrorRecovery>
@@ -116,7 +147,13 @@ export default function HomePage() {
           height: '100vh',
           width: `calc(100% - ${sidebarOpen ? '280px' : '70px'})`
         }}>
-          <PullToRefresh onRefresh={() => console.log("Refreshing...")}>
+          {showOnboarding && (
+            <SmartOnboarding onComplete={() => setShowOnboarding(false)} />
+          )}
+
+          <QuickAccessBar />
+
+          <PullToRefresh onRefresh={handleRefresh} isRefreshing={isRefreshing}>
             {activeSection === 'home' && (
               <>
                 <Suspense fallback={<SmartLoadingState type="dashboard" />}>
