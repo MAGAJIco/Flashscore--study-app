@@ -15,6 +15,7 @@ import PredictionPreview from "./components/PredictionPreview";
 import PredictiveConfidenceEvolution from "./components/PredictiveConfidenceEvolution";
 import AICoachAssistant from "./components/AICoachAssistant";
 import PredictiveAlertSystem from "./components/PredictiveAlertSystem";
+import UserProfile from "./components/UserProfile";
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState('home');
@@ -24,7 +25,8 @@ export default function HomePage() {
     <SmartErrorRecovery>
       <div className="min-h-screen" style={{
         background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1e1e1e 100%)',
-        display: 'flex'
+        display: 'flex',
+        flexDirection: 'row'
       }}>
         {/* Sidebar Navigation */}
         <div style={{
@@ -32,12 +34,14 @@ export default function HomePage() {
           background: 'linear-gradient(180deg, rgba(13, 17, 23, 0.95) 0%, rgba(0, 0, 0, 0.9) 100%)',
           backdropFilter: 'blur(20px)',
           borderRight: '1px solid rgba(255, 255, 255, 0.1)',
-          transition: 'width 0.3s ease',
+          transition: 'all 0.3s ease',
           position: 'fixed',
           height: '100vh',
           zIndex: 1000,
           overflowY: 'auto',
-          overflowX: 'hidden'
+          overflowX: 'hidden',
+          left: 0,
+          top: 0
         }}>
           {/* Toggle Button */}
           <button
@@ -60,6 +64,7 @@ export default function HomePage() {
           <div style={{ padding: sidebarOpen ? '20px' : '10px' }}>
             {[
               { id: 'home', icon: '🏠', label: 'Home' },
+              { id: 'profile', icon: '👤', label: 'Profile' },
               { id: 'empire', icon: '🏗️', label: 'Empire Builder' },
               { id: 'predictions', icon: '📊', label: 'Predictions' },
               { id: 'authors', icon: '✍️', label: 'Authors' },
@@ -106,7 +111,9 @@ export default function HomePage() {
           flex: 1,
           transition: 'margin-left 0.3s ease',
           padding: '20px',
-          overflowY: 'auto'
+          overflowY: 'auto',
+          height: '100vh',
+          width: `calc(100% - ${sidebarOpen ? '280px' : '70px'})`
         }}>
           {activeSection === 'home' && (
             <>
@@ -117,6 +124,12 @@ export default function HomePage() {
                 <PredictiveConfidenceEvolution />
               </Suspense>
             </>
+          )}
+
+          {activeSection === 'profile' && (
+            <Suspense fallback={<SmartLoadingState type="card" count={3} />}>
+              <UserProfile />
+            </Suspense>
           )}
 
           {activeSection === 'empire' && (
