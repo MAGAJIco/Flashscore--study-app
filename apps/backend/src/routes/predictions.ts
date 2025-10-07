@@ -1,15 +1,16 @@
-
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import express from "express";
+import { attachKidsModeFlag, filterGamblingContent } from "../middleware/kidsModeFilter";
 
 export default async function predictionsRoutes(fastify: FastifyInstance) {
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const { limit = '50' } = request.query as { limit?: string };
       const limitNum = parseInt(limit) || 50;
-      
+
       // TODO: Fetch from database
       const predictions: any[] = [];
-      
+
       return reply.send({
         success: true,
         data: predictions,

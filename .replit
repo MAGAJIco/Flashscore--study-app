@@ -10,7 +10,7 @@ run = ["sh", "-c", "cd apps/frontend && pnpm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
 [workflows]
-runButton = "Project"
+runButton = "Full Stack Dev"
 
 [[workflows.workflow]]
 name = "Project"
@@ -118,11 +118,11 @@ mode = "parallel"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/backend && pnpm run dev"
+args = "cd apps/backend && pnpm install && pnpm dev"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && pnpm dev -p 3000 -H 0.0.0.0"
+args = "cd apps/frontend && pnpm dev"
 
 [[workflows.workflow]]
 name = "Full Stack with ML"
