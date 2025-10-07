@@ -1,6 +1,8 @@
+
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { NewsAuthorController } from '../controllers/newsAuthorController';
 import { authMiddleware } from '../middleware/authMiddleware';
+import { newsAuthorService } from '../services/newsAuthorService';
 
 // ==== Request Body Interfaces (DTOs) ====
 interface CreateAuthorBody {
@@ -23,7 +25,59 @@ interface CreateCollaborationBody {
 export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
   // ----- Public Routes -----
 
-  // Get all authors
+  // Get all authors with leaderboard
+  fastify.get('/api/news-authors', async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
+    try {
+      const { limit = 10 } = request.query as { limit?: number };
+      const authors = await newsAuthorService.getTopAuthors(Number(limit));
+      
+      return reply.send({
+        success: true,
+        authors,
+        total: authors.length
+      });
+    } catch (error) {
+      fastify.log.error('Error fetching news authors:', error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch news authors'
+      });
+    }
+  });
+
+  // Get single author by ID
+  fastify.get('/api/news-authors/:id', async (
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply
+  ) => {
+    try {
+      const { id } = request.params;
+      const author = await newsAuthorService.getAuthorById(id);
+      
+      if (!author) {
+        return reply.status(404).send({
+          success: false,
+          error: 'Author not found'
+        });
+      }
+      
+      return reply.send({
+        success: true,
+        author
+      });
+    } catch (error) {
+      fastify.log.error('Error fetching author:', error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch author'
+      });
+    }
+  });
+
+  // Get all authors (alternate endpoint)
   fastify.get('/news-authors', async (
     request: FastifyRequest,
     reply: FastifyReply
@@ -31,7 +85,7 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
     return NewsAuthorController.getAllAuthors(request, reply);
   });
 
-  // Get single author
+  // Get single author (alternate endpoint)
   fastify.get('/news-authors/:id', async (
     request: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply
@@ -46,7 +100,6 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
   ) => {
     return NewsAuthorController.initializeDefaultAuthors(request, reply);
   });
-
 
   // ----- Member Routes (Require Auth) -----
 
@@ -78,54 +131,5 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
     reply: FastifyReply
   ) => {
     return NewsAuthorController.generateAutoNews(request, reply);
-  });
-
-}
-import { FastifyInstance } from 'fastify';
-import { newsAuthorService } from '../services/newsAuthorService';
-
-export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
-  fastify.get('/api/news-authors', async (request, reply) => {
-    try {
-      const { limit = 10 } = request.query as { limit?: number };
-      const authors = await newsAuthorService.getTopAuthors(Number(limit));
-      
-      return reply.send({
-        success: true,
-        authors,
-        total: authors.length
-      });
-    } catch (error) {
-      fastify.log.error('Error fetching news authors:', error);
-      return reply.status(500).send({
-        success: false,
-        error: 'Failed to fetch news authors'
-      });
-    }
-  });
-
-  fastify.get('/api/news-authors/:id', async (request, reply) => {
-    try {
-      const { id } = request.params as { id: string };
-      const author = await newsAuthorService.getAuthorById(id);
-      
-      if (!author) {
-        return reply.status(404).send({
-          success: false,
-          error: 'Author not found'
-        });
-      }
-      
-      return reply.send({
-        success: true,
-        author
-      });
-    } catch (error) {
-      fastify.log.error('Error fetching author:', error);
-      return reply.status(500).send({
-        success: false,
-        error: 'Failed to fetch author'
-      });
-    }
   });
 }
