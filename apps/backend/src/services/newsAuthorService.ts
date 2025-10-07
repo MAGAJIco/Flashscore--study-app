@@ -1,7 +1,7 @@
 import NewsAuthor, { INewsAuthor } from '../models/NewsAuthor';
 import News, { INews } from '../models/News';
 
-class NewsAuthorService {
+export class NewsAuthorService {
   // Create or update a news author
   static async createOrUpdateAuthor(authorData: {
     id: string;
@@ -12,7 +12,7 @@ class NewsAuthorService {
   }): Promise<INewsAuthor> {
     try {
       const existingAuthor = await NewsAuthor.findOne({ id: authorData.id });
-      
+
       if (existingAuthor) {
         // Update existing author
         existingAuthor.name = authorData.name;
@@ -20,7 +20,7 @@ class NewsAuthorService {
         existingAuthor.bio = authorData.bio || existingAuthor.bio;
         existingAuthor.expertise = authorData.expertise || existingAuthor.expertise;
         existingAuthor.updatedAt = new Date();
-        
+
         return await existingAuthor.save();
       } else {
         // Create new author
@@ -33,7 +33,7 @@ class NewsAuthorService {
           collaborationCount: 0,
           isActive: true
         });
-        
+
         return await newAuthor.save();
       }
     } catch (error) {

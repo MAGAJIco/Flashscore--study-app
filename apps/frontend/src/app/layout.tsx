@@ -2,6 +2,7 @@ import "./styles/globals.css";
 import type { Metadata } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import MobilePerformanceOptimizer from './components/MobilePerformanceOptimizer'; // Assuming this component exists
 
 // Assume 'inter' font is defined elsewhere or will be imported
 // For example: import { Inter } from 'next/font/google'; const inter = Inter({ subsets: ['latin'] });
@@ -42,8 +43,11 @@ export default function RootLayout({
       {/* PWAServiceWorker from original code is kept */}
       {/* The body class and style are updated based on the changes */}
       <body className="sports" style={{ contentVisibility: 'auto' }}>
-        <PWAServiceWorker />
-        {children}
+        <ErrorBoundary>
+          <PWAServiceWorker />
+          <MobilePerformanceOptimizer />
+          {children}
+        </ErrorBoundary>
       </body>
     </html>
   );

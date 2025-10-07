@@ -602,12 +602,58 @@ button, .btn {
   /* Larger tap targets on mobile */
   button, .btn, a {
     min-height: 48px;
+    min-width: 48px;
   }
 
   /* Optimize font sizes for mobile */
   body {
     font-size: 16px;
     line-height: 1.5;
+  }
+
+  /* Faster animations on mobile */
+  * {
+    transition-duration: 150ms !important;
+  }
+
+  /* Optimize images for mobile */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Better scrolling on mobile */
+  .scroll-container {
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Reduce motion for low-end devices */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+  body {
+    font-size: 14px;
+  }
+  
+  button, .btn {
+    min-height: 40px;
+    padding: 8px 16px;
+  }
+}
+
+/* High DPI mobile displays */
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
