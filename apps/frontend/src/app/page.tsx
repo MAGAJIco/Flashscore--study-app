@@ -274,9 +274,13 @@ export default function HomePage() {
             {/* Enhanced Personalization Section */}
             <EnhancedPersonalization />
 
-            {/* Floating AI Features - Available on all sections */}
-            <AICoachAssistant />
-            <PredictiveAlertSystem />
+            {/* Floating AI Features - Available on all sections except empire */}
+            {typeof window !== 'undefined' && !window.location.pathname.startsWith('/empire') && (
+              <>
+                <AICoachAssistant />
+                <PredictiveAlertSystem />
+              </>
+            )}
           </PullToRefresh>
         </div>
       </div>

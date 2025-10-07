@@ -13,8 +13,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="antialiased empire-layout">
         {children}
+        <style jsx global>{`
+          .empire-layout [style*="position: fixed"][style*="right"] {
+            display: none !important;
+          }
+          
+          .empire-layout button[style*="position: fixed"][style*="right"] {
+            display: none !important;
+          }
+        `}</style>
       </body>
     </html>
   );
