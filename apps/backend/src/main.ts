@@ -11,7 +11,7 @@ import { foundationRoutes } from "./routes/foundation";
 import newsAuthorsRoutes from "./routes/newsAuthors";
 import { mlRoutes } from "./routes/ml";
 // import matchRoutes from "./routes/matches";
-// import predictionRoutes from "./routes/predictions";
+import predictionsRoutes from "./routes/predictions";
 // import scraperRoutes from "./routes/scraper";
 // import newsRoutes from "./routes/news";
 
@@ -20,6 +20,7 @@ import { enhancedPredictionRoutes } from "./routes/enhanced-predictions";
 // import { ceoAnalysisRoutes } from "./routes/ceo-analysis"; // Route file missing
 import { marketIntelligenceRoutes } from "./routes/market-intelligence";
 import { confidenceEvolutionRoutes } from "./routes/confidence-evolution";
+import authorsRoutes from "./routes/authors";
 
 const server = Fastify({
   logger: {
@@ -186,8 +187,8 @@ server.register(healthRoutes, { prefix: "/api" });
 server.register(foundationRoutes, { prefix: "/api" });
 server.register(newsAuthorsRoutes, { prefix: "/api" });
 server.register(mlRoutes, { prefix: "/api/ml" });
+server.register(predictionsRoutes, { prefix: "/api/predictions" });
 // server.register(matchRoutes, { prefix: "/api" });
-// server.register(predictionRoutes, { prefix: "/api" });
 // server.register(scraperRoutes, { prefix: "/api" });
 // server.register(newsRoutes, { prefix: "/api" });
 
@@ -196,6 +197,8 @@ server.register(mlRoutes, { prefix: "/api/ml" });
 // server.register(ceoAnalysisRoutes, { prefix: "/api/v2/ceo" }); // Route file missing
 // server.register(marketIntelligenceRoutes, { prefix: "/api/v2/market" });
 server.register(confidenceEvolutionRoutes, { prefix: "/api/confidence-evolution" });
+server.register(authorsRoutes, { prefix: "/api/authors" });
+
 
 // Root endpoint
 server.get('/', async (request, reply) => {
@@ -211,7 +214,8 @@ server.get('/', async (request, reply) => {
       predictions_v2: '/api/v2/predictions',
       ceo_analysis: '/api/v2/ceo',
       market_intelligence: '/api/v2/market',
-      machine_learning: '/api/ml'
+      machine_learning: '/api/ml',
+      authors: '/api/authors'
     },
     features: [
       'Kalshi-style market intelligence',

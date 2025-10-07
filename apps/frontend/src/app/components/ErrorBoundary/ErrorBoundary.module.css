@@ -89,8 +89,7 @@
 
 @keyframes errorPulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.05); opacity: 0.9; } }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-.details:global([open]) .summary :global(span span) { transform: rotate(90deg); }
+.details[open] .summary .icon { transform: rotate(90deg); }
 
 .retryButton:focus,
 .refreshButton:focus { outline: 2px solid rgba(0,122,255,0.5); outline-offset: 2px; }
