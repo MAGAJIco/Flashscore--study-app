@@ -45,21 +45,14 @@ export default function RootLayout({
       {/* PWAServiceWorker from original code is kept */}
       {/* The body class and style are updated based on the changes */}
       <body className="sports" style={{ contentVisibility: 'auto' }}>
-        <ErrorBoundary>
-          <PWAServiceWorker />
-          <MobilePerformanceOptimizer />
-          {children}
-        </ErrorBoundary>
+        <KidsModeProvider>
+          <ErrorBoundary>
+            <PWAServiceWorker />
+            <MobilePerformanceOptimizer />
+            {children}
+          </ErrorBoundary>
+        </KidsModeProvider>
       </body>
     </html>
   );
-
-  export default function RootLayout({ children }: { children: React.ReactNode }) {
-    return (
-      <html>
-        <body>
-          <KidsModeProvider>{children}</KidsModeProvider>
-        </body>
-      </html>
-    );
 }
