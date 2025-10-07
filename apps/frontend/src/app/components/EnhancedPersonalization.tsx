@@ -38,6 +38,9 @@ export default function EnhancedPersonalization() {
 
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -100,6 +103,38 @@ export default function EnhancedPersonalization() {
     generatePersonalizedContent();
   };
 
+  const handleSearchTeams = (query: string) => {
+    setSearchQuery(query);
+    if (query.length < 2) {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      return;
+    }
+
+    const allTeams = [
+      'Lakers', 'Warriors', 'Chiefs', 'Arsenal', 'Real Madrid', 'Yankees',
+      'Manchester United', 'Liverpool', 'Barcelona', 'Chelsea', 'Bayern Munich',
+      'Bulls', 'Celtics', 'Heat', 'Knicks', 'Nets', 'Clippers',
+      'Patriots', 'Cowboys', 'Packers', '49ers', 'Eagles', 'Steelers',
+      'Red Sox', 'Dodgers', 'Cubs', 'Mets', 'Giants', 'Astros'
+    ];
+
+    const results = allTeams.filter(team => 
+      team.toLowerCase().includes(query.toLowerCase())
+    );
+    setSearchResults(results);
+    setShowSearchResults(true);
+  };
+
+  const addTeamFromSearch = (team: string) => {
+    if (!profile.favoriteTeams.includes(team)) {
+      updateProfile({ favoriteTeams: [...profile.favoriteTeams, team] });
+    }
+    setSearchQuery('');
+    setSearchResults([]);
+    setShowSearchResults(false);
+  };
+
   const sports = ['Football', 'Basketball', 'Soccer', 'Tennis', 'Baseball', 'Hockey'];
   const teams = ['Lakers', 'Warriors', 'Chiefs', 'Arsenal', 'Real Madrid', 'Yankees'];
 
@@ -130,20 +165,78 @@ export default function EnhancedPersonalization() {
         }}>
           🎯 Your Personalized Dashboard
         </h2>
-        <button
-          onClick={() => setShowOnboarding(true)}
-          style={{
-            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: '20px',
-            cursor: 'pointer',
-            fontWeight: '600'
-          }}
-        >
-          ⚙️ Customize
-        </button>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
+            <input
+              type="text"
+              placeholder="🔍 Search teams..."
+              value={searchQuery}
+              onChange={(e) => handleSearchTeams(e.target.value)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(99, 102, 241, 0.3)',
+                color: 'white',
+                padding: '10px 16px',
+                borderRadius: '20px',
+                outline: 'none',
+                width: isMobile ? '150px' : '200px',
+                fontSize: '0.9rem'
+              }}
+            />
+            {showSearchResults && searchResults.length > 0 && (
+              <div style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                background: 'rgba(17, 24, 39, 0.98)',
+                borderRadius: '12px',
+                marginTop: '8px',
+                maxHeight: '200px',
+                overflowY: 'auto',
+                zIndex: 1000,
+                border: '1px solid rgba(99, 102, 241, 0.3)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+              }}>
+                {searchResults.map((team) => (
+                  <div
+                    key={team}
+                    onClick={() => addTeamFromSearch(team)}
+                    style={{
+                      padding: '12px 16px',
+                      cursor: 'pointer',
+                      color: '#d1d5db',
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                      transition: 'background 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(99, 102, 241, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                    }}
+                  >
+                    {team}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <button
+            onClick={() => setShowOnboarding(true)}
+            style={{
+              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+              color: 'white',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '20px',
+              cursor: 'pointer',
+              fontWeight: '600'
+            }}
+          >
+            ⚙️ Customize
+          </button>
+        </div>
       </div>
 
       {/* Insights Cards */}
