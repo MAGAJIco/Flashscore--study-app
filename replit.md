@@ -88,6 +88,16 @@ cd apps/backend/ml && python main.py
 - **ML Service (FastAPI)**: Port 8000 (0.0.0.0)
 
 ## Recent Changes
+- **2025-10-08**: Enhanced payment processing with age-based restrictions
+  - Implemented comprehensive age verification for all payment operations
+  - Added age verification middleware (apps/backend/src/middleware/ageVerification.ts)
+  - Enhanced payment controller with age checks and minor transaction limits
+  - Updated frontend payment API to validate user age before processing
+  - Age restrictions: Under 13 blocked, 13-17 require parental consent, 18+ full access
+  - Transaction limits: $50 maximum per transaction for minors with consent
+  - Error codes: AGE_RESTRICTION_UNDERAGE, PARENTAL_CONSENT_REQUIRED, MINOR_AMOUNT_LIMIT_EXCEEDED
+  - Age verification metadata included in Stripe payment intents
+
 - **2025-10-06**: Project cleanup and shared package setup
   - Created packages/shared/src/index.ts as central export barrel
   - Properly exported all utilities, models, services, and types from shared package
