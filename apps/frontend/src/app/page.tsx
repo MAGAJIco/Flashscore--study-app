@@ -2,7 +2,7 @@
 import React, { Suspense, useState } from "react";
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './components/LanguageSwitcher';
-import ComprehensiveSportsHub from "@/components/ComprehensiveSportsHub";
+import ComprehensiveSportsHub from "@/app/components/ComprehensiveSportsHub";
 import SocialHub from "./components/SocialHub";
 import PredictionLeague from "./components/PredictionLeague";
 import SocialPredictionStreams from "./components/SocialPredictionStreams";

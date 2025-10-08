@@ -26,6 +26,12 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@hooks/*": [
+        "./src/app/hooks/*"
+      ],
+      "@components/*": [
+        "./src/app/components/*"
       ]
     },
     "baseUrl": "."

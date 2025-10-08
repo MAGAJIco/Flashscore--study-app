@@ -2,7 +2,7 @@ import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import mongoose from "mongoose";
 import newsAuthorsRoutes from "./routes/newsAuthors";
-import paymentsRoutes from "./routes/payment";
+import paymentsRoutes from "./routes/payment.js";
 
 // Initialize Fastify
 const fastify = Fastify({
@@ -22,8 +22,7 @@ async function connectDB() {
     await mongoose.connect("mongodb://127.0.0.1:27017/sportscentral");
     fastify.log.info("✅ MongoDB connected successfully");
   } catch (error) {
-    fastify.log.error("❌ MongoDB connection failed:", error);
-    process.exit(1);
+    fastify.log.warn({ error }, "⚠️ MongoDB connection failed - continuing without database");
   }
 }
 
