@@ -6,6 +6,7 @@ export interface UserPreferences {
   favoriteSports: string[];
   favoriteTeams: string[];
   predictionStyle: 'conservative' | 'balanced' | 'aggressive';
+  language: string;
   notificationSettings: {
     enabled: boolean;
     minConfidence: number;
@@ -25,6 +26,7 @@ const defaultPreferences: UserPreferences = {
   favoriteSports: [],
   favoriteTeams: [],
   predictionStyle: 'balanced',
+  language: 'en',
   notificationSettings: {
     enabled: true,
     minConfidence: 70,
@@ -84,6 +86,11 @@ export function UserPreferencesProvider({ children }: { children: ReactNode }) {
       const newPreferences = { ...preferences, ...updates };
       setPreferences(newPreferences);
       localStorage.setItem('userPreferences', JSON.stringify(newPreferences));
+
+      // If language is updated, also set the cookie
+      if (updates.language) {
+        document.cookie = `NEXT_LOCALE=${updates.language}; path=/; max-age=31536000; SameSite=Lax`;
+      }
 
       await fetch('/api/preferences', {
         method: 'POST',

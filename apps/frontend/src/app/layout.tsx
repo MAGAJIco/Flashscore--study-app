@@ -3,6 +3,7 @@ import React from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { KidsModeProvider } from "../context/KidsModeContext";
+import { UserPreferencesProvider } from "./providers/UserPreferencesProvider";
 import "./styles/globals.css";
 import type { Metadata } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
@@ -49,13 +50,15 @@ export default async function RootLayout({
       </head>
       <body className="sports" style={{ contentVisibility: 'auto' }}>
         <NextIntlClientProvider messages={messages}>
-          <KidsModeProvider>
-            <ErrorBoundary>
-              <PWAServiceWorker />
-              <MobilePerformanceOptimizer />
-              {children}
-            </ErrorBoundary>
-          </KidsModeProvider>
+          <UserPreferencesProvider>
+            <KidsModeProvider>
+              <ErrorBoundary>
+                <PWAServiceWorker />
+                <MobilePerformanceOptimizer />
+                {children}
+              </ErrorBoundary>
+            </KidsModeProvider>
+          </UserPreferencesProvider>
         </NextIntlClientProvider>
       </body>
     </html>

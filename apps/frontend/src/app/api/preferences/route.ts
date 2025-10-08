@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
         favoriteSports: [],
         favoriteTeams: [],
         predictionStyle: 'balanced',
+        language: 'en',
         notificationSettings: {
           enabled: true,
           minConfidence: 70,

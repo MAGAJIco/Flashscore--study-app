@@ -3,17 +3,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { locales } from './i18n';
 
 export function middleware(request: NextRequest) {
-  // Get locale from cookie or Accept-Language header
+  // Priority: Cookie > Accept-Language header
   const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
   const acceptLanguage = request.headers.get('Accept-Language');
   
   let selectedLocale = 'en'; // default
   
-  // Check if cookie locale is valid
+  // 1. Check cookie for saved preference
   if (cookieLocale && locales.includes(cookieLocale as any)) {
     selectedLocale = cookieLocale;
-  } else if (acceptLanguage) {
-    // Parse Accept-Language header to find best match
+  } 
+  // 2. Fall back to browser Accept-Language header
+  else if (acceptLanguage) {
     const languages = acceptLanguage
       .split(',')
       .map(lang => lang.split(';')[0].trim().toLowerCase().substring(0, 2));

@@ -4,6 +4,7 @@
 import React from 'react';
 import CrossPlatformSync from '../components/CrossPlatformSync';
 import SmartNotifications from '../components/SmartNotifications';
+import LanguageSettings from '../components/LanguageSettings';
 
 export default function SettingsPage() {
   return (
@@ -33,6 +34,11 @@ export default function SettingsPage() {
         }}>
           Manage your account preferences and cross-platform sync
         </p>
+
+        {/* Language Settings Section */}
+        <div style={{ marginBottom: '24px' }}>
+          <LanguageSettings />
+        </div>
 
         {/* Notification Settings Section */}
         <div style={{
