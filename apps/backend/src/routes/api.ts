@@ -9,13 +9,6 @@ export default async function apiRoutes(fastify: FastifyInstance) {
 
   // Payment route
   fastify.post("/payment", async (request: FastifyRequest, reply: FastifyReply) => {
-    try {
-      const result = await processPayment(request, reply);
-      return reply.send(result);
-    } catch (error) {
-      return reply.status(500).send({
-        error: error instanceof Error ? error.message : "Payment failed",
-      });
-    }
+    return processPayment(request as any, reply);
   });
 }

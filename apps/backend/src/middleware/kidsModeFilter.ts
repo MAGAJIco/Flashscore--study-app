@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { FastifyRequest, FastifyReply } from "fastify";
 
 /**
  * Middleware that attaches req.kidsMode based on:
@@ -7,17 +7,16 @@ import { Request, Response, NextFunction } from "express";
  *
  * Downstream handlers can use req.kidsMode to filter gambling content.
  */
-export function attachKidsModeFlag(
-  req: Request,
-  _res: Response,
-  next: NextFunction,
+export async function attachKidsModeFlag(
+  req: FastifyRequest,
+  _reply: FastifyReply,
 ) {
   try {
-    const qp = req.query.kidsMode;
+    const qp = (req.query as any).kidsMode;
     if (qp === "true") {
       // override by query param
       (req as any).kidsMode = true;
-      return next();
+      return;
     }
 
     // If you use Passport/next-auth/etc, adapt accordingly:
@@ -30,14 +29,13 @@ export function attachKidsModeFlag(
   } catch (err) {
     (req as any).kidsMode = false;
   }
-  next();
 }
 
 /**
  * Utility to filter gambling fields from an object.
  * Customize the fields/names to match your API responses.
  */
-export function filterGamblingContent(payload: any) {
+export function filterGamblingContent(payload: any): any {
   if (!payload) return payload;
 
   // If payload is an array

@@ -38,12 +38,12 @@ const preventKidsModeAction = (action: 'payments' | 'betting') => {
 
       const allowed = user.accessRestrictions?.[`${action}Allowed` as keyof AccessRestrictions];
       if (user.isMinor || user.age < 18 || !allowed) {
-        req.log.warn(`[KIDS_MODE_VIOLATION] User ${userId} attempted ${action} action`, {
+        req.log.warn({
           endpoint: req.url,
           method: req.method,
           ip: req.ip,
           timestamp: new Date(),
-        });
+        }, `[KIDS_MODE_VIOLATION] User ${userId} attempted ${action} action`);
 
         return reply.status(403).send({
           error: `${action.charAt(0).toUpperCase() + action.slice(1)} operations restricted`,
