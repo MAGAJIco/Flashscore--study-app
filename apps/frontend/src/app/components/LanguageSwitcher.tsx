@@ -14,12 +14,14 @@ export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLanguageChange = (newLocale: Locale) => {
-    // Store preference
+    // Set cookie for locale preference (expires in 1 year)
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    
+    // Store in localStorage as backup
     localStorage.setItem('preferredLocale', newLocale);
     
-    // Update URL
-    const newPathname = pathname.replace(`/${locale}`, `/${newLocale}`);
-    router.push(newPathname);
+    // Refresh page to apply new locale
+    router.refresh();
     setIsOpen(false);
   };
 
