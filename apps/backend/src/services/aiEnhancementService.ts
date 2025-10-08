@@ -1,4 +1,3 @@
-
 import { MLPredictionResponse } from './mlPredictionService';
 
 interface OpenAIConfig {
@@ -9,7 +8,7 @@ interface OpenAIConfig {
 class AIEnhancementService {
   private apiKey: string;
   private baseUrl = 'https://api.openai.com/v1/chat/completions';
-  
+
   constructor(config?: OpenAIConfig) {
     this.apiKey = config?.apiKey || process.env.OPENAI_API_KEY || '';
   }
@@ -123,7 +122,7 @@ Provide:
         })
       });
 
-      const data = await response.json();
+      const data = await response.json() as any;
       return data.choices[0]?.message?.content || `${homeTeam} faces ${awayTeam} in an exciting matchup.`;
     } catch (error) {
       return `${homeTeam} vs ${awayTeam} - Watch this space for analysis.`;
@@ -170,7 +169,7 @@ Provide:
         })
       });
 
-      const data = await response.json();
+      const data = await response.json() as any;
       return data.choices[0]?.message?.content || 'Market analysis in progress';
     } catch (error) {
       return 'CEO strategic mode: Active';
