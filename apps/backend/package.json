@@ -19,10 +19,12 @@
     "@fastify/rate-limit": "^10.1.1",
     "fastify": "^5.2.0",
     "mongoose": "^8.0.0",
-    "pino-pretty": "^13.0.0"
+    "pino-pretty": "^13.0.0",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.19.19",
+    "@types/uuid": "^11.0.0",
     "@vitest/ui": "^3.2.4",
     "happy-dom": "^19.0.2",
     "tsx": "^4.7.0",

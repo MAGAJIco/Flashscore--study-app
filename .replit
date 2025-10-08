@@ -25,6 +25,10 @@ args = "Frontend"
 task = "workflow.run"
 args = "Backend"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Python ML API"
+
 [[workflows.workflow]]
 name = "Frontend"
 author = "agent"
@@ -163,6 +167,18 @@ args = "cd apps/backend && pnpm install && pnpm dev"
 task = "shell.exec"
 args = "cd apps/frontend && pnpm install && pnpm dev"
 
+[[workflows.workflow]]
+name = "Python ML API"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend/ml && python3 api.py"
+waitForPort = 8000
+
+[workflows.workflow.metadata]
+outputType = "console"
+
 [[ports]]
 localPort = 3001
 externalPort = 3001
@@ -172,8 +188,16 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
+localPort = 32885
+externalPort = 3002
+
+[[ports]]
 localPort = 35483
 externalPort = 3000
+
+[[ports]]
+localPort = 8000
+externalPort = 8000
 
 [agent]
 expertMode = true
