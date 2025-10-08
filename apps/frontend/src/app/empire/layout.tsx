@@ -1,3 +1,5 @@
+"use client";
+
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -19,7 +21,7 @@ export default function RootLayout({
           .empire-layout [style*="position: fixed"][style*="right"] {
             display: none !important;
           }
-          
+
           .empire-layout button[style*="position: fixed"][style*="right"] {
             display: none !important;
           }

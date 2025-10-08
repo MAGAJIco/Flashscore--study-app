@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { foundationApi } from "@shared/utils/apifoundation";
+import { foundationApi } from "@/lib/api/foundation";
 
 interface LeaderboardEntry {
   rank: number;

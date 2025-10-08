@@ -45,6 +45,9 @@
       "@actions/*": [
         "actions/*"
       ],
+      "@/lib/*": [
+        "../lib/*"
+      ],
       "@shared/types/*": [
         "../../../../packages/shared/src/libs/types/*"
       ],
