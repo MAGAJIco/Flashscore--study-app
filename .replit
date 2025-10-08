@@ -1,4 +1,4 @@
-modules = ["python-3.12", "nodejs-20", "web"]
+modules = ["nodejs-20", "web", "python-3.11"]
 run = "cd apps/frontend && npm run dev"
 
 [nix]
@@ -10,7 +10,7 @@ run = ["sh", "-c", "cd apps/frontend && pnpm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
 [workflows]
-runButton = "Full Stack Dev"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -34,7 +34,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && pnpm dev"
+args = "cd apps/frontend && pnpm run dev"
 waitForPort = 5000
 
 [[workflows.workflow]]

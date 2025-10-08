@@ -1,5 +1,4 @@
 
-import { notFound } from 'next/navigation';
 import { getRequestConfig } from 'next-intl/server';
 
 export const locales = ['en', 'es', 'fr', 'de', 'pt'] as const;
@@ -14,10 +13,11 @@ export const localeNames: Record<Locale, string> = {
 };
 
 export default getRequestConfig(async ({ locale }) => {
-  // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as Locale)) notFound();
+  // Always use 'en' as the default locale since we're not using locale routing
+  const validLocale = (locale && locales.includes(locale as Locale)) ? locale : 'en';
 
   return {
-    messages: (await import(`./messages/${locale}.json`)).default
+    messages: (await import(`./messages/${validLocale}.json`)).default,
+    locale: validLocale
   };
 });
