@@ -1,4 +1,3 @@
-
 export interface Component {
   id: string;
   name: string;
@@ -21,6 +20,14 @@ export interface FoundationData {
   userId: string;
   totalPower: number;
   phases: Phase[];
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  userId: string;
+  totalPower: number;
+  completedPhases: number;
+  totalPhases: number;
 }
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:3001';
@@ -85,12 +92,21 @@ export const foundationApi = {
     }
   },
 
-  async getLeaderboard() {
+  async getLeaderboard(): Promise<LeaderboardEntry[]> {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/foundation/leaderboard`);
-      if (!response.ok) throw new Error('Failed to fetch leaderboard');
+      const response = await fetch(`${BACKEND_URL}/api/foundation/leaderboard`, {
+        signal: AbortSignal.timeout(5000),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Backend returned ${response.status}`);
+      }
+
       const result = await response.json();
-      return result.data;
+      return result.success ? result.data : (Array.isArray(result.data) ? result.data : []);
     } catch (error) {
       console.error('Error fetching leaderboard:', error);
       return [];
@@ -112,65 +128,3 @@ export const foundationApi = {
     }
   }
 };
-export interface LeaderboardEntry {
-  rank: number;
-  userId: string;
-  totalPower: number;
-  completedPhases: number;
-  totalPhases: number;
-}
-
-export const foundationApi = {
-  async getLeaderboard(): Promise<LeaderboardEntry[]> {
-    try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:3001';
-      const response = await fetch(`${backendUrl}/foundation/leaderboard`, {
-        signal: AbortSignal.timeout(5000),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Backend returned ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data.success ? data.data : [];
-    } catch (error) {
-      console.error('Error fetching leaderboard:', error);
-      throw error;
-    }
-  },
-
-  async submitContribution(data: any) {
-    try {
-      const response = await fetch('/api/empire/leaderboard', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!response.ok) throw new Error('Failed to submit contribution');
-      return await response.json();
-    } catch (error) {
-      console.error('Error submitting contribution:', error);
-      throw error;
-    }
-  }
-};
-
-export interface Phase {
-  id: number;
-  name: string;
-  description: string;
-  requiredPower: number;
-  unlocked: boolean;
-  building: boolean;
-  completed: boolean;
-  components: Array<{
-    name: string;
-    type: string;
-    powerBoost: number;
-    installed: boolean;
-  }>;
-}
