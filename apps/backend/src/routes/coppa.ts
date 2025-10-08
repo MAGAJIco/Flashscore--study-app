@@ -1,8 +1,7 @@
 import express from "express";
 import { ObjectId } from "mongodb";
 import { filterGamblingContent } from "../middleware/kidsModeFilter";
-// Assume you have a User model accessible (Mongoose or native)
-import UserModel from "../../models/User"; // adjust path to actual model
+import { User as UserModel } from "../models/User";
 
 const router = express.Router();
 

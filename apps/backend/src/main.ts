@@ -22,6 +22,10 @@ import { enhancedPredictionRoutes } from "./routes/enhanced-predictions";
 import { marketIntelligenceRoutes } from "./routes/market-intelligence";
 import { confidenceEvolutionRoutes } from "./routes/confidence-evolution";
 
+// COPPA routes
+import coppaRouter from "./routes/coppa";
+import dataRightsRouter from "./routes/data-rights";
+
 // Payments route
 import paymentsRoutes from './routes/payments';
 
@@ -196,11 +200,15 @@ server.register(predictionsRoutes, { prefix: "/api/predictions" });
 // server.register(newsRoutes, { prefix: "/api" });
 
 // Register enhanced MagajiCo routes
-// server.register(enhancedPredictionRoutes, { prefix: "/api/v2/predictions" });
+server.register(enhancedPredictionRoutes, { prefix: "/api/v2/predictions" });
 // server.register(ceoAnalysisRoutes, { prefix: "/api/v2/ceo" }); // Route file missing
-// server.register(marketIntelligenceRoutes, { prefix: "/api/v2/market" });
+server.register(marketIntelligenceRoutes, { prefix: "/api/v2/market" });
 server.register(confidenceEvolutionRoutes, { prefix: "/api/confidence-evolution" });
 server.register(authorsRoutes, { prefix: "/api/authors" });
+
+// Register COPPA and Data Rights routes
+server.register(coppaRouter, { prefix: "/api/coppa" });
+server.register(dataRightsRouter, { prefix: "/api/data-rights" });
 
 // Register payments routes
 server.register(paymentsRoutes, { prefix: '/api/payments' });
@@ -222,7 +230,9 @@ server.get('/', async (request, reply) => {
       market_intelligence: '/api/v2/market',
       machine_learning: '/api/ml',
       authors: '/api/authors',
-      payments: '/api/payments'
+      payments: '/api/payments',
+      coppa: '/api/coppa',
+      data_rights: '/api/data-rights'
     },
     features: [
       'Kalshi-style market intelligence',

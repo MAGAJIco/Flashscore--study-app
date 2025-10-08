@@ -1,73 +1,34 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src/app",
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "jsx": "preserve",
+    "target": "ES2017",
     "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@hooks/*": [
-        "hooks/*"
-      ],
-      "@controllers/*": [
-        "controllers/*"
-      ],
-      "@api/*": [
-        "api/*"
-      ],
-      "@services/*": [
-        "services/*"
-      ],
-      "@styles/*": [
-        "styles/*"
-      ],
-      "@config/*": [
-        "config/*"
-      ],
-      "@actions/*": [
-        "actions/*"
-      ],
-      "@/lib/*": [
-        "../lib/*"
-      ],
-      "@shared/types/*": [
-        "../../../../packages/shared/src/libs/types/*"
-      ],
-      "@shared/utils/*": [
-        "../../../../packages/shared/src/libs/utils/*"
-      ],
-      "@shared/models/*": [
-        "../../../../packages/shared/src/libs/models/*"
-      ],
-      "@/i18n": ["../i18n.ts"]
-    },
     "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
     "noEmit": true,
-    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "baseUrl": "."
   },
   "include": [
     "src/**/*",
