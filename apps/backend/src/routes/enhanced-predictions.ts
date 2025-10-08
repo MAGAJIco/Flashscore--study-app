@@ -65,7 +65,7 @@ export const enhancedPredictionRoutes: FastifyPluginAsync = async (fastify) => {
         });
 
       } catch (error) {
-        fastify.log.error('Enhanced prediction error:', error);
+        fastify.log.error({ err: error }, 'Enhanced prediction error');
         return reply.status(500).send({
           error: 'Prediction failed',
           message: error instanceof Error ? error.message : 'Unknown error'

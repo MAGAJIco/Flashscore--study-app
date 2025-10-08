@@ -56,7 +56,7 @@ export default async function coppaRouter(fastify: FastifyInstance) {
       timestamp: new Date(),
       action: parentConfirmed ? 'consent_approved' : 'consent_rejected',
       verificationMethod,
-      parentIdentity: parentIdentity || user.coppaConsent?.parentEmail,
+      parentIdentity: parentIdentity || user.coppaConsent?.parentEmail || undefined,
       ipAddress: request.ip,
       userAgent: request.headers['user-agent']
     };
@@ -65,12 +65,11 @@ export default async function coppaRouter(fastify: FastifyInstance) {
       user.coppaConsent = {
         status: "approved",
         verifiedAt: new Date(),
-        parentEmail: user.coppaConsent?.parentEmail || null,
+        parentEmail: user.coppaConsent?.parentEmail || undefined,
         verificationMethod,
         parentIdentity,
         auditTrail: [...(user.coppaConsent?.auditTrail || []), auditEntry]
       };
-      user.kidsMode = true;
       await user.save();
       
       return reply.send({ 
@@ -83,7 +82,7 @@ export default async function coppaRouter(fastify: FastifyInstance) {
     user.coppaConsent = {
       status: "rejected",
       verifiedAt: new Date(),
-      parentEmail: user.coppaConsent?.parentEmail || null,
+      parentEmail: user.coppaConsent?.parentEmail || undefined,
       auditTrail: [...(user.coppaConsent?.auditTrail || []), auditEntry]
     };
     await user.save();
@@ -125,7 +124,6 @@ export default async function coppaRouter(fastify: FastifyInstance) {
       auditTrail: [...(user.coppaConsent?.auditTrail || []), auditEntry]
     };
 
-    user.kidsMode = true;
     user.accountRestricted = true;
     
     await user.save();

@@ -79,7 +79,7 @@ export const confidenceEvolutionRoutes: FastifyPluginAsync = async (fastify) => 
         });
 
       } catch (error) {
-        fastify.log.error('Confidence evolution fetch error:', error);
+        fastify.log.error({ err: error }, 'Confidence evolution fetch error');
         return reply.status(500).send({
           error: 'Failed to fetch confidence evolution',
           message: error instanceof Error ? error.message : 'Unknown error'
@@ -126,7 +126,7 @@ export const confidenceEvolutionRoutes: FastifyPluginAsync = async (fastify) => 
         });
 
       } catch (error) {
-        fastify.log.error('Confidence update error:', error);
+        fastify.log.error({ err: error }, 'Confidence update error');
         return reply.status(500).send({
           error: 'Failed to update confidence',
           message: error instanceof Error ? error.message : 'Unknown error'
@@ -165,7 +165,7 @@ export const confidenceEvolutionRoutes: FastifyPluginAsync = async (fastify) => 
         });
 
       } catch (error) {
-        fastify.log.error('Active evolutions fetch error:', error);
+        fastify.log.error({ err: error }, 'Active evolutions fetch error');
         return reply.status(500).send({
           error: 'Failed to fetch active evolutions',
           message: error instanceof Error ? error.message : 'Unknown error'

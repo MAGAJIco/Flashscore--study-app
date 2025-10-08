@@ -13,7 +13,7 @@ export default async function authorsRoutes(fastify: FastifyInstance) {
         count: authors.length
       });
     } catch (error) {
-      fastify.log.error('Error fetching authors:', error);
+      fastify.log.error({ err: error }, 'Error fetching authors');
       return reply.status(500).send({
         success: false,
         error: 'Failed to fetch authors'

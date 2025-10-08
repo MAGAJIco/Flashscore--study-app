@@ -5,8 +5,7 @@ import {
   FastifyReply,
   FastifyRequest
 } from 'fastify';
-import archiver from 'archiver';
-import { UserModel } from '../models/UserModel'; // <-- adjust import path as needed
+import { User as UserModel } from '../models/User';
 
 interface ExportDataParams {
   Params: {
@@ -80,18 +79,13 @@ export default async function dataRightsRoutes(
           exportFormat: 'JSON'
         };
 
-        reply.header('Content-Type', 'application/zip');
+        reply.header('Content-Type', 'application/json');
         reply.header(
           'Content-Disposition',
-          `attachment; filename="user-data-${childEmail}-${Date.now()}.zip"`
+          `attachment; filename="user-data-${childEmail}-${Date.now()}.json"`
         );
 
-        const archive = archiver('zip', { zlib: { level: 9 } });
-        archive.pipe(reply.raw);
-        archive.append(JSON.stringify(userData, null, 2), {
-          name: 'user-data.json'
-        });
-        await archive.finalize();
+        return reply.send(userData);
       } catch (error) {
         fastify.log.error(error);
         return reply.status(500).send({ error: 'Failed to export data' });
