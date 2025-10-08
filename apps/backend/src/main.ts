@@ -3,6 +3,7 @@ import fastifyCors from "@fastify/cors";
 import mongoose from "mongoose";
 import newsAuthorsRoutes from "./routes/newsAuthors";
 import paymentsRoutes from "./routes/payment.js";
+import predictionsRoutes from './routes/predictions';
 
 // Initialize Fastify
 const fastify = Fastify({
@@ -29,6 +30,7 @@ async function connectDB() {
 // Register routes
 fastify.register(newsAuthorsRoutes, { prefix: "/news" });
 fastify.register(paymentsRoutes, { prefix: "/api" });
+fastify.register(predictionsRoutes, { prefix: '/api/predictions' });
 
 // Start the Fastify server
 const start = async () => {
