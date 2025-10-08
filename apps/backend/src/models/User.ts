@@ -1,4 +1,3 @@
-
 import { Schema, model, Document } from "mongoose";
 
 export interface IUser extends Document {
@@ -17,6 +16,25 @@ export interface IUser extends Document {
     parentEmail: string;
     consentDate: Date;
   };
+  coppaConsent?: {
+    status: 'pending' | 'approved' | 'rejected' | 'revoked';
+    parentEmail?: string;
+    parentIdentity?: string;
+    verificationMethod?: 'email_link' | 'credit_card' | 'government_id';
+    requestedAt?: Date;
+    verifiedAt?: Date;
+    revokedAt?: Date;
+    auditTrail?: Array<{
+      timestamp: Date;
+      action: string;
+      verificationMethod?: string;
+      parentIdentity?: string;
+      reason?: string;
+      ipAddress?: string;
+      userAgent?: string;
+    }>;
+  };
+  accountRestricted?: boolean;
   accessRestrictions: {
     bettingAllowed: boolean;
     paymentsAllowed: boolean;
@@ -45,6 +63,25 @@ const userSchema = new Schema<IUser>(
       parentEmail: { type: String },
       consentDate: { type: Date }
     },
+    coppaConsent: {
+      status: { type: String, enum: ['pending', 'approved', 'rejected', 'revoked'], default: 'pending' },
+      parentEmail: { type: String },
+      parentIdentity: { type: String },
+      verificationMethod: { type: String, enum: ['email_link', 'credit_card', 'government_id'] },
+      requestedAt: { type: Date },
+      verifiedAt: { type: Date },
+      revokedAt: { type: Date },
+      auditTrail: [{
+        timestamp: { type: Date, default: Date.now },
+        action: { type: String, required: true },
+        verificationMethod: { type: String },
+        parentIdentity: { type: String },
+        reason: { type: String },
+        ipAddress: { type: String },
+        userAgent: { type: String },
+      }]
+    },
+    accountRestricted: { type: Boolean, default: false },
     accessRestrictions: {
       bettingAllowed: { type: Boolean, default: true },
       paymentsAllowed: { type: Boolean, default: true },
