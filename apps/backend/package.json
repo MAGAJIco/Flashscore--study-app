@@ -14,10 +14,12 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "fastify": "^5.2.0",
     "@fastify/cors": "^10.0.1",
     "@fastify/helmet": "^12.0.1",
     "@fastify/rate-limit": "^10.1.1",
+    "@types/cheerio": "^1.0.0",
+    "cheerio": "^1.1.2",
+    "fastify": "^5.2.0",
     "mongoose": "^8.0.0",
     "pino-pretty": "^13.0.0",
     "uuid": "^13.0.0"
