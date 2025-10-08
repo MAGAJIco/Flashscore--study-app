@@ -5,15 +5,20 @@ export default async function predictionsRoutes(fastify: FastifyInstance) {
   // Get all predictions
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const { limit = '50' } = request.query as { limit?: string };
+      const { limit = '50', kidsMode } = request.query as { limit?: string; kidsMode?: string };
       const limitNum = parseInt(limit) || 50;
 
       const predictions = predictionService.getAllPredictions(limitNum);
 
+      // Filter out gambling content for kids mode
+      const filteredPredictions = kidsMode === 'true'
+        ? predictions.filter((p: any) => !p.isGambling)
+        : predictions;
+
       return reply.send({
         success: true,
-        data: predictions,
-        count: predictions.length,
+        data: filteredPredictions,
+        count: filteredPredictions.length,
         modelVersion: 'MagajiCo-v3.0-Advanced'
       });
     } catch (error: any) {
@@ -96,66 +101,3 @@ export default async function predictionsRoutes(fastify: FastifyInstance) {
     }
   });
 }
-import { FastifyPluginAsync } from 'fastify';
-import { Prediction } from '../models/Predictions';
-
-const predictionsRoutes: FastifyPluginAsync = async (fastify) => {
-  // GET /api/predictions - fetch predictions with optional limit
-  fastify.get('/', async (request, reply) => {
-    try {
-      const { limit = 20, kidsMode } = request.query as any;
-      
-      let query: any = {};
-      
-      // Filter out gambling content for kids mode
-      if (kidsMode === 'true') {
-        query.isGambling = { $ne: true };
-      }
-      
-      const predictions = await Prediction.find(query)
-        .sort({ createdAt: -1 })
-        .limit(parseInt(limit))
-        .lean();
-      
-      return reply.send({
-        success: true,
-        data: predictions,
-        count: predictions.length
-      });
-    } catch (error) {
-      fastify.log.error('Error fetching predictions:', error);
-      return reply.status(500).send({
-        success: false,
-        error: 'Failed to fetch predictions'
-      });
-    }
-  });
-
-  // GET /api/predictions/:id - fetch single prediction
-  fastify.get('/:id', async (request, reply) => {
-    try {
-      const { id } = request.params as any;
-      const prediction = await Prediction.findById(id).lean();
-      
-      if (!prediction) {
-        return reply.status(404).send({
-          success: false,
-          error: 'Prediction not found'
-        });
-      }
-      
-      return reply.send({
-        success: true,
-        data: prediction
-      });
-    } catch (error) {
-      fastify.log.error('Error fetching prediction:', error);
-      return reply.status(500).send({
-        success: false,
-        error: 'Failed to fetch prediction'
-      });
-    }
-  });
-};
-
-export default predictionsRoutes;
