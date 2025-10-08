@@ -16,15 +16,17 @@ export default function LanguageSwitcher() {
   const { updatePreferences } = useUserPreferences();
 
   const handleLanguageChange = async (newLocale: Locale) => {
+    // Set the locale cookie immediately
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
+    
     // Update user preferences (this also sets the cookie)
     await updatePreferences({ language: newLocale });
     
     // Store in localStorage as backup
     localStorage.setItem('preferredLocale', newLocale);
     
-    // Refresh page to apply new locale
-    router.refresh();
-    setIsOpen(false);
+    // Hard reload to apply new locale
+    window.location.reload();
   };
 
   return (
