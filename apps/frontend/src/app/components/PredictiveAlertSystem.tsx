@@ -17,63 +17,68 @@ interface Alert {
 }
 
 export default function PredictiveAlertSystem() {
-  const [alerts, setAlerts] = useState<Alert[]>([
-    {
-      id: '1',
-      type: 'value',
-      priority: 'high',
-      title: 'Value Opportunity Detected',
-      message: 'Odds shifted favorably for Liverpool vs Chelsea',
-      matchName: 'Liverpool vs Chelsea',
-      sport: 'Football',
-      timestamp: new Date(Date.now() - 15 * 60 * 1000),
-      impact: 25,
-      actionable: 'Away Win odds increased from 2.8 to 3.2 (+14% value)',
-      isRead: false
-    },
-    {
-      id: '2',
-      type: 'injury',
-      priority: 'high',
-      title: 'Critical Injury Update',
-      message: 'Star player ruled out - prediction confidence adjusted',
-      matchName: 'Lakers vs Celtics',
-      sport: 'Basketball',
-      timestamp: new Date(Date.now() - 45 * 60 * 1000),
-      impact: -35,
-      actionable: 'LeBron James (OUT) - Lakers win probability dropped to 42%',
-      isRead: false
-    },
-    {
-      id: '3',
-      type: 'weather',
-      priority: 'medium',
-      title: 'Weather Conditions Changed',
-      message: 'Heavy rain expected - impacts outdoor match',
-      matchName: 'Real Madrid vs Barcelona',
-      sport: 'Football',
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      impact: -15,
-      actionable: 'Rain favors defensive play - Under 2.5 goals +18% likely',
-      isRead: true
-    },
-    {
-      id: '4',
-      type: 'odds',
-      priority: 'medium',
-      title: 'Market Movement Alert',
-      message: 'Sharp money detected on underdog',
-      matchName: 'Warriors vs Nuggets',
-      sport: 'Basketball',
-      timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
-      impact: 12,
-      actionable: 'Warriors odds shortening rapidly - possible value before match',
-      isRead: true
-    }
-  ]);
-
+  const [alerts, setAlerts] = useState<Alert[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [filter, setFilter] = useState<'all' | 'unread' | 'high' | 'value' | 'injury' | 'weather'>('all');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setAlerts([
+      {
+        id: '1',
+        type: 'value',
+        priority: 'high',
+        title: 'Value Opportunity Detected',
+        message: 'Odds shifted favorably for Liverpool vs Chelsea',
+        matchName: 'Liverpool vs Chelsea',
+        sport: 'Football',
+        timestamp: new Date(Date.now() - 15 * 60 * 1000),
+        impact: 25,
+        actionable: 'Away Win odds increased from 2.8 to 3.2 (+14% value)',
+        isRead: false
+      },
+      {
+        id: '2',
+        type: 'injury',
+        priority: 'high',
+        title: 'Critical Injury Update',
+        message: 'Star player ruled out - prediction confidence adjusted',
+        matchName: 'Lakers vs Celtics',
+        sport: 'Basketball',
+        timestamp: new Date(Date.now() - 45 * 60 * 1000),
+        impact: -35,
+        actionable: 'LeBron James (OUT) - Lakers win probability dropped to 42%',
+        isRead: false
+      },
+      {
+        id: '3',
+        type: 'weather',
+        priority: 'medium',
+        title: 'Weather Conditions Changed',
+        message: 'Heavy rain expected - impacts outdoor match',
+        matchName: 'Real Madrid vs Barcelona',
+        sport: 'Football',
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+        impact: -15,
+        actionable: 'Rain favors defensive play - Under 2.5 goals +18% likely',
+        isRead: true
+      },
+      {
+        id: '4',
+        type: 'odds',
+        priority: 'medium',
+        title: 'Market Movement Alert',
+        message: 'Sharp money detected on underdog',
+        matchName: 'Warriors vs Nuggets',
+        sport: 'Basketball',
+        timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
+        impact: 12,
+        actionable: 'Warriors odds shortening rapidly - possible value before match',
+        isRead: true
+      }
+    ]);
+  }, []);
 
   const unreadCount = alerts.filter(a => !a.isRead).length;
   const highPriorityCount = alerts.filter(a => a.priority === 'high' && !a.isRead).length;
@@ -139,6 +144,8 @@ export default function PredictiveAlertSystem() {
     return date.toLocaleDateString();
   };
 
+  if (!mounted) return null;
+
   return (
     <>
       {/* Floating Alert Button */}
@@ -161,8 +168,7 @@ export default function PredictiveAlertSystem() {
           alignItems: 'center',
           justifyContent: 'center',
           transition: 'all 0.3s ease',
-          zIndex: 1000,
-          position: 'relative'
+          zIndex: 1000
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'scale(1.1)';

@@ -10,9 +10,15 @@
     "install:all": "pnpm recursive install",
     "dev": "pnpm -r run dev",
     "build": "pnpm -r run build",
-    "tsc:check": "pnpm -r tsc --noEmit"
+    "tsc:check": "pnpm -r tsc --noEmit",
+    "test": "pnpm -r run test",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:all": "pnpm test && pnpm test:e2e"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"

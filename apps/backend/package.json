@@ -7,7 +7,11 @@
     "dev": "tsx watch src/main.ts",
     "start": "node --loader ts-node/esm src/main.ts",
     "build": "tsc",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
@@ -19,7 +23,10 @@
   },
   "devDependencies": {
     "@types/node": "^20.19.19",
+    "@vitest/ui": "^3.2.4",
+    "happy-dom": "^19.0.2",
     "tsx": "^4.7.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
   }
 }

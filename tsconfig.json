@@ -34,9 +34,9 @@
       "@baktypes/*": ["apps/backend/src/types/*"],
       "@bakcontrollers/*": ["apps/backend/src/controllers/*"],
       "@bakroutes/*": ["apps/backend/src/routes/*"],
-      "@services/*": ["apps/backend/src/services/*"],
-      "@styles/*": ["apps/backend/src/styles/*"],
-      "@config/*": ["apps/backend/src/config/*"],
+      "@bakservices/*": ["apps/backend/src/services/*"],
+      "@bakstyles/*": ["apps/backend/src/styles/*"],
+      "@bakconfig/*": ["apps/backend/src/config/*"],
 
       // --- Shared ---
       "@shared/types/*": ["packages/shared/src/libs/types/*"],
@@ -53,7 +53,6 @@
     "**/*.tsx"
   ],
   "exclude": ["node_modules", "dist", ".next"],
-  {
   "files": [],
   "references": [
     { "path": "apps/backend/src" },
