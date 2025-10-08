@@ -3,9 +3,6 @@ import fastifyCors from "@fastify/cors";
 import mongoose from "mongoose";
 import newsAuthorsRoutes from "./routes/newsAuthors";
 import paymentsRoutes from "./routes/payment.js";
-import predictionsRoutes from './routes/predictions';
-import errorsRoutes from './routes/errors';
-import { ErrorLog } from './models/ErrorLog';
 
 // Initialize Fastify
 const fastify = Fastify({
