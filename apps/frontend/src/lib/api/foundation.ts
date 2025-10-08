@@ -128,3 +128,56 @@ export const foundationApi = {
     }
   }
 };
+export interface Phase {
+  id: string;
+  name: string;
+  description: string;
+  status: 'locked' | 'active' | 'completed';
+  progress: number;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  userId: string;
+  username: string;
+  power: number;
+  contributions: number;
+}
+
+export const foundationApi = {
+  async getPhases(): Promise<Phase[]> {
+    try {
+      const response = await fetch('/api/backend/foundation/phases');
+      if (!response.ok) throw new Error('Failed to fetch phases');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching phases:', error);
+      return [];
+    }
+  },
+
+  async getLeaderboard(): Promise<LeaderboardEntry[]> {
+    try {
+      const response = await fetch('/api/backend/foundation/leaderboard');
+      if (!response.ok) throw new Error('Failed to fetch leaderboard');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+      return [];
+    }
+  },
+
+  async contributeToPower(userId: string, amount: number): Promise<void> {
+    try {
+      const response = await fetch('/api/backend/foundation/contribute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, amount })
+      });
+      if (!response.ok) throw new Error('Failed to contribute');
+    } catch (error) {
+      console.error('Error contributing:', error);
+      throw error;
+    }
+  }
+};
