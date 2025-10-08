@@ -43,23 +43,18 @@ function getLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   const locale = getLocale(request);
 
-  // Set the locale in the request headers for next-intl
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-next-intl-locale', locale);
+  // Create the response with locale in headers
+  const response = NextResponse.next();
 
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
+  // Set both cookies for compatibility
+  response.cookies.set('NEXT_LOCALE', locale, {
+    maxAge: 31536000, // 1 year
+    path: '/',
+    sameSite: 'lax'
   });
 
-  // Set the locale cookie if not already set
-  if (!request.cookies.get('NEXT_LOCALE')?.value) {
-    response.cookies.set('NEXT_LOCALE', locale, {
-      maxAge: 31536000, // 1 year
-      path: '/',
-    });
-  }
+  // Set the locale header for next-intl
+  response.headers.set('x-next-intl-locale', locale);
 
   return response;
 }
