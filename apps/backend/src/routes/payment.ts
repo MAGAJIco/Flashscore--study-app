@@ -1,5 +1,6 @@
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
 import { attachKidsModeFlag } from '../middleware/kidsModeFilter';
+import { verifyAgeForPayments, enforceMinorTransactionLimits } from '../middleware/ageVerification';
 
 interface PaymentQuery {
   kidsMode?: string;
@@ -9,6 +10,9 @@ interface PaymentProcessBody {
   amount: number;
   type: string;
   description?: string;
+  userAge?: number;
+  isMinor?: boolean;
+  parentalConsent?: boolean;
 }
 
 const paymentsRoutes: FastifyPluginAsync = async (fastify) => {
@@ -55,19 +59,57 @@ const paymentsRoutes: FastifyPluginAsync = async (fastify) => {
 
   /**
    * 💳 POST /process
-   * Process a payment (blocks gambling types if Kids Mode is active)
+   * Process a payment (blocks gambling types if Kids Mode is active, with age verification)
    */
   fastify.post<{ Body: PaymentProcessBody; Querystring: PaymentQuery }>(
     '/process',
     async (request, reply) => {
       try {
-        const { amount, type, description } = request.body;
+        const { amount, type, description, userAge, isMinor, parentalConsent } = request.body;
 
         if (!amount || !type) {
           return reply.status(400).send({
             success: false,
             error: 'Amount and type are required',
           });
+        }
+
+        // Age verification for payments
+        const MINIMUM_AGE_FOR_PAYMENTS = 18;
+        const MINIMUM_AGE_WITH_CONSENT = 13;
+        const MAX_MINOR_TRANSACTION = 50;
+
+        if (userAge !== undefined) {
+          // Block payments for users under 13
+          if (userAge < MINIMUM_AGE_WITH_CONSENT) {
+            return reply.status(403).send({
+              success: false,
+              error: `Payment processing is not available for users under ${MINIMUM_AGE_WITH_CONSENT} years old`,
+              code: 'AGE_RESTRICTION_UNDERAGE',
+              requiredAge: MINIMUM_AGE_WITH_CONSENT
+            });
+          }
+
+          // Users 13-17 require parental consent
+          if (userAge < MINIMUM_AGE_FOR_PAYMENTS && !parentalConsent) {
+            return reply.status(403).send({
+              success: false,
+              error: 'Parental consent required for payment processing',
+              code: 'PARENTAL_CONSENT_REQUIRED',
+              requiredAge: MINIMUM_AGE_FOR_PAYMENTS,
+              currentAge: userAge
+            });
+          }
+
+          // Enforce transaction limits for minors
+          if (userAge < MINIMUM_AGE_FOR_PAYMENTS && amount > MAX_MINOR_TRANSACTION) {
+            return reply.status(403).send({
+              success: false,
+              error: `Transaction amount exceeds limit for minors. Maximum: $${MAX_MINOR_TRANSACTION}`,
+              code: 'MINOR_AMOUNT_LIMIT_EXCEEDED',
+              maxAmount: MAX_MINOR_TRANSACTION
+            });
+          }
         }
 
         const kidsMode =
@@ -83,6 +125,7 @@ const paymentsRoutes: FastifyPluginAsync = async (fastify) => {
             return reply.status(403).send({
               success: false,
               error: 'This payment type is not available in Kids Mode',
+              code: 'KIDS_MODE_RESTRICTION'
             });
           }
         }
