@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  transpilePackages: ['@magajico/shared'],
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
@@ -24,6 +25,7 @@ const nextConfig = {
     ],
   },
   experimental: {
+    externalDir: true,
     optimizePackageImports: ['react-icons', 'lodash'],
   },
   compress: true,

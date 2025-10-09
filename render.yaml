@@ -4,8 +4,9 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install -g pnpm && pnpm install && cd apps/backend && pnpm build
-    startCommand: cd apps/backend && pnpm start
+    rootDir: apps/backend
+    buildCommand: cd ../.. && pnpm install && cd apps/backend && pnpm build
+    startCommand: pnpm start
     envVars:
       - key: NODE_ENV
         value: production
