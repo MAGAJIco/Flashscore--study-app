@@ -9,7 +9,7 @@
   "scripts": {
     "install:all": "pnpm recursive install",
     "dev": "pnpm -r run dev",
-    "build": "pnpm -r run build",
+    "build": "pnpm --filter @magajico/shared run build && pnpm --filter @magajico/backend run build && pnpm --filter @magajico/frontend run build",
     "tsc:check": "pnpm -r tsc --noEmit",
     "test": "pnpm -r run test",
     "test:e2e": "playwright test",
