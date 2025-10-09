@@ -151,17 +151,15 @@ export default function PredictiveAlertSystem() {
       {/* Floating Alert Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
+        className="notification-bell-button"
         style={{
           position: 'fixed',
           top: '100px',
           right: '30px',
-          width: '60px',
-          height: '60px',
           borderRadius: '50%',
           background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
           border: 'none',
           color: 'white',
-          fontSize: '1.5rem',
           cursor: 'pointer',
           boxShadow: '0 4px 20px rgba(59, 130, 246, 0.4)',
           display: 'flex',
@@ -180,16 +178,13 @@ export default function PredictiveAlertSystem() {
       >
         🔔
         {unreadCount > 0 && (
-          <div style={{
+          <div className="notification-badge" style={{
             position: 'absolute',
             top: '-5px',
             right: '-5px',
-            width: '24px',
-            height: '24px',
             borderRadius: '50%',
             background: '#ef4444',
             color: 'white',
-            fontSize: '0.7rem',
             fontWeight: 'bold',
             display: 'flex',
             alignItems: 'center',
@@ -200,6 +195,54 @@ export default function PredictiveAlertSystem() {
           </div>
         )}
       </button>
+      
+      <style jsx>{`
+        .notification-bell-button {
+          width: 60px;
+          height: 60px;
+          font-size: 1.5rem;
+        }
+        
+        .notification-badge {
+          width: 24px;
+          height: 24px;
+          font-size: 0.7rem;
+        }
+        
+        /* Mobile devices */
+        @media (max-width: 768px) {
+          .notification-bell-button {
+            width: 45px;
+            height: 45px;
+            font-size: 1.2rem;
+            top: 80px;
+            right: 20px;
+          }
+          
+          .notification-badge {
+            width: 20px;
+            height: 20px;
+            font-size: 0.65rem;
+            top: -4px;
+            right: -4px;
+          }
+        }
+        
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+          .notification-bell-button {
+            width: 42px;
+            height: 42px;
+            font-size: 1.1rem;
+          }
+          
+          .notification-badge {
+            width: 18px;
+            height: 18px;
+            font-size: 0.6rem;
+          }
+        }
+      `}</style>
 
       {/* Alert Panel */}
       {isExpanded && (
