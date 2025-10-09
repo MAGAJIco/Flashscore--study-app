@@ -5,6 +5,7 @@ import React from 'react';
 import CrossPlatformSync from '../components/CrossPlatformSync';
 import SmartNotifications from '../components/SmartNotifications';
 import LanguageSettings from '../components/LanguageSettings';
+import TimeZoneSettings from '../components/TimeZoneSettings';
 
 export default function SettingsPage() {
   return (
@@ -38,6 +39,8 @@ export default function SettingsPage() {
         {/* Language Settings Section */}
         <div style={{ marginBottom: '24px' }}>
           <LanguageSettings />
+        
+        <TimeZoneSettings />
         </div>
 
         {/* Notification Settings Section */}
