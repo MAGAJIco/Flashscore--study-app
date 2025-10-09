@@ -14,6 +14,9 @@ interface ChatMessage {
   isUser: boolean;
   timestamp: Date;
   type?: "text" | "prediction" | "action";
+  originalText?: string;
+  originalLang?: string;
+  translated?: boolean;
 }
 
 interface MagajiCoManagerProps {
@@ -44,6 +47,8 @@ export default function MagajiCoManager({
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentTime, setCurrentTime] = useState("");
   const [mlServiceReady, setMlServiceReady] = useState(false);
+  const [translationEnabled, setTranslationEnabled] = useState(true);
+  const [userLanguage, setUserLanguage] = useState("en");
 
   useEffect(() => {
     // Fix hydration issue by setting time on client only
@@ -502,6 +507,13 @@ export default function MagajiCoManager({
               onClick={fetchPredictions}
             >
               🚀 Analyze
+            </button>
+            <button
+              className="px-3 py-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg text-xs font-semibold hover:from-blue-700 hover:to-blue-800 transition-all"
+              onClick={() => setTranslationEnabled(!translationEnabled)}
+              title={translationEnabled ? "Disable Translation" : "Enable Translation"}
+            >
+              {translationEnabled ? "🌐 ON" : "🌐 OFF"}
             </button>
             <button
               className="px-3 py-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg text-xs font-semibold hover:from-purple-700 hover:to-purple-800 transition-all"
