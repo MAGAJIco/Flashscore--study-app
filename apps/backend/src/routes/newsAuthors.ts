@@ -145,7 +145,7 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
         data: topAuthors
       });
     } catch (error) {
-      fastify.log.error('Error fetching top authors:', error instanceof Error ? error.message : String(error));
+      fastify.log.error(error, 'Error fetching top authors');
       return reply.status(500).send({
         success: false,
         error: 'Failed to fetch top authors'
@@ -171,7 +171,7 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
         data: author
       });
     } catch (error) {
-      fastify.log.error('Error fetching author:', error instanceof Error ? error.message : String(error));
+      fastify.log.error(error, 'Error fetching author');
       return reply.status(500).send({
         success: false,
         error: 'Failed to fetch author'
@@ -196,7 +196,7 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
         author: newAuthor
       });
     } catch (error) {
-      fastify.log.error('Error creating author:', error instanceof Error ? error.message : String(error));
+      fastify.log.error(error, 'Error creating author');
       return reply.status(500).send({
         success: false,
         error: 'Failed to create author'
@@ -225,7 +225,7 @@ export default async function newsAuthorsRoutes(fastify: FastifyInstance) {
         message: 'Event tracked successfully (simulation)'
       });
     } catch (error) {
-      fastify.log.error('Error tracking event:', error instanceof Error ? error.message : String(error));
+      fastify.log.error(error, 'Error tracking event');
       return reply.status(500).send({
         success: false,
         error: 'Failed to track event'

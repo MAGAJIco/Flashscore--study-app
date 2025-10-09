@@ -27,7 +27,7 @@ predictor = MagajiCoMLPredictor(model_path=model_path)
 
 # Request models
 class PredictionRequest(BaseModel):
-    features: List[float] = Field(..., min_items=7, max_items=7)
+    features: List[float] = Field(..., min_length=7, max_length=7)
     match_context: Optional[Dict[str, str]] = None
 
 class BatchPredictionRequest(BaseModel):
