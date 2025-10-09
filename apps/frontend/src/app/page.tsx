@@ -29,6 +29,8 @@ import { useHapticFeedback } from './components/HapticFeedback';
 import EnhancedPersonalization from './components/EnhancedPersonalization';
 import HorizontalCarousel from './components/HorizontalCarousel';
 import ExtraSportsCoverage from './components/ExtraSportsCoverage';
+import StakingSystem from './components/StakingSystem';
+import ARPredictionOverlay from './components/ARPredictionOverlay';
 
 export default function HomePage() {
   const t = useTranslations('common');
@@ -271,6 +273,8 @@ export default function HomePage() {
             {activeSection === 'micro' && (
               <Suspense fallback={<SmartLoadingState type="card" count={4} />}>
                 <MicroPredictions />
+                <StakingSystem />
+                <ARPredictionOverlay />
               </Suspense>
             )}
 
