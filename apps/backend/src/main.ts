@@ -1,5 +1,7 @@
 import Fastify from "fastify";
-import fastifyCors from "@fastify/cors";
+import cors from "@fastify/cors";
+import helmet from "@fastify/helmet";
+import rateLimit from "@fastify/rate-limit";
 import mongoose from "mongoose";
 import newsAuthorsRoutes from "./routes/newsAuthors";
 import paymentsRoutes from "./routes/payment.js";
@@ -7,10 +9,12 @@ import predictionsRoutes from './routes/predictions';
 import errorsRoutes from './routes/errors';
 import { ErrorLog } from './models/ErrorLog';
 
-// Initialize Fastify
-const fastify = Fastify({
-  logger: true,
-});
+import newsRoutes from "./routes/news.js";
+import predictionsRoutes from "./routes/predictions.js";
+import { matchRoutes } from "./routes/matches.js";
+import coppaRoutes from "./routes/coppa.js";
+import errorsRoutes from "./routes/errors.js";
+import { healthRoutes } from "./routes/health.js";
 
 // Global error handler
 fastify.setErrorHandler(async (error, request, reply) => {
@@ -68,19 +72,61 @@ fastify.register(paymentsRoutes, { prefix: "/api" });
 fastify.register(predictionsRoutes, { prefix: '/api/predictions' });
 fastify.register(errorsRoutes, { prefix: '/api' });
 
-// Start the Fastify server
-const start = async () => {
-  try {
-    await connectDB();
+await fastify.register(helmet, {
+  contentSecurityPolicy: false
+});
 
-    const PORT = Number(process.env.PORT) || 3001;
-    await fastify.listen({ port: PORT, host: "0.0.0.0" });
+await fastify.register(rateLimit, {
+  max: 100,
+  timeWindow: '1 minute'
+});
 
-    fastify.log.info(`🚀 Server running at http://localhost:${PORT}`);
-  } catch (error) {
-    fastify.log.error(error);
-    process.exit(1);
-  }
-};
+// No global Content-Type hook needed - let routes set their own MIME types
 
-start();
+// MongoDB connection
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/sportscentral";
+const REQUIRE_DB = process.env.REQUIRE_DB === 'true' || process.env.NODE_ENV === 'production';
+
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => fastify.log.info("✅ MongoDB connected successfully"))
+  .catch((err) => {
+    fastify.log.error("❌ MongoDB connection failed:", err.message);
+    
+    if (REQUIRE_DB) {
+      fastify.log.error("Database required in production. Exiting...");
+      process.exit(1);
+    } else {
+      fastify.log.warn("⚠️  Running without database (development only)");
+    }
+  });
+
+// Global error handler
+fastify.setErrorHandler((error, request, reply) => {
+  fastify.log.error(error);
+  
+  reply.status(error.statusCode || 500).send({
+    error: error.name || 'Internal Server Error',
+    message: error.message || 'An unexpected error occurred',
+    statusCode: error.statusCode || 500
+  });
+});
+
+// Register routes
+fastify.register(healthRoutes, { prefix: "/health" });
+fastify.register(newsRoutes, { prefix: "/news" });
+fastify.register(predictionsRoutes, { prefix: "/predictions" });
+fastify.register(matchRoutes, { prefix: "/matches" });
+fastify.register(coppaRoutes, { prefix: "/coppa" });
+fastify.register(errorsRoutes, { prefix: "/errors" });
+
+// Start server
+const PORT = Number(process.env.PORT) || 3001;
+const HOST = process.env.HOST || "0.0.0.0";
+
+fastify.listen({ port: PORT, host: HOST }).then((address) => {
+  fastify.log.info(`✅ Backend running at ${address}`);
+}).catch((err) => {
+  fastify.log.error(err);
+  process.exit(1);
+});

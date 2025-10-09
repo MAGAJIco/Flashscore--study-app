@@ -124,8 +124,17 @@ cd apps/backend/ml && python main.py
   - Configured autoscale deployment
   - Added .gitignore patterns for Node.js and Python
 
-## Notes
-- The app gracefully handles missing MongoDB connection
+## Security Notes
+- **CORS is configured with allowlist**: Only specific origins are allowed (no permissive `origin: true`)
+- **MongoDB is optional in development**: App runs without database for local testing
+- **Production database enforcement**: Set `REQUIRE_DB=true` or `NODE_ENV=production` to require database
 - Service Worker is registered for PWA functionality
-- Cross-origin requests are configured for Replit's iframe proxy
 - The frontend uses 0.0.0.0:5000 to work with Replit's preview system
+
+## Important Environment Variables
+Before deploying to production, ensure these are set:
+- `FRONTEND_URL`: The frontend URL for CORS validation
+- `REPLIT_DEV_DOMAIN`: Automatically detected, but verify it's correct
+- `REQUIRE_DB`: Set to 'true' in production to enforce database connection
+- `NODE_ENV`: Set to 'production' for production deployments
+- `MONGODB_URI`: Your MongoDB connection string

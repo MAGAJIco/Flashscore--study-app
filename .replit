@@ -3,7 +3,7 @@ run = "cd apps/frontend && npm run dev"
 
 [nix]
 channel = "stable-25_05"
-packages = ["miktex", "nix-output-monitor", "psmisc"]
+packages = ["glibcLocales", "libxcrypt", "miktex", "nix-output-monitor", "psmisc"]
 
 [deployment]
 run = ["sh", "-c", "cd apps/frontend && pnpm start"]
@@ -194,6 +194,10 @@ externalPort = 8000
 [[ports]]
 localPort = 35483
 externalPort = 3000
+
+[[ports]]
+localPort = 38403
+externalPort = 3002
 
 [agent]
 expertMode = true

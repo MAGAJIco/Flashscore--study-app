@@ -78,17 +78,6 @@ const paymentsRoutes: FastifyPluginAsync = async (fastify) => {
         const MINIMUM_AGE_FOR_PAYMENTS = 18;
         const MINIMUM_AGE_WITH_CONSENT = 13;
         const MAX_MINOR_TRANSACTION = 50;
-        
-        // Category-based spending limits for minors
-        const CATEGORY_LIMITS = {
-          'in_app_purchase': 20,
-          'subscription': 30,
-          'picoins': 50,
-          'premium': 40,
-          'default': 25
-        };
-        
-        const categoryLimit = CATEGORY_LIMITS[type as keyof typeof CATEGORY_LIMITS] || CATEGORY_LIMITS.default;
 
         if (userAge !== undefined) {
           // Block payments for users under 13
@@ -119,17 +108,6 @@ const paymentsRoutes: FastifyPluginAsync = async (fastify) => {
               error: `Transaction amount exceeds limit for minors. Maximum: $${MAX_MINOR_TRANSACTION}`,
               code: 'MINOR_AMOUNT_LIMIT_EXCEEDED',
               maxAmount: MAX_MINOR_TRANSACTION
-            });
-          }
-          
-          // Check category-specific limits
-          if (userAge < MINIMUM_AGE_FOR_PAYMENTS && amount > categoryLimit) {
-            return reply.status(403).send({
-              success: false,
-              error: `${type} purchases limited to $${categoryLimit} for minors`,
-              code: 'CATEGORY_LIMIT_EXCEEDED',
-              maxAmount: categoryLimit,
-              category: type
             });
           }
         }

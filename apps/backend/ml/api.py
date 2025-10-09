@@ -92,7 +92,7 @@ async def predict(request: PredictionRequest):
     """
     try:
         result = predictor.predict(request.features)
-        
+
         return PredictionResponse(
             prediction=result["prediction"],
             confidence=result["confidence"] * 100,  # Convert to percentage
@@ -122,7 +122,7 @@ async def batch_predict(request: BatchPredictionRequest):
                 "features": pred_request.features,
                 "match_context": pred_request.match_context
             })
-        
+
         return {
             "success": True,
             "count": len(predictions),
