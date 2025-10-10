@@ -69,13 +69,28 @@ export default function LanguageSwitcher() {
 
       {isOpen && (
         <div 
-          className="absolute top-full mt-2 right-0 bg-gray-900 rounded-lg border border-white/20 shadow-xl overflow-hidden z-50 min-w-[180px]"
+          className="absolute top-full mt-2 right-0 bg-gray-900 rounded-lg border border-white/20 shadow-xl overflow-hidden z-50 min-w-[220px]"
           role="menu"
           aria-orientation="vertical"
         >
+          <div className="p-2 border-b border-white/10">
+            <input
+              type="text"
+              placeholder="Search language..."
+              className="w-full px-3 py-2 bg-white/5 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400"
+              onChange={(e) => {
+                const search = e.target.value.toLowerCase();
+                document.querySelectorAll('[data-lang-option]').forEach(el => {
+                  const text = el.getAttribute('data-lang-option')?.toLowerCase() || '';
+                  (el as HTMLElement).style.display = text.includes(search) ? 'flex' : 'none';
+                });
+              }}
+            />
+          </div>
           {locales.map((loc) => (
             <button
               key={loc}
+              data-lang-option={localeNames[loc]}
               onClick={() => handleLanguageChange(loc)}
               className={`w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3 ${
                 locale === loc ? 'bg-white/20 text-cyan-400' : 'text-white'
@@ -90,10 +105,25 @@ export default function LanguageSwitcher() {
                 {loc === 'de' && '🇩🇪'}
                 {loc === 'pt' && '🇵🇹'}
               </span>
-              <span>{localeNames[loc]}</span>
-              {locale === loc && <span className="ml-auto">✓</span>}
+              <div className="flex-1">
+                <div className="font-medium">{localeNames[loc]}</div>
+                <div className="text-xs text-gray-400">
+                  {loc === 'en' && 'English'}
+                  {loc === 'es' && 'Español'}
+                  {loc === 'fr' && 'Français'}
+                  {loc === 'de' && 'Deutsch'}
+                  {loc === 'pt' && 'Português'}
+                </div>
+              </div>
+              {locale === loc && <span className="ml-auto text-cyan-400">✓</span>}
             </button>
           ))}
+          
+          <div className="p-2 border-t border-white/10 bg-white/5">
+            <button className="w-full text-left px-2 py-1 text-xs text-gray-400 hover:text-cyan-400 transition-colors">
+              + Request a language
+            </button>
+          </div>
         </div>
       )}
     </div>

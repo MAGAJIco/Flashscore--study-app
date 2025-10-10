@@ -119,7 +119,7 @@ export default function LanguageSettings() {
           gap: '12px'
         }}>
           <span style={{ fontSize: '1.2rem' }}>ℹ️</span>
-          <div>
+          <div style={{ flex: 1 }}>
             <div style={{
               color: '#60a5fa',
               fontSize: '0.9rem',
@@ -128,8 +128,37 @@ export default function LanguageSettings() {
             }}>
               Language Preference Saved
             </div>
-            <div style={{ color: '#9ca3af', fontSize: '0.85rem' }}>
+            <div style={{ color: '#9ca3af', fontSize: '0.85rem', marginBottom: '8px' }}>
               Your language preference is saved to your account and will be remembered across all your devices.
+            </div>
+            
+            {/* Translation Coverage */}
+            <div style={{ marginTop: '12px' }}>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                marginBottom: '6px'
+              }}>
+                <span style={{ fontSize: '0.8rem', color: '#9ca3af' }}>Translation Coverage</span>
+                <span style={{ fontSize: '0.8rem', color: '#60a5fa', fontWeight: '600' }}>
+                  {locale === 'en' ? '100%' : '~85%'}
+                </span>
+              </div>
+              <div style={{
+                width: '100%',
+                height: '6px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '3px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  width: locale === 'en' ? '100%' : '85%',
+                  height: '100%',
+                  background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)',
+                  transition: 'width 0.3s ease'
+                }} />
+              </div>
             </div>
           </div>
         </div>

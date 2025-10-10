@@ -6,7 +6,7 @@ const locales = ['en', 'es', 'fr', 'de', 'pt'];
 const defaultLocale = 'en';
 
 function getLocale(request: NextRequest): string {
-  // 1. Check cookie first (highest priority)
+  // 1. Check cookie first (highest priority - user explicitly selected)
   const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
   if (cookieLocale && locales.includes(cookieLocale)) {
     return cookieLocale;
@@ -25,7 +25,20 @@ function getLocale(request: NextRequest): string {
     }
   }
 
-  // 3. Check Accept-Language header as fallback
+  // 3. Check geo-location header (Cloudflare/Vercel provides this)
+  const geoLocale = request.headers.get('x-vercel-ip-country')?.toLowerCase();
+  const geoLanguageMap: Record<string, string> = {
+    'es': 'es', 'mx': 'es', 'ar': 'es', 'co': 'es', 'cl': 'es',
+    'fr': 'fr', 'ca': 'fr', 'be': 'fr',
+    'de': 'de', 'at': 'de', 'ch': 'de',
+    'pt': 'pt', 'br': 'pt',
+    'gb': 'en', 'us': 'en', 'au': 'en', 'nz': 'en'
+  };
+  if (geoLocale && geoLanguageMap[geoLocale] && locales.includes(geoLanguageMap[geoLocale])) {
+    return geoLanguageMap[geoLocale];
+  }
+
+  // 4. Check Accept-Language header as fallback
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => {
     negotiatorHeaders[key] = value;
