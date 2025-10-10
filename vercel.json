@@ -1,4 +1,6 @@
 {
+  "buildCommand": "cd apps/frontend && pnpm install && pnpm run build",
+  "installCommand": "pnpm install --frozen-lockfile",
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
