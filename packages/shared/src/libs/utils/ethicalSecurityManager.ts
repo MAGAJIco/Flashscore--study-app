@@ -146,6 +146,7 @@ class EthicalSecurityManager {
       .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
       .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
       .replace(/javascript:/gi, '')
+      .replace(/vbscript:/gi, '')
       .replace(/on\w+\s*=/gi, '')
       .replace(/<\s*\/?\s*(script|object|embed|link|style|meta)[^>]*>/gi, '');
     
@@ -157,16 +158,7 @@ class EthicalSecurityManager {
       .replace(/'/g, '&#x27;')
       .replace(/\//g, '&#x2F;');
     
-    return sanitized;
-
-    return content
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-      .replace(/<[^>]+>/g, '') // Remove HTML tags
-      .replace(/javascript:/gi, '')
-      .replace(/vbscript:/gi, '')
-      .replace(/on\w+\s*=/gi, '')
-      .trim()
-      .substring(0, 5000);
+    return sanitized.trim().substring(0, 5000);
   }
 
   // Real-time threat monitoring
