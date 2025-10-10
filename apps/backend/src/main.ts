@@ -1,4 +1,3 @@
-
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
@@ -77,7 +76,7 @@ mongoose
   .then(() => fastify.log.info("✅ MongoDB connected successfully"))
   .catch((err) => {
     fastify.log.error("❌ MongoDB connection failed:", err.message);
-    
+
     if (REQUIRE_DB) {
       fastify.log.error("Database required in production. Exiting...");
       process.exit(1);

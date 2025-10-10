@@ -8,20 +8,16 @@ interface MagajicoDatabase {
 
 const db: MagajicoDatabase = {};
 
-export const connectDB = async (): Promise<void> => {
-  if (db.isConnected === 1) {
-    console.log('✅ Already connected to database');
-    console.log(`📊 Connection type: ${db.connectionType || 'unknown'}`);
-    return;
-  }
-
+export const connectDB = async (): Promise<void | null> => {
   try {
-    const MONGODB_URI = process.env.MONGODB_URI;
+    const MONGODB_URI = process.env.MONGODB_URI || '';
 
     if (!MONGODB_URI) {
-      console.log('⚠️  MONGODB_URI is not defined - running without database');
-      db.isConnected = 0;
-      return;
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error('MONGODB_URI is required in production');
+      }
+      console.warn('MONGODB_URI not set, running without database (development mode)');
+      return null;
     }
 
     console.log('🔄 Connecting to MongoDB...');
