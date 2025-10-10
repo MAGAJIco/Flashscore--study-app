@@ -133,11 +133,33 @@ export async function GET(request: Request) {
 
     const demoPredictions = generateDemoPredictions(limit);
     
+    // Add social sharing metadata
+    const enrichedPredictions = demoPredictions.map(pred => ({
+      ...pred,
+      shareCard: {
+        title: `${pred.homeTeam} vs ${pred.awayTeam}`,
+        prediction: pred.predictedWinner,
+        confidence: pred.confidence,
+        shareUrl: `https://magajico.com/prediction/${pred.matchId}`,
+        imageUrl: `/api/og-image?match=${encodeURIComponent(pred.homeTeam + ' vs ' + pred.awayTeam)}`
+      },
+      quickActions: {
+        canQuickBet: true,
+        minStake: 5,
+        maxStake: 100
+      }
+    }));
+    
     return NextResponse.json({
       success: true,
-      predictions: demoPredictions,
+      predictions: enrichedPredictions,
       source: 'demo',
-      message: 'Using demo predictions. Connect MongoDB or backend for live data.'
+      message: 'Using demo predictions. Connect MongoDB or backend for live data.',
+      features: {
+        socialSharing: true,
+        quickBet: true,
+        streakSystem: true
+      }
     });
 
   } catch (error) {
