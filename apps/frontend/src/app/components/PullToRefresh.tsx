@@ -8,11 +8,10 @@ interface PullToRefreshProps {
 }
 
 export default function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
-  const [isPulling, setIsPulling] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const startY = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
 
   const threshold = 80;
 
@@ -20,24 +19,19 @@ export default function PullToRefresh({ onRefresh, children }: PullToRefreshProp
     const container = containerRef.current;
     if (!container) return;
 
-    let touchStartY = 0;
-    let currentY = 0;
-
     const handleTouchStart = (e: TouchEvent) => {
       if (container.scrollTop === 0) {
-        touchStartY = e.touches[0].clientY;
-        startY.current = touchStartY;
-        setIsPulling(true);
+        touchStartY.current = e.touches[0].clientY;
       }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!isPulling || isRefreshing) return;
+      if (isRefreshing || container.scrollTop !== 0) return;
 
-      currentY = e.touches[0].clientY;
-      const distance = currentY - touchStartY;
+      const currentY = e.touches[0].clientY;
+      const distance = currentY - touchStartY.current;
 
-      if (distance > 0 && container.scrollTop === 0) {
+      if (distance > 0) {
         e.preventDefault();
         const dampedDistance = Math.min(distance * 0.5, threshold * 1.5);
         setPullDistance(dampedDistance);
@@ -45,8 +39,6 @@ export default function PullToRefresh({ onRefresh, children }: PullToRefreshProp
     };
 
     const handleTouchEnd = async () => {
-      setIsPulling(false);
-
       if (pullDistance >= threshold && !isRefreshing) {
         setIsRefreshing(true);
         try {
@@ -71,10 +63,11 @@ export default function PullToRefresh({ onRefresh, children }: PullToRefreshProp
       container.removeEventListener('touchmove', handleTouchMove);
       container.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [isPulling, pullDistance, isRefreshing, onRefresh]);
+  }, [pullDistance, isRefreshing, onRefresh, threshold]);
 
   const rotation = Math.min((pullDistance / threshold) * 360, 360);
   const opacity = Math.min(pullDistance / threshold, 1);
+  const isPulling = pullDistance > 0;
 
   return (
     <div
