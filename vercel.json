@@ -1,6 +1,8 @@
+
 {
-  "buildCommand": "cd apps/frontend && pnpm install && pnpm run build",
+  "buildCommand": "pnpm install --frozen-lockfile && pnpm --filter @magajico/frontend build",
   "installCommand": "pnpm install --frozen-lockfile",
+  "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
@@ -10,8 +12,8 @@
   },
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "source": "/api/backend/:path*",
+      "destination": "https://magajico-backend.onrender.com/api/:path*"
     }
   ]
 }
