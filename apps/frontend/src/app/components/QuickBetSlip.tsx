@@ -36,11 +36,49 @@ const QuickBetSlip: React.FC<QuickBetSlipProps> = ({ match, onBetPlaced }) => {
     const bets = ClientStorage.getItem('quick_bets', []);
     ClientStorage.setItem('quick_bets', [bet, ...bets]);
 
-    // Update balance
+    // Update balance with emotion
     const balance = ClientStorage.getItem('pi_coins_balance', 1000);
-    ClientStorage.setItem('pi_coins_balance', balance - stakeAmount);
+    const newBalance = balance - stakeAmount;
+    ClientStorage.setItem('pi_coins_balance', newBalance);
 
-    if (navigator.vibrate) navigator.vibrate(50);
+    // ENHANCED: Emotional feedback
+    if (navigator.vibrate) {
+      // Victory pattern: short-long-short
+      navigator.vibrate([50, 100, 50]);
+    }
+    
+    // Show mini celebration
+    const celebration = document.createElement('div');
+    celebration.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 24px 32px;
+      border-radius: 20px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      z-index: 10000;
+      animation: celebrate 0.6s ease-out;
+      box-shadow: 0 20px 60px rgba(16, 185, 129, 0.4);
+    `;
+    celebration.innerHTML = `
+      <div style="text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 8px;">🎯</div>
+        <div>Bet Placed!</div>
+        <div style="font-size: 1rem; opacity: 0.9; margin-top: 8px;">
+          π${stakeAmount} on ${outcome === 'home' ? match.homeTeam : outcome === 'away' ? match.awayTeam : 'Draw'}
+        </div>
+        <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 4px;">
+          Balance: π${newBalance}
+        </div>
+      </div>
+    `;
+    document.body.appendChild(celebration);
+    
+    setTimeout(() => celebration.remove(), 2000);
     
     onBetPlaced?.(bet);
     

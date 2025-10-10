@@ -54,6 +54,18 @@ function generateDemoPredictions(limit: number = 50): any[] {
     const matchDate = new Date();
     matchDate.setDate(matchDate.getDate() + index);
 
+    // Generate detailed reasoning for prediction
+    const reasons = [
+      `${winner} has won ${Math.floor(Math.random() * 4) + 2} of their last 5 matches`,
+      `Strong home advantage with ${Math.floor(Math.random() * 20) + 60}% win rate at home`,
+      `Key players are fit and in excellent form`,
+      `Historical dominance: ${winner} won ${Math.floor(Math.random() * 3) + 3} of last 5 head-to-heads`
+    ];
+    
+    const keyFactors = winner === match.home 
+      ? [`Home crowd advantage`, `Superior possession stats (${Math.floor(Math.random() * 10) + 55}%)`]
+      : [`Recent away form is excellent`, `Counter-attacking strength`];
+
     return {
       matchId: `demo-${index + 1}`,
       homeTeam: match.home,
@@ -66,7 +78,19 @@ function generateDemoPredictions(limit: number = 50): any[] {
       league: match.league,
       source: 'demo',
       createdAt: new Date().toISOString(),
-      aiAnalysis: `AI predicts ${winner} to win with ${confidence}% confidence based on recent form and head-to-head statistics.`
+      
+      // ENHANCED: Make AI feel intelligent
+      aiAnalysis: `🎯 **Why ${winner} Will Win**\n\n${reasons.join('\n• ')}\n\n**Key Factors:**\n${keyFactors.join('\n• ')}`,
+      predictionReasoning: {
+        primaryReason: reasons[0],
+        supportingFactors: reasons.slice(1),
+        riskFactors: confidence < 70 ? ['Recent injuries to consider', 'Weather conditions may impact play'] : [],
+        confidenceExplanation: confidence > 80 
+          ? "Very high confidence - all indicators align" 
+          : confidence > 65 
+          ? "Good confidence - most factors favor this outcome"
+          : "Moderate confidence - match could go either way"
+      }
     };
   });
 }

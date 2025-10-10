@@ -49,12 +49,20 @@ const StreakTracker: React.FC = () => {
   };
 
   const getStreakMessage = (days: number) => {
-    if (days === 0) return 'Start your streak today!';
-    if (days === 1) return 'Great start! Keep it going!';
-    if (days < 7) return `${days} day streak! You're on fire!`;
-    if (days < 14) return `${days} days! Incredible consistency!`;
-    if (days < 30) return `${days} days! You're a prediction legend!`;
-    return `${days} days! LEGENDARY STATUS! 🏆`;
+    const timeUntilReset = () => {
+      const now = new Date();
+      const midnight = new Date(now);
+      midnight.setHours(24, 0, 0, 0);
+      const hours = Math.floor((midnight.getTime() - now.getTime()) / (1000 * 60 * 60));
+      return `${hours}h until reset`;
+    };
+
+    if (days === 0) return '⚡ Start your streak now! Make your first prediction.';
+    if (days === 1) return `🎯 Day 1! Don't lose it - ${timeUntilReset()}`;
+    if (days < 7) return `🔥 ${days} days! You're building momentum! ${timeUntilReset()} to keep it alive`;
+    if (days < 14) return `💪 ${days} days! You're unstoppable! Predict today or lose everything`;
+    if (days < 30) return `👑 ${days} DAYS! Legend status! ${timeUntilReset()} - DON'T BREAK IT`;
+    return `🏆 ${days} DAYS! HALL OF FAME! The pressure is ON - ${timeUntilReset()}`;
   };
 
   return (
