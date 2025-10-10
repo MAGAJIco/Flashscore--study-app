@@ -161,7 +161,7 @@ export default function HomePage() {
 
           <QuickAccessBar />
 
-          <PullToRefresh onRefresh={handleRefresh} isRefreshing={isRefreshing}>
+          <PullToRefresh onRefresh={handleRefresh}>
             {activeSection === 'home' && (
               <>
                 <Suspense fallback={<SmartLoadingState type="card" />}>
