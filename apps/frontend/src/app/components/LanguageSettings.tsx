@@ -21,8 +21,11 @@ export default function LanguageSettings() {
     // Update user preferences
     await updatePreferences({ language: newLocale });
     
-    // Force a hard reload to apply new locale
-    window.location.href = window.location.href;
+    // Use Next.js navigation
+    router.refresh();
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   return (

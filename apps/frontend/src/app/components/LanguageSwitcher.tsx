@@ -49,8 +49,14 @@ export default function LanguageSwitcher() {
     await updatePreferences({ language: newLocale });
     localStorage.setItem('preferredLocale', newLocale);
     
-    // Force a hard reload to apply the new locale
-    window.location.href = window.location.href;
+    // Use Next.js router for smooth navigation
+    const currentPath = pathname || '/';
+    router.refresh();
+    
+    // Small delay to ensure cookie is set before refresh
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   return (
