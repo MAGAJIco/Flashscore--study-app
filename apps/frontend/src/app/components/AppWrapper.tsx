@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 export default function AppWrapper({ children }: { children: React.ReactNode }) {
   return (

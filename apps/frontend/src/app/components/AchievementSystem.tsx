@@ -221,7 +221,7 @@ const AchievementSystem: React.FC<AchievementSystemProps> = ({
     const userStats = getUserStats();
 
     const updatedAchievements = achievementList.map(achievement => {
-      const current = userStats[achievement.requirement.type] || 0;
+      const current = (userStats as any)[achievement.requirement.type] || 0;
       const progress = Math.min((current / achievement.requirement.target) * 100, 100);
 
       // Check if achievement should be unlocked
@@ -230,7 +230,7 @@ const AchievementSystem: React.FC<AchievementSystemProps> = ({
         achievement.unlockedAt = new Date();
 
         // Award Pi Coins
-        PiCoinManager.addTransaction('default', achievement.reward.piCoins, 'bonus', `Achievement: ${achievement.title}`);
+        PiCoinManager.getInstance().earnCoins('default', achievement.reward.piCoins, `Achievement: ${achievement.title}`);
 
         // Show notification
         setShowNotification(achievement);
@@ -261,7 +261,7 @@ const AchievementSystem: React.FC<AchievementSystemProps> = ({
       challenges_created: ClientStorage.getItem('user_challenges_created', 0),
       daily_login_streak: ClientStorage.getItem('user_daily_streak', 0),
       quizzes_completed: ClientStorage.getItem('user_quizzes_completed', 0),
-      pi_coins_earned: PiCoinManager.getBalance('default').totalEarned,
+      pi_coins_earned: PiCoinManager.getInstance().getWallet('default')?.totalEarned || 0,
       achievements_unlocked: achievements.filter(a => a.unlocked).length
     };
   };

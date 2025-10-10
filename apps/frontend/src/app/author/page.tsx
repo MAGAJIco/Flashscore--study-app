@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import AuthorsSidebar from "@/components/AuthorsSidebar";
+import AuthorsSidebar from "@components/AuthorsSidebar";
 
 // Mock data (replace with MongoDB later)
 const myArticles = [
