@@ -1,6 +1,5 @@
-
 {
-  "buildCommand": "pnpm install --frozen-lockfile && pnpm --filter @magajico/frontend build",
+  "buildCommand": "pnpm install --no-frozen-lockfile && pnpm --filter @magajico/frontend build",
   "installCommand": "pnpm install --frozen-lockfile",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
