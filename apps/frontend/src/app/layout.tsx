@@ -36,14 +36,17 @@ export const viewport = {
 };
 
 export default async function RootLayout({
-  children
+  children,
+  params
 }: {
   children: React.ReactNode;
+  params?: { locale?: string };
 }) {
   const messages = await getMessages();
+  const locale = params?.locale || 'en';
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />

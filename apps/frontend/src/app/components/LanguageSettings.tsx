@@ -12,14 +12,17 @@ export default function LanguageSettings() {
   const { updatePreferences } = useUserPreferences();
 
   const handleLanguageChange = async (newLocale: Locale) => {
-    // Set the locale cookie immediately
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
+    // Set the locale cookie with proper attributes
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    
+    // Store in localStorage as fallback
+    localStorage.setItem('preferredLocale', newLocale);
     
     // Update user preferences
     await updatePreferences({ language: newLocale });
     
-    // Hard reload to apply new locale
-    window.location.reload();
+    // Force a hard reload to apply new locale
+    window.location.href = window.location.href;
   };
 
   return (

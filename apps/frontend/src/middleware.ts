@@ -6,7 +6,7 @@ const locales = ['en', 'es', 'fr', 'de', 'pt'];
 const defaultLocale = 'en';
 
 function getLocale(request: NextRequest): string {
-  // 1. Check cookie first
+  // 1. Check cookie first (highest priority)
   const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
   if (cookieLocale && locales.includes(cookieLocale)) {
     return cookieLocale;
@@ -25,7 +25,7 @@ function getLocale(request: NextRequest): string {
     }
   }
 
-  // 3. Check Accept-Language header
+  // 3. Check Accept-Language header as fallback
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => {
     negotiatorHeaders[key] = value;

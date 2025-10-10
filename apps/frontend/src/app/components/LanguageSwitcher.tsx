@@ -42,11 +42,15 @@ export default function LanguageSwitcher() {
   const handleLanguageChange = async (newLocale: Locale) => {
     setIsOpen(false);
     
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
+    // Set the cookie with proper attributes
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    
+    // Update preferences
     await updatePreferences({ language: newLocale });
     localStorage.setItem('preferredLocale', newLocale);
     
-    window.location.reload();
+    // Force a hard reload to apply the new locale
+    window.location.href = window.location.href;
   };
 
   return (
