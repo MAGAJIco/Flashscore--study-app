@@ -26,28 +26,35 @@ export default function BackendHealthMonitor() {
       lastCheck: new Date()
     };
 
-    // Check backend API
+    // Check backend API with metrics
     try {
-      const res = await fetch('/api/health', { signal: AbortSignal.timeout(5000) });
-      newHealth.backend = res.ok ? 'online' : 'offline';
-    } catch {
+      const res = await fetch('/api/backend/health', { signal: AbortSignal.timeout(5000) });
+      if (res.ok) {
+        const data = await res.json();
+        newHealth.backend = data.status === 'ok' || data.status === 'degraded' ? 'online' : 'offline';
+        newHealth.database = data.db?.status === 'ok' ? 'online' : 'offline';
+        
+        // Track metrics in console for debugging
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Backend Health:', data);
+        }
+      } else {
+        newHealth.backend = 'offline';
+        newHealth.database = 'offline';
+      }
+    } catch (err) {
+      console.error('Backend health check failed:', err);
       newHealth.backend = 'offline';
+      newHealth.database = 'offline';
     }
 
     // Check ML service
     try {
       const res = await fetch('/api/ml/health', { signal: AbortSignal.timeout(5000) });
       newHealth.ml = res.ok ? 'online' : 'offline';
-    } catch {
+    } catch (err) {
+      console.error('ML health check failed:', err);
       newHealth.ml = 'offline';
-    }
-
-    // Check database through backend
-    try {
-      const res = await fetch('/api/predictions?limit=1', { signal: AbortSignal.timeout(5000) });
-      newHealth.database = res.ok ? 'online' : 'offline';
-    } catch {
-      newHealth.database = 'offline';
     }
 
     setHealth(newHealth);
