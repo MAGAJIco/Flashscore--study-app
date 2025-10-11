@@ -12,22 +12,7 @@
 ### 
 ---
 
-### Issue #3: MongoDB Connection Optional in Dev
-**Status**: ⚠️ HIGH  
-**Current**: Database not required in development  
-**Risk**: Data operations fail silently
-
-**Fix Steps**:
-1. Set `REQUIRE_DB=true` in `.env`
-2. Ensure MongoDB URI is valid
-3. Test connection on startup
-4. Add proper error handling
-
-**Acceptance Criteria**:
-- ✅ DB connection verified on startup
-- ✅ Server exits if DB unavailable
-- ✅ All models can write/read data
-
+### 
 ---
 
 ## 🔧 MAJOR BUGS (Week 3-4)
