@@ -3,6 +3,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  allowedDevOrigins: ['*.replit.dev'],
   reactStrictMode: true,
   swcMinify: true,
 
