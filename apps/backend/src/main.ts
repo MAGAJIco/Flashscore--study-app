@@ -78,7 +78,7 @@ if (MONGODB_URI) {
     .connect(MONGODB_URI)
     .then(async () => {
       fastify.log.info("✅ MongoDB connected successfully");
-      
+
       // Verify connection health
       try {
         const isHealthy = await mongoose.connection.db?.admin().ping();
@@ -157,6 +157,7 @@ fastify.register(errorsRoutes, { prefix: "/errors" });
 // Start server
 const PORT = Number(process.env.PORT) || 3001;
 const HOST = '0.0.0.0';
+const ENV = process.env.NODE_ENV || 'development';
 
 const start = async () => {
   try {
@@ -166,10 +167,23 @@ const start = async () => {
       fastify.log.info("✅ Database initialization complete");
     }
 
+    // Start notification worker
+    const { notificationWorker } = await import('./workers/notificationWorker');
+    await notificationWorker.start();
+
+    // Register WebSocket service
+    const { websocketService } = await import('./services/websocketService');
+    await websocketService.register(fastify);
+
     await fastify.listen({ port: PORT, host: HOST });
-    fastify.log.info(`✅ Backend running at http://${HOST}:${PORT}`);
+    fastify.log.info({
+      port: PORT,
+      host: HOST,
+      environment: ENV,
+      nodeVersion: process.version,
+    }, '🚀 MagajiCo Enhanced Server started successfully');
     fastify.log.info(`📊 Health check: http://${HOST}:${PORT}/health`);
-    
+
     // Final connection status
     const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
     fastify.log.info(`🗄️  Database status: ${dbStatus}`);

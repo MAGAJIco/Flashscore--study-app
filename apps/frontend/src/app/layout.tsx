@@ -6,6 +6,7 @@ import { UserPreferencesProvider } from "./providers/UserPreferencesProvider";
 import "./styles/globals.css";
 import type { Metadata } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
+import PushNotificationManager from "./components/PushNotificationManager";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import MobilePerformanceOptimizer from "./components/MobilePerformanceOptimizer";
 
@@ -60,6 +61,8 @@ export default async function RootLayout({
       </head>
       <body className="sports">
         <PWAServiceWorker />
+        <PushNotificationManager />
+        {children}
       </body>
     </html>
   );

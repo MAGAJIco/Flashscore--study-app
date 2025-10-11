@@ -1,6 +1,7 @@
-/* sw.js - Sports Central PWA Service Worker */
-const CACHE_NAME = 'sports-central-v2.1';
-const DYNAMIC_CACHE = 'sports-central-dynamic-v1';
+
+/* sw.js - Enhanced Sports Central PWA Service Worker */
+const CACHE_NAME = 'sports-central-v3.0';
+const DYNAMIC_CACHE = 'sports-central-dynamic-v2';
 
 const STATIC_ASSETS = [
   '/',
@@ -19,7 +20,7 @@ const STATIC_ASSETS = [
 
 /* INSTALL */
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing...');
+  console.log('[SW] Installing v3.0...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(STATIC_ASSETS))
@@ -29,7 +30,7 @@ self.addEventListener('install', (event) => {
 
 /* ACTIVATE */
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating...');
+  console.log('[SW] Activating v3.0...');
   event.waitUntil(
     caches.keys().then(names =>
       Promise.all(
@@ -44,11 +45,28 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-/* FETCH */
+/* FETCH with Network-First for API calls */
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
+  const { url } = event.request;
+  const isAPI = url.includes('/api/');
+
   event.respondWith((async () => {
+    // Network-first for API calls
+    if (isAPI) {
+      try {
+        const response = await fetch(event.request);
+        const cache = await caches.open(DYNAMIC_CACHE);
+        cache.put(event.request, response.clone());
+        return response;
+      } catch (err) {
+        const cached = await caches.match(event.request);
+        return cached || new Response('Offline', { status: 503 });
+      }
+    }
+
+    // Cache-first for static assets
     const cached = await caches.match(event.request);
     if (cached) return cached;
 
@@ -68,32 +86,122 @@ self.addEventListener('fetch', (event) => {
   })());
 });
 
+/* BACKGROUND SYNC */
+self.addEventListener('sync', (event) => {
+  console.log('[SW] Background sync:', event.tag);
+  
+  if (event.tag === 'sync-predictions') {
+    event.waitUntil(syncPredictions());
+  } else if (event.tag === 'sync-notifications') {
+    event.waitUntil(syncNotifications());
+  }
+});
+
+async function syncPredictions() {
+  try {
+    const cache = await caches.open('predictions-queue');
+    const requests = await cache.keys();
+    
+    for (const request of requests) {
+      try {
+        await fetch(request.clone());
+        await cache.delete(request);
+        console.log('[SW] Synced prediction:', request.url);
+      } catch (err) {
+        console.error('[SW] Failed to sync:', err);
+      }
+    }
+  } catch (err) {
+    console.error('[SW] Sync predictions error:', err);
+  }
+}
+
+async function syncNotifications() {
+  console.log('[SW] Syncing notifications...');
+}
+
 /* PUSH NOTIFICATIONS */
 self.addEventListener('push', (event) => {
   if (!event.data) return;
+  
   const data = event.data.json();
   const title = data.title || 'Sports Central';
   const options = {
-    body: data.body || '',
+    body: data.body || 'New update available',
     icon: '/icons/icon-192x192.png',
     badge: '/icons/icon-72x72.png',
     vibrate: [100, 50, 100],
     data: { url: data.url || '/' },
-    actions: data.actions || [{ action: 'open', title: 'Open App' }]
+    actions: [
+      { action: 'open', title: 'Open App', icon: '/icons/icon-72x72.png' },
+      { action: 'close', title: 'Close', icon: '/icons/icon-72x72.png' }
+    ],
+    tag: data.tag || 'general',
+    requireInteraction: false,
+    silent: false
   };
-  event.waitUntil(self.registration.showNotification(title, options));
+  
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
 });
 
 /* NOTIFICATION CLICK */
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+  
+  if (event.action === 'close') {
+    return;
+  }
+  
   const url = event.notification.data?.url || '/';
-  event.waitUntil(clients.openWindow(url));
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then(clientList => {
+        for (const client of clientList) {
+          if (client.url === url && 'focus' in client) {
+            return client.focus();
+          }
+        }
+        if (clients.openWindow) {
+          return clients.openWindow(url);
+        }
+      })
+  );
 });
 
-/* UPDATE HANDLER */
+/* PERIODIC BACKGROUND SYNC (if supported) */
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'update-scores') {
+    event.waitUntil(updateLiveScores());
+  }
+});
+
+async function updateLiveScores() {
+  try {
+    const response = await fetch('/api/backend/predictions/live');
+    const data = await response.json();
+    
+    // Cache updated scores
+    const cache = await caches.open(DYNAMIC_CACHE);
+    cache.put('/api/backend/predictions/live', new Response(JSON.stringify(data)));
+    
+    console.log('[SW] Updated live scores');
+  } catch (err) {
+    console.error('[SW] Failed to update scores:', err);
+  }
+}
+
+/* MESSAGE HANDLER */
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  } else if (event.data && event.data.type === 'CLEAR_CACHE') {
+    event.waitUntil(
+      caches.keys().then(names => 
+        Promise.all(names.map(name => caches.delete(name)))
+      )
+    );
   }
 });
