@@ -67,23 +67,49 @@ fastify.register(rateLimit, {
   timeWindow: '1 minute'
 });
 
-// MongoDB connection
+// MongoDB connection with verification
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/sportscentral";
 const REQUIRE_DB = process.env.REQUIRE_DB === 'true' || process.env.NODE_ENV === 'production';
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => fastify.log.info("✅ MongoDB connected successfully"))
-  .catch((err) => {
-    fastify.log.error("❌ MongoDB connection failed:", err.message);
+let dbConnectionPromise: Promise<void>;
 
-    if (REQUIRE_DB) {
-      fastify.log.error("Database required in production. Exiting...");
-      process.exit(1);
-    } else {
-      fastify.log.warn("⚠️  Running without database (development only)");
-    }
-  });
+if (MONGODB_URI) {
+  dbConnectionPromise = mongoose
+    .connect(MONGODB_URI)
+    .then(async () => {
+      fastify.log.info("✅ MongoDB connected successfully");
+      
+      // Verify connection health
+      try {
+        const isHealthy = await mongoose.connection.db?.admin().ping();
+        if (isHealthy) {
+          fastify.log.info("✅ Database health check passed");
+        }
+      } catch (healthErr) {
+        fastify.log.error("⚠️  Database health check failed:", healthErr);
+        if (REQUIRE_DB) {
+          throw healthErr;
+        }
+      }
+    })
+    .catch((err) => {
+      fastify.log.error("❌ MongoDB connection failed:", err.message);
+
+      if (REQUIRE_DB) {
+        fastify.log.error("💥 Database required but connection failed. Exiting...");
+        process.exit(1);
+      } else {
+        fastify.log.warn("⚠️  Running without database (development only)");
+      }
+    });
+} else {
+  if (REQUIRE_DB) {
+    fastify.log.error("💥 MONGODB_URI not set but database is required. Exiting...");
+    process.exit(1);
+  }
+  fastify.log.warn("⚠️  No MONGODB_URI set, running without database");
+  dbConnectionPromise = Promise.resolve();
+}
 
 // Global error handler
 fastify.setErrorHandler(async (error, request, reply) => {
@@ -134,11 +160,21 @@ const HOST = '0.0.0.0';
 
 const start = async () => {
   try {
+    // Wait for database connection if required
+    if (dbConnectionPromise) {
+      await dbConnectionPromise;
+      fastify.log.info("✅ Database initialization complete");
+    }
+
     await fastify.listen({ port: PORT, host: HOST });
     fastify.log.info(`✅ Backend running at http://${HOST}:${PORT}`);
     fastify.log.info(`📊 Health check: http://${HOST}:${PORT}/health`);
+    
+    // Final connection status
+    const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    fastify.log.info(`🗄️  Database status: ${dbStatus}`);
   } catch (err) {
-    fastify.log.error(err);
+    fastify.log.error("💥 Server startup failed:", err);
     process.exit(1);
   }
 };

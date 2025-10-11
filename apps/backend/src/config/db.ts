@@ -11,12 +11,18 @@ const db: MagajicoDatabase = {};
 export const connectDB = async (): Promise<void | null> => {
   try {
     const MONGODB_URI = process.env.MONGODB_URI || '';
+    const REQUIRE_DB = process.env.REQUIRE_DB === 'true' || process.env.NODE_ENV === 'production';
 
     if (!MONGODB_URI) {
-      if (process.env.NODE_ENV === 'production') {
-        throw new Error('MONGODB_URI is required in production');
+      const errorMsg = 'MONGODB_URI environment variable is not set';
+      
+      if (REQUIRE_DB) {
+        console.error(`❌ ${errorMsg} - Database is required in this environment`);
+        throw new Error(errorMsg);
       }
-      console.warn('MONGODB_URI not set, running without database (development mode)');
+      
+      console.warn('⚠️  MONGODB_URI not set, running without database (development mode)');
+      console.warn('⚠️  Set REQUIRE_DB=true to enforce database connection');
       return null;
     }
 
@@ -165,6 +171,26 @@ export const checkDBHealth = async (): Promise<boolean> => {
     console.error('❌ Database health check failed:', err);
     return false;
   }
+};
+
+export const verifyConnection = async (): Promise<void> => {
+  const REQUIRE_DB = process.env.REQUIRE_DB === 'true' || process.env.NODE_ENV === 'production';
+  
+  if (!REQUIRE_DB && db.isConnected !== 1) {
+    console.warn('⚠️  Database connection not required in this environment');
+    return;
+  }
+
+  if (db.isConnected !== 1) {
+    throw new Error('Database connection verification failed: Not connected');
+  }
+
+  const isHealthy = await checkDBHealth();
+  if (!isHealthy) {
+    throw new Error('Database connection verification failed: Health check failed');
+  }
+
+  console.log('✅ Database connection verified successfully');
 };
 
 export default mongoose;
