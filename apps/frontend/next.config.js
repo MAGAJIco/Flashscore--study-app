@@ -1,41 +1,55 @@
+const createNextIntlPlugin = require("next-intl/plugin");
+const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: false,
+  reactStrictMode: true,
+  swcMinify: true,
+
+  // For monorepo setup with shared packages
+  transpilePackages: ["@magajico/shared"],
+
+  compiler: {
+    // Strip out console logs in production builds
+    removeConsole: process.env.NODE_ENV === "production",
   },
-  eslint: {
-    ignoreDuringBuilds: false,
+
+  images: {
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [320, 420, 768, 1024, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**", // allow images from your backend & CDN
+      },
+    ],
   },
-  allowedDevOrigins: ['*.replit.dev'],
+
   experimental: {
-    serverActions: {
-      allowedOrigins: ['*'],
-    },
+    externalDir: true,
+    optimizePackageImports: ["react-icons", "lodash"],
   },
+
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: true,
+
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-cache, no-store, must-revalidate',
-          },
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-XSS-Protection", value: "1; mode=block" },
         ],
       },
     ];
   },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-    return config;
-  },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

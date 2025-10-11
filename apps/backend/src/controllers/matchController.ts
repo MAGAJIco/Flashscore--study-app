@@ -1,23 +1,23 @@
-import { Request, Response } from "express";
+import { FastifyRequest, FastifyReply } from "fastify";
 import { Match } from "../models/Match";
 
 // GET all matches
-export const getMatches = async (req: Request, res: Response) => {
+export const getMatches = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     const matches = await Match.find().sort({ date: -1 });
-    res.json(matches);
+    return reply.send(matches);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch matches" });
+    reply.status(500).send({ error: "Failed to fetch matches" });
   }
 };
 
 // POST new match
-export const createMatch = async (req: Request, res: Response) => {
+export const createMatch = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const match = new Match(req.body);
+    const match = new Match(request.body);
     await match.save();
-    res.status(201).json(match);
+    reply.status(201).send(match);
   } catch (err) {
-    res.status(400).json({ error: "Failed to create match" });
+    reply.status(400).send({ error: "Failed to create match" });
   }
 };

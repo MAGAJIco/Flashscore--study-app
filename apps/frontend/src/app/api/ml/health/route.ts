@@ -1,27 +1,35 @@
-
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const response = await fetch('http://0.0.0.0:8000/health', {
-      method: 'GET',
+    const mlServiceUrl = process.env.ML_SERVICE_URL || "http://0.0.0.0:8000";
+    const response = await fetch(`${mlServiceUrl}/health`, {
+      signal: AbortSignal.timeout(5000),
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Accept': 'application/json',
+      }
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      return NextResponse.json(data);
-    } else {
-      return NextResponse.json(
-        { error: 'ML service unavailable' },
-        { status: 503 }
-      );
+    if (!response.ok) {
+      throw new Error(`ML service returned ${response.status}`);
     }
+
+    const data = await response.json();
+    return NextResponse.json({ 
+      success: true, 
+      service: 'ml',
+      timestamp: new Date().toISOString(),
+      ...data 
+    });
   } catch (error) {
+    console.error("ML health check failed:", error);
     return NextResponse.json(
-      { error: 'Failed to connect to ML service' },
+      { 
+        success: false,
+        error: "ML service unavailable",
+        message: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString()
+      },
       { status: 503 }
     );
   }

@@ -139,12 +139,15 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
     
     const currentY = e.touches[0].clientY;
     const distance = Math.max(0, (currentY - startY) * 0.5);
-    setPullDistance(distance);
+    if (distance !== pullDistance) {
+      setPullDistance(distance);
+    }
   };
 
   const handleTouchEnd = async () => {
     if (pullDistance >= threshold && !isRefreshing) {
       setIsRefreshing(true);
+      console.log('Refreshing...');
       try {
         await onRefresh();
       } finally {

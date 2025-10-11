@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 
 interface Card {
@@ -11,6 +12,7 @@ interface Card {
   action: () => void;
   priority: number;
   show: boolean;
+  category: 'sports' | 'social' | 'achievements' | 'finance' | 'community';
 }
 
 export default function HorizontalCarousel() {
@@ -18,23 +20,52 @@ export default function HorizontalCarousel() {
   const [todayPredictions, setTodayPredictions] = useState(0);
   const [piBalance, setPiBalance] = useState(0);
   const [userRank, setUserRank] = useState(0);
+  const [activeUsers, setActiveUsers] = useState(0);
+  const [todayAchievements, setTodayAchievements] = useState(0);
+  const [friendsOnline, setFriendsOnline] = useState(0);
+  const [communityEvents, setCommunityEvents] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch live matches count
+        const matchesRes = await fetch('/api/predictions?limit=10').catch(() => null);
+        if (matchesRes?.ok) {
+          const data = await matchesRes.json();
+          setLiveMatches(Array.isArray(data) ? Math.min(data.length, 10) : 5);
+          setTodayPredictions(Array.isArray(data) ? data.length : 18);
+        } else {
+          setLiveMatches(5);
+          setTodayPredictions(18);
+        }
+
+        // Set static data as fallback
+        setPiBalance(342.5);
+        setUserRank(89);
+        setActiveUsers(1247);
+        setTodayAchievements(3);
+        setFriendsOnline(12);
+        setCommunityEvents(2);
+      } catch (error) {
+        console.error("Error fetching carousel data:", error);
+        // Set default values on error
         setLiveMatches(5);
         setTodayPredictions(18);
         setPiBalance(342.5);
         setUserRank(89);
-      } catch (error) {
-        console.error("Error fetching carousel data:", error);
+        setActiveUsers(1247);
+        setTodayAchievements(3);
+        setFriendsOnline(12);
+        setCommunityEvents(2);
       }
     };
 
     fetchData();
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
   }, []);
 
-  const criticalCards: Card[] = [
+  const lifeConnectingCards: Card[] = [
     {
       id: "live-matches",
       title: "Live Matches",
@@ -44,33 +75,61 @@ export default function HorizontalCarousel() {
       bgGradient: "from-red-500/20 to-orange-500/20",
       icon: "🔴",
       action: () => {
-        document
-          .getElementById("prediction-preview")
-          ?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("prediction-preview")?.scrollIntoView({ behavior: "smooth" });
       },
       priority: 1,
       show: liveMatches > 0,
+      category: 'sports'
+    },
+    {
+      id: "community-hub",
+      title: "Community Hub",
+      subtitle: `${friendsOnline} friends • ${activeUsers.toLocaleString()} online`,
+      value: `${communityEvents} events`,
+      gradient: "from-green-500 to-cyan-500",
+      bgGradient: "from-green-500/20 to-cyan-500/20",
+      icon: "🌍",
+      action: () => {
+        document.getElementById("social-hub")?.scrollIntoView({ behavior: "smooth" });
+      },
+      priority: 2,
+      show: activeUsers > 0,
+      category: 'community'
     },
     {
       id: "today-predictions",
       title: "Today's Tips",
-      subtitle: "Premier League",
+      subtitle: "Expert predictions",
       value: `${todayPredictions}`,
       gradient: "from-blue-500 to-purple-500",
       bgGradient: "from-blue-500/20 to-purple-500/20",
       icon: "💡",
       action: () => {
-        document
-          .getElementById("prediction-preview")
-          ?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("prediction-preview")?.scrollIntoView({ behavior: "smooth" });
       },
-      priority: 2,
+      priority: 3,
       show: true,
+      category: 'sports'
+    },
+    {
+      id: "achievements",
+      title: "Achievements",
+      subtitle: `Rank #${userRank}`,
+      value: `${todayAchievements} new 🎯`,
+      gradient: "from-amber-500 to-orange-500",
+      bgGradient: "from-amber-500/20 to-orange-500/20",
+      icon: "🏆",
+      action: () => {
+        document.getElementById("prediction-league")?.scrollIntoView({ behavior: "smooth" });
+      },
+      priority: 4,
+      show: todayAchievements > 0 || userRank > 0,
+      category: 'achievements'
     },
     {
       id: "pi-balance",
       title: "Pi Balance",
-      subtitle: "Available",
+      subtitle: "Your wallet",
       value: `${piBalance.toFixed(1)}π`,
       gradient: "from-yellow-500 to-orange-500",
       bgGradient: "from-yellow-500/20 to-orange-500/20",
@@ -78,28 +137,13 @@ export default function HorizontalCarousel() {
       action: () => {
         alert("Opening Pi Wallet...");
       },
-      priority: 3,
+      priority: 5,
       show: true,
-    },
-    {
-      id: "user-rank",
-      title: "Your Rank",
-      subtitle: "Global leaderboard",
-      value: `#${userRank}`,
-      gradient: "from-purple-500 to-pink-500",
-      bgGradient: "from-purple-500/20 to-pink-500/20",
-      icon: "🏆",
-      action: () => {
-        document
-          .getElementById("prediction-league")
-          ?.scrollIntoView({ behavior: "smooth" });
-      },
-      priority: 4,
-      show: userRank > 0,
+      category: 'finance'
     },
   ];
 
-  const visibleCards = criticalCards.filter((card) => card.show);
+  const visibleCards = lifeConnectingCards.filter((card) => card.show);
 
   if (visibleCards.length === 0) {
     return null;
@@ -111,7 +155,7 @@ export default function HorizontalCarousel() {
       <div className="flex items-center justify-between mb-4 px-2">
         <h3 className="text-xl font-bold text-white flex items-center gap-2">
           <span className="text-green-400">⚡</span>
-          Quick Actions
+          Life Connection Hub
         </h3>
         {visibleCards.length > 2 && (
           <span className="text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded-full">
@@ -129,8 +173,7 @@ export default function HorizontalCarousel() {
               onClick={card.action}
               className="carousel-item min-w-[170px] flex-shrink-0 snap-start focus:outline-none focus:ring-2 focus:ring-blue-500/50 rounded-2xl transition-all duration-300"
               style={{
-                animationDelay: `${index * 50}ms`,
-                animation: "slideInUp 0.5s ease-out forwards",
+                animation: `slideInUp 0.5s ease-out ${index * 0.1}s forwards`,
                 opacity: 0,
               }}
               aria-label={`${card.title}: ${card.value}`}
@@ -147,8 +190,8 @@ export default function HorizontalCarousel() {
                   {/* Icon & Status Indicator */}
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-2xl">{card.icon}</span>
-                    {card.id === "live-matches" && (
-                      <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-lg shadow-red-500/50"></div>
+                    {(card.id === "live-matches" || card.id === "friends-online") && (
+                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-lg shadow-green-500/50"></div>
                     )}
                   </div>
 
@@ -206,6 +249,7 @@ export default function HorizontalCarousel() {
           scroll-behavior: smooth;
           overscroll-behavior-x: contain;
           touch-action: pan-x pinch-zoom;
+          scroll-padding: 0 16px;
         }
 
         .carousel-scroll::-webkit-scrollbar {
@@ -216,6 +260,32 @@ export default function HorizontalCarousel() {
         .carousel-item {
           scroll-snap-align: start;
           scroll-snap-stop: normal;
+          will-change: transform;
+        }
+
+        /* Better touch handling on mobile */
+        @media (hover: none) and (pointer: coarse) {
+          .carousel-scroll {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+          }
+          
+          .carousel-item {
+            scroll-snap-align: center;
+          }
+        }
+
+        /* Ensure proper spacing on different screen sizes */
+        @media (max-width: 640px) {
+          .carousel-item {
+            min-width: 160px;
+          }
+        }
+
+        @media (min-width: 641px) and (max-width: 1024px) {
+          .carousel-item {
+            min-width: 180px;
+          }
         }
       `}</style>
     </div>

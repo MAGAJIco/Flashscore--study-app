@@ -1,9 +1,0 @@
-
-User-agent: *
-Allow: /
-
-Sitemap: https://your-app-domain.replit.app/sitemap.xml
-
-# Block access to admin areas
-Disallow: /api/
-Disallow: /admin/

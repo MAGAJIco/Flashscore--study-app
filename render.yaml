@@ -4,12 +4,14 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: cd apps/backend && npm install && npm run build
-    startCommand: cd apps/backend && npm start
+    rootDir: apps/backend
+    buildCommand: cd ../.. && pnpm install && cd apps/backend && pnpm build
+    startCommand: pnpm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
         sync: false  # Set this in Render dashboard
       - key: PORT
-        value: 3001
+        value: 10000
+        

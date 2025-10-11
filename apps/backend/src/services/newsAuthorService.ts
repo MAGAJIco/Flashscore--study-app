@@ -12,7 +12,7 @@ export class NewsAuthorService {
   }): Promise<INewsAuthor> {
     try {
       const existingAuthor = await NewsAuthor.findOne({ id: authorData.id });
-      
+
       if (existingAuthor) {
         // Update existing author
         existingAuthor.name = authorData.name;
@@ -20,7 +20,7 @@ export class NewsAuthorService {
         existingAuthor.bio = authorData.bio || existingAuthor.bio;
         existingAuthor.expertise = authorData.expertise || existingAuthor.expertise;
         existingAuthor.updatedAt = new Date();
-        
+
         return await existingAuthor.save();
       } else {
         // Create new author
@@ -33,7 +33,7 @@ export class NewsAuthorService {
           collaborationCount: 0,
           isActive: true
         });
-        
+
         return await newAuthor.save();
       }
     } catch (error) {
@@ -192,3 +192,6 @@ export class NewsAuthorService {
     }
   }
 }
+
+
+export const newsAuthorService = new NewsAuthorService();

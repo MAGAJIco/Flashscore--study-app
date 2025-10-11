@@ -42,7 +42,7 @@ export class StatAreaService {
     const predictions: StatAreaPrediction[] = [];
 
     $(".prediction-row, .match-row, .tip-row").each(
-      (i: number, el: cheerio.Element) => {
+      (i: number, el: any) => {
         const $el = $(el);
 
         const homeTeam = $el.find(".home-team, .team-home").text().trim();

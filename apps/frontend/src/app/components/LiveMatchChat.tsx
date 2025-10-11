@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ClientStorage } from '@shared/clientStorage';
 import UserManager, { User } from '@shared/userManager';
+import translationService from '../services/translationService';
+import timeZoneService from '../services/timeZoneService';
 
 interface ChatMessage {
   id: string;
@@ -36,6 +38,9 @@ const LiveMatchChat: React.FC<LiveMatchChatProps> = ({ match, currentUser }) => 
   const [activeUsers, setActiveUsers] = useState<number>(0);
   const [isMobile, setIsMobile] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState('');
+  const [autoTranslate, setAutoTranslate] = useState(false);
+  const [userLanguage, setUserLanguage] = useState('en');
+  const [translatedMessages, setTranslatedMessages] = useState<{[key: string]: string}>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatInputRef = useRef<HTMLInputElement>(null);
 
@@ -274,10 +279,30 @@ const LiveMatchChat: React.FC<LiveMatchChatProps> = ({ match, currentUser }) => 
         </div>
         
         <div style={{
-          fontSize: isMobile ? '0.8rem' : '0.9rem',
-          color: '#d1fae5'
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
         }}>
-          {match.homeTeam} {match.homeScore} - {match.awayScore} {match.awayTeam}
+          <div style={{
+            fontSize: isMobile ? '0.8rem' : '0.9rem',
+            color: '#d1fae5'
+          }}>
+            {match.homeTeam} {match.homeScore} - {match.awayScore} {match.awayTeam}
+          </div>
+          <button
+            onClick={() => setAutoTranslate(!autoTranslate)}
+            style={{
+              background: autoTranslate ? '#10b981' : 'rgba(255, 255, 255, 0.1)',
+              color: '#fff',
+              border: 'none',
+              padding: '4px 8px',
+              borderRadius: '6px',
+              fontSize: '0.7rem',
+              cursor: 'pointer'
+            }}
+          >
+            🌐 {autoTranslate ? 'ON' : 'OFF'}
+          </button>
         </div>
         
         <div style={{

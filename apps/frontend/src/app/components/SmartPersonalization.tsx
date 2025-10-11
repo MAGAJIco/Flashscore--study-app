@@ -65,22 +65,41 @@ const SmartPersonalization: React.FC = () => {
   };
 
   const generateSmartRecommendations = () => {
-    // AI-powered content recommendations
+    // AI-powered personalized predictions
+    const userBehavior = ClientStorage.getItem('user_behavior_analytics', {});
+    const favoriteSports = userBehavior.mostViewedSports || ['football', 'basketball'];
+    
     const recommendations = {
       predictionsForYou: [
         {
           id: 1,
           match: "Lakers vs Warriors",
           confidence: 94,
-          reason: "Based on your NBA viewing history",
-          aiScore: 0.94
+          reason: "Based on your NBA viewing history + recent form analysis",
+          aiScore: 0.94,
+          prediction: "Lakers Win",
+          expectedValue: "+15%",
+          personalizedInsight: "Your betting pattern shows 78% accuracy on Lakers home games"
         },
         {
           id: 2,
           match: "Chelsea vs Arsenal",
           confidence: 87,
-          reason: "Your Premier League engagement pattern",
-          aiScore: 0.87
+          reason: "Your Premier League engagement pattern + head-to-head stats",
+          aiScore: 0.87,
+          prediction: "Over 2.5 Goals",
+          expectedValue: "+12%",
+          personalizedInsight: "You have 82% success rate on high-scoring matches"
+        },
+        {
+          id: 3,
+          match: "Real Madrid vs Barcelona",
+          confidence: 91,
+          reason: "AI detected your interest in El Clásico matches",
+          aiScore: 0.91,
+          prediction: "Draw",
+          expectedValue: "+18%",
+          personalizedInsight: "Historical data shows your draw predictions are most accurate"
         }
       ],
       newsRecommendations: [

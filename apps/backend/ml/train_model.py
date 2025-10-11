@@ -102,12 +102,15 @@ def train_model():
     logger.info(f"📊 Training accuracy: {train_score:.3f}")
     logger.info(f"📊 Test accuracy: {test_score:.3f}")
     
-    # Save model
+    # Save model with version info
+    import sklearn
     model_data = {
         "model": model,
         "scaler": scaler,
         "accuracy": test_score,
-        "version": "MagajiCo-v2.1"
+        "version": "MagajiCo-v2.1",
+        "sklearn_version": sklearn.__version__,
+        "trained_date": np.datetime64('now').astype(str)
     }
     
     with open("model_data.pkl", "wb") as f:

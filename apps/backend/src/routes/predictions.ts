@@ -1,96 +1,102 @@
-// apps/backend/src/routes/predictions.ts
-import { FastifyInstance } from "fastify";
-import { MongoClient } from "mongodb";
-import fetch from "node-fetch";
-import { predictMatch } from "../services/predictionService"; // can still wrap ML calls
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { predictionService } from '../services/inMemoryPredictionService';
 
-const uri = process.env.MONGODB_URI!;
-const client = new MongoClient(uri);
-await client.connect();
-const db = client.db("magajico");
-const predictions = db.collection("predictions");
-
-export async function predictionRoutes(server: FastifyInstance) {
-  // GET: Manual Prediction via Query Params
-  server.get("/predictions", async (request, reply) => {
+export default async function predictionsRoutes(fastify: FastifyInstance) {
+  // Get all predictions
+  fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const { homeTeam, awayTeam } = request.query as {
-        homeTeam: string;
-        awayTeam: string;
-      };
+      const { limit = '50', kidsMode } = request.query as { limit?: string; kidsMode?: string };
+      const limitNum = parseInt(limit) || 50;
 
-      if (!homeTeam || !awayTeam) {
-        return reply.status(400).send({ error: "Missing team names" });
-      }
+      const predictions = predictionService.getAllPredictions(limitNum);
 
-      // Call prediction service (could be ML API or local logic)
-      const result = await predictMatch(homeTeam, awayTeam);
+      // Filter out gambling content for kids mode
+      const filteredPredictions = kidsMode === 'true'
+        ? predictions.filter((p: any) => !p.isGambling)
+        : predictions;
 
-      // Save to DB
-      const record = {
-        homeTeam,
-        awayTeam,
-        predictedWinner: result.predictedWinner,
-        confidence: result.confidence,
-        createdAt: new Date(),
-        source: "manual",
-      };
-
-      await predictions.insertOne(record);
-
-      return { success: true, data: record };
-    } catch (err: any) {
+      return reply.send({
+        success: true,
+        data: filteredPredictions,
+        count: filteredPredictions.length,
+        modelVersion: 'MagajiCo-v3.0-Advanced'
+      });
+    } catch (error: any) {
+      fastify.log.error('Error fetching predictions:', error?.message || error);
       return reply.status(500).send({
         success: false,
-        error: err.message || "Prediction error",
+        error: 'Failed to fetch predictions'
       });
     }
   });
 
-  // POST: Auto Prediction via Scraping + ML
-  server.post("/predictions", async (request, reply) => {
+  // Get prediction by ID
+  fastify.get('/:id', async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
     try {
-      const { mode } = request.body as { mode: "scraping" | "ml" | "hybrid" };
+      const { id } = request.params;
+      const prediction = predictionService.getPredictionById(id);
 
-      // Step 1: Scrape fixtures (replace with cheerio service)
-      const scrapedMatches = await fetch("http://localhost:3001/scrape/matches").then(r => r.json());
-
-      const results: any[] = [];
-
-      for (const match of scrapedMatches) {
-        let mlResult: any = {};
-
-        if (mode !== "scraping") {
-          // Step 2: Call ML microservice
-          mlResult = await fetch("http://0.0.0.0:8000/predict", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(match),
-          }).then(r => r.json());
-        }
-
-        const prediction = {
-          matchId: match.id,
-          homeTeam: match.homeTeam,
-          awayTeam: match.awayTeam,
-          predictedWinner: mlResult.predictedWinner || match.homeTeam,
-          confidence: mlResult.confidence || 50,
-          odds: match.odds,
-          status: "upcoming",
-          matchDate: match.date,
-          source: mode,
-          createdAt: new Date(),
-        };
-
-        await predictions.insertOne(prediction);
-        results.push(prediction);
+      if (!prediction) {
+        return reply.status(404).send({
+          success: false,
+          error: 'Prediction not found'
+        });
       }
 
-      return reply.status(201).send({ success: true, predictions: results });
-    } catch (err: any) {
+      return reply.send({
+        success: true,
+        data: prediction
+      });
+    } catch (error: any) {
+      fastify.log.error('Error fetching prediction:', error?.message || error);
       return reply.status(500).send({
         success: false,
-        error: err.message || "Auto prediction error",
+        error: 'Failed to fetch prediction'
+      });
+    }
+  });
+
+  // Get statistics
+  fastify.get('/stats/overview', async (_request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const stats = predictionService.getStatistics();
+      return reply.send({
+        success: true,
+        data: stats
+      });
+    } catch (error: any) {
+      fastify.log.error('Error fetching statistics:', error?.message || error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch statistics'
+      });
+    }
+  });
+
+  // Custom prediction with features
+  fastify.post('/custom', async (request: FastifyRequest<{ Body: { features: number[] } }>, reply: FastifyReply) => {
+    try {
+      const { features } = request.body;
+
+      if (!Array.isArray(features) || features.length !== 7) {
+        return reply.status(400).send({
+          success: false,
+          error:
+            'Invalid features. Expected array of 7 numbers: [homeForm, awayForm, h2hRatio, homeGoalsFor, homeGoalsAgainst, awayGoalsFor, awayGoalsAgainst]'
+        });
+      }
+
+      const prediction = predictionService.generateCustomPrediction(features);
+
+      return reply.send({
+        success: true,
+        data: prediction
+      });
+    } catch (error: any) {
+      fastify.log.error('Error generating custom prediction:', error?.message || error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to generate prediction'
       });
     }
   });

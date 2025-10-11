@@ -1,6 +1,16 @@
+"use client";
+
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import styles from './ErrorBoundary.module.css';
-import { saveOffline } from '@/utils/offlineStorage';
+
+const saveOffline = (key: string, value: any) => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(`myApp_${key}`, JSON.stringify(value));
+  } catch (err) {
+    console.warn('Failed to save offline data:', err);
+  }
+};
 
 interface Props {
   children: ReactNode;
@@ -32,15 +42,11 @@ class ErrorBoundary extends Component<Props, State> {
       timestamp: new Date().toISOString()
     });
 
-    void import('../utils/securityUtils')
-      .then(({ default: SecurityUtils }) =>
-        SecurityUtils.logSecurityEvent('app_error', {
-          message: error.message,
-          stack: error.stack,
-          componentStack: errorInfo.componentStack,
-        })
-      )
-      .catch(() => console.warn('SecurityUtils not available for error logging'));
+    console.error('App error caught:', {
+      message: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+    });
 
     this.props.onError?.(error, errorInfo);
 

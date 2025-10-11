@@ -7,11 +7,6 @@ export const authMiddleware = {
     try {
       const authHeader = request.headers.authorization;
 
-      // For development, allow requests with Bearer token or skip auth
-      if (process.env.NODE_ENV === 'development') {
-        return; // Skip auth in development
-      }
-
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return reply.code(401).send({
           success: false,
@@ -19,17 +14,36 @@ export const authMiddleware = {
         });
       }
 
-      // In production, implement proper token validation here
       const token = authHeader.substring(7);
-      if (token === 'member' || token === 'admin') {
-        return; // Valid token
+      
+      // Validate token format (at minimum)
+      if (!token || token.length < 32 || !/^[a-zA-Z0-9_\-\.]+$/.test(token)) {
+        return reply.code(401).send({
+          success: false,
+          message: 'Invalid token format'
+        });
       }
 
-      return reply.code(401).send({
-        success: false,
-        message: 'Invalid access token'
-      });
+      // TODO: Implement JWT validation or session lookup with database
+      // For now, require proper implementation before deployment
+      if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET must be configured for production');
+      }
+
+      // Temporary check - replace with actual JWT validation
+      const isDevelopmentBypass = process.env.NODE_ENV === 'development' && (token === 'member' || token === 'admin');
+      
+      if (!isDevelopmentBypass && process.env.NODE_ENV === 'production') {
+        // Implement actual JWT validation here
+        return reply.code(401).send({
+          success: false,
+          message: 'Token validation not implemented'
+        });
+      }
+
+      return;
     } catch (error) {
+      request.log.error(error);
       return reply.code(500).send({
         success: false,
         message: 'Authentication error'

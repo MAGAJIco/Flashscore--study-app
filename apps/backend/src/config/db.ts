@@ -8,20 +8,16 @@ interface MagajicoDatabase {
 
 const db: MagajicoDatabase = {};
 
-export const connectDB = async (): Promise<void> => {
-  if (db.isConnected === 1) {
-    console.log('✅ Already connected to database');
-    console.log(`📊 Connection type: ${db.connectionType || 'unknown'}`);
-    return;
-  }
-
+export const connectDB = async (): Promise<void | null> => {
   try {
-    const MONGODB_URI = process.env.MONGODB_URI;
+    const MONGODB_URI = process.env.MONGODB_URI || '';
 
     if (!MONGODB_URI) {
-      console.log('⚠️  MONGODB_URI is not defined - running without database');
-      db.isConnected = 0;
-      return;
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error('MONGODB_URI is required in production');
+      }
+      console.warn('MONGODB_URI not set, running without database (development mode)');
+      return null;
     }
 
     console.log('🔄 Connecting to MongoDB...');
@@ -100,7 +96,7 @@ export const connectDB = async (): Promise<void> => {
       console.error('Error details:', err.message);
       console.error('Stack trace:', err.stack);
     } else {
-      coconsole.error('Unknown error:', err);
+      console.error('Unknown error:', err);
     }
 
     if (process.env.NODE_ENV === 'production') {
@@ -150,9 +146,16 @@ export const getDBStatus = () => {
   };
 };
 
+// ✅ FIXED: Line 159 - Added null check for mongoose.connection.db
 export const checkDBHealth = async (): Promise<boolean> => {
   try {
     if (db.isConnected !== 1) {
+      return false;
+    }
+
+    // Add null check before accessing db
+    if (!mongoose.connection.db) {
+      console.error('❌ Database connection exists but db object is undefined');
       return false;
     }
 

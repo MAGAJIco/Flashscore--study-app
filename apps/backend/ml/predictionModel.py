@@ -116,6 +116,46 @@ class MagajiCoMLPredictor:
             logger.error(f"Prediction error: {str(e)}")
             raise
 
+    def train(self, data: List[List[float]], labels: List[int]) -> Dict[str, Any]:
+        """
+        Train the ML model with provided data
+        """
+        from sklearn.model_selection import train_test_split
+        from sklearn.preprocessing import StandardScaler
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.metrics import accuracy_score
+        
+        if len(data) == 0 or len(data[0]) != self.features_required:
+            raise ValueError(f"Training data must have {self.features_required} features per sample")
+        
+        X = np.array(data)
+        y = np.array(labels)
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+        
+        self.scaler = StandardScaler()
+        X_train_scaled = self.scaler.fit_transform(X_train)
+        X_test_scaled = self.scaler.transform(X_test)
+        
+        self.model = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
+        self.model.fit(X_train_scaled, y_train)
+        
+        y_pred = self.model.predict(X_test_scaled)
+        self.accuracy = float(accuracy_score(y_test, y_pred))
+        
+        # Save model
+        model_path = os.path.join(os.path.dirname(__file__), "model_data.pkl")
+        with open(model_path, "wb") as f:
+            pickle.dump({"model": self.model, "scaler": self.scaler, "accuracy": self.accuracy}, f)
+        
+        logger.info(f"✅ Model trained with accuracy: {self.accuracy:.2f}")
+        
+        return {
+            "message": "Training complete",
+            "accuracy": self.accuracy,
+            "model_version": self.model_version
+        }
+
     def get_model_info(self) -> Dict[str, Any]:
         return {
             "version": self.model_version,

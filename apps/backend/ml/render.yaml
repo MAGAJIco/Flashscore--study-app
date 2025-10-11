@@ -1,0 +1,14 @@
+
+services:
+  - type: web
+    name: magajico-ml-api
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 8000
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: MODEL_PATH
+        value: model_data.pkl
+    healthCheckPath: /

@@ -1,34 +1,55 @@
-import express from "express";
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import News from "../models/News";
 
-const router = express.Router();
+// Define body type for creating news
+interface CreateNewsBody {
+  title: string;
+  content: string;
+  author?: string;
+  publishedAt?: Date;
+}
 
-// Create news
-router.post("/", async (req, res) => {
-  try {
-    const news = new News(req.body);
-    await news.save();
-    res.status(201).json(news);
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
-  }
-});
+export default async function newsRoutes(fastify: FastifyInstance) {
+  // 📰 Create news
+  fastify.post(
+    "/",
+    async (request: FastifyRequest<{ Body: CreateNewsBody }>, reply: FastifyReply) => {
+      try {
+        const news = new News(request.body);
+        await news.save();
+        return reply.status(201).send(news);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to create news";
+        return reply.status(400).send({ error: message });
+      }
+    },
+  );
 
-// Get all news
-router.get("/", async (req, res) => {
-  const news = await News.find().sort({ publishedAt: -1 });
-  res.json(news);
-});
+  // 🗞️ Get all news
+  fastify.get("/", async (_request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const news = await News.find().sort({ publishedAt: -1 });
+      return reply.send(news);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to fetch news";
+      return reply.status(500).send({ error: message });
+    }
+  });
 
-// Get single news
-router.get("/:id", async (req, res) => {
-  try {
-    const news = await News.findById(req.params.id);
-    if (!news) return res.status(404).json({ error: "News not found" });
-    res.json(news);
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-export default router;
+  // 🧾 Get single news by ID
+  fastify.get(
+    "/:id",
+    async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
+      try {
+        const news = await News.findById(request.params.id);
+        if (!news) {
+          return reply.status(404).send({ error: "News not found" });
+        }
+        return reply.send(news);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to fetch news";
+        return reply.status(500).send({ error: message });
+      }
+    },
+  );
+}
