@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import ComprehensiveSportsHub from "@/components/ComprehensiveSportsHub";
-import AuthorsSidebar from "@/components/AuthorsSidebar";
+import ComprehensiveSportsHub from "@/app/components/ComprehensiveSportsHub";
+import AuthorsSidebar from "@/app/components/AuthorsSidebar";
 
 export default function HomePage() {
   return (

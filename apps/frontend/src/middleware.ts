@@ -53,6 +53,16 @@ function getLocale(request: NextRequest): string {
   }
 }
 
+// Simple bot detection patterns
+const BOT_PATTERNS = [
+  /bot|crawler|spider|crawling/i,
+  /google|bing|yahoo|baidu/i,
+  /facebook|twitter|linkedin/i
+];
+
+// Rate limiting store (in-memory for edge)
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
+
 export function middleware(request: NextRequest) {
   const locale = getLocale(request);
 
@@ -69,32 +79,6 @@ export function middleware(request: NextRequest) {
   // Set the locale header for next-intl
   response.headers.set('x-next-intl-locale', locale);
 
-  return response;
-}
-
-export const config = {
-  // Match all pathnames except for
-  // - /api (API routes)
-  // - /_next (Next.js internals)
-  // - /favicon.ico, /robots.txt, etc. (static files)
-  matcher: ['/((?!api|_next|.*\\..*).*)']
-};
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-
-// Simple bot detection patterns
-const BOT_PATTERNS = [
-  /bot|crawler|spider|crawling/i,
-  /google|bing|yahoo|baidu/i,
-  /facebook|twitter|linkedin/i
-];
-
-// Rate limiting store (in-memory for edge)
-const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
-
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  
   // 1. Geolocation detection
   const country = request.geo?.country || 'US';
   const city = request.geo?.city || 'Unknown';
@@ -141,7 +125,7 @@ export function middleware(request: NextRequest) {
       }
     }
   }
-  
+
   return response;
 }
 

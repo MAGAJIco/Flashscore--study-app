@@ -12,10 +12,6 @@ import PushNotificationManager from "./components/PushNotificationManager";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import MobilePerformanceOptimizer from "./components/MobilePerformanceOptimizer";
 
-export const viewport = {
-  themeColor: '#000000',
-};
-
 export const metadata: Metadata = {
   title: "Sports Central",
   description: "Your complete sports prediction and live scores platform",

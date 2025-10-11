@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import BackupManager, { BackupData } from '../utils/backupManager';
+import BackupManager, { BackupData } from '@magajico/shared';
 
 interface BackupSettingsProps {
   isOpen: boolean;
