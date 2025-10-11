@@ -9,6 +9,9 @@ packages = ["miktex", "nix-output-monitor", "psmisc"]
 run = ["sh", "-c", "cd apps/backend && npm start & cd apps/frontend && npm start"]
 build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
 
+[workflows]
+runButton = "Backend + ML Services"
+
 [[workflows.workflow]]
 name = "Project"
 mode = "parallel"
@@ -97,6 +100,28 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node health-check.js"
+
+[[workflows.workflow]]
+name = "ML Service"
+author = 48322392
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend/ml && python -m pip install --upgrade pip && pip install -r requirements.txt && python api.py"
+
+[[workflows.workflow]]
+name = "Backend + ML Services"
+author = 48322392
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend && pnpm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend/ml && python api.py"
 
 [[ports]]
 localPort = 3000

@@ -132,9 +132,15 @@ fastify.register(errorsRoutes, { prefix: "/errors" });
 const PORT = Number(process.env.PORT) || 3001;
 const HOST = '0.0.0.0';
 
-fastify.listen({ port: PORT, host: HOST }).then((address) => {
-  fastify.log.info(`✅ Backend running at ${address}`);
-}).catch((err) => {
-  fastify.log.error(err);
-  process.exit(1);
-});
+const start = async () => {
+  try {
+    await fastify.listen({ port: PORT, host: HOST });
+    fastify.log.info(`✅ Backend running at http://${HOST}:${PORT}`);
+    fastify.log.info(`📊 Health check: http://${HOST}:${PORT}/health`);
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();
