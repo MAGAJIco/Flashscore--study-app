@@ -9,50 +9,7 @@
 
 ## 🚨 CRITICAL ISSUES (Week 1-2)
 
-### Issue #1: Backend Service Not Running
-**Status**: 🔴 CRITICAL  
-**Error**: `ECONNREFUSED 0.0.0.0:3001`  
-**Impact**: Frontend cannot connect to API
-
-**Root Cause**:
-- Backend workflow not started
-- Fastify server not binding to port 3001
-
-**Fix Steps**:
-1. Start Backend workflow from workspace
-2. Verify `.env` has correct PORT=3001
-3. Check CORS origins include frontend URL
-4. Test health endpoint: `curl http://0.0.0.0:3001/health`
-
-**Acceptance Criteria**:
-- ✅ Backend responds on port 3001
-- ✅ `/health` endpoint returns 200 OK
-- ✅ Frontend can fetch from backend
-- ✅ CORS allows frontend domain
-
----
-
-### Issue #2: ML Service Not Running
-**Status**: 🔴 CRITICAL  
-**Error**: `ECONNREFUSED 0.0.0.0:8000`  
-**Impact**: AI predictions unavailable
-
-**Root Cause**:
-- ML Service workflow not started
-- Python dependencies may be missing
-
-**Fix Steps**:
-1. Start ML Service workflow
-2. Verify Python packages installed: `pip list | grep fastapi`
-3. Check model file exists: `apps/backend/ml/model_data.pkl`
-4. Test health: `curl http://0.0.0.0:8000/health`
-
-**Acceptance Criteria**:
-- ✅ FastAPI serves on port 8000
-- ✅ `/health` returns model status
-- ✅ Frontend can call ML predictions
-- ✅ Model loads without errors
-
+### 
 ---
 
 ### Issue #3: MongoDB Connection Optional in Dev
