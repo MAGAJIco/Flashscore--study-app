@@ -39,23 +39,18 @@ Environment variables can be configured through Replit's Secrets panel.
 
 ### Deployment
 
-The application is configured for production deployment:
+The application is configured for Replit deployment with autoscale:
 
-**Backend (Render)**:
-- Deployment config: `render.yaml`
-- Build: `npm install -g pnpm && pnpm install && cd apps/backend && pnpm run build`
-- Start: `cd apps/backend && pnpm start`
-- Port: 10000 (set via environment variable)
-- Host: 0.0.0.0 (production), localhost (development)
-
-**Frontend (Vercel)**:
-- Deployment config: `apps/frontend/vercel.json`
+**Replit Deployment**:
 - Build: `pnpm install && cd apps/frontend && pnpm build`
-- Output: `apps/frontend/.next`
-- Framework: Next.js
-- API rewrites configured for backend integration
+- Start: `cd apps/frontend && pnpm start`
+- Port: 5000 (serves on 0.0.0.0)
+- Deployment type: Autoscale (stateless Next.js app)
+- Click the "Deploy" button in Replit to publish your app
 
-See `DEPLOYMENT.md` for detailed deployment instructions.
+**External Deployment Options** (optional):
+- Backend can be deployed to Render using `render.yaml`
+- Frontend previously configured for Vercel (see `apps/frontend/vercel.json`)
 
 ## Development
 
@@ -88,6 +83,14 @@ cd apps/backend/ml && python main.py
 - **ML Service (FastAPI)**: Port 8000 (0.0.0.0)
 
 ## Recent Changes
+- **2025-10-12**: Migrated project from Vercel to Replit
+  - Successfully installed all pnpm dependencies (1381 packages)
+  - Configured frontend workflow on port 5000 with 0.0.0.0 binding
+  - Set up Replit autoscale deployment configuration
+  - Updated deployment documentation for Replit environment
+  - Frontend running successfully with Next.js 14.2.33
+  - Application verified working with live scores, authors, and news display
+
 - **2025-10-09**: Fixed all TypeScript compilation errors for Render production deployment
   - **Fixed 18 TypeScript build errors** across 7 files that were preventing Render deployment
   - **main.ts**: Fixed error.statusCode type errors with proper type casting
