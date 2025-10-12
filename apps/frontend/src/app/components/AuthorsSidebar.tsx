@@ -2,6 +2,21 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  Home, 
+  Trophy, 
+  Building2, 
+  Bot, 
+  TrendingUp, 
+  Users, 
+  Newspaper, 
+  BarChart3, 
+  DollarSign, 
+  LineChart,
+  Zap
+} from "lucide-react";
 
 interface Author {
   id: number;
@@ -75,12 +90,15 @@ export default function AuthorsSidebar() {
         className="absolute top-4 -right-3 z-50 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors"
         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
-        {isCollapsed ? '→' : '←'}
+        {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
       </button>
 
       {/* Header */}
       <Link href="/" className="block p-4 border-b border-gray-700/50 hover:bg-white/5 transition-colors">
-        <h2 className="text-white text-xl font-bold">{isCollapsed ? '⚡' : '⚡ Sports Central'}</h2>
+        <h2 className="text-white text-xl font-bold flex items-center gap-2">
+          <Zap className="w-5 h-5 text-yellow-400" />
+          {!isCollapsed && 'Sports Central'}
+        </h2>
         {!isCollapsed && <p className="text-gray-400 text-sm mt-1">Authors & News</p>}
       </Link>
 
@@ -88,7 +106,10 @@ export default function AuthorsSidebar() {
         <>
           {/* Authors Leaderboard Section */}
           <div className="p-4 border-b border-gray-700/50">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3">🏆 Top Authors</h3>
+            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3 flex items-center gap-2">
+              <Trophy className="w-4 h-4 text-yellow-400" />
+              Top Authors
+            </h3>
             <div className="space-y-2">
               {leaderboardAuthors.map((author) => (
                 <div
@@ -112,14 +133,17 @@ export default function AuthorsSidebar() {
 
           {/* Prediction Foundation Section */}
           <div className="p-4 border-b border-gray-700/50">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3">🔮 Prediction Foundation</h3>
+            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-purple-400" />
+              Prediction Foundation
+            </h3>
             <div className="space-y-2">
               <Link
                 href="/empire/MagajiCoFoundation"
                 className="block p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 hover:border-purple-500/40 transition-all"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg">🏢</span>
+                  <Building2 className="w-5 h-5 text-purple-400" />
                   <span className="text-white font-medium text-sm">Empire Builder</span>
                 </div>
                 <p className="text-xs text-gray-400">Build your prediction empire</p>
@@ -130,7 +154,7 @@ export default function AuthorsSidebar() {
                 className="block p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-500/40 transition-all"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg">🤖</span>
+                  <Bot className="w-5 h-5 text-blue-400" />
                   <span className="text-white font-medium text-sm">AI CEO</span>
                 </div>
                 <p className="text-xs text-gray-400">AI-powered predictions</p>
@@ -141,7 +165,7 @@ export default function AuthorsSidebar() {
                 className="block p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 hover:border-green-500/40 transition-all"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg">📈</span>
+                  <TrendingUp className="w-5 h-5 text-green-400" />
                   <span className="text-white font-medium text-sm">Growth Dashboard</span>
                 </div>
                 <p className="text-xs text-gray-400">Track your progress</p>
@@ -151,7 +175,10 @@ export default function AuthorsSidebar() {
 
           {/* Authors Section */}
           <div className="p-4 border-b border-gray-700/50">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3">✍️ Authors</h3>
+            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3 flex items-center gap-2">
+              <Users className="w-4 h-4" />
+              Authors
+            </h3>
             <div className="space-y-2">
               {authors.map((author) => (
                 <button
@@ -183,8 +210,9 @@ export default function AuthorsSidebar() {
           {/* Recent News Section */}
           <div className="p-4 border-b border-gray-700/50">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-gray-400 text-xs font-semibold uppercase">
-                {selectedAuthor ? 'Author News' : '📰 Recent News'}
+              <h3 className="text-gray-400 text-xs font-semibold uppercase flex items-center gap-2">
+                <Newspaper className="w-4 h-4" />
+                {selectedAuthor ? 'Author News' : 'Recent News'}
               </h3>
               {selectedAuthor && (
                 <button
@@ -216,32 +244,44 @@ export default function AuthorsSidebar() {
 
           {/* Quick Links Section */}
           <div className="p-4 border-b border-gray-700/50">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-2">🔗 Quick Links</h3>
+            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-2 flex items-center gap-2">
+              <Zap className="w-4 h-4" />
+              Quick Links
+            </h3>
             <div className="space-y-1">
-              <Link href="/" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                🏠 Home
+              <Link href="/" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
+                <Home className="w-4 h-4" />
+                Home
               </Link>
-              <Link href="/author" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                ✍️ All Authors
+              <Link href="/author" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
+                <Users className="w-4 h-4" />
+                All Authors
               </Link>
-              <Link href="/news" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                📰 All News
+              <Link href="/news" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
+                <Newspaper className="w-4 h-4" />
+                All News
               </Link>
-              <Link href="/predictions" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                📊 Predictions
+              <Link href="/predictions" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
+                <BarChart3 className="w-4 h-4" />
+                Predictions
               </Link>
-              <Link href="/odds" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                💰 Odds
+              <Link href="/odds" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
+                <DollarSign className="w-4 h-4" />
+                Odds
               </Link>
-              <Link href="/analytics" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                📈 Analytics
+              <Link href="/analytics" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
+                <LineChart className="w-4 h-4" />
+                Analytics
               </Link>
             </div>
           </div>
 
           {/* Stats Section */}
           <div className="p-4">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3">📊 Platform Stats</h3>
+            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3 flex items-center gap-2">
+              <BarChart3 className="w-4 h-4" />
+              Platform Stats
+            </h3>
             <div className="space-y-2">
               <div className="p-2 rounded-lg bg-white/5">
                 <div className="text-xs text-gray-400">Total Predictions</div>
@@ -263,20 +303,20 @@ export default function AuthorsSidebar() {
       {/* Collapsed State Icons */}
       {isCollapsed && (
         <div className="flex flex-col items-center gap-4 mt-4">
-          <Link href="/" className="text-gray-400 hover:text-white text-xl" title="Home">
-            🏠
+          <Link href="/" className="text-gray-400 hover:text-white p-2 hover:bg-white/10 rounded-lg transition" title="Home">
+            <Home className="w-5 h-5" />
           </Link>
-          <Link href="/author" className="text-gray-400 hover:text-white text-xl" title="Authors">
-            ✍️
+          <Link href="/author" className="text-gray-400 hover:text-white p-2 hover:bg-white/10 rounded-lg transition" title="Authors">
+            <Users className="w-5 h-5" />
           </Link>
-          <Link href="/news" className="text-gray-400 hover:text-white text-xl" title="News">
-            📰
+          <Link href="/news" className="text-gray-400 hover:text-white p-2 hover:bg-white/10 rounded-lg transition" title="News">
+            <Newspaper className="w-5 h-5" />
           </Link>
-          <Link href="/predictions" className="text-gray-400 hover:text-white text-xl" title="Predictions">
-            📊
+          <Link href="/predictions" className="text-gray-400 hover:text-white p-2 hover:bg-white/10 rounded-lg transition" title="Predictions">
+            <BarChart3 className="w-5 h-5" />
           </Link>
-          <Link href="/empire/MagajiCoFoundation" className="text-gray-400 hover:text-white text-xl" title="Empire">
-            🏢
+          <Link href="/empire/MagajiCoFoundation" className="text-gray-400 hover:text-white p-2 hover:bg-white/10 rounded-lg transition" title="Empire">
+            <Building2 className="w-5 h-5" />
           </Link>
         </div>
       )}

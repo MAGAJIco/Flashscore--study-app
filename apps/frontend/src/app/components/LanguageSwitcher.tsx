@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
+import { Globe, ChevronDown, Search, Check } from 'lucide-react';
 import { locales, localeNames, type Locale } from '@/i18n';
 import { useUserPreferences } from '../providers/UserPreferencesProvider';
 
@@ -68,9 +69,9 @@ export default function LanguageSwitcher() {
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <span className="text-2xl">🌐</span>
+        <Globe className="w-5 h-5" />
         <span className="font-medium">{localeNames[locale]}</span>
-        <span className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+        <ChevronDown className={`w-4 h-4 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
@@ -80,18 +81,21 @@ export default function LanguageSwitcher() {
           aria-orientation="vertical"
         >
           <div className="p-2 border-b border-white/10">
-            <input
-              type="text"
-              placeholder="Search language..."
-              className="w-full px-3 py-2 bg-white/5 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400"
-              onChange={(e) => {
-                const search = e.target.value.toLowerCase();
-                document.querySelectorAll('[data-lang-option]').forEach(el => {
-                  const text = el.getAttribute('data-lang-option')?.toLowerCase() || '';
-                  (el as HTMLElement).style.display = text.includes(search) ? 'flex' : 'none';
-                });
-              }}
-            />
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search language..."
+                className="w-full pl-10 pr-3 py-2 bg-white/5 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                onChange={(e) => {
+                  const search = e.target.value.toLowerCase();
+                  document.querySelectorAll('[data-lang-option]').forEach(el => {
+                    const text = el.getAttribute('data-lang-option')?.toLowerCase() || '';
+                    (el as HTMLElement).style.display = text.includes(search) ? 'flex' : 'none';
+                  });
+                }}
+              />
+            </div>
           </div>
           {locales.map((loc) => (
             <button
@@ -121,7 +125,7 @@ export default function LanguageSwitcher() {
                   {loc === 'pt' && 'Português'}
                 </div>
               </div>
-              {locale === loc && <span className="ml-auto text-cyan-400">✓</span>}
+              {locale === loc && <Check className="ml-auto w-4 h-4 text-cyan-400" />}
             </button>
           ))}
           
