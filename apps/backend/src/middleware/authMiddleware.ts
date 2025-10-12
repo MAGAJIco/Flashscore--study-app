@@ -1,71 +1,96 @@
-import { FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { promisify } from 'util';
 
-// Simple auth middleware for permission checking
-export const authMiddleware = {
-  // Check if user has permission to read full content
-  requireMemberAccess: async (request: FastifyRequest, reply: FastifyReply) => {
-    try {
-      const authHeader = request.headers.authorization;
+// NOTE: Ensure these environment variables are set in your Render/production envs:
+// - JWT_PRIVATE_KEY (PEM, for signing)
+// - JWT_PUBLIC_KEY  (PEM, for verification)
+// - JWT_ACCESS_EXPIRES = "15m"
+// - JWT_REFRESH_EXPIRES = "7d"
 
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return reply.code(401).send({
-          success: false,
-          message: 'Member access required'
-        });
-      }
+const signAsync = promisify<string | Buffer | object, jwt.SignOptions, string>(jwt.sign as any);
+const verifyAsync = promisify<string, jwt.VerifyOptions, JwtPayload | string>(jwt.verify as any);
 
-      const token = authHeader.substring(7);
-      
-      // Validate token format (at minimum)
-      if (!token || token.length < 32 || !/^[a-zA-Z0-9_\-\.]+$/.test(token)) {
-        return reply.code(401).send({
-          success: false,
-          message: 'Invalid token format'
-        });
-      }
+// Types used by middleware
+export interface TokenPayload {
+  userId: string;
+  role?: string;
+  iat?: number;
+  exp?: number;
+  [key: string]: any;
+}
 
-      // TODO: Implement JWT validation or session lookup with database
-      // For now, require proper implementation before deployment
-      if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
-        throw new Error('JWT_SECRET must be configured for production');
-      }
+function getPublicKey(): string {
+  const key = process.env.JWT_PUBLIC_KEY;
+  if (!key) throw new Error('JWT_PUBLIC_KEY is not set');
+  return key;
+}
 
-      // Temporary check - replace with actual JWT validation
-      const isDevelopmentBypass = process.env.NODE_ENV === 'development' && (token === 'member' || token === 'admin');
-      
-      if (!isDevelopmentBypass && process.env.NODE_ENV === 'production') {
-        // Implement actual JWT validation here
-        return reply.code(401).send({
-          success: false,
-          message: 'Token validation not implemented'
-        });
-      }
+function getPrivateKey(): string {
+  const key = process.env.JWT_PRIVATE_KEY;
+  if (!key) throw new Error('JWT_PRIVATE_KEY is not set');
+  return key;
+}
 
-      return;
-    } catch (error) {
-      request.log.error(error);
-      return reply.code(500).send({
-        success: false,
-        message: 'Authentication error'
-      });
-    }
-  },
+export async function signAccessToken(payload: object) {
+  return jwt.sign(payload, getPrivateKey(), {
+    algorithm: 'RS256',
+    expiresIn: process.env.JWT_ACCESS_EXPIRES || '15m',
+  });
+}
 
-  // Check if user is guest (for limited access)
-  isGuest: (request: FastifyRequest): boolean => {
-    const authHeader = request.headers.authorization;
-    const authQuery = (request.query as any)?.auth;
+export async function signRefreshToken(payload: object) {
+  return jwt.sign(payload, getPrivateKey(), {
+    algorithm: 'RS256',
+    expiresIn: process.env.JWT_REFRESH_EXPIRES || '7d',
+  });
+}
 
-    return !authHeader && !authQuery;
-  },
-
-  // Get user type for response filtering
-  getUserType: (request: FastifyRequest): 'guest' | 'member' => {
-    const authHeader = request.headers.authorization;
-    const authQuery = (request.query as any)?.auth;
-
-    const isValidAuth = authHeader?.includes('Bearer member') || authQuery === 'member';
-
-    return isValidAuth ? 'member' : 'guest';
+export function verifyToken(token: string): TokenPayload {
+  try {
+    const decoded = jwt.verify(token, getPublicKey(), { algorithms: ['RS256'] }) as TokenPayload;
+    return decoded;
+  } catch (err) {
+    throw err;
   }
-};
+}
+
+/**
+ * Fastify preHandler / hook middleware
+ * - Accepts Authorization: Bearer <token> or token in cookie named 'access_token'
+ * - Attaches request.user if verified
+ */
+export async function authMiddleware(request: FastifyRequest, reply: FastifyReply) {
+  try {
+    const authHeader = (request.headers['authorization'] as string) || '';
+    let token: string | undefined;
+
+    if (authHeader.startsWith('Bearer ')) {
+      token = authHeader.slice(7).trim();
+    }
+
+    // Prefer cookie if present (HttpOnly cookie expected in browser flows)
+    // @ts-ignore - fastify request cookies shape may vary depending on plugin
+    if (!token && (request as any).cookies && (request as any).cookies.access_token) {
+      // @ts-ignore
+      token = (request as any).cookies.access_token;
+    }
+
+    if (!token) {
+      reply.status(401).send({ error: 'Missing token' });
+      return;
+    }
+
+    const payload = verifyToken(token);
+    // attach to request for later handlers
+    // @ts-ignore
+    request.user = payload;
+    return;
+  } catch (err: any) {
+    // Token expired / invalid -> 401
+    reply.status(401).send({ error: 'Invalid or expired token' });
+    return;
+  }
+}
+
+export default authMiddleware;
