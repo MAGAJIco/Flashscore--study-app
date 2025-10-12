@@ -188,7 +188,7 @@ export default function MagajiCoManager({
       return `🤖 I'm your AI CEO assistant. I can help with:\n• Strategic predictions analysis\n• Market opportunity identification\n• Risk assessment\n• Business intelligence\n• Real-time sports predictions\n\nWhat would you like to explore?`;
     }
 
-    return `🧠 I understand your query about "${userMessage}". As your AI CEO, I'm analyzing this through the lens of strategic business intelligence. How can I provide more specific insights?`;
+    return `🧠 I understand your query about "${userMessage}". As your AI CEO, I'm analyzing this through strategic business intelligence. Could you rephrase or provide more context about what you'd like me to analyze?`;
   };
 
   const makeMLPrediction = async (features: number[]) => {
@@ -254,6 +254,15 @@ export default function MagajiCoManager({
         // Use regular CEO response
         response = await magajicoCEO(inputMessage);
       }
+    } catch (error) {
+      console.error('Chat error:', error);
+      response = {
+        message: `🤖 I'm experiencing technical difficulties connecting to the prediction service. The ML service appears to be offline. Please try asking general strategy questions instead, or wait for the service to reconnect.`,
+        type: 'error'
+      };
+    }
+
+    if (response) {
 
       const ceoMessage: ChatMessage = {
         id: Math.random().toString(36).substr(2, 9),
