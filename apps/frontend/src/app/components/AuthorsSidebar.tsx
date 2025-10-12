@@ -47,10 +47,10 @@ export default function AuthorsSidebar() {
   return (
     <aside className="fixed left-0 top-0 h-screen w-80 bg-[#0a0e1a] border-r border-gray-700/50 overflow-y-auto">
       {/* Header */}
-      <div className="p-4 border-b border-gray-700/50">
+      <Link href="/" className="block p-4 border-b border-gray-700/50 hover:bg-white/5 transition-colors">
         <h2 className="text-white text-xl font-bold">⚡ Sports Central</h2>
         <p className="text-gray-400 text-sm mt-1">Authors & News</p>
-      </div>
+      </Link>
 
       {/* Authors Section */}
       <div className="p-4">
@@ -121,6 +121,9 @@ export default function AuthorsSidebar() {
       <div className="p-4 border-t border-gray-700/50">
         <h3 className="text-gray-400 text-xs font-semibold uppercase mb-2">Quick Links</h3>
         <div className="space-y-1">
+          <Link href="/" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
+            🏠 Home
+          </Link>
           <Link href="/author" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
             ✍️ All Authors
           </Link>
