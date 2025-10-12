@@ -65,7 +65,7 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
     const authHeader = (request.headers['authorization'] as string) || '';
     let token: string | undefined;
 
-    if (authHeader.startsWith('Bearer ')) {
+    if (authHeader && authHeader.startsWith('Bearer ')) {
       token = authHeader.slice(7).trim();
     }
 
