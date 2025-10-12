@@ -50,6 +50,7 @@ export const menuCategories: MenuCategory[] = [
     label: 'Account',
     items: [
       { label: 'Profile', href: '/profile', icon: '👤', description: 'Your account' },
+      { label: 'Profile', href: '/profile', icon: '👤', description: 'Your profile' },
       { label: 'Settings', href: '/settings', icon: '⚙️', description: 'Preferences' },
       { label: 'Management', href: '/management', icon: '🛠️', description: 'Admin panel' },
     ]
