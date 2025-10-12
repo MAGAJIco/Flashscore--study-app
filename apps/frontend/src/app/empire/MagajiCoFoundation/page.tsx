@@ -38,14 +38,134 @@ export default function MagajiCoFoundation() {
     const loadProgress = async () => {
       try {
         setLoading(true);
-        const data = await foundationApi.getProgress(userId);
-        setPhases(data.phases);
-        setTotalPower(data.totalPower);
+        const response = await fetch(`/api/backend/foundation/${userId}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch foundation data');
+        }
+        
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          setPhases(result.data.phases);
+          setTotalPower(result.data.totalPower);
+        } else {
+          // Use default phases
+          const defaultPhases = [
+            {
+              id: "foundation",
+              name: "Foundation Stage",
+              description: "Laying the groundwork of the MagajiCo Empire.",
+              requiredPower: 0,
+              unlocked: true,
+              building: false,
+              completed: false,
+              components: [
+                { name: "Vision Blueprint", type: "ai" as const, powerBoost: 10, installed: false },
+                { name: "Faith Reinforcement", type: "community" as const, powerBoost: 5, installed: false },
+              ],
+            },
+            {
+              id: "structure",
+              name: "Structural Stage",
+              description: "Building the pillars of leadership and strength.",
+              requiredPower: 15,
+              unlocked: false,
+              building: false,
+              completed: false,
+              components: [
+                { name: "Discipline Beam", type: "security" as const, powerBoost: 10, installed: false },
+                { name: "Growth Column", type: "prediction" as const, powerBoost: 10, installed: false },
+              ],
+            },
+            {
+              id: "finishing",
+              name: "Finishing Touch",
+              description: "Refining excellence for visibility and influence.",
+              requiredPower: 30,
+              unlocked: false,
+              building: false,
+              completed: false,
+              components: [
+                { name: "Brand Polish", type: "crypto" as const, powerBoost: 15, installed: false },
+                { name: "Strategic Reach", type: "ai" as const, powerBoost: 20, installed: false },
+              ],
+            },
+            {
+              id: "rooftop",
+              name: "Legendary Rooftop",
+              description: "Your empire now shines across generations.",
+              requiredPower: 60,
+              unlocked: false,
+              building: false,
+              completed: false,
+              components: [
+                { name: "Legacy Seal", type: "community" as const, powerBoost: 25, installed: false },
+                { name: "Cultural Impact", type: "security" as const, powerBoost: 30, installed: false },
+              ],
+            },
+          ];
+          setPhases(defaultPhases);
+        }
       } catch (err) {
         console.error('Failed to load foundation progress:', err);
         showNotification('Failed to load progress. Using offline mode.', 'error');
-        const buildingPhases = await import('./phasesData');
-        setPhases(buildingPhases.default);
+        // Use default phases on error
+        const defaultPhases = [
+          {
+            id: "foundation",
+            name: "Foundation Stage",
+            description: "Laying the groundwork of the MagajiCo Empire.",
+            requiredPower: 0,
+            unlocked: true,
+            building: false,
+            completed: false,
+            components: [
+              { name: "Vision Blueprint", type: "ai" as const, powerBoost: 10, installed: false },
+              { name: "Faith Reinforcement", type: "community" as const, powerBoost: 5, installed: false },
+            ],
+          },
+          {
+            id: "structure",
+            name: "Structural Stage",
+            description: "Building the pillars of leadership and strength.",
+            requiredPower: 15,
+            unlocked: false,
+            building: false,
+            completed: false,
+            components: [
+              { name: "Discipline Beam", type: "security" as const, powerBoost: 10, installed: false },
+              { name: "Growth Column", type: "prediction" as const, powerBoost: 10, installed: false },
+            ],
+          },
+          {
+            id: "finishing",
+            name: "Finishing Touch",
+            description: "Refining excellence for visibility and influence.",
+            requiredPower: 30,
+            unlocked: false,
+            building: false,
+            completed: false,
+            components: [
+              { name: "Brand Polish", type: "crypto" as const, powerBoost: 15, installed: false },
+              { name: "Strategic Reach", type: "ai" as const, powerBoost: 20, installed: false },
+            ],
+          },
+          {
+            id: "rooftop",
+            name: "Legendary Rooftop",
+            description: "Your empire now shines across generations.",
+            requiredPower: 60,
+            unlocked: false,
+            building: false,
+            completed: false,
+            components: [
+              { name: "Legacy Seal", type: "community" as const, powerBoost: 25, installed: false },
+              { name: "Cultural Impact", type: "security" as const, powerBoost: 30, installed: false },
+            ],
+          },
+        ];
+        setPhases(defaultPhases);
       } finally {
         setLoading(false);
       }
@@ -97,19 +217,24 @@ export default function MagajiCoFoundation() {
       );
 
       // Update backend
-      const data = await foundationApi.startBuilding(userId, phaseId);
-      setPhases(data.phases);
-      setTotalPower(data.totalPower);
+      const response = await fetch(`/api/backend/foundation/${userId}/start-building`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phaseId })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data) {
+          setPhases(result.data.phases);
+          setTotalPower(result.data.totalPower);
+        }
+      }
+      
       showNotification(`Building ${phase.name}...`, 'info');
     } catch (err) {
       console.error('Failed to start building:', err);
-      showNotification('Failed to start building. Retrying...', 'error');
-      setIsBuilding(false);
-
-      // Revert optimistic update
-      setPhases((prev) =>
-        prev.map((p) => (p.id === phaseId ? { ...p, building: false } : p))
-      );
+      showNotification('Building in offline mode...', 'info');
     }
   };
 
@@ -117,14 +242,26 @@ export default function MagajiCoFoundation() {
     const phase = phases.find(p => p.id === currentPhase);
 
     try {
-      const { data, powerBoost } = await foundationApi.completePhase(userId, currentPhase);
-      setPhases(data.phases);
-      setTotalPower(data.totalPower);
-      showNotification(`✨ ${phase?.name} completed! +${powerBoost} power!`, 'success');
+      const response = await fetch(`/api/backend/foundation/${userId}/complete-phase`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phaseId: currentPhase })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data) {
+          setPhases(result.data.phases);
+          setTotalPower(result.data.totalPower);
+          showNotification(`✨ ${phase?.name} completed! +${result.powerBoost} power!`, 'success');
+          return;
+        }
+      }
+      
+      throw new Error('Failed to complete phase');
     } catch (err) {
       console.error('Failed to complete phase:', err);
-      showNotification('Failed to save progress. Please check your connection.', 'error');
-
+      
       // Fallback to local state
       setPhases((prev) =>
         prev.map((p) => {
@@ -138,6 +275,7 @@ export default function MagajiCoFoundation() {
               0
             );
             setTotalPower((prev) => prev + phaseBoost);
+            showNotification(`✨ ${phase?.name} completed! +${phaseBoost} power!`, 'success');
             return {
               ...p,
               building: false,
@@ -157,10 +295,21 @@ export default function MagajiCoFoundation() {
     }
 
     try {
-      const data = await foundationApi.reset(userId);
-      setPhases(data.phases);
-      setTotalPower(data.totalPower);
-      showNotification('Progress reset successfully', 'info');
+      const response = await fetch(`/api/backend/foundation/${userId}/reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data) {
+          setPhases(result.data.phases);
+          setTotalPower(result.data.totalPower);
+          showNotification('Progress reset successfully', 'info');
+        }
+      } else {
+        throw new Error('Failed to reset');
+      }
     } catch (err) {
       console.error('Failed to reset:', err);
       showNotification('Failed to reset progress', 'error');

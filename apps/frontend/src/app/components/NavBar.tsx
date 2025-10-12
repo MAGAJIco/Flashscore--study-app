@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -12,6 +11,7 @@ import {
   Wallet,
   MoreHorizontal,
 } from "lucide-react";
+import Link from "next/link";
 
 interface SubItem {
   label: string;
@@ -78,7 +78,7 @@ const NavBar: React.FC = () => {
 
   const handleDropdownKeyDown = (e: React.KeyboardEvent, label: string, hasSubItems: boolean) => {
     if (!hasSubItems) return;
-    
+
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       handleDropdownToggle(label);
@@ -196,6 +196,13 @@ const NavBar: React.FC = () => {
                 )}
               </div>
             ))}
+            {/* Empire AI CEO Page link */}
+            <Link href="/empire" className="nav-link">
+              🏆 Empire
+            </Link>
+            <Link href="/features" className="nav-link">
+              ✨ Features
+            </Link>
           </div>
 
           {/* Right-side quick links / buttons */}
