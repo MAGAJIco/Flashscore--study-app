@@ -1,6 +1,6 @@
 {
-  "buildCommand": "pnpm install 2>&1 && pnpm --filter @magajico/frontend build 2>&1",
-  "installCommand": "pnpm install",
+  "buildCommand": "cd apps/frontend && npm install && npm run build",
+  "installCommand": "npm install --prefix apps/frontend",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
   "regions": ["iad1"],
