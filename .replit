@@ -21,13 +21,13 @@ args = "Frontend"
 name = "Frontend"
 author = "agent"
 
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd apps/frontend && pnpm dev"
 waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
 
 [[workflows.workflow]]
 name = "ML Service"
@@ -43,12 +43,12 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 33309
-externalPort = 3000
-
-[[ports]]
 localPort = 34125
 externalPort = 3001
+
+[[ports]]
+localPort = 37707
+externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
