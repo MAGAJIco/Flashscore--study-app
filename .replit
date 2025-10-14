@@ -4,6 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
+packages = ["glibcLocales", "libxcrypt", "libyaml"]
 
 [workflows]
 runButton = "Project"
@@ -21,13 +22,13 @@ args = "Frontend"
 name = "Frontend"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && pnpm dev"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && PNPM_HOME=/tmp/pnpm pnpm dev"
+waitForPort = 5000
 
 [[workflows.workflow]]
 name = "ML Service"
@@ -41,10 +42,6 @@ args = "cd apps/backend/ml && python api.py"
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 33309
-externalPort = 3000
 
 [[ports]]
 localPort = 34125
