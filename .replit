@@ -53,4 +53,4 @@ externalPort = 3000
 [deployment]
 deploymentTarget = "autoscale"
 run = ["bash", "-c", "cd apps/frontend && pnpm start"]
-build = ["bash", "-c", "pnpm install && cd apps/frontend && pnpm build"]
+build = ["bash", "-c", "pnpm install --frozen-lockfile && pnpm build"]
