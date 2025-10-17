@@ -1,15 +1,11 @@
-# Ignore root lock file, but keep frontend one
-/package-lock.json
-
 # Dependencies
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Lock files 
-/package-lock.json
-pnpm-lock.yaml
+# Lock files (keep pnpm-lock.yaml, ignore others)
+package-lock.json
 yarn.lock
 
 # Next.js build output

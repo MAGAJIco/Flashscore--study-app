@@ -51,6 +51,6 @@
     },
     "baseUrl": "."
   },
-  "include": ["src/**/*", ".next/types/**/*.ts"],
+  "include": ["src/**/*", "types/**/*", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

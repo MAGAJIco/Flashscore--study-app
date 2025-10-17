@@ -17,12 +17,14 @@ export function useAuth() {
   const user: AuthUser | null = useMemo(() => {
     if (!session?.user) return null;
     
+    const sessionUser = session.user as any;
+    
     return {
-      id: session.user.id || '',
-      name: session.user.name,
-      email: session.user.email,
-      image: session.user.image,
-      provider: session.user.provider
+      id: sessionUser.id || sessionUser.email || '',
+      name: sessionUser.name,
+      email: sessionUser.email,
+      image: sessionUser.image,
+      provider: sessionUser.provider
     };
   }, [session]);
 
