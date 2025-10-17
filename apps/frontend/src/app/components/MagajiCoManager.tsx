@@ -285,7 +285,8 @@ export default function MagajiCoManager({
           duration: 5000
         });
       }
-    } catch (err: any) {
+    }
+  } catch (err: any) {
       console.error('Error getting CEO response:', err);
       const errorMessage: ChatMessage = {
         id: Math.random().toString(36).substr(2, 9),
