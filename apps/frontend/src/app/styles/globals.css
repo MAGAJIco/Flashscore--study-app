@@ -703,7 +703,6 @@ img, video {
       transition-duration: 0.01ms !important;
     }
   }
-}
 
 /* Landscape mobile optimizations */
 @media (max-width: 768px) and (orientation: landscape) {
