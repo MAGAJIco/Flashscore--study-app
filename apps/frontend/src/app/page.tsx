@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState, useEffect } from "react";
 import ComprehensiveSportsHub from "@/app/components/ComprehensiveSportsHub";
@@ -6,6 +5,7 @@ import AuthorsSidebar from "@/app/components/AuthorsSidebar";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import NavBar from "@/app/components/NavBar";
 import Link from "next/link";
+import ChessboardCompetitiveAnalysis from "./components/ChessboardCompetitiveAnalysis";
 
 export default function HomePage() {
   const [liveStats, setLiveStats] = useState({
@@ -60,12 +60,12 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
       <NavBar />
       <AuthorsSidebar />
-      
+
       <div className="ml-80 mt-16">
         {/* Hero Section with Live Stats */}
         <section className="relative overflow-hidden py-12 px-6">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 to-indigo-100/30"></div>
-          
+
           <div className="relative z-10 max-w-6xl mx-auto">
             <div className="text-center mb-8">
               <h1 className="text-6xl font-extrabold mb-4 bg-gradient-to-r from-gray-900 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -74,7 +74,7 @@ export default function HomePage() {
               <p className="text-xl text-gray-700 mb-6">
                 AI-Powered Sports Intelligence • Live • Accurate • Profitable
               </p>
-              
+
               {/* Live Stats Bar */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                 <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 border border-gray-200 shadow-sm">
@@ -82,17 +82,17 @@ export default function HomePage() {
                   <div className="text-sm text-gray-600">Active Users</div>
                   <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mt-2 animate-pulse"></div>
                 </div>
-                
+
                 <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 border border-gray-200 shadow-sm">
                   <div className="text-3xl font-bold text-indigo-600">{liveStats.predictions24h.toLocaleString()}</div>
                   <div className="text-sm text-gray-600">Predictions (24h)</div>
                 </div>
-                
+
                 <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 border border-gray-200 shadow-sm">
                   <div className="text-3xl font-bold text-green-600">{liveStats.accuracyRate}%</div>
                   <div className="text-sm text-gray-600">Accuracy Rate</div>
                 </div>
-                
+
                 <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 border border-gray-200 shadow-sm">
                   <div className="text-3xl font-bold text-orange-600">{liveStats.topStreak}</div>
                   <div className="text-sm text-gray-600">Top Streak Today</div>
@@ -108,16 +108,16 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
               ✨ Explore Our Features
             </h2>
-            
+
             <div className="relative h-64 mb-8">
               {featuredPreviews.map((feature, index) => (
                 <div
                   key={index}
                   className={`absolute inset-0 transition-all duration-500 ${
-                    index === currentFeature 
-                      ? 'opacity-100 translate-x-0' 
-                      : index < currentFeature 
-                        ? 'opacity-0 -translate-x-full' 
+                    index === currentFeature
+                      ? 'opacity-100 translate-x-0'
+                      : index < currentFeature
+                        ? 'opacity-0 -translate-x-full'
                         : 'opacity-0 translate-x-full'
                   }`}
                 >
@@ -146,7 +146,7 @@ export default function HomePage() {
                   className={`h-3 rounded-full transition-all touch-manipulation ${
                     index === currentFeature ? 'w-12 bg-blue-600' : 'w-3 bg-gray-300'
                   }`}
-                  style={{ 
+                  style={{
                     WebkitTapHighlightColor: 'transparent',
                     minWidth: index === currentFeature ? '48px' : '24px',
                     minHeight: '24px'
@@ -207,7 +207,16 @@ export default function HomePage() {
         </section>
 
         {/* Main Content */}
-        <ComprehensiveSportsHub />
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
+          <HorizontalCarousel />
+
+          {/* Chess Analysis Section */}
+          <div className="mb-8">
+            <ChessboardCompetitiveAnalysis />
+          </div>
+
+          <TopPredictions />
+        </div>
 
         {/* CTA Section */}
         <section className="py-16 px-6">
