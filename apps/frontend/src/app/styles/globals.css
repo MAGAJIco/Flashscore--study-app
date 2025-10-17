@@ -15,14 +15,14 @@
   --ios-purple: #AF52DE;
   --ios-red: #FF3B30;
   --ios-teal: #5AC8FA;
-  --ios-yellow: #FFCC00;
+  --ios-yellow: #FFD700;
 
   /* Sports Central Brand Colors */
   --brand-primary: #00ff88;
   --brand-secondary: #007AFF;
   --brand-accent: #FF6B35;
   --brand-success: #34C759;
-  --brand-warning: #FF9500;
+  --brand-warning: #FFD700;
   --brand-danger: #FF3B30;
 
   /* iOS 17 System Colors */
@@ -120,7 +120,7 @@ body.nature .particle {
   --accent-color: #3b82f6;
   --accent-hover: #2563eb;
   --success-color: #22c55e;
-  --warning-color: #f59e0b;
+  --warning-color: #FFD700;
   --error-color: #ef4444;
 }
 
@@ -137,7 +137,7 @@ body.nature .particle {
   --accent-color: #60a5fa;
   --accent-hover: #3b82f6;
   --success-color: #34d399;
-  --warning-color: #fbbf24;
+  --warning-color: #FFD700;
   --error-color: #f87171;
 }
 
@@ -738,7 +738,7 @@ button, .btn {
 }
 
 .btn-warning {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  background: linear-gradient(135deg, #FFD700 0%, #DAA520 100%);
 }
 
 .btn-danger {
