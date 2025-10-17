@@ -4,7 +4,6 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["glibcLocales", "libxcrypt", "libyaml"]
 
 [workflows]
 runButton = "Project"
@@ -22,13 +21,13 @@ args = "Frontend"
 name = "Frontend"
 author = "agent"
 
-[workflows.workflow.metadata]
-outputType = "webview"
-
 [[workflows.workflow.tasks]]
-task = "shell.exec
+task = "shell.exec"
 args = "cd apps/frontend && pnpm dev"
 waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 
 [[workflows.workflow]]
 name = "ML Service"
@@ -44,14 +43,14 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
+localPort = 33309
+externalPort = 3000
+
+[[ports]]
 localPort = 34125
 externalPort = 3001
 
-[[ports]]
-localPort = 4113
-externalPort = 3000
-
 [deployment]
 deploymentTarget = "autoscale"
-run = ["sh", "-c", "cd apps/frontend && npm start"]
-build = ["sh", "-c", "npm install && npm run build"]
+run = ["bash", "-c", "cd apps/frontend && pnpm start"]
+build = ["bash", "-c", "pnpm install && cd apps/frontend && pnpm build"]
