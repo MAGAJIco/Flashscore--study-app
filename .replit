@@ -52,5 +52,5 @@ externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["bash", "-c", "cd apps/frontend && pnpm start"]
-build = ["bash", "-c", "pnpm install --frozen-lockfile && pnpm build"]
+run = ["sh", "-c", "cd apps/frontend && npm start"]
+build = ["sh", "-c", "npm install && npm run build"]
