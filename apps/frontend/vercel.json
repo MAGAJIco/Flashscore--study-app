@@ -1,12 +1,23 @@
 {
-  "buildCommand": "pnpm install && cd apps/frontend && pnpm build",
-  "installCommand": "pnpm install",
-  "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
+  "buildCommand": "npm install && npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
   "rewrites": [
     {
       "source": "/api/backend/:path*",
       "destination": "https://magajico-backend.onrender.com/api/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
     }
   ]
 }

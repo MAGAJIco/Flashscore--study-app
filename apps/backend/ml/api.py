@@ -1,16 +1,47 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
 from predictionModel import MagajiCoMLPredictor
 import uvicorn
 import os
+import asyncio
+from collections import deque
+import time
+
+# Request queue for load management
+request_queue = deque(maxlen=1000)
+processing_semaphore = asyncio.Semaphore(10)  # Max 10 concurrent predictions
 
 app = FastAPI(
     title="MagajiCo ML Prediction API",
     description="Advanced sports prediction using Machine Learning",
     version="3.0.0"
 )
+
+# Rate limiting middleware
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    client_ip = request.client.host
+    current_time = time.time()
+    
+    # Simple in-memory rate limiting (100 requests per minute per IP)
+    if not hasattr(app.state, 'rate_limits'):
+        app.state.rate_limits = {}
+    
+    if client_ip in app.state.rate_limits:
+        requests, window_start = app.state.rate_limits[client_ip]
+        if current_time - window_start < 60:
+            if requests >= 100:
+                raise HTTPException(status_code=429, detail="Rate limit exceeded")
+            app.state.rate_limits[client_ip] = (requests + 1, window_start)
+        else:
+            app.state.rate_limits[client_ip] = (1, current_time)
+    else:
+        app.state.rate_limits[client_ip] = (1, current_time)
+    
+    response = await call_next(request)
+    return response
 
 # CORS configuration
 app.add_middleware(
@@ -65,12 +96,36 @@ async def root():
 
 @app.get("/health")
 async def health_check():
+    import psutil
+    import time
+    
+    # Advanced health metrics
+    cpu_percent = psutil.cpu_percent(interval=0.1)
+    memory = psutil.virtual_memory()
+    
+    status = "healthy"
+    if cpu_percent > 90 or memory.percent > 85:
+        status = "degraded"
+    
     return {
-        "status": "healthy",
+        "status": status,
         "model_loaded": predictor.model is not None,
         "model_version": predictor.model_version,
-        "accuracy": predictor.accuracy
+        "accuracy": predictor.accuracy,
+        "metrics": {
+            "cpu_percent": cpu_percent,
+            "memory_percent": memory.percent,
+            "memory_available_mb": memory.available / 1024 / 1024,
+            "uptime_seconds": time.time() - app.state.start_time if hasattr(app.state, 'start_time') else 0
+        },
+        "timestamp": time.time()
     }
+
+@app.on_event("startup")
+async def startup_event():
+    import time
+    app.state.start_time = time.time()
+    logger.info("🚀 ML Service started successfully")
 
 @app.get("/model/info")
 async def get_model_info():
@@ -90,10 +145,25 @@ async def predict(request: PredictionRequest):
     - away_goals_for: Away team average goals scored
     - away_goals_against: Away team average goals conceded
     """
+    # Check cache first
+    import hashlib
+    cache_key = hashlib.md5(str(request.features).encode()).hexdigest()
+    
+    if not hasattr(app.state, 'prediction_cache'):
+        app.state.prediction_cache = {}
+    
+    if cache_key in app.state.prediction_cache:
+        cached_result, timestamp = app.state.prediction_cache[cache_key]
+        if time.time() - timestamp < 300:  # 5 minute cache
+            cached_result['cached'] = True
+            return cached_result
+    
     try:
-        result = predictor.predict(request.features)
+        # Use semaphore to limit concurrent predictions
+        async with processing_semaphore:
+            result = predictor.predict(request.features)
 
-        return PredictionResponse(
+        response = PredictionResponse(
             prediction=result["prediction"],
             confidence=result["confidence"] * 100,  # Convert to percentage
             probabilities={
@@ -103,6 +173,11 @@ async def predict(request: PredictionRequest):
             features_used=request.features,
             match_context=request.match_context
         )
+        
+        # Cache the result
+        app.state.prediction_cache[cache_key] = (response.dict(), time.time())
+        
+        return response
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -151,14 +226,46 @@ async def get_statistics():
     """
     Get prediction statistics and model performance metrics
     """
+    from monitoring import monitor
+    
+    runtime_stats = monitor.get_stats()
+    
     return {
         "model_version": predictor.model_version,
         "accuracy": predictor.accuracy,
         "model_type": "Random Forest" if predictor.model else "Rule-based",
         "features_required": predictor.features_required,
         "prediction_types": predictor.prediction_types,
-        "status": "trained" if predictor.model else "fallback"
+        "status": "trained" if predictor.model else "fallback",
+        "runtime_metrics": runtime_stats,
+        "cache_size": len(app.state.prediction_cache) if hasattr(app.state, 'prediction_cache') else 0
     }
+
+@app.get("/metrics")
+async def get_metrics():
+    """
+    Prometheus-compatible metrics endpoint
+    """
+    from monitoring import monitor
+    stats = monitor.get_stats()
+    
+    metrics = f"""# HELP ml_requests_total Total number of prediction requests
+# TYPE ml_requests_total counter
+ml_requests_total {stats['total_requests']}
+
+# HELP ml_errors_total Total number of errors
+# TYPE ml_errors_total counter
+ml_errors_total {stats['error_count']}
+
+# HELP ml_latency_avg Average prediction latency in milliseconds
+# TYPE ml_latency_avg gauge
+ml_latency_avg {stats['avg_latency_ms']}
+
+# HELP ml_uptime_seconds Service uptime in seconds
+# TYPE ml_uptime_seconds counter
+ml_uptime_seconds {stats['uptime_seconds']}
+"""
+    return metrics
 
 if __name__ == "__main__":
     port = int(os.getenv("ML_PORT", 8000))

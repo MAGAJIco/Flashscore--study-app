@@ -26,8 +26,8 @@ author = "agent"
 outputType = "webview"
 
 [[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && PNPM_HOME=/tmp/pnpm pnpm dev"
+task = "shell.exec
+args = "cd apps/frontend && pnpm dev"
 waitForPort = 5000
 
 [[workflows.workflow]]
@@ -48,10 +48,10 @@ localPort = 34125
 externalPort = 3001
 
 [[ports]]
-localPort = 41139
+localPort = 4113
 externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["bash", "-c", "cd apps/frontend && pnpm start"]
-build = ["bash", "-c", "pnpm install && cd apps/frontend && pnpm build"]
+run = ["sh", "-c", "cd apps/frontend && npm start"]
+build = ["sh", "-c", "npm install && npm run build"]

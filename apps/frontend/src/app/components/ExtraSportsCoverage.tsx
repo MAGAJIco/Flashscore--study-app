@@ -25,16 +25,77 @@ interface Match {
 }
 
 const AVAILABLE_LEAGUES: League[] = [
+  // European Football
   { id: 'serie-a', name: 'Serie A', sport: 'Football', country: 'Italy', icon: '🇮🇹', color: '#008FD7', enabled: false },
   { id: 'ligue-1', name: 'Ligue 1', sport: 'Football', country: 'France', icon: '🇫🇷', color: '#E4002B', enabled: false },
   { id: 'eredivisie', name: 'Eredivisie', sport: 'Football', country: 'Netherlands', icon: '🇳🇱', color: '#FF6C00', enabled: false },
-  { id: 'mls', name: 'MLS', sport: 'Football', country: 'USA', icon: '🇺🇸', color: '#002B5C', enabled: false },
-  { id: 'j-league', name: 'J-League', sport: 'Football', country: 'Japan', icon: '🇯🇵', color: '#E60012', enabled: false },
-  { id: 'super-lig', name: 'Süper Lig', sport: 'Football', country: 'Turkey', icon: '🇹🇷', color: '#E30A17', enabled: false },
   { id: 'championship', name: 'Championship', sport: 'Football', country: 'England', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', color: '#012169', enabled: false },
+  { id: 'super-lig', name: 'Süper Lig', sport: 'Football', country: 'Turkey', icon: '🇹🇷', color: '#E30A17', enabled: false },
+  { id: 'primeira-liga', name: 'Primeira Liga', sport: 'Football', country: 'Portugal', icon: '🇵🇹', color: '#006600', enabled: false },
+  { id: 'scottish-prem', name: 'Scottish Prem', sport: 'Football', country: 'Scotland', icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', color: '#0065BD', enabled: false },
+  { id: 'belgian-pro', name: 'Belgian Pro League', sport: 'Football', country: 'Belgium', icon: '🇧🇪', color: '#ED2939', enabled: false },
+  { id: 'austrian-bl', name: 'Austrian Bundesliga', sport: 'Football', country: 'Austria', icon: '🇦🇹', color: '#C8102E', enabled: false },
+  { id: 'swiss-sl', name: 'Swiss Super League', sport: 'Football', country: 'Switzerland', icon: '🇨🇭', color: '#FF0000', enabled: false },
+  
+  // Americas Football
+  { id: 'mls', name: 'MLS', sport: 'Football', country: 'USA', icon: '🇺🇸', color: '#002B5C', enabled: false },
   { id: 'liga-mx', name: 'Liga MX', sport: 'Football', country: 'Mexico', icon: '🇲🇽', color: '#006847', enabled: false },
+  { id: 'brasileirao', name: 'Brasileirão', sport: 'Football', country: 'Brazil', icon: '🇧🇷', color: '#009B3A', enabled: false },
+  { id: 'argentina-lpf', name: 'Liga Profesional', sport: 'Football', country: 'Argentina', icon: '🇦🇷', color: '#74ACDF', enabled: false },
+  { id: 'copa-libertadores', name: 'Copa Libertadores', sport: 'Football', country: 'S. America', icon: '🏆', color: '#FF6900', enabled: false },
+  
+  // Asian Football
+  { id: 'j-league', name: 'J-League', sport: 'Football', country: 'Japan', icon: '🇯🇵', color: '#E60012', enabled: false },
+  { id: 'k-league', name: 'K League', sport: 'Football', country: 'S. Korea', icon: '🇰🇷', color: '#003478', enabled: false },
+  { id: 'csl', name: 'Chinese Super League', sport: 'Football', country: 'China', icon: '🇨🇳', color: '#DE2910', enabled: false },
+  { id: 'saudi-pl', name: 'Saudi Pro League', sport: 'Football', country: 'Saudi Arabia', icon: '🇸🇦', color: '#006C35', enabled: false },
+  { id: 'indian-sl', name: 'Indian Super League', sport: 'Football', country: 'India', icon: '🇮🇳', color: '#FF9933', enabled: false },
+  { id: 'afc-cl', name: 'AFC Champions League', sport: 'Football', country: 'Asia', icon: '🏆', color: '#0066CC', enabled: false },
+  
+  // African Football
+  { id: 'south-african-psl', name: 'South African PSL', sport: 'Football', country: 'S. Africa', icon: '🇿🇦', color: '#007A3D', enabled: false },
+  { id: 'egyptian-pl', name: 'Egyptian Premier', sport: 'Football', country: 'Egypt', icon: '🇪🇬', color: '#CE1126', enabled: false },
+  { id: 'moroccan-bl', name: 'Moroccan Botola', sport: 'Football', country: 'Morocco', icon: '🇲🇦', color: '#C1272D', enabled: false },
+  { id: 'caf-cl', name: 'CAF Champions League', sport: 'Football', country: 'Africa', icon: '🏆', color: '#FFD700', enabled: false },
+  
+  // Basketball
   { id: 'euroleague', name: 'EuroLeague', sport: 'Basketball', country: 'Europe', icon: '🏀', color: '#FF6900', enabled: false },
+  { id: 'nba-g-league', name: 'NBA G League', sport: 'Basketball', country: 'USA', icon: '🏀', color: '#C4CED4', enabled: false },
+  { id: 'cba', name: 'Chinese Basketball', sport: 'Basketball', country: 'China', icon: '🏀', color: '#C8102E', enabled: false },
+  { id: 'spanish-acb', name: 'Liga ACB', sport: 'Basketball', country: 'Spain', icon: '🏀', color: '#AA151B', enabled: false },
+  
+  // Hockey
   { id: 'nhl', name: 'NHL', sport: 'Hockey', country: 'USA/Canada', icon: '🏒', color: '#000000', enabled: false },
+  { id: 'khl', name: 'KHL', sport: 'Hockey', country: 'Russia', icon: '🏒', color: '#D52B1E', enabled: false },
+  { id: 'shl', name: 'Swedish Hockey', sport: 'Hockey', country: 'Sweden', icon: '🏒', color: '#006AA7', enabled: false },
+  { id: 'liiga', name: 'Finnish Liiga', sport: 'Hockey', country: 'Finland', icon: '🏒', color: '#003580', enabled: false },
+  
+  // Cricket
+  { id: 'ipl', name: 'IPL', sport: 'Cricket', country: 'India', icon: '🏏', color: '#0033A0', enabled: false },
+  { id: 'bbl', name: 'Big Bash League', sport: 'Cricket', country: 'Australia', icon: '🏏', color: '#008751', enabled: false },
+  { id: 'psl', name: 'Pakistan Super League', sport: 'Cricket', country: 'Pakistan', icon: '🏏', color: '#01411C', enabled: false },
+  { id: 'county-cricket', name: 'County Cricket', sport: 'Cricket', country: 'England', icon: '🏏', color: '#0B2343', enabled: false },
+  
+  // Rugby
+  { id: 'super-rugby', name: 'Super Rugby', sport: 'Rugby', country: 'Pacific', icon: '🏉', color: '#00205B', enabled: false },
+  { id: 'six-nations', name: 'Six Nations', sport: 'Rugby', country: 'Europe', icon: '🏉', color: '#003893', enabled: false },
+  { id: 'premiership-rugby', name: 'Premiership Rugby', sport: 'Rugby', country: 'England', icon: '🏉', color: '#005EB8', enabled: false },
+  { id: 'top-14-rugby', name: 'Top 14', sport: 'Rugby', country: 'France', icon: '🏉', color: '#002654', enabled: false },
+  
+  // American Sports
+  { id: 'mlb', name: 'MLB', sport: 'Baseball', country: 'USA', icon: '⚾', color: '#041E42', enabled: false },
+  { id: 'npb', name: 'NPB', sport: 'Baseball', country: 'Japan', icon: '⚾', color: '#BC002D', enabled: false },
+  { id: 'nfl', name: 'NFL', sport: 'American Football', country: 'USA', icon: '🏈', color: '#013369', enabled: false },
+  { id: 'cfl', name: 'CFL', sport: 'Canadian Football', country: 'Canada', icon: '🏈', color: '#C8102E', enabled: false },
+  
+  // Other Sports
+  { id: 'atp-tennis', name: 'ATP Tour', sport: 'Tennis', country: 'Global', icon: '🎾', color: '#00B9F2', enabled: false },
+  { id: 'wta-tennis', name: 'WTA Tour', sport: 'Tennis', country: 'Global', icon: '🎾', color: '#C8102E', enabled: false },
+  { id: 'pga-golf', name: 'PGA Tour', sport: 'Golf', country: 'USA', icon: '⛳', color: '#002B5C', enabled: false },
+  { id: 'formula-1', name: 'Formula 1', sport: 'Racing', country: 'Global', icon: '🏎️', color: '#E10600', enabled: false },
+  { id: 'motogp', name: 'MotoGP', sport: 'Racing', country: 'Global', icon: '🏍️', color: '#FF0000', enabled: false },
+  { id: 'ufc', name: 'UFC', sport: 'MMA', country: 'Global', icon: '🥊', color: '#D20A0A', enabled: false },
+  { id: 'pdc-darts', name: 'PDC Darts', sport: 'Darts', country: 'Global', icon: '🎯', color: '#E30613', enabled: false },
 ];
 
 export default function ExtraSportsCoverage() {

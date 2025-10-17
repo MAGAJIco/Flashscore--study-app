@@ -2,7 +2,7 @@
   "name": "magajico-monorepo",
   "private": true,
   "version": "1.0.0",
-  "packageManager": "pnpm@9.12.3",
+  "packageManager": "pnpm@10.18.1",
   "workspaces": [
     "apps/*",
     "packages/*"
