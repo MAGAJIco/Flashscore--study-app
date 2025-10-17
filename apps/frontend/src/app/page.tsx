@@ -1,5 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import HorizontalCarousel from './components/HorizontalCarousel';
 import ComprehensiveSportsHub from "@/app/components/ComprehensiveSportsHub";
 import AuthorsSidebar from "@/app/components/AuthorsSidebar";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";

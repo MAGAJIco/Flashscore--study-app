@@ -7,26 +7,38 @@ import aiEnhancementService from "../services/aiEnhancementService";
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || "http://0.0.0.0:8000";
 
 export async function mlRoutes(server: FastifyInstance) {
-  // Health check for ML service
+  // Health check for ML service with retry
   server.get("/ml-status", async (request, reply) => {
-    try {
-      const response = await fetch(`${ML_SERVICE_URL}/health`, {
-        signal: AbortSignal.timeout(5000)
-      });
-      const data = await response.json();
-      return {
-        status: "operational",
-        mlService: data,
-        version: "MagajiCo-ML-v2.0",
-        timestamp: new Date().toISOString()
-      };
-    } catch (error: any) {
-      return reply.status(503).send({
-        status: "degraded",
-        error: "ML service unavailable",
-        fallback: "using rule-based predictions"
-      });
+    const maxRetries = 3;
+    let lastError: any;
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await fetch(`${ML_SERVICE_URL}/health`, {
+          signal: AbortSignal.timeout(3000)
+        });
+        const data = await response.json();
+        return {
+          status: "operational",
+          mlService: data,
+          version: "MagajiCo-ML-v2.0",
+          timestamp: new Date().toISOString(),
+          attempt
+        };
+      } catch (error: any) {
+        lastError = error;
+        if (attempt < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
+      }
     }
+    
+    return reply.status(503).send({
+      status: "degraded",
+      error: "ML service unavailable after retries",
+      fallback: "using rule-based predictions",
+      lastError: lastError?.message
+    });
   });
 
   // Proxy endpoint for ML predictions
