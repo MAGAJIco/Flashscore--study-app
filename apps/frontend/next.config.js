@@ -58,17 +58,31 @@ const nextConfig = {
     return config;
   },
   
-  // Image optimization
+  // Image optimization for mobile
   images: {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
+    deviceSizes: [320, 420, 640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    unoptimized: false,
   },
   
   // Enable SWC minification
   swcMinify: true,
   allowedDevOrigins: ['*.replit.dev'],
   reactStrictMode: true,
-  swcMinify: true,
+  
+  // Optimize for mobile performance
+  compress: true,
+  poweredByHeader: false,
+  
+  // Enable experimental features for better mobile performance
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['@/components', 'lucide-react'],
+  },
 
   // For monorepo setup with shared packages
   transpilePackages: ["@magajico/shared"],

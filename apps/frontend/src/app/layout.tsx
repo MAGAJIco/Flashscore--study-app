@@ -13,29 +13,38 @@ import PushNotificationManager from "./components/PushNotificationManager";
 import MobilePerformanceOptimizer from "./components/MobilePerformanceOptimizer";
 import ErrorBoundaryWithPerformance from "./components/ErrorBoundary/ErrorBoundaryWithPerformance";
 
-export const metadata: Metadata = {
-  title: "Sports Central",
-  description: "Your complete sports prediction and live scores platform",
-  applicationName: "Sports Central",
-  manifest: "/manifest.json",
+export const metadata = {
+  title: 'Sports Central - AI-Powered Predictions',
+  description: 'Get AI-powered sports predictions, live scores, and real-time odds',
+  manifest: '/manifest.json',
+  themeColor: '#1a1f3a',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+    viewportFit: 'cover',
+  },
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Sports Central",
+    statusBarStyle: 'black-translucent',
+    title: 'Sports Central',
   },
-  icons: {
-    icon: [
-      { url: "/icons/icon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/icons/icon-32x32.png", sizes: "32x32", type: "image/png" },
-    ],
-    apple: [
-      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
-    ],
+  formatDetection: {
+    telephone: false,
+    date: false,
+    address: false,
+    email: false,
   },
-};
-
-export const viewport = {
-  themeColor: "#00ff88",
+  other: {
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'black-translucent',
+    'apple-mobile-web-app-title': 'Sports Central',
+    'application-name': 'Sports Central',
+    'msapplication-TileColor': '#1a1f3a',
+    'msapplication-tap-highlight': 'no',
+  },
 };
 
 export default async function RootLayout({
@@ -66,6 +75,7 @@ export default async function RootLayout({
                 <UserPreferencesProvider>
                   <PWAServiceWorker />
                   <PushNotificationManager />
+                  <MobilePerformanceOptimizer />
                   {children}
                   <Analytics />
                   <SpeedInsights />

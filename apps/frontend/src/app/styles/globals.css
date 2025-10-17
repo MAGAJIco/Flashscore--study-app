@@ -557,18 +557,50 @@ html, body {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
     padding-bottom: env(safe-area-inset-bottom);
+    padding-top: env(safe-area-inset-top);
   }
 }
 
-/* Optimize button sizes for touch */
+/* Optimize button sizes for touch - WCAG AAA compliant */
 button, .btn, a, input, select, textarea {
-  min-height: 44px;
+  min-height: 48px;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
 }
 
 button, .btn {
-  min-width: 44px;
+  min-width: 48px;
+}
+
+/* Improve touch target spacing */
+button:not(:last-child), .btn:not(:last-child) {
+  margin-right: 8px;
+}
+
+/* Prevent zoom on input focus (iOS) */
+input, select, textarea {
+  font-size: 16px;
+}
+
+/* Optimize for mobile performance */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hardware acceleration for animations */
+.animate, [class*="animate-"], .transition, [class*="transition-"] {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduce paint areas */
+img, video {
+  will-change: auto;
+  contain: layout style paint;
 }
 
 /* Reduce animations on mobile for performance */
@@ -601,24 +633,62 @@ button, .btn {
   button, .btn, a {
     min-height: 48px;
     min-width: 48px;
+    padding: 12px 16px;
   }
 
   /* Optimize font sizes for mobile */
   body {
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.6;
   }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
 
   /* Faster animations on mobile */
   * {
-    transition-duration: 150ms !important;
+    transition-duration: 200ms !important;
   }
 
   /* Optimize images for mobile */
   img {
     max-width: 100%;
     height: auto;
+    display: block;
   }
+
+  /* Improve scroll performance */
+  body, html {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Reduce motion for battery saving */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Optimize grid layouts */
+  .grid {
+    grid-gap: 12px;
+  }
+
+  /* Stack cards vertically on mobile */
+  .card, .glass-card {
+    margin-bottom: 16px;
+  }
+
+  /* Full width containers on mobile */
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+    max-width: 100%;
+  }
+}
 
   /* Better scrolling on mobile */
   .scroll-container {
@@ -926,6 +996,93 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 
     0 0 0 3px rgba(59, 130, 246, 0.1),
     0 4px 20px rgba(59, 130, 246, 0.2);
+
+
+/* Lite mode for 2G connections */
+body.lite-mode {
+  /* Disable animations */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Reduce image quality */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
+  /* Hide non-critical content */
+  .non-critical, [data-priority="low"] {
+    display: none;
+  }
+
+  /* Simplify backgrounds */
+  background: #1a1f3a !important;
+}
+
+/* Optimized mode for 3G connections */
+body.optimized-mode {
+  /* Reduce animation complexity */
+  * {
+    transition-duration: 100ms !important;
+  }
+
+  /* Lower quality images */
+  img {
+    filter: contrast(0.95);
+  }
+
+  /* Reduce shadows and effects */
+  .shadow, .glass-effect, .backdrop-blur {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* Mobile-first grid system */
+@media (max-width: 640px) {
+  .responsive-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Touch-friendly spacing */
+.touch-spacing > * + * {
+  margin-top: 16px;
+}
+
+/* Improve click/tap performance */
+a, button, [role="button"], [onclick] {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Optimize modal/overlay performance */
+.modal, .overlay, .drawer {
+  contain: layout style paint;
+  will-change: transform, opacity;
+}
+
+/* Reduce repaints on scroll */
+.sticky, .fixed {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
   outline: none;
 }
 
