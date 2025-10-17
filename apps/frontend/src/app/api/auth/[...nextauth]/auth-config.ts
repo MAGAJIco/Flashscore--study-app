@@ -1,5 +1,21 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
+import { MongoClient } from 'mongodb';
+import bcrypt from 'bcryptjs';
+
+if (!process.env.NEXTAUTH_SECRET) {
+  throw new Error('NEXTAUTH_SECRET environment variable is required for authentication');
+}
+
+if (!process.env.MONGODB_URI) {
+  throw new Error('MONGODB_URI environment variable is required for authentication');
+}
+
+if (!process.env.MONGODB_URI.startsWith('mongodb://') && !process.env.MONGODB_URI.startsWith('mongodb+srv://')) {
+  throw new Error('MONGODB_URI must start with mongodb:// or mongodb+srv://');
+}
+
+const client = new MongoClient(process.env.MONGODB_URI);
 
 export const authOptions = {
   providers: [
@@ -14,15 +30,40 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        if (credentials?.email && credentials?.password) {
-          // Add your authentication logic here
-          return {
-            id: '1',
-            email: credentials.email,
-            name: 'User'
-          };
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error('Please enter your email and password');
         }
-        return null;
+
+        try {
+          await client.connect();
+          const db = client.db();
+          
+          const user = await db.collection('users').findOne({
+            email: credentials.email
+          });
+
+          if (!user) {
+            throw new Error('No user found with this email');
+          }
+
+          const passwordMatch = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!passwordMatch) {
+            throw new Error('Incorrect password');
+          }
+
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.username || user.name,
+            provider: 'credentials'
+          };
+        } catch (error: any) {
+          throw new Error(error.message || 'Authentication failed');
+        }
       }
     })
   ],
@@ -38,12 +79,14 @@ export const authOptions = {
     async jwt({ token, user }: any) {
       if (user) {
         token.id = user.id;
+        token.provider = user.provider;
       }
       return token;
     },
     async session({ session, token }: any) {
       if (token && session.user) {
         session.user.id = token.id as string;
+        session.user.provider = token.provider;
       }
       return session;
     }

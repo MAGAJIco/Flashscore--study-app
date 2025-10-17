@@ -30,10 +30,19 @@ magajico-monorepo/
   - WebView output type for browser preview
 
 ### Environment Variables
-The app uses MongoDB for data persistence. Key environment variables:
-- `MONGODB_URI`: MongoDB connection string (optional, app runs without DB)
+The app uses MongoDB for data persistence and NextAuth for authentication. **Required** environment variables:
+
+**Authentication (Required)**:
+- `NEXTAUTH_SECRET`: Secret key for JWT token signing (generate with `openssl rand -base64 32`)
+- `MONGODB_URI`: MongoDB connection string (format: `mongodb://` or `mongodb+srv://`)
+
+**Optional**:
+- `GOOGLE_CLIENT_ID`: Google OAuth client ID (for Google sign-in)
+- `GOOGLE_CLIENT_SECRET`: Google OAuth client secret (for Google sign-in)
 - `NEXT_PUBLIC_BACKEND_URL`: Backend API URL (default: http://localhost:3001)
 - `NODE_ENV`: Environment mode (development/production)
+
+**Important**: The app will fail to start if `NEXTAUTH_SECRET` or `MONGODB_URI` are not set or improperly formatted. This is a security feature to prevent production deployment with unsafe defaults.
 
 Environment variables can be configured through Replit's Secrets panel.
 
@@ -81,6 +90,36 @@ cd apps/backend/ml && python main.py
 - **Frontend (Next.js)**: Port 5000 (0.0.0.0)
 - **Backend (Fastify)**: Port 3001 (localhost)
 - **ML Service (FastAPI)**: Port 8000 (0.0.0.0)
+
+## Authentication System
+
+**Implemented: October 17, 2025**
+
+Sports Central now has a complete authentication system:
+
+### Features
+- **Email/Password Authentication**: Secure user registration and login with bcrypt password hashing (10 rounds)
+- **Google OAuth**: Ready for Google sign-in (requires API keys)
+- **Session Management**: JWT-based sessions with NextAuth
+- **Age Verification**: COPPA-compliant (13+ years required)
+- **Secure User Model**: MongoDB user collection with password, age, and access restrictions
+
+### Pages
+- `/auth/signup` - User registration with username, email, password, and age
+- `/auth/signin` - Login with email/password or Google
+- Dynamic NavBar showing user status (logged in/out)
+
+### Security Features
+- Passwords hashed with bcrypt before storage
+- JWT tokens for session management
+- Age-based access restrictions (betting/payments blocked for minors)
+- Environment variable validation (fails fast if missing)
+- No hard-coded secrets (production-safe)
+
+### API Endpoints
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/[...nextauth]` - NextAuth authentication handlers
+- `GET /api/auth/session` - Current session status
 
 ## Recent Changes
 - **2025-10-12**: Added enhanced Kids Mode, Match Tracker, and iOS-style features

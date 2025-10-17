@@ -11,8 +11,11 @@ import {
   Wallet,
   MoreHorizontal,
   Globe,
+  LogOut,
+  User,
 } from "lucide-react";
 import Link from "next/link";
+import { useSession, signOut } from 'next-auth/react';
 import LanguageSwitcher from "./LanguageSwitcher";
 import GoogleStyleMenu from "./GoogleStyleMenu";
 
@@ -69,9 +72,11 @@ const quickMenuItems: QuickMenuItem[] = [
 ];
 
 const NavBar: React.FC = () => {
+  const { data: session, status } = useSession();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [quickMenuOpen, setQuickMenuOpen] = useState<boolean>(false);
+  const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
   const dropdownRefs = React.useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const quickMenuButtonRef = React.useRef<HTMLButtonElement | null>(null);
 
@@ -216,12 +221,56 @@ const NavBar: React.FC = () => {
           <div className="hidden md:flex items-center space-x-3">
             <LanguageSwitcher />
             <GoogleStyleMenu />
-            <button className="px-4 py-2 bg-green-500 rounded-full text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition cursor-pointer" aria-label="Sign up for an account">
-              Sign Up
-            </button>
-            <button className="px-4 py-2 bg-yellow-500 rounded-full text-sm font-medium hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition cursor-pointer" aria-label="Login to your account">
-              Login
-            </button>
+            
+            {status === 'loading' ? (
+              <div className="w-20 h-10 bg-gray-700 animate-pulse rounded-full"></div>
+            ) : session ? (
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center space-x-2 px-4 py-2 bg-green-500 rounded-full text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                >
+                  <User size={16} />
+                  <span>{session.user?.name || 'User'}</span>
+                </button>
+                
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-[#1f2937] rounded-lg shadow-lg overflow-hidden z-50">
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-3 text-sm hover:bg-green-500 hover:text-white transition"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <User size={16} className="inline mr-2" />
+                      My Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setUserMenuOpen(false);
+                        signOut({ callbackUrl: '/' });
+                      }}
+                      className="w-full text-left px-4 py-3 text-sm hover:bg-red-500 hover:text-white transition"
+                    >
+                      <LogOut size={16} className="inline mr-2" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link href="/auth/signup">
+                  <button className="px-4 py-2 bg-green-500 rounded-full text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition cursor-pointer" aria-label="Sign up for an account">
+                    Sign Up
+                  </button>
+                </Link>
+                <Link href="/auth/signin">
+                  <button className="px-4 py-2 bg-yellow-500 rounded-full text-sm font-medium hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition cursor-pointer" aria-label="Login to your account">
+                    Login
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Hamburger */}
@@ -278,12 +327,40 @@ const NavBar: React.FC = () => {
 
             {/* Mobile buttons */}
             <div className="flex flex-col space-y-2 px-4 py-3 border-t border-gray-700">
-              <button className="px-4 py-2 bg-green-500 rounded-full text-sm font-medium hover:bg-green-600 transition w-full">
-                Sign Up
-              </button>
-              <button className="px-4 py-2 bg-yellow-500 rounded-full text-sm font-medium hover:bg-yellow-600 transition w-full">
-                Login
-              </button>
+              {session ? (
+                <>
+                  <div className="px-4 py-2 bg-green-500/20 rounded-lg text-sm text-green-400 font-medium text-center">
+                    Hello, {session.user?.name || 'User'}!
+                  </div>
+                  <Link href="/profile" onClick={() => setMenuOpen(false)}>
+                    <button className="px-4 py-2 bg-green-500 rounded-full text-sm font-medium hover:bg-green-600 transition w-full">
+                      My Profile
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      signOut({ callbackUrl: '/' });
+                    }}
+                    className="px-4 py-2 bg-red-500 rounded-full text-sm font-medium hover:bg-red-600 transition w-full"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/signup" onClick={() => setMenuOpen(false)}>
+                    <button className="px-4 py-2 bg-green-500 rounded-full text-sm font-medium hover:bg-green-600 transition w-full">
+                      Sign Up
+                    </button>
+                  </Link>
+                  <Link href="/auth/signin" onClick={() => setMenuOpen(false)}>
+                    <button className="px-4 py-2 bg-yellow-500 rounded-full text-sm font-medium hover:bg-yellow-600 transition w-full">
+                      Login
+                    </button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

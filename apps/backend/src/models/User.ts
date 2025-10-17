@@ -3,6 +3,7 @@ import { Schema, model, Document } from "mongoose";
 export interface IUser extends Document {
   username: string;
   email: string;
+  password: string;
   piCoins: number;
   level: number;
   predictions: Schema.Types.ObjectId[];
@@ -51,6 +52,7 @@ const userSchema = new Schema<IUser>(
   {
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     piCoins: { type: Number, default: 100 },
     level: { type: Number, default: 1 },
     predictions: [{ type: Schema.Types.ObjectId, ref: "Prediction" }],
