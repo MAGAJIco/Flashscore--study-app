@@ -144,6 +144,30 @@ fastify.setErrorHandler(async (error, request, reply) => {
     } catch (logError) {
       fastify.log.error({ err: logError }, 'Failed to log error to database');
     }
+  } else {
+    // Fallback: Log to file system when DB is unavailable
+    try {
+      const fs = await import('fs/promises');
+      const errorLog = {
+        timestamp: new Date().toISOString(),
+        type: 'api',
+        message: error.message,
+        stack: error.stack,
+        source: `${request.method} ${request.url}`,
+        severity: (error as any).statusCode >= 500 ? 'high' : 'medium',
+        statusCode: (error as any).statusCode,
+        method: request.method,
+        url: request.url,
+        ip: request.ip
+      };
+      await fs.appendFile(
+        './error-logs.jsonl',
+        JSON.stringify(errorLog) + '\n',
+        'utf8'
+      );
+    } catch (fsError) {
+      fastify.log.error({ err: fsError }, 'Failed to log error to filesystem');
+    }
   }
 
   const statusCode = (error as any).statusCode || 500;
