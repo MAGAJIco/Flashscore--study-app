@@ -2,11 +2,11 @@
 import { Locale } from '@/i18n';
 
 export const regionalSportsPreferences: Record<Locale, string[]> = {
-  en: ['Premier League', 'NFL', 'NBA', 'MLB', 'NHL'],
-  es: ['La Liga', 'Champions League', 'Copa Libertadores', 'Liga MX'],
-  fr: ['Ligue 1', 'Champions League', 'Rugby Top 14', 'Tour de France'],
-  de: ['Bundesliga', 'Champions League', 'DFB-Pokal', 'Handball Bundesliga'],
-  pt: ['Brasileirão', 'Champions League', 'Copa do Brasil', 'Libertadores']
+  en: ['Premier League', 'Championship', 'NFL', 'NBA', 'MLB', 'NHL', 'IPL', 'Big Bash League'],
+  es: ['La Liga', 'Liga MX', 'Champions League', 'Copa Libertadores', 'Brasileirão', 'Liga Profesional'],
+  fr: ['Ligue 1', 'Champions League', 'Rugby Top 14', 'Tour de France', 'Belgian Pro League'],
+  de: ['Bundesliga', 'Champions League', 'DFB-Pokal', 'Austrian Bundesliga', 'Swiss Super League'],
+  pt: ['Brasileirão', 'Primeira Liga', 'Champions League', 'Copa do Brasil', 'Libertadores', 'Liga Profesional']
 };
 
 export const regionalTerminology: Record<Locale, Record<string, string>> = {

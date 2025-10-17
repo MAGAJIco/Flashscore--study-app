@@ -218,7 +218,7 @@ export default function HomePage() {
             <ChessboardCompetitiveAnalysis />
           </div>
 
-          <TopPredictions />
+          {/* Top Predictions section will be added here */}
         </div>
 
         {/* CTA Section */}
