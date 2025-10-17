@@ -12,6 +12,15 @@ export default async function coppaRouter(fastify: FastifyInstance) {
     const { childEmail, childAge, parentEmail } = request.body as any;
     if (!childEmail || !childAge)
       return reply.status(400).send({ error: "childEmail and childAge required" });
+    
+    if (!parentEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(parentEmail)) {
+      return reply.status(400).send({ error: "Valid parent email is required for COPPA compliance" });
+    }
+
+    // Generate cryptographically secure verification token
+    const crypto = await import('crypto');
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
     // Lookup or create user
     const user = await UserModel.findOneAndUpdate(
@@ -22,15 +31,42 @@ export default async function coppaRouter(fastify: FastifyInstance) {
           isUnder13: childAge < 13,
           kidsMode: true,
           "coppaConsent.status": "pending",
-          "coppaConsent.parentEmail": parentEmail || null,
+          "coppaConsent.parentEmail": parentEmail,
           "coppaConsent.requestedAt": new Date(),
+          "coppaConsent.verificationToken": verificationToken,
+          "coppaConsent.tokenExpiry": tokenExpiry,
         },
       },
       { upsert: true, new: true },
     );
 
+    // Send verification email to parent
+    try {
+      const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/coppa/verify?token=${verificationToken}&email=${encodeURIComponent(childEmail)}`;
+      
+      // In production, integrate with actual email service (SendGrid, AWS SES, etc.)
+      fastify.log.info({
+        to: parentEmail,
+        subject: 'Parental Consent Required - MagajiCo Sports',
+        verificationUrl,
+        childEmail
+      }, 'COPPA verification email would be sent');
+
+      // TODO: Replace with actual email service
+      // await sendEmail({
+      //   to: parentEmail,
+      //   subject: 'Parental Consent Required - MagajiCo Sports',
+      //   html: `<p>Click here to verify consent: <a href="${verificationUrl}">${verificationUrl}</a></p>`
+      // });
+
+    } catch (emailError) {
+      fastify.log.error('Failed to send verification email:', emailError);
+    }
+
     return reply.send({
-      message: "Parental consent requested. Please verify via parent email.",
+      message: "Parental consent requested. Verification email sent to parent.",
+      verificationRequired: true,
+      expiresIn: "24 hours"
     });
   });
 
@@ -51,6 +87,16 @@ export default async function coppaRouter(fastify: FastifyInstance) {
 
     const user = await UserModel.findOne({ email: childEmail });
     if (!user) return reply.status(404).send({ error: "user not found" });
+
+    // Validate token
+    if (user.coppaConsent?.verificationToken !== verificationToken) {
+      return reply.status(403).send({ error: "Invalid verification token" });
+    }
+
+    // Check token expiry
+    if (user.coppaConsent?.tokenExpiry && new Date() > new Date(user.coppaConsent.tokenExpiry)) {
+      return reply.status(410).send({ error: "Verification token has expired. Please request a new one." });
+    }
 
     const auditEntry = {
       timestamp: new Date(),

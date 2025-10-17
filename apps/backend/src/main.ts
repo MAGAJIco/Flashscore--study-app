@@ -21,21 +21,50 @@ const fastify = Fastify({
 // Enable CORS with secure allowlist
 const allowedOrigins: string[] = [];
 
-if (process.env.FRONTEND_URL) {
-  allowedOrigins.push(process.env.FRONTEND_URL);
-}
-
-if (process.env.REPLIT_DEV_DOMAIN) {
-  allowedOrigins.push(`https://${process.env.REPLIT_DEV_DOMAIN}`);
-}
-
-if (process.env.NODE_ENV !== 'production') {
-  allowedOrigins.push('http://localhost:5000', 'http://127.0.0.1:5000');
+// Production allowlist (strict)
+if (process.env.NODE_ENV === 'production') {
+  // REQUIRED: Set these in production environment variables
+  if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+  }
+  
+  if (process.env.PRODUCTION_DOMAIN) {
+    allowedOrigins.push(`https://${process.env.PRODUCTION_DOMAIN}`);
+  }
+  
+  // Replit production deployment
+  if (process.env.REPLIT_DEPLOYMENT) {
+    const deploymentDomain = process.env.REPLIT_DEV_DOMAIN?.replace('.replit.dev', '-00-00.replit.app');
+    if (deploymentDomain) {
+      allowedOrigins.push(`https://${deploymentDomain}`);
+    }
+  }
+  
+  // Log warning if no production origins configured
+  if (allowedOrigins.length === 0) {
+    fastify.log.error('⚠️ CRITICAL: No production CORS origins configured! Set FRONTEND_URL or PRODUCTION_DOMAIN');
+  }
+} else {
+  // Development allowlist
+  if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+  }
+  
+  if (process.env.REPLIT_DEV_DOMAIN) {
+    allowedOrigins.push(`https://${process.env.REPLIT_DEV_DOMAIN}`);
+  }
+  
+  allowedOrigins.push('http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000');
 }
 
 fastify.register(cors, {
   origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
     if (!origin) {
+      if (process.env.NODE_ENV === 'production') {
+        // In production, log and potentially block no-origin requests
+        fastify.log.warn('Request with no origin header in production');
+      }
       callback(null, true);
       return;
     }
@@ -49,30 +78,68 @@ fastify.register(cors, {
     if (isAllowed) {
       callback(null, true);
     } else {
-      fastify.log.warn(`CORS blocked origin: ${origin}`);
+      fastify.log.warn({
+        blockedOrigin: origin,
+        allowedOrigins,
+        environment: process.env.NODE_ENV
+      }, 'CORS blocked origin');
       callback(new Error('Not allowed by CORS'), false);
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-CSRF-Token'],
+  exposedHeaders: ['X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset'],
+  maxAge: 86400 // 24 hours
 });
+
+// Log CORS configuration on startup
+fastify.log.info({
+  allowedOrigins,
+  environment: process.env.NODE_ENV,
+  productionMode: process.env.NODE_ENV === 'production'
+}, '🔒 CORS configuration loaded');
 
 // Register security plugins
 fastify.register(helmet, {
   contentSecurityPolicy: false
 });
 
+// Global rate limit (fallback)
 fastify.register(rateLimit, {
   max: 100,
-  timeWindow: '1 minute'
+  timeWindow: '1 minute',
+  global: true
 });
+
+// Endpoint-specific rate limiting
+const endpointRateLimits = {
+  '/coppa/request-consent': { max: 5, timeWindow: '15 minutes' },
+  '/coppa/verify-consent': { max: 10, timeWindow: '15 minutes' },
+  '/api/payments/create-intent': { max: 10, timeWindow: '1 minute' },
+  '/api/payments/confirm': { max: 20, timeWindow: '1 minute' },
+  '/news': { max: 50, timeWindow: '1 minute' },
+  '/api/predictions': { max: 30, timeWindow: '1 minute' },
+  '/matches': { max: 100, timeWindow: '1 minute' },
+};
 
 // Register performance optimizations
 import { responseCacheMiddleware } from './middleware/responseCache';
 import { optimizeMongoDB } from './middleware/queryOptimizer';
+import { endpointRateLimitMiddleware } from './middleware/endpointRateLimit';
 
 // Add response caching for GET requests
 fastify.addHook('onRequest', responseCacheMiddleware({ ttl: 60000, keyPrefix: 'api' }));
+
+// Add endpoint-specific rate limiting
+fastify.addHook('onRequest', endpointRateLimitMiddleware(endpointRateLimits));
+
+// COPPA compliance enforcement (must run after Kids Mode flag attachment)
+import { attachKidsModeFlag } from './middleware/kidsModeFilter';
+import { coppaEnforcementMiddleware } from './middleware/coppaEnforcement';
+
+fastify.addHook('onRequest', attachKidsModeFlag);
+fastify.addHook('onRequest', coppaEnforcementMiddleware);
 
 // Optimize MongoDB
 optimizeMongoDB();
