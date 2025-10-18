@@ -303,20 +303,7 @@ export default function ChessboardCompetitiveAnalysis() {
         </div>
       </div>
 
-      {/* Key Insights */}
-      <div style={{
-        marginTop: '24px',
-        padding: '16px',
-        background: 'rgba(16, 185, 129, 0.1)',
-        border: '1px solid rgba(16, 185, 129, 0.3)',
-        borderRadius: '8px'
-      }}>
-        <div style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
-          <strong style={{ color: '#10b981' }}>♔ King's Verdict:</strong> Your platform has a <strong>{calculateWinProbability()}% chance</strong> of dominating the market. 
-          Your ML-powered predictions (87% accuracy) and PWA technology give you a decisive advantage over traditional competitors. 
-          Focus on scaling the ML service reliability and expanding your user base to achieve checkmate position.
-        </div>
-      </div>
+      
     </div>
   );
 }
