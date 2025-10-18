@@ -6,14 +6,14 @@ const nextConfig = {
   // Production optimizations
   compress: true,
   poweredByHeader: false,
-  
+
   // Optimize bundle size
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['@/app/components', 'react-icons', 'lodash', 'date-fns'],
     webpackBuildWorker: true,
   },
-  
+
   // Aggressive code splitting
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -57,7 +57,7 @@ const nextConfig = {
     }
     return config;
   },
-  
+
   // Image optimization for mobile
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -68,16 +68,16 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: false,
   },
-  
+
   // Enable SWC minification
   swcMinify: true,
   allowedDevOrigins: ['*.replit.dev'],
   reactStrictMode: true,
-  
+
   // Optimize for mobile performance
   compress: true,
   poweredByHeader: false,
-  
+
   // Enable experimental features for better mobile performance
   experimental: {
     optimizeCss: true,
@@ -128,6 +128,7 @@ const nextConfig = {
       },
     ];
   },
+  output: 'standalone',
 };
 
 module.exports = withNextIntl(nextConfig);
