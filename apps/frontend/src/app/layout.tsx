@@ -4,7 +4,8 @@ import { getMessages } from "next-intl/server";
 import { KidsModeProvider } from "../context/KidsModeContext";
 import { UserPreferencesProvider } from "./providers/UserPreferencesProvider";
 import NextAuthSessionProvider from "./providers/SessionProvider";
-import "./styles/globals.css";
+import './styles/globals.css'
+import './styles/mobile-optimizations.css'
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from "next";

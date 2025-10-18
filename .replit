@@ -53,6 +53,35 @@ localPort = 33309
 externalPort = 3000
 
 [deployment]
-deploymentTarget = "autoscale"
-run = ["bash", "-c", "cd apps/frontend && pnpm start"]
-build = ["bash", "-c", "pnpm install && cd apps/frontend && pnpm build"]
+build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
+run = ["sh", "-c", "cd apps/frontend && pnpm start"]
+
+[[deployment.responseHeaders]]
+path = "/*"
+name = "Cache-Control"
+value = "public, max-age=3600"
+
+[[deployment.responseHeaders]]
+path = "/static/*"
+name = "Cache-Control"
+value = "public, max-age=31536000, immutable"
+
+[[deployment.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[workflows.Frontend]
+name = "Frontend"
+mode = "sequential"
+[[workflows.Frontend.commands]]
+command = "cd apps/frontend && pnpm dev"
+
+[workflows.Backend]
+name = "Backend"
+[[workflows.Backend.commands]]
+command = "cd apps/backend && pnpm dev"
+
+[workflows.'ML Service']
+name = "ML Service"
+[[workflows.'ML Service'.commands]]
+command = "cd apps/backend/ml && python api.py"

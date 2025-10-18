@@ -1,16 +1,38 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import dynamic from 'next/dynamic';
-import HorizontalCarousel from './components/HorizontalCarousel';
-import ComprehensiveSportsHub from "@/app/components/ComprehensiveSportsHub";
-import AuthorsSidebar from "@/app/components/AuthorsSidebar";
+import { useMobile } from './hooks/useMobile';
+import LoadingSkeleton from './components/LoadingSkeleton';
+
+// Lazy load heavy components for mobile performance
+const HorizontalCarousel = dynamic(() => import('./components/HorizontalCarousel'), {
+  loading: () => <LoadingSkeleton />,
+  ssr: false
+});
+
+const ComprehensiveSportsHub = dynamic(() => import("@/app/components/ComprehensiveSportsHub"), {
+  loading: () => <LoadingSkeleton />,
+  ssr: false
+});
+
+const AuthorsSidebar = dynamic(() => import("@/app/components/AuthorsSidebar"), {
+  loading: () => <LoadingSkeleton />,
+  ssr: false
+});
+
+const ChessboardCompetitiveAnalysis = dynamic(() => import("./components/ChessboardCompetitiveAnalysis"), {
+  loading: () => <LoadingSkeleton />,
+  ssr: false
+});
+
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import NavBar from "@/app/components/NavBar";
+import MobileHomeOptimizer from "./components/MobileHomeOptimizer";
 import Link from "next/link";
-import ChessboardCompetitiveAnalysis from "./components/ChessboardCompetitiveAnalysis";
 
 export default function HomePage() {
+  const isMobile = useMobile();
   const [liveStats, setLiveStats] = useState({
     activeUsers: 2341,
     predictions24h: 8547,
@@ -19,6 +41,28 @@ export default function HomePage() {
   });
 
   const [currentFeature, setCurrentFeature] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  useEffect(() => {
+    // Optimize image loading for mobile
+    if (isMobile) {
+      const images = document.querySelectorAll('img');
+      let loadedCount = 0;
+      
+      images.forEach(img => {
+        if (img.complete) {
+          loadedCount++;
+        } else {
+          img.addEventListener('load', () => {
+            loadedCount++;
+            if (loadedCount === images.length) {
+              setImagesLoaded(true);
+            }
+          });
+        }
+      });
+    }
+  }, [isMobile]);
 
   const featuredPreviews = [
     {
@@ -61,10 +105,11 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
+      <MobileHomeOptimizer />
       <NavBar />
-      <AuthorsSidebar />
+      {!isMobile && <Suspense fallback={<LoadingSkeleton />}><AuthorsSidebar /></Suspense>}
 
-      <div className="ml-80 mt-16">
+      <div className={isMobile ? "mt-16 px-2" : "ml-80 mt-16"}>
         {/* Hero Section with Live Stats */}
         <section className="relative overflow-hidden py-12 px-6">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 to-indigo-100/30"></div>
@@ -78,8 +123,8 @@ export default function HomePage() {
                 AI-Powered Sports Intelligence • Live • Accurate • Profitable
               </p>
 
-              {/* Live Stats Bar */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+              {/* Live Stats Bar - Mobile Optimized */}
+              <div className={`grid ${isMobile ? 'grid-cols-2' : 'md:grid-cols-4'} gap-${isMobile ? '2' : '4'} mt-${isMobile ? '4' : '8'}`}>
                 <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 border border-gray-200 shadow-sm">
                   <div className="text-3xl font-bold text-blue-600">{liveStats.activeUsers.toLocaleString()}</div>
                   <div className="text-sm text-gray-600">Active Users</div>

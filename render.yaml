@@ -6,7 +6,7 @@ services:
     region: oregon
     plan: free
     buildCommand: pnpm install && pnpm --filter @magajico/backend build
-    startCommand: pnpm --filter @magajico/backend start
+    startCommand: cd apps/backend && node dist/main.js
     envVars:
       - key: NODE_ENV
         value: production

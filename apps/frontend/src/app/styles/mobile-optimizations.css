@@ -1,0 +1,65 @@
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+  /* Reduce animations on mobile */
+  .reduce-motion * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Optimize touch targets */
+  button, a, input, select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce shadow complexity */
+  .glass-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Optimize images */
+  img {
+    content-visibility: auto;
+    will-change: transform;
+  }
+
+  /* Optimize gradients */
+  .bg-gradient-to-br {
+    background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 100%);
+  }
+
+  /* Reduce blur effects */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+  }
+
+  /* Enable GPU acceleration for transforms */
+  .hover-lift, .transition-all {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* Battery saver mode */
+.lite-mode {
+  animation: none !important;
+  transition: none !important;
+}
+
+.lite-mode * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Optimized loading states */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
