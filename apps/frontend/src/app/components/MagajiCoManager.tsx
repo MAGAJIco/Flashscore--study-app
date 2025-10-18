@@ -248,11 +248,17 @@ export default function MagajiCoManager({
             }
           };
         } else {
-          response = await magajicoCEO(inputMessage);
+          response = {
+            message: generateAIResponse(inputMessage),
+            type: 'text'
+          };
         }
       } else {
         // Use regular CEO response
-        response = await magajicoCEO(inputMessage);
+        response = {
+          message: generateAIResponse(inputMessage),
+          type: 'text'
+        };
       }
 
       if (response) {
