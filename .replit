@@ -40,6 +40,15 @@ mode = "sequential"
 task = "shell.exec"
 args = "cd apps/backend/ml && python api.py"
 
+[[workflows.workflow]]
+name = "Backend"
+author = 48764808
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend && npm start"
+
 [deployment]
 build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
 run = ["sh", "-c", "cd apps/frontend && pnpm start"]
@@ -65,19 +74,3 @@ externalPort = 3000
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[workflows.Frontend]
-name = "Frontend"
-mode = "sequential"
-[[workflows.Frontend.commands]]
-command = "cd apps/frontend && pnpm dev"
-
-[workflows.Backend]
-name = "Backend"
-[[workflows.Backend.commands]]
-command = "cd apps/backend && pnpm dev"
-
-[workflows.'ML Service']
-name = "ML Service"
-[[workflows.'ML Service'.commands]]
-command = "cd apps/backend/ml && python api.py"

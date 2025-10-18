@@ -27,7 +27,6 @@ const nextConfig = {
   experimental: {
     externalDir: true,
     optimizeCss: true,
-    optimizePackageImports: ['@/app/components', 'react-icons', 'lodash', 'date-fns', 'lucide-react'],
     webpackBuildWorker: true,
   },
 
