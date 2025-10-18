@@ -49,16 +49,23 @@
   --ios-shadow-large: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
-/* === ENHANCED SPORTS CENTRAL THEME === */
+/* === ENHANCED SPORTS CENTRAL THEME - LIVERPOOL COLORS === */
+:root {
+  --liverpool-red: #C8102E;
+  --liverpool-gold: #F6EB61;
+  --liverpool-dark: #0d1117;
+  --liverpool-accent: #00B2A9;
+}
+
 body.sports {
   background: 
-    radial-gradient(ellipse at top, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at top, rgba(200, 16, 46, 0.15) 0%, transparent 50%),
     linear-gradient(135deg, 
-      #0a0a0a 0%, 
-      #1a1a2e 25%, 
-      #16213e  50%, 
-      #0f3460 75%, 
-      #1e1e1e 100%
+      #0d1117 0%, 
+      #1a0a0e 25%, 
+      #2d1319  50%, 
+      #1a0a0e 75%, 
+      #0d1117 100%
     );
   background-attachment: fixed;
   min-height: 100vh;
@@ -71,7 +78,7 @@ body.sports {
 }
 
 body.sports .particle {
-  background: radial-gradient(circle, #00d4ff, transparent);
+  background: radial-gradient(circle, var(--liverpool-red), transparent);
   animation: float 6s ease-in-out infinite;
 }
 
@@ -1039,10 +1046,45 @@ body.optimized-mode {
   }
 }
 
-/* Mobile-first grid system */
+/* Liverpool-themed mobile optimizations */
 @media (max-width: 640px) {
   .responsive-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Liverpool themed navigation */
+  nav, .nav-bar {
+    background: linear-gradient(135deg, rgba(200, 16, 46, 0.95), rgba(160, 13, 38, 0.95));
+    border-bottom: 2px solid var(--liverpool-gold);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Liverpool themed headings */
+  h1, h2, h3 {
+    background: linear-gradient(135deg, var(--liverpool-red), var(--liverpool-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Touch-optimized Liverpool buttons */
+  .btn-primary, .primary-button {
+    background: linear-gradient(135deg, var(--liverpool-red), #a00d26);
+    border: 1px solid var(--liverpool-gold);
+    box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+    min-height: 48px;
+    padding: 12px 24px;
+    font-weight: 600;
+  }
+
+  /* Liverpool stats cards */
+  .stat-card {
+    background: linear-gradient(135deg, 
+      rgba(200, 16, 46, 0.1) 0%, 
+      rgba(13, 17, 23, 0.9) 100%
+    );
+    border: 1px solid rgba(246, 235, 97, 0.3);
+    box-shadow: 0 4px 16px rgba(200, 16, 46, 0.2);
   }
 }
 

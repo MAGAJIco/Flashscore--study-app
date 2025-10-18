@@ -24,7 +24,7 @@ export const TouchButton: React.FC<TouchButtonProps> = ({
   const baseClasses = 'font-semibold rounded-lg transition-all duration-200 active:scale-95 touch-manipulation';
   
   const variantClasses = {
-    primary: 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg',
+    primary: 'bg-[#C8102E] hover:bg-[#a00d26] text-white shadow-lg border border-[#F6EB61]',
     secondary: 'bg-gray-600 hover:bg-gray-700 text-white shadow-md',
     danger: 'bg-red-600 hover:bg-red-700 text-white shadow-lg'
   };

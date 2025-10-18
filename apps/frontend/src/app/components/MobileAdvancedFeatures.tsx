@@ -51,11 +51,11 @@ const MobileAdvancedFeatures: React.FC = () => {
         color: '#fff',
         fontSize: '2rem',
         marginBottom: '20px',
-        background: 'linear-gradient(135deg, #ec4899, #a855f7)',
+        background: 'linear-gradient(135deg, #C8102E, #F6EB61)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent'
       }}>
-        📱 Mobile Powerhouse
+        🏆 Liverpool Mobile Hub
       </h2>
 
       {/* PWA Installation */}
@@ -225,10 +225,10 @@ const MobileAdvancedFeatures: React.FC = () => {
           gap: '12px'
         }}>
           {[
-            { icon: '🎯', label: 'Quick Predict', color: '#22c55e' },
-            { icon: '🧠', label: 'Flash Quiz', color: '#3b82f6' },
-            { icon: '📊', label: 'Live Scores', color: '#f59e0b' },
-            { icon: '💰', label: 'Pi Wallet', color: '#ffd700' }
+            { icon: '🎯', label: 'Quick Predict', color: '#C8102E' },
+            { icon: '🧠', label: 'Flash Quiz', color: '#F6EB61' },
+            { icon: '📊', label: 'Live Scores', color: '#C8102E' },
+            { icon: '💰', label: 'Pi Wallet', color: '#F6EB61' }
           ].map(action => (
             <button
               key={action.label}
@@ -274,12 +274,12 @@ const MobileAdvancedFeatures: React.FC = () => {
             width: '56px',
             height: '56px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #ec4899, #a855f7)',
-            border: 'none',
+            background: 'linear-gradient(135deg, #C8102E, #a00d26)',
+            border: '2px solid #F6EB61',
             color: 'white',
             fontSize: '1.5rem',
             cursor: 'pointer',
-            boxShadow: '0 4px 20px rgba(236, 72, 153, 0.4)',
+            boxShadow: '0 4px 20px rgba(200, 16, 46, 0.6)',
             transition: 'transform 0.2s ease'
           }}
           onTouchStart={(e) => {

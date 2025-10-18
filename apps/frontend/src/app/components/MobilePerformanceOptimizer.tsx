@@ -10,18 +10,21 @@ export default function MobilePerformanceOptimizer() {
   const updateConnection = useCallback((effectiveType: string) => {
     setConnectionType(effectiveType);
     
-    // Auto-switch to lite mode on slow connections
+    // Auto-switch to lite mode on slow connections with Liverpool theme
     if (effectiveType === '2g' || effectiveType === 'slow-2g') {
       setDataMode('lite');
       document.body.classList.add('lite-mode');
       document.body.classList.remove('optimized-mode');
+      document.body.style.setProperty('--accent-color', '#C8102E');
     } else if (effectiveType === '3g') {
       setDataMode('full');
       document.body.classList.add('optimized-mode');
       document.body.classList.remove('lite-mode');
+      document.body.style.setProperty('--accent-color', '#C8102E');
     } else {
       setDataMode('full');
       document.body.classList.remove('lite-mode', 'optimized-mode');
+      document.body.style.setProperty('--accent-color', '#C8102E');
     }
   }, []);
 
