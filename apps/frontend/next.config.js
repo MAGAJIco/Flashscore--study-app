@@ -3,18 +3,35 @@ const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+
   // Production optimizations
   compress: true,
   poweredByHeader: false,
+  swcMinify: true,
+  generateEtags: true,
+  output: 'standalone',
 
-  // Optimize bundle size
+  // For monorepo setup with shared packages
+  transpilePackages: ["@magajico/shared"],
+
+  // Allowed dev origins
+  allowedDevOrigins: ['*.replit.dev'],
+
+  // Compiler options
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+
+  // Experimental features
   experimental: {
+    externalDir: true,
     optimizeCss: true,
-    optimizePackageImports: ['@/app/components', 'react-icons', 'lodash', 'date-fns'],
+    optimizePackageImports: ['@/app/components', 'react-icons', 'lodash', 'date-fns', 'lucide-react'],
     webpackBuildWorker: true,
   },
 
-  // Aggressive code splitting
+  // Webpack configuration
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.optimization.splitChunks = {
@@ -58,62 +75,24 @@ const nextConfig = {
     return config;
   },
 
-  // Image optimization for mobile
+  // Image optimization
   images: {
-    formats: ['image/webp', 'image/avif'],
+    formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
     deviceSizes: [320, 420, 640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: false,
-  },
-
-  // Enable SWC minification
-  swcMinify: true,
-  allowedDevOrigins: ['*.replit.dev'],
-  reactStrictMode: true,
-
-  // Optimize for mobile performance
-  compress: true,
-  poweredByHeader: false,
-
-  // Enable experimental features for better mobile performance
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['@/components', 'lucide-react'],
-  },
-
-  // For monorepo setup with shared packages
-  transpilePackages: ["@magajico/shared"],
-
-  compiler: {
-    // Strip out console logs in production builds
-    removeConsole: process.env.NODE_ENV === "production",
-  },
-
-  images: {
-    formats: ["image/avif", "image/webp"],
-    deviceSizes: [320, 420, 768, 1024, 1200],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**", // allow images from your backend & CDN
+        hostname: "**",
       },
     ],
   },
 
-  experimental: {
-    externalDir: true,
-    optimizePackageImports: ["react-icons", "lodash"],
-  },
-
-  compress: true,
-  poweredByHeader: false,
-  generateEtags: true,
-
+  // Security headers
   async headers() {
     return [
       {
@@ -128,7 +107,6 @@ const nextConfig = {
       },
     ];
   },
-  output: 'standalone',
 };
 
 module.exports = withNextIntl(nextConfig);
