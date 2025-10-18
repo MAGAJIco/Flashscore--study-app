@@ -8,24 +8,17 @@ import './styles/globals.css'
 import './styles/mobile-optimizations.css'
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
 import PushNotificationManager from "./components/PushNotificationManager";
 import MobilePerformanceOptimizer from "./components/MobilePerformanceOptimizer";
 import ErrorBoundaryWithPerformance from "./components/ErrorBoundary/ErrorBoundaryWithPerformance";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Sports Central - AI-Powered Predictions',
   description: 'Get AI-powered sports predictions, live scores, and real-time odds',
   manifest: '/manifest.json',
   themeColor: '#1a1f3a',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: 'cover',
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -46,6 +39,15 @@ export const metadata = {
     'msapplication-TileColor': '#1a1f3a',
     'msapplication-tap-highlight': 'no',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
+  themeColor: '#1a1f3a',
 };
 
 export default async function RootLayout({
