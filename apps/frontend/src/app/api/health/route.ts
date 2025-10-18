@@ -30,13 +30,13 @@ export async function GET(request: NextRequest) {
 
   // Check backend health
   try {
-    const backendRes = await fetch(`${BACKEND_URL}/api/health`, { 
+    const backendRes = await fetch(`${BACKEND_URL}/health`, { 
       signal: AbortSignal.timeout(3000),
       headers: { 'Content-Type': 'application/json' }
     });
     const backendData = await backendRes.json();
     services.backend = backendRes.ok ? 'ok' : 'error';
-    services.database = backendData.db || 'unknown';
+    services.database = backendData.db?.status || 'unknown';
   } catch (error) {
     console.warn('Backend health check failed:', error instanceof Error ? error.message : 'Unknown error');
     services.backend = 'offline';

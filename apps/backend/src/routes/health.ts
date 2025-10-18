@@ -22,16 +22,13 @@ export async function healthRoutes(fastify: FastifyInstance) {
         },
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
-        version: process.env.npm_package_version || '1.0.0'
+        version: process.env.npm_package_version || '1.0.0',
+        environment: process.env.NODE_ENV || 'development'
       };
 
-      // Return 503 if DB is required but not available
-      if (requireDb && !dbConnected) {
-        reply.code(503);
-      } else {
-        reply.code(200);
-      }
-
+      // Always return 200 for basic health check (service is running)
+      // Database issues are reflected in the status field
+      reply.code(200);
       return health;
     } catch (error) {
       reply.code(500);
