@@ -13,6 +13,8 @@ import PWAServiceWorker from "./components/PWAServiceWorker";
 import PushNotificationManager from "./components/PushNotificationManager";
 import MobilePerformanceOptimizer from "./components/MobilePerformanceOptimizer";
 import ErrorBoundaryWithPerformance from "./components/ErrorBoundary/ErrorBoundaryWithPerformance";
+import ErrorMonitor from './components/ErrorMonitor';
+import BackendStatusIndicator from './components/BackendStatusIndicator';
 
 export const metadata: Metadata = {
   title: 'Sports Central - AI-Powered Predictions',
@@ -82,6 +84,8 @@ export default async function RootLayout({
                   {children}
                   <Analytics />
                   <SpeedInsights />
+                  <ErrorMonitor />
+                  <BackendStatusIndicator />
                 </UserPreferencesProvider>
               </KidsModeProvider>
             </NextIntlClientProvider>

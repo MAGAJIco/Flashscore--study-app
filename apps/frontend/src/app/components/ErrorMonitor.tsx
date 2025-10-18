@@ -101,11 +101,11 @@ export default function ErrorMonitor() {
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical': return 'text-red-800 bg-red-100';
-      case 'high': return 'text-red-600 bg-red-50';
-      case 'medium': return 'text-yellow-600 bg-yellow-50';
-      case 'low': return 'text-blue-600 bg-blue-50';
-      default: return 'text-gray-600 bg-gray-50';
+      case 'critical': return 'text-white bg-gradient-to-r from-red-600 to-red-700';
+      case 'high': return 'text-white bg-gradient-to-r from-orange-600 to-orange-700';
+      case 'medium': return 'text-white bg-gradient-to-r from-yellow-600 to-yellow-700';
+      case 'low': return 'text-white bg-gradient-to-r from-blue-600 to-blue-700';
+      default: return 'text-white bg-gradient-to-r from-gray-600 to-gray-700';
     }
   };
 
@@ -113,55 +113,105 @@ export default function ErrorMonitor() {
     return (
       <button
         onClick={() => setIsVisible(true)}
-        className="fixed bottom-4 right-4 bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors z-50"
+        className={`fixed bottom-4 right-4 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all z-50 font-bold text-lg ${
+          errors.length > 0 
+            ? 'bg-gradient-to-br from-red-500 to-red-700 animate-pulse hover:from-red-600 hover:to-red-800' 
+            : 'bg-gradient-to-br from-green-500 to-green-700 hover:from-green-600 hover:to-green-800'
+        }`}
         title={`${errors.length} errors logged`}
       >
-        🐛 {errors.length}
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">{errors.length > 0 ? '🐛' : '✅'}</span>
+          {errors.length > 0 && (
+            <span className="bg-white text-red-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
+              {errors.length}
+            </span>
+          )}
+        </div>
       </button>
     );
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-hidden">
-        <div className="p-4 border-b flex justify-between items-center">
-          <h2 className="text-xl font-bold">Error Monitor ({errors.length} errors)</h2>
-          <div className="flex gap-2">
-            <button
-              onClick={clearErrors}
-              className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-            >
-              Clear All
-            </button>
-            <button
-              onClick={() => setIsVisible(false)}
-              className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
-            >
-              Close
-            </button>
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
+      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl max-w-4xl w-full max-h-[85vh] overflow-hidden shadow-2xl border border-gray-700">
+        {/* Header */}
+        <div className="p-6 border-b border-gray-700 bg-gradient-to-r from-red-900/20 to-orange-900/20">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                <span className="text-2xl">🐛</span>
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">Error Monitor</h2>
+                <p className="text-sm text-gray-400">{errors.length} errors detected</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={clearErrors}
+                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all shadow-lg hover:shadow-red-500/50 font-medium"
+              >
+                Clear All
+              </button>
+              <button
+                onClick={() => setIsVisible(false)}
+                className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all shadow-lg font-medium"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
         
-        <div className="overflow-y-auto max-h-96 p-4">
+        {/* Error List */}
+        <div className="overflow-y-auto max-h-[calc(85vh-140px)] p-6">
           {errors.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No errors logged</p>
+            <div className="text-center py-16">
+              <div className="text-7xl mb-4">✨</div>
+              <p className="text-xl font-semibold text-gray-300 mb-2">All Clear!</p>
+              <p className="text-gray-500">No errors detected. System is healthy.</p>
+            </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {errors.map(error => (
-                <div key={error.id} className="border rounded-lg p-3">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${getSeverityColor(error.severity)}`}>
-                      {error.severity.toUpperCase()}
-                    </span>
-                    <span className="text-xs text-gray-500">
+                <div 
+                  key={error.id} 
+                  className={`rounded-xl p-5 border-l-4 backdrop-blur-sm transition-all hover:scale-[1.02] ${
+                    error.severity === 'critical'
+                      ? 'bg-red-900/20 border-red-500 shadow-lg shadow-red-500/20'
+                      : error.severity === 'high'
+                      ? 'bg-orange-900/20 border-orange-500 shadow-lg shadow-orange-500/20'
+                      : error.severity === 'medium'
+                      ? 'bg-yellow-900/20 border-yellow-500 shadow-lg shadow-yellow-500/20'
+                      : 'bg-blue-900/20 border-blue-500 shadow-lg shadow-blue-500/20'
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${getSeverityColor(error.severity)} shadow-md`}>
+                        {error.severity}
+                      </span>
+                      {error.severity === 'critical' && (
+                        <span className="animate-pulse text-red-400">⚠️</span>
+                      )}
+                    </div>
+                    <span className="text-xs text-gray-400 font-mono">
                       {new Date(error.timestamp).toLocaleString()}
                     </span>
                   </div>
-                  <p className="font-medium text-gray-800 mb-1">{error.message}</p>
+                  
+                  <p className="font-semibold text-white mb-2 text-lg leading-relaxed">
+                    {error.message}
+                  </p>
+                  
                   {error.stack && (
-                    <details className="mt-2">
-                      <summary className="cursor-pointer text-sm text-gray-600">Stack Trace</summary>
-                      <pre className="text-xs bg-gray-100 p-2 rounded mt-1 overflow-x-auto">
+                    <details className="mt-3 group">
+                      <summary className="cursor-pointer text-sm text-gray-400 hover:text-gray-300 font-medium flex items-center gap-2">
+                        <span className="group-open:rotate-90 transition-transform">▶</span>
+                        Stack Trace
+                      </summary>
+                      <pre className="text-xs bg-black/40 p-4 rounded-lg mt-2 overflow-x-auto text-gray-300 border border-gray-700 font-mono">
                         {error.stack}
                       </pre>
                     </details>
