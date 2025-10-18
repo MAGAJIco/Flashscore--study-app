@@ -52,7 +52,7 @@ export async function healthRoutes(fastify: FastifyInstance) {
         connected: dbConnected,
         host: mongoose.connection.host || 'N/A',
         readyState: mongoose.connection.readyState,
-        collections: dbConnected ? await mongoose.connection.db.listCollections().toArray() : []
+        collections: dbConnected ? await mongoose.connection.db?.listCollections().toArray() : []
       },
       memory: {
         rss: `${Math.round(memUsage.rss / 1024 / 1024)}MB`,

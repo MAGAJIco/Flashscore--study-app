@@ -11,6 +11,11 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        sync: false  # Set this in Render dashboard
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: REQUIRE_DB
+        value: false
       - key: PORT
-        value: 10000
+        sync: false
+    healthCheckPath: /health
