@@ -278,39 +278,7 @@ export default function MagajiCoManager({
           });
         }
       }
-    } catch (error) {
-      console.error('Chat error:', error);
-      response = {
-        message: `🤖 I'm experiencing technical difficulties connecting to the prediction service. The ML service appears to be offline. Please try asking general strategy questions instead, or wait for the service to reconnect.`,
-        type: 'error'
-      };
-    }
-
-    if (response) {
-
-      const ceoMessage: ChatMessage = {
-        id: Math.random().toString(36).substr(2, 9),
-        text: response.message,
-        isUser: false,
-        timestamp: new Date(),
-        type: response.type === 'prediction' ? 'prediction' : 'text'
-      };
-
-      setChatMessages((prev) => [...prev, ceoMessage]);
-
-      // Show floating alert for important predictions
-      if (response.type === 'prediction') {
-        triggerFloatingAlert({
-          type: 'prediction',
-          title: 'New Prediction Available',
-          message: `${response.prediction?.match}`,
-          confidence: parseFloat(response.prediction?.confidence || '0'),
-          category: 'AI Analysis',
-          duration: 5000
-        });
-      }
-    }
-  } catch (err: any) {
+    } catch (err: any) {
       console.error('Error getting CEO response:', err);
       const errorMessage: ChatMessage = {
         id: Math.random().toString(36).substr(2, 9),
