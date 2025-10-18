@@ -41,6 +41,10 @@ task = "shell.exec"
 args = "cd apps/backend/ml && python api.py"
 
 [[ports]]
+localPort = 4113
+externalPort = 3000
+
+[[ports]]
 localPort = 5000
 externalPort = 80
 
@@ -49,8 +53,8 @@ localPort = 33309
 externalPort = 3000
 
 [[ports]]
-localPort = 4113
-externalPort = 3000
+localPort = 46259
+externalPort = 3001
 
 [deployment]
 deploymentTarget = "autoscale"
