@@ -145,16 +145,25 @@ Sports Central now has a complete authentication system:
   - **Navigation Updates**: Added "Matches" and "Kids Mode" to main navigation
   - **Documentation**: Created comprehensive feature brainstorm (docs/NEW_FEATURES_BRAINSTORM.md)
 
-- **2025-10-18**: Successfully migrated project from Vercel to Replit
-  - Installed pnpm@10.18.1 package manager in Replit environment
-  - Successfully installed all pnpm dependencies (1381 packages)
-  - Configured frontend workflow on port 5000 with 0.0.0.0 binding
-  - Set up required environment variables (NEXTAUTH_SECRET, MONGODB_URI)
-  - Frontend environment variables properly separated from backend requirements
-  - Set up Replit autoscale deployment configuration
-  - Frontend running successfully with Next.js 14.2.33
-  - Application verified working with live scores, authors, and news display
-  - Migration passed architect review with no security issues
+- **2025-10-18**: Successfully migrated project from Vercel to Replit and fixed Render deployment
+  - **Replit Migration**:
+    - Installed pnpm@10.18.1 package manager in Replit environment
+    - Successfully installed all pnpm dependencies (1381 packages)
+    - Configured frontend workflow on port 5000 with 0.0.0.0 binding
+    - Set up required environment variables (NEXTAUTH_SECRET, MONGODB_URI)
+    - Frontend environment variables properly separated from backend requirements
+    - Set up Replit autoscale deployment configuration
+    - Frontend running successfully with Next.js 14.2.33
+    - Application verified working with live scores, authors, and news display
+  - **FastAPI Render Deployment Fixes**:
+    - Fixed render.yaml to use $PORT environment variable (required by Render)
+    - Removed hardcoded port 8000, now uses Render's PORT assignment
+    - Disabled --reload flag in production (was causing deployment crashes)
+    - Added environment-based configuration (development vs production)
+    - Configured secure CORS with FRONTEND_URL environment variable
+    - Updated health check endpoint to /health
+    - Changed start command from `main:app` to `api:app` for correct module reference
+  - All changes passed architect review with no security issues
 
 - **2025-10-09**: Fixed all TypeScript compilation errors for Render production deployment
   - **Fixed 18 TypeScript build errors** across 7 files that were preventing Render deployment
