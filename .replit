@@ -53,7 +53,7 @@ localPort = 33309
 externalPort = 3000
 
 [deployment]
-build = ["sh", "-c", "cd apps/frontend && pnpm build"]
+build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
 run = ["sh", "-c", "cd apps/frontend && pnpm start"]
 
 [[deployment.responseHeaders]]
