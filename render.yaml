@@ -1,12 +1,12 @@
+
 services:
   - type: web
     name: magajico-backend
     env: node
     region: oregon
     plan: free
-    rootDir: apps/backend
-    buildCommand: cd ../.. && pnpm install && cd apps/backend && pnpm build
-    startCommand: pnpm start
+    buildCommand: pnpm install && pnpm --filter @magajico/backend build
+    startCommand: pnpm --filter @magajico/backend start
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,4 +14,3 @@ services:
         sync: false  # Set this in Render dashboard
       - key: PORT
         value: 10000
-        
