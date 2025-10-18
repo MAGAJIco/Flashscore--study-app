@@ -8,7 +8,7 @@ Sports Central is a premium monorepo sports prediction and community platform bu
 - **Backend**: Fastify, Node.js 20, Express.js
 - **ML Service**: Python 3.11, FastAPI, scikit-learn, PyTorch
 - **Database**: MongoDB (configured with Mongoose)
-- **Package Manager**: pnpm (monorepo with workspaces)
+- **Package Manager**: npm (monorepo with workspaces, Vercel deployment ready)
 
 ## Project Structure
 ```
@@ -24,7 +24,7 @@ magajico-monorepo/
 ## Replit Configuration
 
 ### Workflows
-- **Frontend** (Port 5000): `cd apps/frontend && pnpm dev`
+- **Frontend** (Port 5000): `cd apps/frontend && npm run dev`
   - Serves the Next.js application on 0.0.0.0:5000
   - Configured with allowedDevOrigins for Replit proxy
   - WebView output type for browser preview
@@ -51,15 +51,21 @@ Environment variables can be configured through Replit's Secrets panel.
 The application is configured for Replit deployment with autoscale:
 
 **Replit Deployment**:
-- Build: `pnpm install && cd apps/frontend && pnpm build`
-- Start: `cd apps/frontend && pnpm start`
+- Install: `npm install` (at root, uses npm workspaces)
+- Build: `npm run build --workspace=apps/frontend`
+- Start: `cd apps/frontend && npm start`
 - Port: 5000 (serves on 0.0.0.0)
 - Deployment type: Autoscale (stateless Next.js app)
 - Click the "Deploy" button in Replit to publish your app
 
+**Vercel Deployment** (recommended):
+- Frontend configured for Vercel deployment (see `vercel.json`)
+- Uses npm for dependency management
+- Automatic builds on push to main branch
+- Environment variables: NEXTAUTH_SECRET, MONGODB_URI required
+
 **External Deployment Options** (optional):
 - Backend can be deployed to Render using `render.yaml`
-- Frontend previously configured for Vercel (see `apps/frontend/vercel.json`)
 
 ## Development
 
@@ -68,22 +74,27 @@ The frontend workflow is already configured and runs automatically on port 5000.
 
 ### Installing Dependencies
 ```bash
-pnpm install
+npm install
 ```
+Note: This project uses npm workspaces, so running `npm install` at the root installs dependencies for all apps and packages.
 
 ### Building for Production
 ```bash
-cd apps/frontend && pnpm build
+# Build frontend only
+npm run build --workspace=apps/frontend
+
+# Or build all workspaces
+npm run build
 ```
 
 ### Backend and ML Services (Optional)
 These services are currently optional and can be started separately:
 ```bash
 # Backend (Port 3001)
-cd apps/backend && pnpm dev
+cd apps/backend && npm run dev
 
 # ML Service (Port 8000)
-cd apps/backend/ml && python main.py
+cd apps/backend/ml && python api.py
 ```
 
 ## Port Configuration
@@ -122,6 +133,19 @@ Sports Central now has a complete authentication system:
 - `GET /api/auth/session` - Current session status
 
 ## Recent Changes
+- **2025-10-18**: Migrated from pnpm to npm for Vercel deployment compatibility
+  - Removed pnpm-lock.yaml, pnpm-workspace.yaml, and pnpm package manager configuration
+  - Converted to npm workspaces with root-level package-lock.json
+  - Successfully installed all dependencies with npm (1569 packages total)
+  - Updated Frontend workflow to use `npm run dev` instead of `pnpm dev`
+  - Updated all package.json scripts to use npm workspace commands
+  - Removed pnpm dependency and packageManager field from root package.json
+  - Updated .gitignore to track package-lock.json (was previously ignored for pnpm)
+  - Configured vercel.json for npm workspace deployment (installCommand: "npm install" at root)
+  - Updated all documentation to reflect npm workspace commands
+  - Frontend verified running successfully on port 5000 with Next.js 14.2.33
+  - Environment variables (NEXTAUTH_SECRET, MONGODB_URI) configured and working
+
 - **2025-10-12**: Added enhanced Kids Mode, Match Tracker, and iOS-style features
   - **Kids Mode Dashboard**: Interactive educational sports quizzes with achievement system
     - Multi-sport trivia (NFL, NBA, MLB, Soccer) with difficulty levels

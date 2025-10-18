@@ -4,9 +4,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Lock files (keep pnpm-lock.yaml, ignore others)
-package-lock.json
+# Lock files (keep package-lock.json for npm, ignore others)
 yarn.lock
+pnpm-lock.yaml
 
 # Next.js build output
 .next/

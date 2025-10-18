@@ -40,14 +40,6 @@ mode = "sequential"
 task = "shell.exec"
 args = "cd apps/backend/ml && python api.py"
 
-[[ports]]
-localPort = 4113
-externalPort = 3000
-
-[[ports]]
-localPort = 5000
-externalPort = 80
-
 [deployment]
 build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
 run = ["sh", "-c", "cd apps/frontend && pnpm start"]
@@ -65,6 +57,14 @@ value = "public, max-age=31536000, immutable"
 [[deployment.rewrites]]
 from = "/*"
 to = "/index.html"
+
+[[ports]]
+localPort = 4113
+externalPort = 3000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
 
 [workflows.Frontend]
 name = "Frontend"
