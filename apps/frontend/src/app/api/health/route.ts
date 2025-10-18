@@ -6,6 +6,7 @@ interface HealthStatus {
   timestamp: string;
   uptime: number;
   environment: string;
+  dbConnected: boolean;
   services: {
     frontend: string;
     backend: string;
@@ -55,6 +56,8 @@ export async function GET(request: NextRequest) {
     services.ml = 'offline';
   }
 
+  const dbConnected = services.database === 'ok';
+  
   const overallStatus = 
     services.backend === 'ok' && services.ml === 'ok' ? 'healthy' :
     services.backend === 'offline' || services.ml === 'offline' ? 'degraded' :
@@ -65,6 +68,7 @@ export async function GET(request: NextRequest) {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development',
+    dbConnected,
     services,
     checks: {
       nextAuth: !!process.env.NEXTAUTH_SECRET,

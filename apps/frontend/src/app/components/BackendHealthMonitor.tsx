@@ -177,6 +177,12 @@ export default function BackendHealthMonitor() {
           </div>
 
           <div className="mt-3 pt-3 border-t">
+            <div className="mb-2 flex items-center justify-between">
+              <span className="text-xs font-semibold text-gray-700">DB Connected:</span>
+              <span className={`text-xs font-bold ${health.database === 'online' ? 'text-green-600' : 'text-red-600'}`}>
+                {health.database === 'online' ? '✓ True' : '✗ False'}
+              </span>
+            </div>
             <p className="text-xs text-gray-500">
               Last checked: {health.lastCheck.toLocaleTimeString()}
             </p>
