@@ -12,6 +12,7 @@ import coppaRoutes from "./routes/coppa.js";
 import errorsRoutes from "./routes/errors.js";
 import { healthRoutes } from "./routes/health.js";
 import { ErrorLog } from './models/ErrorLog';
+import { validateProductionEnv, logEnvironmentStatus } from './utils/validateEnv.js';
 
 // Create Fastify instance
 const fastify = Fastify({
@@ -43,6 +44,8 @@ if (process.env.NODE_ENV === 'production') {
   // Log warning if no production origins configured
   if (allowedOrigins.length === 0) {
     fastify.log.error('⚠️ CRITICAL: No production CORS origins configured! Set FRONTEND_URL or PRODUCTION_DOMAIN');
+    // Fallback for deployment - allow request to proceed but log warning
+    allowedOrigins.push('https://*.replit.app', 'https://*.replit.dev');
   }
 } else {
   // Development allowlist
@@ -257,11 +260,19 @@ fastify.register(errorsRoutes, { prefix: "/errors" });
 
 // Start server
 const PORT = Number(process.env.PORT) || 3001;
-const HOST = '0.0.0.0';
+const HOST = process.env.HOST || '0.0.0.0';
 const ENV = process.env.NODE_ENV || 'development';
 
 const start = async () => {
   try {
+    // Log environment status
+    logEnvironmentStatus();
+    
+    // Validate production environment
+    if (!validateProductionEnv()) {
+      fastify.log.warn('⚠️ Environment validation warnings detected');
+    }
+    
     // Wait for database connection if required
     if (dbConnectionPromise) {
       await dbConnectionPromise;
