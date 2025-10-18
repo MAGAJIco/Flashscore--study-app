@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -90,30 +89,6 @@ export default function ChessboardCompetitiveAnalysis() {
     const avgCompetitorStrength = competitors.reduce((acc, c) => acc + c.strength, 0) / competitors.length;
     return ((ourStrength / (ourStrength + avgCompetitorStrength)) * 100).toFixed(1);
   };
-
-  const getStrategyRecommendation = () => {
-    if (ourPosition >= 80) {
-      return {
-        phase: 'Endgame - Checkmate Position',
-        strategy: 'Aggressive market capture. Push all advantages.',
-        moves: ['Scale ML infrastructure', 'Launch marketing blitz', 'Partner with major sports brands']
-      };
-    } else if (ourPosition >= 60) {
-      return {
-        phase: 'Middlegame - Tactical Advantage',
-        strategy: 'Develop pieces, control center (key features)',
-        moves: ['Enhance AI predictions', 'Expand sports coverage', 'Build community']
-      };
-    } else {
-      return {
-        phase: 'Opening - Development Phase',
-        strategy: 'Develop pieces quickly, secure position',
-        moves: ['Fix ML service reliability', 'Improve UX', 'Build user base']
-      };
-    }
-  };
-
-  const strategy = getStrategyRecommendation();
 
   return (
     <div style={{
@@ -264,46 +239,6 @@ export default function ChessboardCompetitiveAnalysis() {
         </div>
       </div>
 
-      {/* Strategy Recommendation */}
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2))',
-        border: '1px solid rgba(139, 92, 246, 0.4)',
-        borderRadius: '12px',
-        padding: '20px'
-      }}>
-        <h3 style={{ color: '#a78bfa', marginBottom: '12px' }}>🎲 Strategic Recommendation</h3>
-        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#c4b5fd', marginBottom: '8px' }}>
-          {strategy.phase}
-        </div>
-        <div style={{ fontSize: '1rem', marginBottom: '16px', color: '#e0e7ff' }}>
-          {strategy.strategy}
-        </div>
-        <div style={{ marginTop: '12px' }}>
-          <div style={{ color: '#a5b4fc', fontSize: '0.9rem', marginBottom: '8px', fontWeight: 'bold' }}>
-            Next Moves:
-          </div>
-          {strategy.moves.map((move, idx) => (
-            <div
-              key={idx}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                padding: '10px 16px',
-                borderRadius: '8px',
-                marginBottom: '8px',
-                fontSize: '0.9rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              <span style={{ fontSize: '1.2rem' }}>{idx + 1}.</span>
-              {move}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      
     </div>
   );
 }

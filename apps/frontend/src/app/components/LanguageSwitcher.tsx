@@ -48,6 +48,9 @@ export default function LanguageSwitcher() {
     // Set the cookie with proper attributes
     document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
     
+    // Store in localStorage immediately
+    localStorage.setItem('preferredLocale', newLocale);
+    
     // Update preferences
     try {
       await updatePreferences({ language: newLocale });
@@ -55,10 +58,8 @@ export default function LanguageSwitcher() {
       console.error('Failed to update preferences:', error);
     }
     
-    localStorage.setItem('preferredLocale', newLocale);
-    
     // Force reload to apply new locale
-    window.location.href = window.location.pathname;
+    window.location.reload();
   };
 
   return (
