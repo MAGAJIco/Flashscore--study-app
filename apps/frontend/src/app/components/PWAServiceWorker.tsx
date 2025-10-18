@@ -13,5 +13,5 @@ export default function PWAServiceWorker() {
     }
   }, []);
 
-  return null;l;
+  return null;
 }
