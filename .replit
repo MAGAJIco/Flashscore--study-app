@@ -5,7 +5,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["glibcLocales", "libxcrypt", "libyaml"]
+packages = ["glibcLocales", "libxcrypt", "libyaml", "gir-rs"]
 
 [workflows]
 runButton = "Project"
