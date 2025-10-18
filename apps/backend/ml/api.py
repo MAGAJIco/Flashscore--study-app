@@ -44,9 +44,17 @@ async def rate_limit_middleware(request: Request, call_next):
     return response
 
 # CORS configuration
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "")
+
+if ENVIRONMENT == "production" and FRONTEND_URL:
+    allowed_origins = [FRONTEND_URL]
+else:
+    allowed_origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure for production
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -268,12 +276,15 @@ ml_uptime_seconds {stats['uptime_seconds']}
     return metrics
 
 if __name__ == "__main__":
-    port = int(os.getenv("ML_PORT", 8000))
-    print(f"🤖 Starting ML Service on http://0.0.0.0:{port}")
+    port = int(os.getenv("PORT", os.getenv("ML_PORT", 8000)))
+    environment = os.getenv("ENVIRONMENT", "development")
+    
+    print(f"🤖 Starting ML Service on http://0.0.0.0:{port} ({environment} mode)")
+    
     uvicorn.run(
         "api:app",
         host="0.0.0.0",
         port=port,
-        reload=True,
+        reload=(environment == "development"),
         log_level="info"
     )
