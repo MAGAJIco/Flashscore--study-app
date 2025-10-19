@@ -4,6 +4,14 @@ const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  allowedDevOrigins: [
+    'dc0b718b-6402-4fac-948e-c16d576d1fc1-00-20w0a6r7eaaf6.janeway.replit.dev'
+  ],
+  experimental: {
+    externalDir: true,
+    optimizeCss: true,
+    webpackBuildWorker: true,
+  },
 
   // Production optimizations
   compress: true,
@@ -15,19 +23,9 @@ const nextConfig = {
   // For monorepo setup with shared packages
   transpilePackages: ["@magajico/shared"],
 
-  // Allowed dev origins
-  allowedDevOrigins: ['*.replit.dev'],
-
   // Compiler options
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
-  },
-
-  // Experimental features
-  experimental: {
-    externalDir: true,
-    optimizeCss: true,
-    webpackBuildWorker: true,
   },
 
   // Webpack configuration

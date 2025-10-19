@@ -10,5 +10,5 @@ export function useBackendHealth() {
       .catch(() => setStatus("❌ Disconnected"));
   }, []);
 
-  return status;s;
+  return status;
 }

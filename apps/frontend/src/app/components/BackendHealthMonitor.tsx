@@ -43,7 +43,9 @@ export default function BackendHealthMonitor() {
         newHealth.database = 'offline';
       }
     } catch (err) {
-      console.error('Backend health check failed:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Backend health check failed:', err instanceof Error ? err.message : 'Unknown error');
+      }
       newHealth.backend = 'offline';
       newHealth.database = 'offline';
     }
@@ -53,7 +55,9 @@ export default function BackendHealthMonitor() {
       const res = await fetch('/api/ml/health', { signal: AbortSignal.timeout(5000) });
       newHealth.ml = res.ok ? 'online' : 'offline';
     } catch (err) {
-      console.error('ML health check failed:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('ML health check failed:', err instanceof Error ? err.message : 'Unknown error');
+      }
       newHealth.ml = 'offline';
     }
 
