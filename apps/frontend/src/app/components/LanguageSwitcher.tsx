@@ -65,7 +65,12 @@ export default function LanguageSwitcher() {
   return (
     <div className="relative" ref={menuRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
+        type="button"
         className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all border border-white/20 hover:border-cyan-400/50 shadow-md hover:shadow-lg group"
         style={{
           minHeight: '44px',
@@ -82,7 +87,7 @@ export default function LanguageSwitcher() {
 
       {isOpen && (
         <div 
-          className="absolute top-full mt-2 right-0 bg-gray-900 rounded-lg border border-white/20 shadow-xl overflow-hidden z-50 min-w-[220px]"
+          className="absolute top-full mt-2 right-0 bg-gray-900 rounded-lg border border-white/20 shadow-xl overflow-hidden z-[100] min-w-[220px]"
           role="menu"
           aria-orientation="vertical"
         >
