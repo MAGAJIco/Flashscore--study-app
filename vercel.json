@@ -1,7 +1,7 @@
 
 {
-  "buildCommand": "cd apps/frontend && npm install && npm run build",
-  "installCommand": "npm install --prefix apps/frontend",
+  "buildCommand": "npm install && npm run build --workspace=packages/shared && cd apps/frontend && npm install && npm run build",
+  "installCommand": "npm install",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
   "regions": ["iad1"],
