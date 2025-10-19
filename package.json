@@ -21,7 +21,7 @@
     "@playwright/test": "^1.56.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^1.1.3",

@@ -15,7 +15,7 @@
     },
     "./utils": {
       "import": "./dist/libs/utils/index.js",
-      "types": "./dist/libs/utils/index.d.ts"
+      "types": "./dist/libs/utils/index.js"
     },
     "./models": {
       "import": "./dist/libs/models/index.js",
@@ -27,8 +27,3 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json"
-  },
-  "devDependencies": {
-    "typescript": "^5.2.2"
-  }
-}
