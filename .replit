@@ -47,7 +47,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/backend && npm start"
+args = "cd apps/backend && npm install && npm start"
 
 [deployment]
 build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
