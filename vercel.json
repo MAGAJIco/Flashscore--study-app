@@ -8,7 +8,7 @@
   "rewrites": [
     {
       "source": "/api/backend/:path*",
-      "destination": "https://magajico-backend.onrender.com/api/:path*"
+      "destination": "https://dc0b718b-6402-4fac-948e-c16d576d1fc1-00-20w0a6r7eaaf6.janeway.replit.dev:3001/api/:path*"
     }
   ]
 }
