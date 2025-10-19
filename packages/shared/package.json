@@ -22,6 +22,9 @@
       "types": "./dist/libs/models/index.d.ts"
     }
   },
+  "dependencies": {
+    "typescript": "^5.9.3"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },

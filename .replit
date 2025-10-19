@@ -78,3 +78,6 @@ externalPort = 80
 [[ports]]
 localPort = 38763
 externalPort = 3001
+
+[env]
+REPLIT_KEEP_PACKAGE_DEV_DEPENDENCIES = "1"
