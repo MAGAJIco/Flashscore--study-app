@@ -133,7 +133,7 @@ async def health_check():
 async def startup_event():
     import time
     app.state.start_time = time.time()
-    logger.info("🚀 ML Service started successfully")
+    print("🚀 ML Service started successfully")
 
 @app.get("/model/info")
 async def get_model_info():

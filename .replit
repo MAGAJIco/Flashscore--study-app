@@ -19,6 +19,10 @@ author = "agent"
 task = "workflow.run"
 args = "Frontend"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "ML Service"
+
 [[workflows.workflow]]
 name = "Frontend"
 author = "agent"
@@ -38,7 +42,11 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/backend/ml && python api.py"
+args = "cd apps/backend/ml && uv run python api.py"
+waitForPort = 8000
+
+[workflows.workflow.metadata]
+outputType = "console"
 
 [[workflows.workflow]]
 name = "Backend"
@@ -78,6 +86,10 @@ externalPort = 80
 [[ports]]
 localPort = 38763
 externalPort = 3001
+
+[[ports]]
+localPort = 8000
+externalPort = 8000
 
 [env]
 REPLIT_KEEP_PACKAGE_DEV_DEPENDENCIES = "1"
