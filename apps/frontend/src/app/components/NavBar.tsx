@@ -112,7 +112,10 @@ const NavBar: React.FC = () => {
   }, [quickMenuOpen]);
 
   return (
-    <nav className="bg-[#0a0e1a] text-white shadow-md fixed top-0 w-full z-50">
+    <nav className="shadow-md fixed top-0 w-full z-50 transition-colors duration-300" style={{
+      backgroundColor: 'var(--bg-secondary)',
+      color: 'var(--text-primary)'
+    }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo with Quick Menu */}
@@ -131,12 +134,24 @@ const NavBar: React.FC = () => {
 
             {/* Quick Menu - Shows on hover or keyboard activation */}
             {quickMenuOpen && (
-              <div className="absolute left-0 top-full mt-2 bg-[#1f2937] rounded-md shadow-lg overflow-hidden z-50 min-w-[200px]" role="menu" aria-label="Quick navigation">
+              <div className="absolute left-0 top-full mt-2 rounded-md shadow-lg overflow-hidden z-50 min-w-[200px]" role="menu" aria-label="Quick navigation" style={{
+                backgroundColor: 'var(--bg-tertiary)',
+                border: '1px solid var(--border-color)'
+              }}>
                 {quickMenuItems.map((item) => (
                   <a
                     key={item.link}
                     href={item.link}
-                    className="block px-4 py-2 text-sm hover:bg-green-500 hover:text-white focus:outline-none focus:bg-green-500 focus:text-white transition cursor-pointer"
+                    className="block px-4 py-2 text-sm transition cursor-pointer"
+                    style={{ color: 'var(--text-primary)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--accent-color)';
+                      e.currentTarget.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--text-primary)';
+                    }}
                     role="menuitem"
                     onClick={() => setQuickMenuOpen(false)}
                     onKeyDown={(e) => {
@@ -186,12 +201,24 @@ const NavBar: React.FC = () => {
 
                 {/* Dropdown */}
                 {item.subItems && openDropdown === item.label && (
-                  <div className="absolute left-0 mt-2 w-40 bg-[#1f2937] rounded-md shadow-lg overflow-hidden z-50" role="menu" aria-label={`${item.label} submenu`}>
+                  <div className="absolute left-0 mt-2 w-40 rounded-md shadow-lg overflow-hidden z-50" role="menu" aria-label={`${item.label} submenu`} style={{
+                    backgroundColor: 'var(--bg-tertiary)',
+                    border: '1px solid var(--border-color)'
+                  }}>
                     {item.subItems.map((sub) => (
                       <a
                         key={sub.label}
                         href={sub.link}
-                        className="block px-4 py-2 text-sm hover:bg-green-500 hover:text-white focus:outline-none focus:bg-green-500 focus:text-white transition cursor-pointer"
+                        className="block px-4 py-2 text-sm transition cursor-pointer"
+                        style={{ color: 'var(--text-primary)' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = 'var(--accent-color)';
+                          e.currentTarget.style.color = 'white';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                          e.currentTarget.style.color = 'var(--text-primary)';
+                        }}
                         role="menuitem"
                         onClick={() => setOpenDropdown(null)}
                         onKeyDown={(e) => {
@@ -235,10 +262,22 @@ const NavBar: React.FC = () => {
                 </button>
                 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-[#1f2937] rounded-lg shadow-lg overflow-hidden z-50">
+                  <div className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg overflow-hidden z-50" style={{
+                    backgroundColor: 'var(--bg-tertiary)',
+                    border: '1px solid var(--border-color)'
+                  }}>
                     <Link
                       href="/profile"
-                      className="block px-4 py-3 text-sm hover:bg-green-500 hover:text-white transition"
+                      className="block px-4 py-3 text-sm transition"
+                      style={{ color: 'var(--text-primary)' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'var(--accent-color)';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.color = 'var(--text-primary)';
+                      }}
                       onClick={() => setUserMenuOpen(false)}
                     >
                       <User size={16} className="inline mr-2" />
@@ -249,7 +288,16 @@ const NavBar: React.FC = () => {
                         setUserMenuOpen(false);
                         signOut({ callbackUrl: '/' });
                       }}
-                      className="w-full text-left px-4 py-3 text-sm hover:bg-red-500 hover:text-white transition"
+                      className="w-full text-left px-4 py-3 text-sm transition"
+                      style={{ color: 'var(--text-primary)' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'var(--error-color)';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.color = 'var(--text-primary)';
+                      }}
                     >
                       <LogOut size={16} className="inline mr-2" />
                       Sign Out

@@ -49,53 +49,43 @@
   --ios-shadow-large: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
-/* === ENHANCED SPORTS CENTRAL THEME - LIVERPOOL COLORS === */
-:root {
-  --liverpool-red: #C8102E;
-  --liverpool-gold: #F6EB61;
-  --liverpool-dark: #0d1117;
-  --liverpool-accent: #00B2A9;
-}
-
-body.sports {
+/* === DAY/NIGHT THEME SYSTEM === */
+/* Light mode (Day theme) background */
+.light body {
   background: 
-    radial-gradient(ellipse at top, rgba(200, 16, 46, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at top, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
     linear-gradient(135deg, 
-      #0d1117 0%, 
-      #1a0a0e 25%, 
-      #2d1319  50%, 
-      #1a0a0e 75%, 
-      #0d1117 100%
+      #f8fafc 0%, 
+      #e0f2fe 25%, 
+      #f1f5f9 50%, 
+      #e0f2fe 75%, 
+      #f8fafc 100%
     );
   background-attachment: fixed;
-  min-height: 100vh;
-  color: var(--ios-label);
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  position: relative;
-  overflow-x: hidden;
 }
 
-body.sports .particle {
-  background: radial-gradient(circle, var(--liverpool-red), transparent);
+/* Dark mode (Night theme) background */
+.dark body {
+  background: 
+    radial-gradient(ellipse at top, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+    linear-gradient(135deg, 
+      #0a0e1a 0%, 
+      #0f172a 25%, 
+      #1e293b 50%, 
+      #0f172a 75%, 
+      #0a0e1a 100%
+    );
+  background-attachment: fixed;
+}
+
+.light .particle {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent);
   animation: float 6s ease-in-out infinite;
 }
 
-/* === Nature / Glassmorphism THEME === */
-body.nature {
-  background: linear-gradient(135deg,
-    #1a4d3a 0%,
-    #2d5a27 25%,
-    #0f3460 75%,
-    #1e3a8a 100%);
-  background-attachment: fixed;
-  min-height: 100vh;
-  color: #e8f5e8;
-}
-
-body.nature .particle {
-  background: radial-gradient(circle, #22c55e, transparent);
+.dark .particle {
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.6), transparent);
+  animation: float 6s ease-in-out infinite;
 }
 
 /* Import Meta Algo font */
@@ -112,6 +102,23 @@ body.nature .particle {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+}
+
+/* Default theme variables (applied before JS hydration) */
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #475569;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --accent-color: #60a5fa;
+  --accent-hover: #3b82f6;
+  --success-color: #34d399;
+  --warning-color: #FFD700;
+  --error-color: #f87171;
 }
 
 /* Light mode variables */
@@ -131,7 +138,7 @@ body.nature .particle {
   --error-color: #ef4444;
 }
 
-/* Dark mode variables */
+/* Dark mode variables (override defaults) */
 .dark {
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
