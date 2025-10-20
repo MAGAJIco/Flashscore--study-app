@@ -23,6 +23,10 @@ args = "Frontend"
 task = "workflow.run"
 args = "ML Service"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Backend"
+
 [[workflows.workflow]]
 name = "Frontend"
 author = "agent"
@@ -50,12 +54,16 @@ outputType = "console"
 
 [[workflows.workflow]]
 name = "Backend"
-author = 48764808
+author = "agent"
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/backend && npm install && npm start"
+args = "cd apps/backend && npm run dev"
+waitForPort = 3001
+
+[workflows.workflow.metadata]
+outputType = "console"
 
 [deployment]
 build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
@@ -94,6 +102,10 @@ externalPort = 3001
 [[ports]]
 localPort = 45655
 externalPort = 3002
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
 
 [env]
 REPLIT_KEEP_PACKAGE_DEV_DEPENDENCIES = "1"
