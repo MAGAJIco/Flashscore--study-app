@@ -1,0 +1,63 @@
+
+{
+  "common": {
+    "home": "Accueil",
+    "profile": "Profil",
+    "predictions": "Prédictions",
+    "authors": "Auteurs",
+    "social": "Social",
+    "liveStreams": "Diffusions en Direct",
+    "quickBets": "Paris Rapides",
+    "sync": "Synchroniser",
+    "empireBuilder": "Constructeur d'Empire",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "retry": "Réessayer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier"
+  },
+  "header": {
+    "title": "SPORTS CENTRAL",
+    "subtitle": "Intelligence Sportive IA",
+    "status": "En Direct • Précis • Rentable",
+    "welcome": "Bienvenue",
+    "wallet": "Portefeuille",
+    "store": "Boutique",
+    "logout": "Se Déconnecter",
+    "getStarted": "Commencer",
+    "joinWinners": "Rejoignez 1000+ Gagnants",
+    "liveDataActive": "Données en Direct Actives",
+    "aiAnalysisRunning": "Analyse IA en Cours",
+    "lastUpdated": "Dernière mise à jour"
+  },
+  "predictions": {
+    "title": "Prédictions",
+    "confidence": "Confiance",
+    "odds": "Cotes",
+    "stake": "Mise",
+    "potential": "Retour Potentiel",
+    "placeBet": "Placer un Pari",
+    "viewDetails": "Voir les Détails",
+    "analysis": "Analyse",
+    "statistics": "Statistiques"
+  },
+  "empire": {
+    "title": "Constructeur d'Empire MagajiCo",
+    "description": "Construisez votre empire depuis les fondations jusqu'au toit légendaire. Discutez avec le PDG IA de MagajiCo pour des prédictions stratégiques et des idées.",
+    "startBuilding": "Commencer à Construire",
+    "viewGrowth": "Voir la Croissance",
+    "foundation": "Fondation",
+    "growth": "Croissance",
+    "rooftop": "Toit"
+  },
+  "settings": {
+    "language": "Langue",
+    "theme": "Thème",
+    "notifications": "Notifications",
+    "privacy": "Confidentialité",
+    "selectLanguage": "Sélectionner la Langue"
+  }
+}

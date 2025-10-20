@@ -1,46 +1,17 @@
 
 {
-  "version": 2,
-  "name": "magajico-app",
-  "buildCommand": "cd apps/frontend && npm run build",
-  "outputDirectory": "apps/frontend/.next",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "functions": {
-    "apps/backend/src/main.ts": {
-      "runtime": "nodejs18.x",
-      "maxDuration": 30
-    }
+  "buildCommand": "npm run build --workspace=packages/shared && npm run build --workspace=apps/frontend",
+  "installCommand": "npm ci",
+  "env": {
+    "REPLIT_KEEP_PACKAGE_DEV_DEPENDENCIES": "1"
   },
+  "outputDirectory": "apps/frontend/.next",
+  "framework": "nextjs",
+  "regions": ["iad1"],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/backend/$1"
+      "source": "/api/backend/:path*",
+      "destination": "https://magajico-backend.onrender.com/api/:path*"
     }
-  ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        }
-      ]
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production",
-    "MONGODB_URI": "@mongodb_uri",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "NEXTAUTH_URL": "https://flashscore-study-app.vercel.app"
-  }
+  ]
 }

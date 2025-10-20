@@ -12,59 +12,45 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "paths": {
-      "@components/*": [
-        "components/*"
-      ],
-      "@hooks/*": [
-        "hooks/*"
-      ],
-      "@controllers/*": [
-        "controllers/*"
-      ],
-      "@api/*": [
-        "api/*"
-      ],
-      "@services/*": [
-        "services/*"
-      ],
-      "@styles/*": [
-        "styles/*"
-      ],
-      "@config/*": [
-        "config/*"
-      ],
-      "@shared/types/*": [
-        "../../../../packages/shared/src/libs/types/*"
-      ],
-      "@shared/utils/*": [
-        "../../../../packages/shared/src/libs/utils/*"
-      ],
-      "@shared/models/*": [
-        "../../../../packages/shared/src/libs/models/*"
-      ]
+      "@/*": ["./*"],
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@controllers/*": ["controllers/*"],
+      "@api/*": ["api/*"],
+      "@services/*": ["services/*"],
+      "@styles/*": ["styles/*"],
+      "@config/*": ["config/*"],
+      "@actions/*": ["actions/*"],
+      "@shared/types/*": ["../../../../packages/shared/src/libs/types/*"],
+      "@shared/utils/*": ["../../../../packages/shared/src/libs/utils/*"],
+      "@shared/models/*": ["../../../../packages/shared/src/libs/models/*"]
     },
     "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
     "noEmit": true,
-    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@hooks/*": ["./src/app/hooks/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@shared/*": ["../../packages/shared/src/*"]
+    },
+    "baseUrl": "."
   },
-  "include": [
-    "src/**/*",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*", "types/**/*", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

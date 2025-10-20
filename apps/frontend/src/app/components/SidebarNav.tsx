@@ -11,8 +11,8 @@ interface SidebarNavProps {
 const SidebarNav: React.FC<SidebarNavProps> = ({ items }) => {
   const isMobile = useMobile();
 
-  // Hide on mobile (use MobileNav instead)
-  if (isMobile) return null;
+  // Hide on mobile and small screens
+  if (isMobile || (typeof window !== 'undefined' && window.innerWidth < 768)) return null;
 
   return (
     <div className="hidden md:flex w-64 min-h-screen bg-gradient-to-b from-gray-900/95 to-black/95 backdrop-blur-sm border-r border-gray-700/50">

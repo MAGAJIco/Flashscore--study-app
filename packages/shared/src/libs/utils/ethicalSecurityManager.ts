@@ -140,15 +140,25 @@ class EthicalSecurityManager {
   // Content filtering and sanitization
   static sanitizeContent(content: string): string {
     if (!content || typeof content !== 'string') return '';
-
-    return content
+    
+    // Remove potential XSS patterns
+    let sanitized = content
       .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-      .replace(/<[^>]+>/g, '') // Remove HTML tags
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
       .replace(/javascript:/gi, '')
       .replace(/vbscript:/gi, '')
       .replace(/on\w+\s*=/gi, '')
-      .trim()
-      .substring(0, 5000);
+      .replace(/<\s*\/?\s*(script|object|embed|link|style|meta)[^>]*>/gi, '');
+    
+    // Encode special characters
+    sanitized = sanitized
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/\//g, '&#x2F;');
+    
+    return sanitized.trim().substring(0, 5000);
   }
 
   // Real-time threat monitoring

@@ -1,0 +1,21 @@
+
+services:
+  - type: web
+    name: magajico-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build --workspace=packages/shared && npm run build --workspace=@magajico/backend
+    startCommand: node apps/backend/dist/main.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: REQUIRE_DB
+        value: false
+      - key: PORT
+        sync: false
+    healthCheckPath: /health

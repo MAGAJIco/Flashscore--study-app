@@ -1,27 +1,102 @@
-// apps/backend/src/routes/predictions.ts
-import { FastifyInstance } from "fastify";
-import { predictMatch } from "../services/predictionService";
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { predictionService } from '../services/inMemoryPredictionService';
 
-export async function predictionRoutes(server: FastifyInstance) {
-  server.get("/predictions", async (request, reply) => {
+export default async function predictionsRoutes(fastify: FastifyInstance) {
+  // Get all predictions
+  fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      // Example: take query params
-      const { homeTeam, awayTeam } = request.query as {
-        homeTeam: string;
-        awayTeam: string;
-      };
+      const { limit = '50', kidsMode } = request.query as { limit?: string; kidsMode?: string };
+      const limitNum = parseInt(limit) || 50;
 
-      if (!homeTeam || !awayTeam) {
-        return reply.status(400).send({ error: "Missing team names" });
-      }
+      const predictions = predictionService.getAllPredictions(limitNum);
 
-      const result = await predictMatch(homeTeam, awayTeam);
+      // Filter out gambling content for kids mode
+      const filteredPredictions = kidsMode === 'true'
+        ? predictions.filter((p: any) => !p.isGambling)
+        : predictions;
 
-      return { success: true, data: result };
-    } catch (err: any) {
+      return reply.send({
+        success: true,
+        data: filteredPredictions,
+        count: filteredPredictions.length,
+        modelVersion: 'MagajiCo-v3.0-Advanced'
+      });
+    } catch (error: any) {
+      fastify.log.error('Error fetching predictions:', error?.message || error);
       return reply.status(500).send({
         success: false,
-        error: err.message || "Prediction error",
+        error: 'Failed to fetch predictions'
+      });
+    }
+  });
+
+  // Get prediction by ID
+  fastify.get('/:id', async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
+    try {
+      const { id } = request.params;
+      const prediction = predictionService.getPredictionById(id);
+
+      if (!prediction) {
+        return reply.status(404).send({
+          success: false,
+          error: 'Prediction not found'
+        });
+      }
+
+      return reply.send({
+        success: true,
+        data: prediction
+      });
+    } catch (error: any) {
+      fastify.log.error('Error fetching prediction:', error?.message || error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch prediction'
+      });
+    }
+  });
+
+  // Get statistics
+  fastify.get('/stats/overview', async (_request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const stats = predictionService.getStatistics();
+      return reply.send({
+        success: true,
+        data: stats
+      });
+    } catch (error: any) {
+      fastify.log.error('Error fetching statistics:', error?.message || error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to fetch statistics'
+      });
+    }
+  });
+
+  // Custom prediction with features
+  fastify.post('/custom', async (request: FastifyRequest<{ Body: { features: number[] } }>, reply: FastifyReply) => {
+    try {
+      const { features } = request.body;
+
+      if (!Array.isArray(features) || features.length !== 7) {
+        return reply.status(400).send({
+          success: false,
+          error:
+            'Invalid features. Expected array of 7 numbers: [homeForm, awayForm, h2hRatio, homeGoalsFor, homeGoalsAgainst, awayGoalsFor, awayGoalsAgainst]'
+        });
+      }
+
+      const prediction = predictionService.generateCustomPrediction(features);
+
+      return reply.send({
+        success: true,
+        data: prediction
+      });
+    } catch (error: any) {
+      fastify.log.error('Error generating custom prediction:', error?.message || error);
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to generate prediction'
       });
     }
   });

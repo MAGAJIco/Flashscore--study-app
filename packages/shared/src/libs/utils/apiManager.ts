@@ -30,7 +30,7 @@ export class APIManager {
 
   private constructor() {
     this.config = {
-      baseURL: process.env.API_BASE_URL || 'http://localhost:8000',
+      baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:3001',
       timeout: 30000,
       retries: 3,
       cache: true

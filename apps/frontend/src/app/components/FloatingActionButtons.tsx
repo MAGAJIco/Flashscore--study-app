@@ -84,6 +84,8 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
           
           <button
             onClick={button.onClick}
+            aria-label={button.label}
+            title={button.label}
             style={{
               width: '50px',
               height: '50px',
@@ -97,7 +99,8 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              outline: 'none'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'scale(1.1)';
@@ -105,8 +108,15 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'scale(1)';
             }}
+            onFocus={(e) => {
+              e.currentTarget.style.outline = '2px solid white';
+              e.currentTarget.style.outlineOffset = '2px';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.outline = 'none';
+            }}
           >
-            {button.icon}
+            <span aria-hidden="true">{button.icon}</span>
           </button>
         </div>
       ))}
@@ -114,6 +124,9 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
       {/* Main Toggle Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
+        aria-label={isExpanded ? 'Close quick actions' : 'Open quick actions'}
+        aria-expanded={isExpanded}
+        title={isExpanded ? 'Close quick actions' : 'Open quick actions'}
         style={{
           width: '60px',
           height: '60px',
@@ -128,7 +141,8 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           transition: 'all 0.3s ease',
-          transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)'
+          transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)',
+          outline: 'none'
         }}
         onMouseEnter={(e) => {
           if (!isExpanded) {
@@ -140,8 +154,15 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
             e.currentTarget.style.transform = 'scale(1)';
           }
         }}
+        onFocus={(e) => {
+          e.currentTarget.style.outline = '2px solid white';
+          e.currentTarget.style.outlineOffset = '2px';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.outline = 'none';
+        }}
       >
-        {isExpanded ? '✕' : '⚡'}
+        <span aria-hidden="true">{isExpanded ? '✕' : '⚡'}</span>
       </button>
     </div>
   );

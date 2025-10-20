@@ -1,4 +1,3 @@
-
 import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -75,7 +74,7 @@ class MLPredictionService {
 
         try {
           const result = JSON.parse(dataString);
-          
+
           // Enhanced prediction with MagajiCo logic
           const enhancedResult: MLPredictionResponse = {
             prediction: result.prediction.toLowerCase() as 'home' | 'draw' | 'away',
@@ -108,15 +107,15 @@ class MLPredictionService {
   }> {
     const highConfidencePredictions = predictions.filter(p => p.confidence > 75);
     const opportunities = highConfidencePredictions.length;
-    
+
     // 5(1) Filter Logic: 5 quality checks → 1 strategic decision
     const filter5Score = Math.min(100, (opportunities / predictions.length) * 100);
-    
+
     // Meta Intelligence (Zuckerberg Strategy)
     const metaIntelligence = Math.round(
       predictions.reduce((acc, p) => acc + p.confidence, 0) / predictions.length
     );
-    
+
     const zuckerbergStrategy = metaIntelligence > 80 ? 'Aggressive Growth' :
                              metaIntelligence > 60 ? 'Market Expansion' : 'Conservative';
 

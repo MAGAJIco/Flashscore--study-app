@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-interface iOSInterfaceProps {
+interface IOSInterfaceProps {
   children: React.ReactNode;
   showStatusBar?: boolean;
   enableHapticFeedback?: boolean;
 }
 
-export default function iOSInterface({
+export default function IOSInterface({
   children,
   showStatusBar = true,
-  enableHapticFeedback = true
-}: iOSInterfaceProps) {
+  enableHapticFeedback = true,
+}: IOSInterfaceProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [batteryLevel, setBatteryLevel] = useState(85);
   const [signalStrength, setSignalStrength] = useState(4);
@@ -26,16 +26,16 @@ export default function iOSInterface({
   }, []);
 
   const handleHapticFeedback = () => {
-    if (enableHapticFeedback && 'vibrate' in navigator) {
+    if (enableHapticFeedback && "vibrate" in navigator) {
       navigator.vibrate(10);
     }
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: false
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: false,
     });
   };
 
@@ -64,14 +64,19 @@ export default function iOSInterface({
               {[...Array(4)].map((_, i) => (
                 <div
                   key={i}
-                  className={`ios-signal-bar ${i < signalStrength ? 'active' : ''}`}
+                  className={`ios-signal-bar ${i < signalStrength ? "active" : ""}`}
                   style={{ height: `${(i + 1) * 3}px` }}
                 />
               ))}
             </div>
 
             <div className="ios-wifi">
-              <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
+              <svg
+                width="15"
+                height="11"
+                viewBox="0 0 15 11"
+                fill="currentColor"
+              >
                 <path d="M7.5 11L2.5 6C4.5 4 5.5 3.5 7.5 3.5S10.5 4 12.5 6L7.5 11Z" />
               </svg>
             </div>
@@ -107,7 +112,8 @@ export default function iOSInterface({
         .ios-interface {
           min-height: 100vh;
           background: var(--ios-system-background);
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          font-family:
+            -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
           position: relative;
         }
 
@@ -207,7 +213,9 @@ export default function iOSInterface({
 
         .ios-battery-level {
           height: 100%;
-          background: ${batteryLevel > 20 ? 'var(--ios-green)' : 'var(--ios-red)'};
+          background: ${batteryLevel > 20
+            ? "var(--ios-green)"
+            : "var(--ios-red)"};
           transition: width 0.3s ease;
         }
 
@@ -273,4 +281,4 @@ export default function iOSInterface({
   );
 }
 
-export { iOSInterface };
+export { IOSInterface };

@@ -177,53 +177,173 @@ export class PaymentManager {
 
   // Pi Network payment processing
   private async processPiNetworkPayment(request: PaymentRequest): Promise<PaymentResult> {
-    // Simulate Pi Network payment processing
-    const transactionId = `pi_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    // In production, integrate with actual Pi Network SDK
-    // const piPayment = await window.Pi.createPayment({
-    //   amount: request.amount,
-    //   memo: request.description,
-    //   metadata: request.metadata
-    // });
-
-    return {
-      success: true,
-      transactionId,
-      metadata: {
-        provider: 'pi_network',
-        piAmount: request.amount * 0.1 // Conversion rate
+    try {
+      const transactionId = `pi_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Check if Pi Network is available
+      if (typeof window !== 'undefined' && (window as any).Pi) {
+        try {
+          const piPayment = await (window as any).Pi.createPayment({
+            amount: request.amount * 0.1, // Conversion rate to Pi
+            memo: request.description,
+            metadata: request.metadata
+          });
+          
+          return {
+            success: true,
+            transactionId: piPayment.identifier,
+            metadata: {
+              provider: 'pi_network',
+              piAmount: request.amount * 0.1,
+              piPaymentId: piPayment.identifier
+            }
+          };
+        } catch (piError) {
+          console.error('Pi Network payment error:', piError);
+          return {
+            success: false,
+            error: 'Pi Network payment failed'
+          };
+        }
       }
-    };
+      
+      // Fallback simulation for development
+      return {
+        success: true,
+        transactionId,
+        metadata: {
+          provider: 'pi_network',
+          piAmount: request.amount * 0.1,
+          simulated: true
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Pi Network processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      };
+    }
   }
 
   // PayPal payment processing
   private async processPayPalPayment(request: PaymentRequest): Promise<PaymentResult> {
-    const transactionId = `pp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    // In production, integrate with PayPal SDK
-    return {
-      success: true,
-      transactionId,
-      redirectUrl: `https://www.paypal.com/checkoutnow?paymentId=${transactionId}`,
-      metadata: {
-        provider: 'paypal'
+    try {
+      const provider = this.providers.get('paypal');
+      if (!provider?.config.clientId) {
+        return {
+          success: false,
+          error: 'PayPal not configured'
+        };
       }
-    };
+
+      const transactionId = `pp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Create PayPal order
+      const orderData = {
+        intent: 'CAPTURE',
+        purchase_units: [{
+          amount: {
+            currency_code: request.currency,
+            value: request.amount.toFixed(2)
+          },
+          description: request.description
+        }],
+        application_context: {
+          return_url: `${window.location.origin}/payment/success`,
+          cancel_url: `${window.location.origin}/payment/cancel`
+        }
+      };
+
+      // In production, make actual API call to PayPal
+      const apiUrl = provider.config.sandbox 
+        ? 'https://api.sandbox.paypal.com/v2/checkout/orders'
+        : 'https://api.paypal.com/v2/checkout/orders';
+
+      // For now, return redirect URL (would need server-side implementation)
+      return {
+        success: true,
+        transactionId,
+        redirectUrl: `https://www.paypal.com/checkoutnow?token=${transactionId}`,
+        metadata: {
+          provider: 'paypal',
+          orderId: transactionId,
+          sandbox: provider.config.sandbox
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `PayPal processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      };
+    }
   }
 
   // Stripe payment processing
   private async processStripePayment(request: PaymentRequest): Promise<PaymentResult> {
-    const transactionId = `stripe_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    // In production, integrate with Stripe SDK
-    return {
-      success: true,
-      transactionId,
-      metadata: {
-        provider: 'stripe'
+    try {
+      const provider = this.providers.get('stripe');
+      if (!provider?.config.publishableKey) {
+        return {
+          success: false,
+          error: 'Stripe not configured'
+        };
       }
-    };
+
+      // Load Stripe.js if not already loaded
+      if (typeof window !== 'undefined' && !(window as any).Stripe) {
+        const script = document.createElement('script');
+        script.src = 'https://js.stripe.com/v3/';
+        document.head.appendChild(script);
+        await new Promise(resolve => script.onload = resolve);
+      }
+
+      const stripe = (window as any).Stripe?.(provider.config.publishableKey);
+      if (!stripe) {
+        throw new Error('Stripe failed to initialize');
+      }
+
+      // Create payment intent (this would typically be done server-side)
+      const paymentIntent = {
+        id: `pi_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        client_secret: `pi_${Date.now()}_secret_${Math.random().toString(36).substr(2, 9)}`,
+        amount: Math.round(request.amount * 100), // Convert to cents
+        currency: request.currency.toLowerCase()
+      };
+
+      // Confirm payment
+      const result = await stripe.confirmCardPayment(paymentIntent.client_secret, {
+        payment_method: {
+          card: {
+            // This would come from Stripe Elements in a real implementation
+          },
+          billing_details: {
+            name: request.userId
+          }
+        }
+      });
+
+      if (result.error) {
+        return {
+          success: false,
+          error: result.error.message
+        };
+      }
+
+      return {
+        success: true,
+        transactionId: result.paymentIntent.id,
+        metadata: {
+          provider: 'stripe',
+          paymentIntentId: result.paymentIntent.id,
+          status: result.paymentIntent.status
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Stripe processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      };
+    }
   }
 
   // Subscription management

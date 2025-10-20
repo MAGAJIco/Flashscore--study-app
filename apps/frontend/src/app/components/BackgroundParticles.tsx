@@ -1,84 +1,92 @@
-
 "use client";
-import React, { useCallback, useMemo } from "react";
-import { loadSlim } from "tsparticles-slim";
-import Particles from "react-particles";
-import type { Container, Engine } from "tsparticles-engine";
+import React, { useEffect, useState, useMemo } from "react";
+import { loadSlim } from "@tsparticles/slim";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
 
 export default function BackgroundParticles() {
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadSlim(engine);
-  }, []);
+  const [init, setInit] = useState(false);
 
-  const particlesLoaded = useCallback(async (container: Container | undefined) => {
-    // Optional: Add any initialization logic here
+  // Initialize engine once
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
 
   // Memoize options to prevent re-creation
-  const options = useMemo(() => ({
-    background: {
-      color: {
-        value: "transparent",
-      },
-    },
-    fpsLimit: 30, // Reduced from default 60 for better performance
-    interactivity: {
-      events: {
-        onClick: {
-          enable: false, // Disabled for better performance
+  const options = useMemo(
+    () => ({
+      background: {
+        color: {
+          value: "transparent",
         },
-        onHover: {
-          enable: false, // Disabled for better performance
+      },
+      fpsLimit: 30,
+      interactivity: {
+        events: {
+          onClick: {
+            enable: false,
+          },
+          onHover: {
+            enable: false,
+          },
+          resize: {
+            enable: true
+          },
         },
-        resize: true,
       },
-    },
-    particles: {
-      color: {
-        value: "#ffffff",
-      },
-      links: {
-        color: "#ffffff",
-        distance: 150,
-        enable: true,
-        opacity: 0.1, // Reduced opacity
-        width: 1,
-      },
-      move: {
-        direction: "none" as const,
-        enable: true,
-        outModes: {
-          default: "bounce" as const,
+      particles: {
+        color: {
+          value: "#ffffff",
         },
-        random: false,
-        speed: 1, // Reduced speed
-        straight: false,
-      },
-      number: {
-        density: {
+        links: {
+          color: "#ffffff",
+          distance: 150,
           enable: true,
-          area: 1600, // Increased area = fewer particles
+          opacity: 0.1,
+          width: 1,
         },
-        value: 30, // Reduced from default
+        move: {
+          direction: "none" as const,
+          enable: true,
+          outModes: {
+            default: "bounce" as const,
+          },
+          random: false,
+          speed: 1,
+          straight: false,
+        },
+        number: {
+          density: {
+            enable: true,
+            area: 1600,
+          },
+          value: 30,
+        },
+        opacity: {
+          value: 0.2,
+        },
+        shape: {
+          type: "circle" as const,
+        },
+        size: {
+          value: { min: 1, max: 3 },
+        },
       },
-      opacity: {
-        value: 0.2, // Reduced opacity
-      },
-      shape: {
-        type: "circle" as const,
-      },
-      size: {
-        value: { min: 1, max: 3 },
-      },
-    },
-    detectRetina: false, // Disabled for better performance
-  }), []);
+      detectRetina: false,
+    }),
+    [],
+  );
+
+  if (!init) {
+    return <></>;
+  }
 
   return (
     <Particles
       id="tsparticles"
-      init={particlesInit}
-      loaded={particlesLoaded}
       options={options}
       style={{
         position: "fixed",

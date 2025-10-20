@@ -1,0 +1,43 @@
+{
+  "maths": [
+    {
+      "question": "If 2x + 5 = 11, what is x?",
+      "options": ["2", "3", "4", "6"],
+      "answer": "3"
+    },
+    {
+      "question": "Find the value of 7² - 3²",
+      "options": ["40", "45", "49", "50"],
+      "answer": "40"
+    }
+  ],
+  "english": [
+    {
+      "question": "Choose the correct synonym: 'Happy'",
+      "options": ["Sad", "Joyful", "Angry", "Weak"],
+      "answer": "Joyful"
+    },
+    {
+      "question": "Which is grammatically correct?",
+      "options": [
+        "She don’t like mangoes",
+        "She doesn’t like mangoes",
+        "She didn’t likes mangoes",
+        "She don’t likes mangoes"
+      ],
+      "answer": "She doesn’t like mangoes"
+    }
+  ],
+  "sports": [
+    {
+      "question": "Who won the FIFA World Cup in 2018?",
+      "options": ["Brazil", "Germany", "France", "Argentina"],
+      "answer": "France"
+    },
+    {
+      "question": "In basketball, how many points is a free throw worth?",
+      "options": ["1", "2", "3", "4"],
+      "answer": "1"
+    }
+  ]
+}

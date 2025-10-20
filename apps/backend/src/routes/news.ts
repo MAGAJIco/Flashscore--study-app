@@ -1,30 +1,55 @@
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import News from "../models/News";
 
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { NewsController } from '../controllers/newsController';
+// Define body type for creating news
+interface CreateNewsBody {
+  title: string;
+  content: string;
+  author?: string;
+  publishedAt?: Date;
+}
 
-export async function newsRoutes(fastify: FastifyInstance) {
-  // Get all news (public with member preview restrictions)
-  fastify.get('/news', async (request: FastifyRequest, reply: FastifyReply) => {
-    await NewsController.getAllNews(request as any, reply as any);
+export default async function newsRoutes(fastify: FastifyInstance) {
+  // 📰 Create news
+  fastify.post(
+    "/",
+    async (request: FastifyRequest<{ Body: CreateNewsBody }>, reply: FastifyReply) => {
+      try {
+        const news = new News(request.body);
+        await news.save();
+        return reply.status(201).send(news);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to create news";
+        return reply.status(400).send({ error: message });
+      }
+    },
+  );
+
+  // 🗞️ Get all news
+  fastify.get("/", async (_request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const news = await News.find().sort({ publishedAt: -1 });
+      return reply.send(news);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to fetch news";
+      return reply.status(500).send({ error: message });
+    }
   });
-  
-  // Get single news item (public with member preview restrictions)
-  fastify.get('/news/:id', async (request: FastifyRequest, reply: FastifyReply) => {
-    await NewsController.getNewsById(request as any, reply as any);
-  });
-  
-  // Create news (admin only)
-  fastify.post('/news', async (request: FastifyRequest, reply: FastifyReply) => {
-    await NewsController.createNews(request as any, reply as any);
-  });
-  
-  // Update news (admin only)
-  fastify.put('/news/:id', async (request: FastifyRequest, reply: FastifyReply) => {
-    await NewsController.updateNews(request as any, reply as any);
-  });
-  
-  // Delete news (admin only)
-  fastify.delete('/news/:id', async (request: FastifyRequest, reply: FastifyReply) => {
-    await NewsController.deleteNews(request as any, reply as any);
-  });
+
+  // 🧾 Get single news by ID
+  fastify.get(
+    "/:id",
+    async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
+      try {
+        const news = await News.findById(request.params.id);
+        if (!news) {
+          return reply.status(404).send({ error: "News not found" });
+        }
+        return reply.send(news);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to fetch news";
+        return reply.status(500).send({ error: message });
+      }
+    },
+  );
 }

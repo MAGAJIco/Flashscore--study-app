@@ -1,0 +1,145 @@
+name: CI Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-reports
+          path: |
+            apps/*/coverage/
+            !apps/*/coverage/tmp/
+          retention-days: 7
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend for smoke test
+        run: |
+          # Build only the frontend workspace to verify build succeeds in CI
+          npm --workspace=@magajico/frontend run build
+
+      - name: Verify frontend build output (smoke)
+        run: |
+          # ensure the Next build output exists and is non-empty
+          if [ -d apps/frontend/.next ] && [ "$(ls -A apps/frontend/.next 2>/dev/null)" ]; then
+            echo "✅ Frontend build artifacts present"
+          else
+            echo "❌ Frontend build output missing or empty: apps/frontend/.next" >&2
+            ls -la apps/frontend || true
+            exit 1
+          fi
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Start frontend (production) in background
+        run: |
+          # Start the built Next.js app in the background so playwright can hit it.
+          # Assumes apps/frontend has `start` script (npm start).
+          cd apps/frontend
+          npm run start &>/tmp/frontend.log &
+          # Give server a few seconds to bind
+          for i in {1..20}; do
+            if curl --silent --fail http://localhost:5000 >/dev/null 2>&1; then
+              echo "frontend is up"
+              break
+            fi
+            echo "waiting for frontend..."
+            sleep 1
+          done
+          tail -n +1 /tmp/frontend.log || true
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:5000
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  type-check:
+    name: TypeScript Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript check
+        run: npm run tsc:check

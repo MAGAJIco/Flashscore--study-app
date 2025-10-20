@@ -2,11 +2,30 @@
   "name": "@magajico/shared",
   "version": "1.0.0",
   "private": true,
-  "main": "src/index.ts",
-  "scripts": {
-    "build": "tsc -b"
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/libs/types/index.js",
+      "types": "./dist/libs/types/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/libs/utils/index.js",
+      "types": "./dist/libs/utils/index.js"
+    },
+    "./models": {
+      "import": "./dist/libs/models/index.js",
+      "types": "./dist/libs/models/index.d.ts"
+    }
   },
-  "devDependencies": {
-    "typescript": "^5.2.2"
+  "dependencies": {
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
   }
 }

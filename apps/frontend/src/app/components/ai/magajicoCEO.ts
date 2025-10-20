@@ -24,33 +24,30 @@ interface StrategicThinking {
   executionSpeed: number;
 }
 
-// Strategic patterns inspired by tech leaders
 const STRATEGIC_PATTERNS: StrategicThinking = {
-  longTermVision: true, // Jeff Bezos - long-term thinking
-  disruptiveInnovation: true, // Elon Musk - revolutionary approach  
-  marketDomination: true, // Bill Gates - market positioning
-  riskTolerance: 0.7, // Jack Ma - calculated risks
-  executionSpeed: 0.9 // All leaders - fast execution
+  longTermVision: true,
+  disruptiveInnovation: true,
+  marketDomination: true,
+  riskTolerance: 0.7,
+  executionSpeed: 0.9
 };
 
-// Mark Zuckerberg Meta Strategic Framework
 interface ZuckerbergMetaStrategy {
-  metaverseVision: boolean; // Long-term virtual world dominance
-  socialConnectionFocus: boolean; // Connect people globally
-  platformScaling: number; // Scale fast and iterate
-  dataIntelligence: number; // Data-driven decisions
-  acquisitionStrategy: number; // Strategic acquisitions
+  metaverseVision: boolean;
+  socialConnectionFocus: boolean;
+  platformScaling: number;
+  dataIntelligence: number;
+  acquisitionStrategy: number;
 }
 
 const ZUCKERBERG_META_PATTERNS: ZuckerbergMetaStrategy = {
-  metaverseVision: true, // Future of social interaction
-  socialConnectionFocus: true, // Build communities
-  platformScaling: 0.95, // Scale rapidly
-  dataIntelligence: 0.9, // Analytics-driven
-  acquisitionStrategy: 0.8 // Strategic partnerships
+  metaverseVision: true,
+  socialConnectionFocus: true,
+  platformScaling: 0.95,
+  dataIntelligence: 0.9,
+  acquisitionStrategy: 0.8
 };
 
-// MagajiCo 5(1) Filter System - Five quality checks, one final decision
 interface MagajiCo5Filter {
   confidenceCheck: boolean;
   marketValueCheck: boolean;
@@ -60,18 +57,16 @@ interface MagajiCo5Filter {
   finalDecision: 'PROCEED' | 'HOLD' | 'REJECT';
 }
 
-// MagajiCo 5(1) Filter System Implementation
 function apply5Filter(prediction: Prediction): MagajiCo5Filter {
   const filter: MagajiCo5Filter = {
-    confidenceCheck: prediction.confidence > 70, // Filter 1: Confidence threshold
-    marketValueCheck: (prediction.marketValue || 0) > 50, // Filter 2: Market value potential
-    riskAssessment: (prediction.riskFactor || 0) < 0.6, // Filter 3: Risk tolerance
-    strategicAlignment: calculateStrategicValue(prediction) > 0.6, // Filter 4: Strategic fit
-    executionFeasibility: prediction.confidence > 60, // Filter 5: Execution possibility
+    confidenceCheck: prediction.confidence > 70,
+    marketValueCheck: (prediction.marketValue || 0) > 50,
+    riskAssessment: (prediction.riskFactor || 0) < 0.6,
+    strategicAlignment: calculateStrategicValue(prediction) > 0.6,
+    executionFeasibility: prediction.confidence > 60,
     finalDecision: 'HOLD'
   };
 
-  // Zuckerberg Meta Decision Logic - Connect, Scale, Dominate
   const metaScore = (
     (filter.confidenceCheck ? 1 : 0) +
     (filter.marketValueCheck ? 1 : 0) +
@@ -80,13 +75,12 @@ function apply5Filter(prediction: Prediction): MagajiCo5Filter {
     (filter.executionFeasibility ? 1 : 0)
   );
 
-  // The "1" in 5(1) - Single final decision based on all filters
   if (metaScore >= 4 && prediction.confidence > 80) {
-    filter.finalDecision = 'PROCEED'; // Meta-level opportunity
+    filter.finalDecision = 'PROCEED';
   } else if (metaScore >= 3) {
-    filter.finalDecision = 'HOLD'; // Monitor and iterate
+    filter.finalDecision = 'HOLD';
   } else {
-    filter.finalDecision = 'REJECT'; // Not aligned with strategy
+    filter.finalDecision = 'REJECT';
   }
 
   return filter;
@@ -95,14 +89,11 @@ function apply5Filter(prediction: Prediction): MagajiCo5Filter {
 export function magajicoCEO(predictions: Prediction[]): CEOAction[] {
   const actions: CEOAction[] = [];
 
-  // Enhanced strategic analysis with Zuckerberg Meta patterns and 5(1) filter
   predictions.forEach((p) => {
     const strategicValue = calculateStrategicValue(p);
     const filter5 = apply5Filter(p);
     
-    // Apply Zuckerberg Meta Strategic Framework
     if (filter5.finalDecision === 'PROCEED' && ZUCKERBERG_META_PATTERNS.metaverseVision) {
-      // Meta-level strategic opportunities (Zuckerberg-style future vision)
       actions.push({
         type: "MARKET_OPPORTUNITY",
         prediction: p,
@@ -124,7 +115,6 @@ export function magajicoCEO(predictions: Prediction[]): CEOAction[] {
       });
     } 
     else if (filter5.finalDecision === 'HOLD' && ZUCKERBERG_META_PATTERNS.socialConnectionFocus) {
-      // Medium opportunities with community potential (Zuckerberg-style social connection)
       actions.push({
         type: "STRATEGIC_MOVE",
         action: `COMMUNITY_BUILD: ${p.match}`,
@@ -138,7 +128,6 @@ export function magajicoCEO(predictions: Prediction[]): CEOAction[] {
       });
     }
     else if (filter5.finalDecision === 'REJECT' || (p.riskFactor && p.riskFactor > 0.7)) {
-      // High-risk scenarios (Meta-style data-driven rejection)
       actions.push({
         type: "STRATEGIC_MOVE",
         action: `DATA_ANALYSIS: ${p.match}`,
@@ -152,12 +141,10 @@ export function magajicoCEO(predictions: Prediction[]): CEOAction[] {
       });
     } 
     else {
-      // Standard monitoring with Meta intelligence
       actions.push({ type: "IGNORE" });
     }
   });
 
-  // Add Meta strategic oversight actions
   if (predictions.length > 0) {
     const proceedCount = predictions.filter(p => apply5Filter(p).finalDecision === 'PROCEED').length;
     
@@ -176,28 +163,23 @@ export function magajicoCEO(predictions: Prediction[]): CEOAction[] {
 function calculateStrategicValue(prediction: Prediction): number {
   let value = prediction.confidence / 100;
   
-  // Market value consideration (Gates-style)
   if (prediction.marketValue) {
     value *= (1 + prediction.marketValue / 100);
   }
   
-  // Risk adjustment (Bezos-style long-term thinking)
   if (prediction.riskFactor) {
     value *= (1 - prediction.riskFactor * STRATEGIC_PATTERNS.riskTolerance);
   }
   
-  // Innovation bonus (Musk-style disruption)
   if (STRATEGIC_PATTERNS.disruptiveInnovation && prediction.confidence > 80) {
-    value *= 1.2; // 20% bonus for high-confidence disruptive opportunities
+    value *= 1.2;
   }
   
-  // Execution speed factor (Ma-style rapid execution)
   value *= STRATEGIC_PATTERNS.executionSpeed;
   
-  return Math.min(value, 1.0); // Cap at 100%
+  return Math.min(value, 1.0);
 }
 
-// Strategic intelligence metrics with Zuckerberg Meta Intelligence
 export function getStrategicInsights(predictions: Prediction[]): {
   totalOpportunities: number;
   marketDominanceScore: number;
@@ -210,14 +192,12 @@ export function getStrategicInsights(predictions: Prediction[]): {
   const opportunities = predictions.filter(p => calculateStrategicValue(p) > 0.6);
   const proceedPredictions = predictions.filter(p => apply5Filter(p).finalDecision === 'PROCEED');
   
-  // Meta Intelligence Score (Zuckerberg-style data analysis)
   const metaScore = Math.round(
-    (proceedPredictions.length / predictions.length) * 
+    (proceedPredictions.length / (predictions.length || 1)) * 
     ZUCKERBERG_META_PATTERNS.dataIntelligence * 
     ZUCKERBERG_META_PATTERNS.platformScaling * 100
   );
   
-  // Determine Zuckerberg Strategy Phase
   let strategy = "MONITOR";
   if (proceedPredictions.length > 3) strategy = "SCALE_PLATFORM";
   else if (proceedPredictions.length > 1) strategy = "BUILD_CONNECTIONS";
@@ -226,10 +206,10 @@ export function getStrategicInsights(predictions: Prediction[]): {
   return {
     totalOpportunities: opportunities.length,
     marketDominanceScore: Math.round(opportunities.reduce((sum, p) => sum + calculateStrategicValue(p), 0) * 10),
-    innovationIndex: Math.round((opportunities.filter(p => p.confidence > 80).length / predictions.length) * 100),
-    riskManagementScore: Math.round((1 - opportunities.filter(p => p.riskFactor && p.riskFactor > 0.5).length / predictions.length) * 100),
+    innovationIndex: Math.round((opportunities.filter(p => p.confidence > 80).length / (predictions.length || 1)) * 100),
+    riskManagementScore: Math.round((1 - opportunities.filter(p => p.riskFactor && p.riskFactor > 0.5).length / (predictions.length || 1)) * 100),
     metaIntelligence: metaScore,
     zuckerbergStrategy: strategy,
-    filter5Score: Math.round((proceedPredictions.length / predictions.length) * 100)
+    filter5Score: Math.round((proceedPredictions.length / (predictions.length || 1)) * 100)
   };
 }

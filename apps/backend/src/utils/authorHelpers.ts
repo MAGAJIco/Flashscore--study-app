@@ -1,70 +1,89 @@
-// Define the author interface locally to avoid import issues
-interface AuthorData {
+// apps/backend/src/utils/authorHelpers.ts
+
+// Define INewsAuthor interface
+export interface INewsAuthor {
   id: string;
   name: string;
   icon: string;
   bio?: string;
-  expertise: string[];
-  collaborationCount: number;
+  expertise?: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
+  collaborations?: number;
+  views?: number;
+  engagement?: number;
 }
 
-// Helper function to normalize author data for backward compatibility
-export function normalizeAuthor(author: any): AuthorData {
-  if (typeof author === 'string') {
-    // Convert legacy string author to new format
-    return {
-      id: author.toLowerCase().replace(/\s+/g, '_'),
-      name: author,
-      icon: '👤',
-      bio: '',
-      expertise: [],
-      collaborationCount: 1
-    } as AuthorData;
+// Define collaboration types
+export interface ICollaboration {
+  id: string;
+  authorId: string;
+  title: string;
+  preview: string;
+  fullContent: string;
+  collaborationType: "prediction" | "analysis" | "community" | "update";
+  tags?: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Helper function to validate author data
+export function validateAuthorData(author: Partial<INewsAuthor>): boolean {
+  if (!author.id || !author.name || !author.icon) {
+    return false;
   }
-  
-  // Return as-is if already in new format
-  return author as AuthorData;
+  return true;
 }
 
-// Helper function to create default authors
-export function createDefaultAuthor(name: string, icon: string = '👤'): AuthorData {
+// Helper function to format author for response
+export function formatAuthorResponse(author: INewsAuthor) {
   return {
-    id: name.toLowerCase().replace(/\s+/g, '_'),
-    name: name,
-    icon: icon,
-    bio: `${name} - Sports contributor`,
-    expertise: ['sports', 'analysis'],
-    collaborationCount: 1
-  } as AuthorData;
+    id: author.id,
+    name: author.name,
+    icon: author.icon,
+    bio: author.bio || '',
+    expertise: author.expertise || [],
+    stats: {
+      collaborations: author.collaborations || 0,
+      views: author.views || 0,
+      engagement: author.engagement || 0
+    }
+  };
 }
 
-// Helper function to migrate string authors to object format
-export function migrateAuthorFormat(author: any): AuthorData {
-  if (typeof author === 'string') {
-    switch (author.toLowerCase()) {
-      case 'mara':
-        return {
-          id: 'mara',
-          name: 'Mara',
-          icon: '⚡',
-          bio: 'Sports analytics expert specializing in predictive modeling and community insights',
-          expertise: ['analytics', 'predictions', 'community'],
-          collaborationCount: 1
-        } as AuthorData;
-      case 'admin':
-      case 'sports central team':
-        return {
-          id: 'sports_central',
-          name: 'Sports Central Team',
-          icon: '🏆',
-          bio: 'Official Sports Central editorial team',
-          expertise: ['sports', 'news', 'predictions'],
-          collaborationCount: 1
-        } as AuthorData;
-      default:
-        return createDefaultAuthor(author, '📝');
-    }
+// Helper function to create author slug
+export function createAuthorSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+// Helper function to validate collaboration data
+export function validateCollaborationData(collaboration: Partial<ICollaboration>): boolean {
+  if (!collaboration.authorId || !collaboration.title || !collaboration.fullContent) {
+    return false;
   }
   
-  return author as INewsAuthor;
+  const validTypes = ["prediction", "analysis", "community", "update"];
+  if (collaboration.collaborationType && !validTypes.includes(collaboration.collaborationType)) {
+    return false;
+  }
+  
+  return true;
+}
+
+// Example usage of INewsAuthor (around line 69)
+export function getAuthorById(id: string): INewsAuthor | null {
+  // Your implementation here
+  // This is just an example showing INewsAuthor usage
+  const author: INewsAuthor = {
+    id,
+    name: 'Example Author',
+    icon: 'default.png',
+    bio: 'Example bio',
+    expertise: ['Sports', 'Analytics']
+  };
+  
+  return author;
 }

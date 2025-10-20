@@ -29,21 +29,116 @@ const PiCoinStore: React.FC<PiCoinStoreProps> = ({ isOpen, onClose, userId, onPu
 
     setIsProcessing(true);
     
-    // Simulate payment processing
-    setTimeout(() => {
-      const totalAmount = pkg.amount + pkg.bonus;
-      const success = PiCoinManager.purchasePiCoins(userId, totalAmount, paymentMethod);
-      
-      if (success) {
-        alert(`Successfully purchased ${totalAmount.toLocaleString()} Pi coins!`);
-        onPurchaseComplete();
-        onClose();
+    try {
+      let paymentResult;
+
+      if (paymentMethod === 'pi_network') {
+        // Handle Pi Network payment
+        if (typeof window !== 'undefined' && (window as any).Pi) {
+          try {
+            const piPayment = await (window as any).Pi.createPayment({
+              amount: pkg.price * 0.1, // Convert to Pi
+              memo: `Purchase ${pkg.amount + pkg.bonus} Pi Coins`,
+              metadata: { 
+                packageId: pkg.id,
+                piCoins: pkg.amount + pkg.bonus,
+                userId 
+              }
+            });
+
+            // Simulate successful Pi payment
+            paymentResult = { success: true, transactionId: piPayment.identifier };
+          } catch (piError) {
+            console.error('Pi Network payment failed:', piError);
+            paymentResult = { success: false, error: 'Pi Network payment failed' };
+          }
+        } else {
+          // Fallback for development
+          paymentResult = { 
+            success: true, 
+            transactionId: `pi_dev_${Date.now()}`,
+            simulated: true 
+          };
+        }
       } else {
-        alert('Purchase failed. Please try again.');
+        // Handle credit card payment via Stripe
+        try {
+          // Create payment intent
+          const intentResponse = await fetch('/api/payments/create-intent', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              amount: pkg.price,
+              currency: 'USD',
+              description: `Purchase ${pkg.amount + pkg.bonus} Pi Coins`
+            })
+          });
+
+          const { client_secret, error: intentError } = await intentResponse.json();
+
+          if (intentError) {
+            throw new Error(intentError);
+          }
+
+          // In a real implementation, you would use Stripe Elements here
+          // For now, simulate successful payment
+          const confirmResponse = await fetch('/api/payments/confirm', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              transactionId: `stripe_${Date.now()}`,
+              provider: 'stripe',
+              amount: pkg.price,
+              currency: 'USD',
+              userId,
+              description: `Purchase ${pkg.amount + pkg.bonus} Pi Coins`
+            })
+          });
+
+          const confirmData = await confirmResponse.json();
+          paymentResult = confirmData;
+
+        } catch (stripeError) {
+          console.error('Stripe payment failed:', stripeError);
+          paymentResult = { 
+            success: false, 
+            error: stripeError instanceof Error ? stripeError.message : 'Payment failed' 
+          };
+        }
+      }
+
+      if (paymentResult.success) {
+        // Award Pi Coins to user
+        const totalAmount = pkg.amount + pkg.bonus;
+        const success = PiCoinManager.earnCoins(
+          userId, 
+          totalAmount, 
+          `Purchased ${totalAmount.toLocaleString()} Pi Coins`,
+          {
+            transactionId: paymentResult.transactionId,
+            paymentMethod,
+            packageId: pkg.id,
+            purchasePrice: pkg.price
+          }
+        );
+        
+        if (success) {
+          alert(`Successfully purchased ${totalAmount.toLocaleString()} Pi coins!`);
+          onPurchaseComplete();
+          onClose();
+        } else {
+          alert('Failed to award Pi coins. Please contact support.');
+        }
+      } else {
+        alert(`Purchase failed: ${paymentResult.error || 'Unknown error'}`);
       }
       
-      setIsProcessing(false);
-    }, 2000);
+    } catch (error) {
+      console.error('Purchase error:', error);
+      alert('Purchase failed. Please try again.');
+    }
+    
+    setIsProcessing(false);
   };
 
   if (!isOpen) return null;

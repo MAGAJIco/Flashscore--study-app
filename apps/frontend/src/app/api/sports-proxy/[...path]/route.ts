@@ -1,4 +1,4 @@
-import { createSportsAPIService } from '@api/service';
+import { createSportsAPIService } from '../service';
 
 interface Match {
   id: number;

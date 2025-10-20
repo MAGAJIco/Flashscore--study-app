@@ -1,9 +1,17 @@
-
+//apps/frontend/../register/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { MongoClient } from 'mongodb';
 import bcrypt from 'bcryptjs';
 
-const client = new MongoClient(process.env.MONGODB_URI!);
+if (!process.env.MONGODB_URI) {
+  throw new Error('MONGODB_URI environment variable is required for registration');
+}
+
+if (!process.env.MONGODB_URI.startsWith('mongodb://') && !process.env.MONGODB_URI.startsWith('mongodb+srv://')) {
+  throw new Error('MONGODB_URI must start with mongodb:// or mongodb+srv://');
+}
+
+const client = new MongoClient(process.env.MONGODB_URI);
 
 export async function POST(request: NextRequest) {
   try {
@@ -77,7 +85,7 @@ export async function POST(request: NextRequest) {
     const result = await db.collection('users').insertOne(newUser);
 
     return NextResponse.json(
-      { 
+      {
         message: 'User created successfully',
         userId: result.insertedId
       },

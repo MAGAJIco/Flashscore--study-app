@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offline - Sports Central</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.trophy {
+    font-size: 80px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+#loadingM {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 80px;
+    color: #00ff88;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+h1 { font-size: 32px; margin-bottom: 15px; color: #00ff88; }
+
+p { font-size: 18px; line-height: 1.6; margin-bottom: 30px; color: #b8c5d6; }
+
+.retry-btn {
+    background: #00ff88;
+    color: #1a1f3a;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+    margin-bottom: 20px;
+}
+
+.retry-btn:hover {
+    background: #00cc6f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+}
+
+.retry-btn:active { transform: translateY(0); }
+
+.features, .games {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 500px;
+}
+
+.features h3, .games h3 { color: #00ff88; margin-bottom: 15px; font-size: 20px; }
+
+.features ul, .games ul { list-style: none; text-align: left; }
+
+.features li, .games li {
+    padding: 10px 0;
+    color: #b8c5d6;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.features li:last-child, .games li:last-child { border-bottom: none; }
+.features li::before, .games li::before { content: "⚡ "; color: #00ff88; }
+
+.games a {
+    display: block;
+    margin: 10px 0;
+    padding: 12px;
+    background: #00ff88;
+    color: #1a1f3a;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.games a:hover {
+    background: #00cc6f;
+    transform: translateY(-2px);
+}
+
+.status {
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(255, 68, 68, 0.1);
+    border-radius: 8px;
+    color: #ff4444;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+    .trophy { font-size: 60px; }
+    #loadingM { font-size: 60px; }
+    h1 { font-size: 24px; }
+    p { font-size: 16px; }
+    .retry-btn { padding: 12px 30px; font-size: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="trophy">
+    🏆
+    <div id="loadingM">M</div>
+</div>
+<h1>You're Offline</h1>
+<p>Looks like you've lost connection to the internet. Sports Central needs an internet connection to show live scores and predictions.</p>
+
+<button class="retry-btn" id="retryBtn">Try Again</button>
+
+<div class="features">
+    <h3>When you're back online, you can:</h3>
+    <ul>
+        <li>View live sports scores</li>
+        <li>Make predictions and earn rewards</li>
+        <li>Check the leaderboard</li>
+        <li>Access your Pi Wallet</li>
+        <li>Join the community forum</li>
+    </ul>
+</div>
+
+<div class="games">
+    <h3>Offline Activities:</h3>
+    <ul>
+        <li><a href="/offline-sports.html">🎮 Play Sports Quiz</a></li>
+        <li><a href="/offline-quiz.html">📘 Take JAMB Quiz</a></li>
+    </ul>
+</div>
+
+<div class="status" id="status">📴 No internet connection detected</div>
+
+<script>
+const loadingM = document.getElementById('loadingM');
+const retryBtn = document.getElementById('retryBtn');
+const status = document.getElementById('status');
+
+function updateStatus() {
+    if (navigator.onLine) {
+        status.style.background = 'rgba(0, 255, 136, 0.1)';
+        status.style.color = '#00ff88';
+        status.textContent = '🌐 Connection restored! Click "Try Again" to continue';
+    } else {
+        status.style.background = 'rgba(255, 68, 68, 0.1)';
+        status.style.color = '#ff4444';
+        status.textContent = '📴 No internet connection detected';
+    }
+}
+
+window.addEventListener('online', updateStatus);
+window.addEventListener('offline', updateStatus);
+
+retryBtn.addEventListener('click', () => {
+    loadingM.style.display = 'block'; // show spinning M
+    retryBtn.disabled = true;         // prevent multiple clicks
+    setTimeout(() => window.location.reload(), 1500);
+});
+
+updateStatus();
+</script>
+</body>
+</html>

@@ -13,7 +13,7 @@ export function withSecurity(handler: (req: SecureApiRequest, res: NextApiRespon
       // CORS Protection
       const origin = req.headers.origin;
       const allowedOrigins = [
-        'http://localhost:3000',
+        'http://localhost:3001',
         'https://your-app-domain.replit.app'
       ];
       

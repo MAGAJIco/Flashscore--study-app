@@ -1,6 +1,9 @@
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://flashscore-study-app.vercel.app' 
-  : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000');
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://flashscore-study-app.vercel.app"
+    : "http://localhost:3001");
 
 export interface NewsAuthor {
   id: string;
@@ -17,7 +20,7 @@ export interface NewsItem {
   preview: string;
   fullContent: string;
   author: string | NewsAuthor;
-  collaborationType?: 'prediction' | 'analysis' | 'community' | 'update';
+  collaborationType?: "prediction" | "analysis" | "community" | "update";
   tags: string[];
   createdAt: string;
   viewCount: number;
@@ -37,13 +40,13 @@ export interface NewsResponse {
 
 export class NewsService {
   private static getAuthHeaders() {
-    if (typeof window !== 'undefined') {
-      const memberAccess = localStorage.getItem('memberAccess') === 'true';
-      const adminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-      const userData = localStorage.getItem('currentUser');
+    if (typeof window !== "undefined") {
+      const memberAccess = localStorage.getItem("memberAccess") === "true";
+      const adminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
+      const userData = localStorage.getItem("currentUser");
 
       if (memberAccess || adminLoggedIn || userData) {
-        return { 'Authorization': 'Bearer member' };
+        return { Authorization: "Bearer member" };
       }
     }
     return {};
@@ -53,8 +56,8 @@ export class NewsService {
     try {
       const response = await fetch(`${API_BASE_URL}/api/news`, {
         headers: {
-          'Content-Type': 'application/json',
-          ...this.getAuthHeaders()
+          "Content-Type": "application/json",
+          ...this.getAuthHeaders(),
         },
       });
 
@@ -65,12 +68,12 @@ export class NewsService {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching news:', error);
+      console.error("Error fetching news:", error);
       // Return fallback data
       return {
         success: false,
         data: this.getFallbackNews(),
-        message: 'Using fallback news data'
+        message: "Using fallback news data",
       };
     }
   }
@@ -79,8 +82,8 @@ export class NewsService {
     try {
       const response = await fetch(`${API_BASE_URL}/api/news/author/${authorId}`, {
         headers: {
-          'Content-Type': 'application/json',
-          ...this.getAuthHeaders()
+          "Content-Type": "application/json",
+          ...this.getAuthHeaders(),
         },
       });
 
@@ -91,11 +94,11 @@ export class NewsService {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching news by author:', error);
+      console.error("Error fetching news by author:", error);
       return {
         success: false,
         data: [],
-        message: 'Failed to fetch author news'
+        message: "Failed to fetch author news",
       };
     }
   }
@@ -105,15 +108,15 @@ export class NewsService {
     preview: string;
     fullContent: string;
     authorId?: string;
-    collaborationType?: 'prediction' | 'analysis' | 'community' | 'update';
+    collaborationType?: "prediction" | "analysis" | "community" | "update";
     tags?: string[];
   }): Promise<NewsItem | null> {
     try {
       const response = await fetch(`${API_BASE_URL}/api/news`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          ...this.getAuthHeaders()
+          "Content-Type": "application/json",
+          ...this.getAuthHeaders(),
         },
         body: JSON.stringify(newsData),
       });
@@ -125,7 +128,7 @@ export class NewsService {
       const data = await response.json();
       return data.success ? data.data : null;
     } catch (error) {
-      console.error('Error creating news:', error);
+      console.error("Error creating news:", error);
       return null;
     }
   }
@@ -133,10 +136,10 @@ export class NewsService {
   static async deleteNews(newsId: number): Promise<boolean> {
     try {
       const response = await fetch(`${API_BASE_URL}/api/news/${newsId}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
-          ...this.getAuthHeaders()
+          "Content-Type": "application/json",
+          ...this.getAuthHeaders(),
         },
       });
 
@@ -147,7 +150,7 @@ export class NewsService {
       const data = await response.json();
       return data.success;
     } catch (error) {
-      console.error('Error deleting news:', error);
+      console.error("Error deleting news:", error);
       return false;
     }
   }
@@ -158,20 +161,21 @@ export class NewsService {
         id: 1,
         title: "Mara's Latest Prediction Analysis",
         preview: "Our expert Mara shares insights on upcoming matches...",
-        fullContent: "Detailed analysis of upcoming football matches with statistical predictions and team performance metrics.",
+        fullContent:
+          "Detailed analysis of upcoming football matches with statistical predictions and team performance metrics.",
         author: {
-          id: 'mara',
-          name: 'Mara',
-          icon: '⚡',
-          bio: 'Sports analytics expert',
-          expertise: ['analytics', 'predictions'],
-          collaborationCount: 15
+          id: "mara",
+          name: "Mara",
+          icon: "⚡",
+          bio: "Sports analytics expert",
+          expertise: ["analytics", "predictions"],
+          collaborationCount: 15,
         },
-        collaborationType: 'prediction',
-        tags: ['prediction', 'analysis'],
+        collaborationType: "prediction",
+        tags: ["prediction", "analysis"],
         createdAt: new Date().toISOString(),
         viewCount: 245,
-        isActive: true
+        isActive: true,
       },
       {
         id: 2,
@@ -179,19 +183,19 @@ export class NewsService {
         preview: "We've hit another major milestone in our sports community...",
         fullContent: "Thanks to all our members, we've reached 1000 successful predictions this month!",
         author: {
-          id: 'community',
-          name: 'Community Team',
-          icon: '🏆',
-          bio: 'Community management',
-          expertise: ['community'],
-          collaborationCount: 50
+          id: "community",
+          name: "Community Team",
+          icon: "🏆",
+          bio: "Community management",
+          expertise: ["community"],
+          collaborationCount: 50,
         },
-        collaborationType: 'community',
-        tags: ['milestone', 'community'],
+        collaborationType: "community",
+        tags: ["milestone", "community"],
         createdAt: new Date().toISOString(),
         viewCount: 189,
-        isActive: true
-      }
+        isActive: true,
+      },
     ];
   }
 }
