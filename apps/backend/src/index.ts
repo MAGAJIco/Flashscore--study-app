@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import mongoose from "mongoose";
 import newsRoutes from "./routes/news";
+// pytorchModel import removed - not needed for current backend setup
 
 const fastify = Fastify({ logger: true });
 
