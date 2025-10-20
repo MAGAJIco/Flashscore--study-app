@@ -1,0 +1,14 @@
+
+{
+  "buildCommand": "npm run build --workspace=apps/frontend",
+  "installCommand": "npm ci",
+  "outputDirectory": "apps/frontend/.next",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "rewrites": [
+    {
+      "source": "/api/backend/:path*",
+      "destination": "https://magajico-backend.onrender.com/api/:path*"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 // services/enhancedSportsService.ts
-import { EnhancedMatch, MatchData, TeamStats } from 'types/match';
+import { EnhancedMatchData } from 'types/match';
+import { MatchData, TeamStats } from 'types/analysis';
 
 interface CacheEntry<T> {
   value: T;
@@ -48,7 +49,7 @@ export class EnhancedSportsService {
   }
 
   // --- Main method ---
-  async fetchLiveMatchesWithStats(): Promise<EnhancedMatch[]> {
+  async fetchLiveMatchesWithStats(): Promise<EnhancedMatchData[]> {
     try {
       const [basicResult, statsResult, socialResult] = await Promise.allSettled([
         this.fetchWithTimeout(this.fetchBasicMatches(), 5000),
@@ -78,7 +79,7 @@ export class EnhancedSportsService {
             events,
             socialData: social,
             news,
-          } as EnhancedMatch;
+          } as EnhancedMatchData;
         })
       );
 
@@ -97,5 +98,5 @@ export class EnhancedSportsService {
   async getMatchStats(matchId: string, detailedStats: any): Promise<any> { return detailedStats[matchId] || {}; }
   async getSocialDataAsync(matchId: string, socialData: any): Promise<any> { return socialData[matchId] || {}; }
   async fetchSocialData(): Promise<any> { return {}; }
-  async getFallbackMatches(): Promise<EnhancedMatch[]> { return []; }
+  async getFallbackMatches(): Promise<EnhancedMatchData[]> { return []; }
 }

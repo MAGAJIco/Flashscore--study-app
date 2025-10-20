@@ -1,91 +1,14 @@
-modules = ["nodejs-20"]
-run = "cd apps/frontend && npm run dev"
+modules = ["python-3.11", "nodejs-20", "web"]
+
+[agent]
+expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["miktex", "nix-output-monitor"]
-
-[deployment]
-run = ["sh", "-c", "cd apps/backend && npm start & cd apps/frontend && npm start"]
-build = ["sh", "-c", "cd apps/frontend && npm install && npm run build"]
+packages = ["glibcLocales", "libxcrypt", "libyaml", "gir-rs"]
 
 [workflows]
-runButton = "Full Stack Working"
-
-[[workflows.workflow]]
-name = "Start Sports API"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npx ts-node --esm Sports-api.ts"
-
-[[workflows.workflow]]
-name = "Full Stack Next.js"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm install tsx --save-dev && npx tsx server.ts"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
-
-[[workflows.workflow]]
-name = "Full Stack Monorepo"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm run dev"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm run dev"
-
-[[workflows.workflow]]
-name = "Backend Only"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm run dev"
-
-[[workflows.workflow]]
-name = "Frontend Only"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm run dev"
-
-[[workflows.workflow]]
-name = "Frontend Port 3001"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm run dev"
-
-[[workflows.workflow]]
-name = "Full Stack Monorepo Fixed"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm run dev"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && PORT=3001 npm run dev"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -98,150 +21,75 @@ args = "Frontend"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
+args = "ML Service"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
 args = "Backend"
 
 [[workflows.workflow]]
 name = "Frontend"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev:frontend"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
-
-[[workflows.workflow]]
-name = "Backend"
-author = "agent"
-
-[workflows.workflow.metadata]
-outputType = "console"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev:backend"
-waitForPort = 8000
-
-[[workflows.workflow]]
-name = "Full Stack NPM"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm run dev"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd apps/frontend && npm run dev"
+waitForPort = 5000
 
 [[workflows.workflow]]
-name = "Frontend Only App"
-author = 46296136
+name = "ML Service"
+author = "agent"
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && npm install && npm run dev"
+args = "cd apps/backend/ml && uv run python api.py"
+waitForPort = 8000
+
+[workflows.workflow.metadata]
+outputType = "console"
 
 [[workflows.workflow]]
-name = "Frontend Only App Clean"
-author = 46296136
+name = "Backend"
+author = "agent"
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && npm install && npm run dev"
+args = "cd apps/backend && npm run dev"
+waitForPort = 3001
 
-[[workflows.workflow]]
-name = "Production Frontend"
-author = 46296136
-mode = "sequential"
+[workflows.workflow.metadata]
+outputType = "console"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm ci --only=production && npm run build && npm run start"
+[deployment]
+build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
+run = ["sh", "-c", "cd apps/frontend && pnpm start"]
 
-[[workflows.workflow]]
-name = "Frontend Development Clean"
-author = 46296136
-mode = "sequential"
+[[deployment.responseHeaders]]
+path = "/*"
+name = "Cache-Control"
+value = "public, max-age=3600"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && rm -rf node_modules .next && npm install && npm run dev"
+[[deployment.responseHeaders]]
+path = "/static/*"
+name = "Cache-Control"
+value = "public, max-age=31536000, immutable"
 
-[[workflows.workflow]]
-name = "Frontend Development Clean"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && rm -rf node_modules .next && npm install && npm run dev"
-
-[[workflows.workflow]]
-name = "Test Backend API"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm install && npm run dev"
-
-[[workflows.workflow]]
-name = "Health Check"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node health-check.js"
-
-[[workflows.workflow]]
-name = "Frontend Debug Mode"
-author = 46296136
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm install --legacy-peer-deps && npm run dev"
-
-[[workflows.workflow]]
-name = "Full Stack Working"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm install && npm run start"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm install --legacy-peer-deps && npm run dev"
-
-[[workflows.workflow]]
-name = "Full Stack Working"
-author = 46296136
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm install && npm run start"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/frontend && npm install --legacy-peer-deps && npm run dev"
-
-[[ports]]
-localPort = 3000
-externalPort = 3000
+[[deployment.rewrites]]
+from = "/*"
+to = "/index.html"
 
 [[ports]]
 localPort = 3001
 externalPort = 3001
+
+[[ports]]
+localPort = 4113
+externalPort = 3000
 
 [[ports]]
 localPort = 5000
@@ -251,5 +99,21 @@ externalPort = 80
 localPort = 8000
 externalPort = 8000
 
-[agent]
-expertMode = true
+[[ports]]
+localPort = 35757
+externalPort = 4200
+
+[[ports]]
+localPort = 38763
+externalPort = 3001
+
+[[ports]]
+localPort = 42087
+externalPort = 3003
+
+[[ports]]
+localPort = 45655
+externalPort = 3002
+
+[env]
+REPLIT_KEEP_PACKAGE_DEV_DEPENDENCIES = "1"

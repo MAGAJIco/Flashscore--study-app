@@ -72,7 +72,8 @@ const UserFriendlyFeatures: React.FC<UserFriendlyFeaturesProps> = ({
       bottom: isMobile ? '80px' : '20px',
       right: '20px',
       zIndex: 999,
-      display: quickAccessOpen ? 'block' : 'none'
+      display: quickAccessOpen ? 'block' : 'none',
+      maxWidth: isMobile ? 'calc(100vw - 40px)' : '250px'
     }}>
       <div style={{
         background: 'rgba(0, 0, 0, 0.9)',
@@ -917,6 +918,22 @@ const UserFriendlyFeatures: React.FC<UserFriendlyFeaturesProps> = ({
             <p style={{ fontSize: '0.9rem', color: '#d1fae5', margin: 0 }}>
               AI suggests notifications at 6:30 PM based on your engagement patterns. 
               Peak activity: Evenings | Best prediction time: 7-9 PM
+            </p>
+          </div>
+
+          {/* Smart Watch Complications */}
+          <div style={{
+            background: 'rgba(59, 130, 246, 0.1)',
+            borderRadius: '12px',
+            padding: '16px',
+            border: '1px solid rgba(59, 130, 246, 0.3)'
+          }}>
+            <h4 style={{ color: '#3b82f6', marginBottom: '8px', fontSize: '1rem' }}>
+              ⌚ Smart Watch Complications
+            </h4>
+            <p style={{ fontSize: '0.9rem', color: '#dbeafe', margin: 0 }}>
+              View live scores, predictions, and stats on your wrist. Auto-syncs every 5 minutes. 
+              Compatible with Apple Watch & Wear OS
             </p>
           </div>
         </div>

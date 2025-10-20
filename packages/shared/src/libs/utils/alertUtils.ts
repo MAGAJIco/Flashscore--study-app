@@ -1,21 +1,21 @@
-
-import { triggerFloatingAlert } from '@components/FloatingAlert';
+// FloatingAlert is a frontend component, not available in shared package
+// This utility should be moved to frontend or refactored
 
 export class AlertManager {
   static showInfo(message: string, persistent: boolean = false) {
-    triggerFloatingAlert(message, 'info', persistent);
+    // triggerFloatingAlert(message, 'info', persistent);
   }
 
   static showSuccess(message: string, persistent: boolean = false) {
-    triggerFloatingAlert(message, 'success', persistent);
+    // triggerFloatingAlert(message, 'success', persistent);
   }
 
   static showWarning(message: string, persistent: boolean = false) {
-    triggerFloatingAlert(message, 'warning', persistent);
+    // triggerFloatingAlert(message, 'warning', persistent);
   }
 
   static showError(message: string, persistent: boolean = true) {
-    triggerFloatingAlert(message, 'error', persistent);
+    // triggerFloatingAlert(message, 'error', persistent);
   }
 
   // Sports-specific alerts

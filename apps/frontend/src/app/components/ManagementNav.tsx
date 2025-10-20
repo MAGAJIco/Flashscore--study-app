@@ -25,17 +25,20 @@ export default function ManagementNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex gap-4 p-4 bg-gray-100 border-b border-gray-300">
+    <nav className="flex gap-4 p-4 border-b border-white/10" style={{
+      background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)',
+      backdropFilter: 'blur(16px)',
+    }}>
       {navItems.map(({ href, label, icon: Icon }) => {
         const isActive = pathname === href;
         return (
           <Link
             key={href}
             href={href}
-            className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               isActive
-                ? "bg-blue-600 text-white"
-                : "text-gray-700 hover:bg-blue-100"
+                ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30"
+                : "text-gray-300 hover:bg-white/10 hover:text-white"
             }`}
           >
             <Icon size={18} />

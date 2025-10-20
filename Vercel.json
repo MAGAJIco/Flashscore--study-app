@@ -1,6 +1,0 @@
-{
-  "buildCommand": "npm run build --workspace=@sports-central/frontend",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "rootDirectory": "apps/frontend"
-}

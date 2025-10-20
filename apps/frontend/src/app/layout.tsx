@@ -1,90 +1,104 @@
-// apps/frontend/src/app/layout.tsx
-import type { Metadata } from "next";
-import "./styles/globals.css";
 import React from "react";
-import { Inter } from "next/font/google";
-
-import BackgroundParticles from "@components/BackgroundParticles";
-import OfflineManager from "@components/OfflineManager";
-import MobileNav from "@components/MobileNav";
-import SidebarNav from "@components/SidebarNav";
-import { navItems } from "./config/navItems";
-
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { KidsModeProvider } from "../context/KidsModeContext";
+import { UserPreferencesProvider } from "./providers/UserPreferencesProvider";
 import NextAuthSessionProvider from "./providers/SessionProvider";
-import ProductionErrorBoundary from "./components/ProductionErrorBoundary";
-import PrivacyNotice from "./components/PrivacyNotice";
-import MobileInstallPrompter from "./components/MobileInstallPrompter";
+import './styles/globals.css'
+import './styles/mobile-optimizations.css'
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata, Viewport } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
-import iOSInterface from "./components/iOSInterface";
-
-const inter = Inter({ subsets: ["latin"] });
+import PushNotificationManager from "./components/PushNotificationManager";
+import MobilePerformanceOptimizer from "./components/MobilePerformanceOptimizer";
+import ErrorBoundaryWithPerformance from "./components/ErrorBoundary/ErrorBoundaryWithPerformance";
+import ErrorMonitor from './components/ErrorMonitor';
+import BackendStatusIndicator from './components/BackendStatusIndicator';
+import ThemeToggle from './components/ThemeToggle';
 
 export const metadata: Metadata = {
-  title: "Sports Central - Live Sports Predictions, Scores & Community",
-  description:
-    "Free AI-powered sports predictions for NFL, NBA, MLB, Soccer. Live scores, interactive quizzes, community forum, and earn Pi coins. Join 1000+ sports fans!",
+  title: 'Sports Central - AI-Powered Predictions',
+  description: 'Get AI-powered sports predictions, live scores, and real-time odds',
+  manifest: '/manifest.json',
+  themeColor: '#1a1f3a',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Sports Central',
+  },
+  formatDetection: {
+    telephone: false,
+    date: false,
+    address: false,
+    email: false,
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'black-translucent',
+    'apple-mobile-web-app-title': 'Sports Central',
+    'application-name': 'Sports Central',
+    'msapplication-TileColor': '#1a1f3a',
+    'msapplication-tap-highlight': 'no',
+  },
 };
 
-export const viewport = {
-  width: "device-width",
+export const viewport: Viewport = {
+  width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
+  themeColor: '#1a1f3a',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params?: { locale?: string };
 }) {
+  const messages = await getMessages();
+  const locale = params?.locale || "en";
+
   return (
-    <html lang="en" className="light">
+    <html lang={locale} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://flashstudy-ri0g.onrender.com" />
-        <link rel="dns-prefetch" href="https://flashstudy-ri0g.onrender.com" />
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#00ff88" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://api.sportsdata.io" />
         <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
         />
-        <meta name="apple-mobile-web-app-title" content="SportsApp" />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        {/* Theme script moved to useEffect in ThemeToggle to fix SSR hydration error */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var theme=localStorage.getItem('theme')||'auto';var effectiveTheme=theme;if(theme==='auto'){effectiveTheme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.remove('light','dark');document.documentElement.classList.add(effectiveTheme);}catch(e){document.documentElement.classList.add('dark');}})();`,
+          }}
+        />
       </head>
-      <body className="relative flex sports">
-        <NextAuthSessionProvider>
-          <ProductionErrorBoundary>
-            <iOSInterface showStatusBar={true} enableHapticFeedback={true}>
-              <React.Suspense fallback={null}>
-                <BackgroundParticles />
-              </React.Suspense>
-
-              <OfflineManager>
-                {/* Sidebar for desktop */}
-                <React.Suspense fallback={null}>
-                  <SidebarNav items={navItems} />
-                </React.Suspense>
-
-                {/* Main content area */}
-                <div className="flex-1 min-h-screen flex flex-col">
+      <body className="antialiased">
+        <ErrorBoundaryWithPerformance>
+          <NextAuthSessionProvider>
+            <NextIntlClientProvider messages={messages} locale={locale}>
+              <KidsModeProvider>
+                <UserPreferencesProvider>
+                  <PWAServiceWorker />
+                  <PushNotificationManager />
+                  <MobilePerformanceOptimizer />
+                  <ThemeToggle />
                   {children}
-
-                  {/* Mobile nav (always visible at bottom on small screens) */}
-                  <React.Suspense fallback={null}>
-                    <MobileNav items={navItems} />
-                  </React.Suspense>
-                </div>
-              </OfflineManager>
-
-              <MobileInstallPrompter />
-              <PWAServiceWorker />
-            </iOSInterface>
-          </ProductionErrorBoundary>
-        </NextAuthSessionProvider>
-        <PrivacyNotice />
+                  <Analytics />
+                  <SpeedInsights />
+                  <ErrorMonitor />
+                  <BackendStatusIndicator />
+                </UserPreferencesProvider>
+              </KidsModeProvider>
+            </NextIntlClientProvider>
+          </NextAuthSessionProvider>
+        </ErrorBoundaryWithPerformance>
       </body>
     </html>
   );

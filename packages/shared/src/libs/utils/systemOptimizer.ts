@@ -1,4 +1,3 @@
-
 interface SearchIndex {
   [key: string]: {
     path: string;
@@ -243,8 +242,9 @@ export class SystemOptimizer {
   private updateMetrics(entry: PerformanceEntry): void {
     switch (entry.entryType) {
       case 'navigation':
-        const navEntry = entry as PerformanceNavigationTiming;
-        this.metrics.loadTime = navEntry.loadEventEnd - navEntry.navigationStart;
+        const navigationTiming = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+        const loadTime = navigationTiming ? navigationTiming.loadEventEnd - navigationTiming.fetchStart : 0;
+        this.metrics.loadTime = loadTime;
         break;
       case 'resource':
         // Track API response times
@@ -339,7 +339,7 @@ export class SystemOptimizer {
     metrics: OptimizationMetrics;
   } {
     const dependencies = [];
-    
+
     for (const [key, item] of Object.entries(this.searchIndex)) {
       if (item.dependencies) {
         item.dependencies.forEach(dep => {
@@ -373,12 +373,12 @@ export class SystemOptimizer {
       const existingData = localStorage.getItem('featureUsage');
       const usageData = existingData ? JSON.parse(existingData) : [];
       usageData.push(usage);
-      
+
       // Keep only last 1000 entries
       if (usageData.length > 1000) {
         usageData.splice(0, usageData.length - 1000);
       }
-      
+
       localStorage.setItem('featureUsage', JSON.stringify(usageData));
     }
   }

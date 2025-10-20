@@ -1,13 +1,55 @@
-import { Router } from "express";
-import { NewsController } from "../controllers/newsController"; // ✅ correct relative import
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import News from "../models/News";
 
-const router = Router();
+// Define body type for creating news
+interface CreateNewsBody {
+  title: string;
+  content: string;
+  author?: string;
+  publishedAt?: Date;
+}
 
-// ✅ News routes
-router.get("/", NewsController.getAllNews);
-router.get("/:id", NewsController.getNewsById);
-router.post("/", NewsController.createNews);
-router.put("/:id", NewsController.updateNews);
-router.delete("/:id", NewsController.deleteNews);
+export default async function newsRoutes(fastify: FastifyInstance) {
+  // 📰 Create news
+  fastify.post(
+    "/",
+    async (request: FastifyRequest<{ Body: CreateNewsBody }>, reply: FastifyReply) => {
+      try {
+        const news = new News(request.body);
+        await news.save();
+        return reply.status(201).send(news);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to create news";
+        return reply.status(400).send({ error: message });
+      }
+    },
+  );
 
-export default router;
+  // 🗞️ Get all news
+  fastify.get("/", async (_request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const news = await News.find().sort({ publishedAt: -1 });
+      return reply.send(news);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to fetch news";
+      return reply.status(500).send({ error: message });
+    }
+  });
+
+  // 🧾 Get single news by ID
+  fastify.get(
+    "/:id",
+    async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
+      try {
+        const news = await News.findById(request.params.id);
+        if (!news) {
+          return reply.status(404).send({ error: "News not found" });
+        }
+        return reply.send(news);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to fetch news";
+        return reply.status(500).send({ error: message });
+      }
+    },
+  );
+}

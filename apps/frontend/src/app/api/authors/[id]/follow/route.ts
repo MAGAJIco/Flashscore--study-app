@@ -1,22 +1,34 @@
+import { NextResponse } from "next/server";
 
-import { NextApiRequest, NextApiResponse } from 'next';
+export async function POST(req: Request, { params }: { params: { id: string } }) {
+  const { id } = params;
 
-const AuthorController = require('@controllers/authorController');
-const authorController = new AuthorController();
+  try {
+    const backendUrl =
+      process.env.NEXT_PUBLIC_BACKEND_URL || "https://flashstudy-ri0g.onrender.com";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
+    const response = await fetch(`${backendUrl}/api/authors/${id}/follow`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(req.headers.get("authorization") && {
+          Authorization: req.headers.get("authorization")!,
+        }),
+      },
+      body: JSON.stringify({}), // add request body if needed
+    });
 
-  if (req.method === 'POST') {
-    try {
-      const result = authorController.followAuthor(id as string);
-      res.status(200).json(result);
-    } catch (error) {
-      console.error('Error following author:', error);
-      res.status(400).json({ error: error.message });
+    if (!response.ok) {
+      const error = await response.json();
+      return NextResponse.json(error, { status: response.status });
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+    const result = await response.json();
+    return NextResponse.json(result, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Failed to follow author" },
+      { status: 500 }
+    );
   }
 }

@@ -1,17 +1,28 @@
-
 {
-  "name": "SportsApp - AI Sports Predictions",
-  "short_name": "SportsApp",
-  "description": "Get accurate sports predictions powered by advanced AI algorithms",
+  "name": "Sports Central",
+  "short_name": "Sports Central",
+  "description": "Your complete sports prediction and live scores platform",
   "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#00ff88",
-  "orientation": "portrait-primary",
   "scope": "/",
+  "display": "standalone",
+  "background_color": "#1a1f3a",
+  "theme_color": "#1a1f3a",
+  "theme_color_dark": "#1a1f3a",
+  "theme_color_light": "#ffffff",
+  "orientation": "portrait-primary",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["sports", "entertainment", "productivity"],
+  "categories": ["sports", "entertainment", "news"],
+  "icons": [
+    { "src": "/icons/icon-72x72.png", "sizes": "72x72", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-128x128.png", "sizes": "128x128", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-144x144.png", "sizes": "144x144", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-152x152.png", "sizes": "152x152", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-384x384.png", "sizes": "384x384", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
   "screenshots": [
     {
       "src": "/icons/screenshot-mobile-1.png",
@@ -26,82 +37,43 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Live Sports Scores and Updates"
-    }
-  ],
-  "icons": [
-    {
-      "src": "/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
     },
     {
-      "src": "/icons/icon-96x96.png",
-      "sizes": "96x96",
+      "src": "/icons/screenshot-desktop-1.png",
+      "sizes": "1280x720",
       "type": "image/png",
-      "purpose": "maskable any"
+      "form_factor": "wide",
+      "label": "Desktop Dashboard Overview"
     },
     {
-      "src": "/icons/icon-128x128.png",
-      "sizes": "128x128",
+      "src": "/icons/screenshot-desktop-2.png",
+      "sizes": "1280x720",
       "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "form_factor": "wide",
+      "label": "Live Scores on Desktop View"
     }
   ],
   "shortcuts": [
     {
-      "name": "Predictions",
-      "short_name": "Predictions",
-      "description": "View latest AI predictions",
-      "url": "/predictions",
-      "icons": [
-        {
-          "src": "/icons/shortcut-predictions.png",
-          "sizes": "96x96"
-        }
-      ]
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Go to main dashboard",
+      "url": "/",
+      "icons": [{ "src": "/icons/dashboard-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Live Scores",
       "short_name": "Scores",
-      "description": "Check live sports scores",
-      "url": "/live",
-      "icons": [
-        {
-          "src": "/icons/shortcut-live.png",
-          "sizes": "96x96"
-        }
-      ]
+      "description": "View live sports scores",
+      "url": "/live-scores",
+      "icons": [{ "src": "/icons/scores-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Predictions",
+      "short_name": "Predict",
+      "description": "Make sports predictions",
+      "url": "/predictions",
+      "icons": [{ "src": "/icons/predict-96x96.png", "sizes": "96x96" }]
     }
   ],
   "prefer_related_applications": false,

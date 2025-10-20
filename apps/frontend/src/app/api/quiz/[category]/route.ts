@@ -1,6 +1,4 @@
-
-import { NextApiRequest, NextApiResponse } from 'next';
-import { withSecurity } from '../../../utils/apiSecurity';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface Question {
   id: number;
@@ -113,15 +111,12 @@ const generalQuestions: Question[] = [
   }
 ];
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { category } = req.query;
-
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', ['GET']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { category: string } }
+) {
   try {
+    const category = params.category;
     let questions: Question[] = [];
 
     switch (category) {
@@ -132,16 +127,18 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         questions = generalQuestions;
         break;
       default:
-        questions = sportsQuestions; // Default fallback
+        questions = sportsQuestions;
     }
 
-    // Randomize questions and limit to 5 for quiz
     const shuffled = questions.sort(() => 0.5 - Math.random());
     const quizQuestions = shuffled.slice(0, 5);
 
-    res.status(200).json(quizQuestions);
+    return NextResponse.json(quizQuestions);
   } catch (error) {
     console.error('Quiz API Error:', error);
-    res.status(500).json({ error: 'Failed to load quiz questions' });
+    return NextResponse.json(
+      { error: 'Failed to load quiz questions' },
+      { status: 500 }
+    );
   }
 }

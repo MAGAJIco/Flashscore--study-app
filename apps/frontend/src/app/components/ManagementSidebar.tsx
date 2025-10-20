@@ -25,8 +25,14 @@ export default function ManagementSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 h-screen bg-gray-100 border-r border-gray-300 flex flex-col">
-      <div className="p-4 text-lg font-bold border-b">Management</div>
+    <aside className="w-64 h-screen flex flex-col" style={{
+      background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+      backdropFilter: 'blur(20px)',
+      borderRight: '1px solid rgba(255, 255, 255, 0.15)',
+    }}>
+      <div className="p-4 text-lg font-bold border-b border-white/10 text-white">
+        ⚙️ Management
+      </div>
       <nav className="flex flex-col flex-1 p-2">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
@@ -34,11 +40,14 @@ export default function ManagementSidebar() {
             <Link
               key={href}
               href={href}
-              className={`flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors mb-1 ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all mb-2 ${
                 isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-100"
+                  ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/50"
+                  : "text-gray-300 hover:bg-white/10 hover:text-white"
               }`}
+              style={{
+                backdropFilter: isActive ? 'blur(10px)' : 'none',
+              }}
             >
               <Icon size={18} />
               {label}

@@ -18,6 +18,17 @@ export default function SettingsManager() {
     maxUsersPerPlan: 1000
   });
 
+  React.useEffect(() => {
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.settings) {
+          setSettings(data.settings);
+        }
+      })
+      .catch(err => console.error('Error loading settings:', err));
+  }, []);
+
   const handleSettingChange = (key: string, value: any) => {
     setSettings(prev => ({
       ...prev,
@@ -25,9 +36,25 @@ export default function SettingsManager() {
     }));
   };
 
-  const handleSave = () => {
-    console.log('Saving settings:', settings);
-    // Here you would typically make an API call to save settings
+  const handleSave = async () => {
+    try {
+      const response = await fetch('/api/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      });
+      
+      if (response.ok) {
+        alert('Settings saved successfully!');
+      } else {
+        alert('Failed to save settings');
+      }
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      alert('Error saving settings');
+    }
   };
 
   return (

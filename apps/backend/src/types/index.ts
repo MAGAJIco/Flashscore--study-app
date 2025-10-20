@@ -1,4 +1,4 @@
 export * from './match';
-export * from './analysis';
+export { TeamStats, MatchData as AnalysisMatchData } from './analysis';
 export * from './enhancedMatch';
 export * from './common';

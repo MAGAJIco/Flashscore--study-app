@@ -1,19 +1,18 @@
+"use client";
 
-'use client';
+import React, { useState, useEffect } from "react";
 
-import React, { useState, useEffect } from 'react';
-
-interface iOSInterfaceProps {
+interface IOSInterfaceProps {
   children: React.ReactNode;
   showStatusBar?: boolean;
   enableHapticFeedback?: boolean;
 }
 
-export default function iOSInterface({ 
-  children, 
+export default function IOSInterface({
+  children,
   showStatusBar = true,
-  enableHapticFeedback = true 
-}: iOSInterfaceProps) {
+  enableHapticFeedback = true,
+}: IOSInterfaceProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [batteryLevel, setBatteryLevel] = useState(85);
   const [signalStrength, setSignalStrength] = useState(4);
@@ -27,27 +26,30 @@ export default function iOSInterface({
   }, []);
 
   const handleHapticFeedback = () => {
-    if (enableHapticFeedback && 'vibrate' in navigator) {
+    if (enableHapticFeedback && "vibrate" in navigator) {
       navigator.vibrate(10);
     }
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { 
-      hour: 'numeric', 
-      minute: '2-digit',
-      hour12: false 
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: false,
     });
   };
 
   return (
-    <div className="ios-interface">
+    <div
+      data-show-status-bar={showStatusBar}
+      data-enable-haptic-feedback={enableHapticFeedback}
+    >
       {showStatusBar && (
         <div className="ios-status-bar">
           <div className="ios-status-left">
             <span className="ios-time">{formatTime(currentTime)}</span>
           </div>
-          
+
           <div className="ios-status-center">
             <div className="ios-dynamic-island">
               <div className="ios-island-content">
@@ -56,34 +58,39 @@ export default function iOSInterface({
               </div>
             </div>
           </div>
-          
+
           <div className="ios-status-right">
             <div className="ios-signal">
               {[...Array(4)].map((_, i) => (
-                <div 
+                <div
                   key={i}
-                  className={`ios-signal-bar ${i < signalStrength ? 'active' : ''}`}
+                  className={`ios-signal-bar ${i < signalStrength ? "active" : ""}`}
                   style={{ height: `${(i + 1) * 3}px` }}
                 />
               ))}
             </div>
-            
+
             <div className="ios-wifi">
-              <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
-                <path d="M7.5 11L2.5 6C4.5 4 5.5 3.5 7.5 3.5S10.5 4 12.5 6L7.5 11Z"/>
+              <svg
+                width="15"
+                height="11"
+                viewBox="0 0 15 11"
+                fill="currentColor"
+              >
+                <path d="M7.5 11L2.5 6C4.5 4 5.5 3.5 7.5 3.5S10.5 4 12.5 6L7.5 11Z" />
               </svg>
             </div>
-            
+
             <div className="ios-battery">
               <div className="ios-battery-body">
-                <div 
-                  className="ios-battery-level" 
+                <div
+                  className="ios-battery-level"
                   style={{ width: `${batteryLevel}%` }}
                 />
               </div>
               <div className="ios-battery-tip" />
             </div>
-            
+
             <span className="ios-battery-percentage">{batteryLevel}%</span>
           </div>
         </div>
@@ -94,10 +101,19 @@ export default function iOSInterface({
       </div>
 
       <style jsx>{`
+        :root {
+          --ios-label: #fff;
+          --ios-tertiary-label: rgba(235, 235, 245, 0.6);
+          --ios-system-background: #000;
+          --ios-green: #34c759;
+          --ios-red: #ff3b30;
+        }
+
         .ios-interface {
           min-height: 100vh;
           background: var(--ios-system-background);
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          font-family:
+            -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
           position: relative;
         }
 
@@ -197,7 +213,9 @@ export default function iOSInterface({
 
         .ios-battery-level {
           height: 100%;
-          background: ${batteryLevel > 20 ? 'var(--ios-green)' : 'var(--ios-red)'};
+          background: ${batteryLevel > 20
+            ? "var(--ios-green)"
+            : "var(--ios-red)"};
           transition: width 0.3s ease;
         }
 
@@ -224,7 +242,7 @@ export default function iOSInterface({
             padding-top: max(6px, env(safe-area-inset-top));
             height: max(44px, calc(44px + env(safe-area-inset-top)));
           }
-          
+
           .ios-content {
             padding-top: max(44px, calc(44px + env(safe-area-inset-top)));
           }
@@ -232,6 +250,14 @@ export default function iOSInterface({
 
         /* Dark Mode Support */
         @media (prefers-color-scheme: dark) {
+          :root {
+            --ios-label: #fff;
+            --ios-tertiary-label: rgba(235, 235, 245, 0.6);
+            --ios-system-background: #000;
+            --ios-green: #34c759;
+            --ios-red: #ff3b30;
+          }
+
           .ios-dynamic-island {
             background: #1c1c1e;
             border-color: #2c2c2e;
@@ -244,7 +270,7 @@ export default function iOSInterface({
             width: 100px;
             height: 32px;
           }
-          
+
           .ios-status-bar {
             padding: 6px 15px 6px 20px;
             font-size: 13px;
@@ -255,4 +281,4 @@ export default function iOSInterface({
   );
 }
 
-export { iOSInterface };
+export { IOSInterface };

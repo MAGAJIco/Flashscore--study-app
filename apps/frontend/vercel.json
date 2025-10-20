@@ -1,0 +1,20 @@
+{
+  "framework": "nextjs",
+  "rewrites": [
+    {
+      "source": "/api/backend/:path*",
+      "destination": "https://magajico-backend.onrender.com/api/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    }
+  ]
+}

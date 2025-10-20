@@ -1,0 +1,63 @@
+
+{
+  "common": {
+    "home": "Startseite",
+    "profile": "Profil",
+    "predictions": "Vorhersagen",
+    "authors": "Autoren",
+    "social": "Sozial",
+    "liveStreams": "Live-Streams",
+    "quickBets": "Schnellwetten",
+    "sync": "Synchronisieren",
+    "empireBuilder": "Empire Builder",
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "retry": "Wiederholen",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten"
+  },
+  "header": {
+    "title": "SPORTS CENTRAL",
+    "subtitle": "KI-gestützte Sportintelligenz",
+    "status": "Live • Präzise • Profitabel",
+    "welcome": "Willkommen",
+    "wallet": "Geldbörse",
+    "store": "Shop",
+    "logout": "Abmelden",
+    "getStarted": "Loslegen",
+    "joinWinners": "Schließe dich 1000+ Gewinnern an",
+    "liveDataActive": "Live-Daten aktiv",
+    "aiAnalysisRunning": "KI-Analyse läuft",
+    "lastUpdated": "Zuletzt aktualisiert"
+  },
+  "predictions": {
+    "title": "Vorhersagen",
+    "confidence": "Vertrauen",
+    "odds": "Quoten",
+    "stake": "Einsatz",
+    "potential": "Potenzielle Rendite",
+    "placeBet": "Wette platzieren",
+    "viewDetails": "Details anzeigen",
+    "analysis": "Analyse",
+    "statistics": "Statistiken"
+  },
+  "empire": {
+    "title": "MagajiCo Empire Builder",
+    "description": "Baue dein Imperium vom Fundament bis zum legendären Dach. Chatte mit dem MagajiCo KI-CEO für strategische Vorhersagen und Einblicke.",
+    "startBuilding": "Mit dem Bau beginnen",
+    "viewGrowth": "Wachstum anzeigen",
+    "foundation": "Fundament",
+    "growth": "Wachstum",
+    "rooftop": "Dach"
+  },
+  "settings": {
+    "language": "Sprache",
+    "theme": "Thema",
+    "notifications": "Benachrichtigungen",
+    "privacy": "Datenschutz",
+    "selectLanguage": "Sprache auswählen"
+  }
+}

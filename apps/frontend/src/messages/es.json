@@ -1,0 +1,63 @@
+
+{
+  "common": {
+    "home": "Inicio",
+    "profile": "Perfil",
+    "predictions": "Predicciones",
+    "authors": "Autores",
+    "social": "Social",
+    "liveStreams": "Transmisiones en Vivo",
+    "quickBets": "Apuestas Rápidas",
+    "sync": "Sincronizar",
+    "empireBuilder": "Constructor de Imperio",
+    "loading": "Cargando...",
+    "error": "Error",
+    "retry": "Reintentar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar"
+  },
+  "header": {
+    "title": "SPORTS CENTRAL",
+    "subtitle": "Inteligencia Deportiva con IA",
+    "status": "En Vivo • Preciso • Rentable",
+    "welcome": "Bienvenido",
+    "wallet": "Cartera",
+    "store": "Tienda",
+    "logout": "Cerrar Sesión",
+    "getStarted": "Comenzar",
+    "joinWinners": "Únete a 1000+ Ganadores",
+    "liveDataActive": "Datos en Vivo Activos",
+    "aiAnalysisRunning": "Análisis IA en Ejecución",
+    "lastUpdated": "Última actualización"
+  },
+  "predictions": {
+    "title": "Predicciones",
+    "confidence": "Confianza",
+    "odds": "Cuotas",
+    "stake": "Apuesta",
+    "potential": "Retorno Potencial",
+    "placeBet": "Hacer Apuesta",
+    "viewDetails": "Ver Detalles",
+    "analysis": "Análisis",
+    "statistics": "Estadísticas"
+  },
+  "empire": {
+    "title": "Constructor de Imperio MagajiCo",
+    "description": "Construye tu imperio desde los cimientos hasta la azotea legendaria. Chatea con el CEO IA de MagajiCo para predicciones estratégicas e ideas.",
+    "startBuilding": "Comenzar a Construir",
+    "viewGrowth": "Ver Crecimiento",
+    "foundation": "Fundación",
+    "growth": "Crecimiento",
+    "rooftop": "Azotea"
+  },
+  "settings": {
+    "language": "Idioma",
+    "theme": "Tema",
+    "notifications": "Notificaciones",
+    "privacy": "Privacidad",
+    "selectLanguage": "Seleccionar Idioma"
+  }
+}

@@ -23,10 +23,18 @@ class SecurityUtils {
   }
 
   // Rate limiting
-  private static rateLimitStore: Map<string, { count: number; resetTime: number }> = new Map();
+  private static rateLimitStore: Map<string, { count: number; resetTime: number; blockedUntil?: number }> = new Map();
+  private static blockedIPs: Set<string> = new Set();
 
   static checkRateLimit(identifier: string, maxRequests: number = 10, windowMs: number = 60000): boolean {
     const now = Date.now();
+    
+    // Check if IP is permanently blocked
+    if (this.blockedIPs.has(identifier)) {
+      this.logSecurityEvent('blocked_ip_attempt', { identifier });
+      return false;
+    }
+    
     const record = this.rateLimitStore.get(identifier);
 
     if (!record || now > record.resetTime) {
@@ -34,12 +42,32 @@ class SecurityUtils {
       return true;
     }
 
+    // Temporary block on excessive violations
+    if (record.blockedUntil && now < record.blockedUntil) {
+      return false;
+    }
+
     if (record.count >= maxRequests) {
+      // Block for 15 minutes after 3 violations
+      if (record.count >= maxRequests * 3) {
+        record.blockedUntil = now + 15 * 60 * 1000;
+        this.logSecurityEvent('rate_limit_block', { identifier, duration: '15min' });
+      }
       return false;
     }
 
     record.count++;
     return true;
+  }
+  
+  // Cleanup old entries periodically
+  static cleanupRateLimits(): void {
+    const now = Date.now();
+    for (const [key, value] of this.rateLimitStore.entries()) {
+      if (now > value.resetTime && (!value.blockedUntil || now > value.blockedUntil)) {
+        this.rateLimitStore.delete(key);
+      }
+    }
   }
 
   // Session management
@@ -82,25 +110,14 @@ class SecurityUtils {
 
   // Data encryption for sensitive storage
   static encryptData(data: string, key: string): string {
-    // Simple XOR encryption for demo (use proper encryption in production)
-    let result = '';
-    for (let i = 0; i < data.length; i++) {
-      result += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-    }
-    return btoa(result);
+    // WARNING: This is NOT secure encryption - use Web Crypto API in production
+    console.warn('SecurityUtils.encryptData: Using insecure encryption method');
+    throw new Error('Use Web Crypto API (crypto.subtle) for actual encryption in production');
   }
 
   static decryptData(encryptedData: string, key: string): string {
-    try {
-      const data = atob(encryptedData);
-      let result = '';
-      for (let i = 0; i < data.length; i++) {
-        result += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-      }
-      return result;
-    } catch {
-      return '';
-    }
+    console.warn('SecurityUtils.decryptData: Using insecure decryption method');
+    throw new Error('Use Web Crypto API (crypto.subtle) for actual decryption in production');
   }
 
   // Token validation with expiration

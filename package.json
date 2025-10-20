@@ -7,14 +7,28 @@
     "packages/*"
   ],
   "scripts": {
-    "install:all": "pnpm recursive install",
-    "dev": "pnpm -r run dev",
-    "build": "pnpm -r run build",
-    "tsc:check": "pnpm -r tsc --noEmit"
+    "install:all": "npm install",
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspace=packages/shared && npm run build --workspace=apps/backend && npm run build --workspace=apps/frontend",
+    "tsc:check": "npm run type-check --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:all": "npm test && npm run test:e2e"
   },
   "devDependencies": {
-    "typescript": "^5.2.2",
+    "@playwright/test": "^1.56.0",
     "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@next-auth/mongodb-adapter": "^1.1.3",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.3",
+    "react-particles": "^2.12.2",
+    "tsparticles-slim": "^2.12.0"
   }
 }

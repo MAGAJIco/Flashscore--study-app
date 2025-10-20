@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
@@ -27,64 +26,70 @@ class ProductionErrorBoundary extends Component<Props, State> {
     };
   }
 
-  static getDerivedStateFromError(error: Error): State {
+  static getDerivedStateFromError(error: Error): Partial<State> {
     return { 
       hasError: true, 
-      error,
-      retryCount: 0 
+      error
     };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log error for debugging but don't crash the app
-    console.error('Production Error Boundary caught error:', {
-      message: error.message,
-      stack: error.stack?.substring(0, 1000), // Limit stack trace
-      componentStack: errorInfo.componentStack?.substring(0, 500),
-      timestamp: new Date().toISOString()
-    });
-
-    // Call optional error handler
-    this.props.onError?.(error, errorInfo);
+    console.error('Error caught by boundary:', error, errorInfo);
+    
+    if (this.props.onError) {
+      this.props.onError(error, errorInfo);
+    }
   }
 
-  private handleRetry = () => {
+  handleRetry = () => {
     if (this.state.retryCount < this.maxRetries) {
-      this.setState(prevState => ({ 
-        hasError: false, 
+      this.setState((prevState) => ({
+        hasError: false,
         error: null,
         retryCount: prevState.retryCount + 1
       }));
-    } else {
-      // Max retries reached, reload page
-      window.location.reload();
     }
+  };
+
+  handleReset = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      retryCount: 0
+    });
   };
 
   render() {
     if (this.state.hasError) {
-      // Custom fallback UI
       if (this.props.fallback) {
         return this.props.fallback;
       }
 
-      // Default minimal error UI
       return (
-        <div className="flex items-center justify-center min-h-[200px] p-6 bg-red-50 border border-red-200 rounded-lg mx-4">
-          <div className="text-center">
-            <div className="text-2xl mb-2">⚠️</div>
-            <h3 className="text-lg font-semibold text-red-800 mb-2">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+          <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-bold text-red-600 mb-4">
               Something went wrong
-            </h3>
-            <p className="text-red-600 text-sm mb-4">
-              We're sorry for the inconvenience. Please try again.
+            </h2>
+            <p className="text-gray-600 mb-4">
+              {this.state.error?.message || 'An unexpected error occurred'}
             </p>
-            <button
-              onClick={this.handleRetry}
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-            >
-              {this.state.retryCount < this.maxRetries ? 'Try Again' : 'Reload Page'}
-            </button>
+            <div className="flex gap-3">
+              {this.state.retryCount < this.maxRetries && (
+                <button
+                  onClick={this.handleRetry}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                >
+                  Retry ({this.maxRetries - this.state.retryCount} left)
+                </button>
+              )}
+              <button
+                onClick={this.handleReset}
+                className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
+              >
+                Reset
+              </button>
+            </div>
           </div>
         </div>
       );

@@ -20,7 +20,7 @@ export interface PiWallet {
   achievements: string[];
 }
 
-export default class PiCoinManager {
+class PiCoinManager {
   private static instance: PiCoinManager;
   private wallets: Map<string, PiWallet> = new Map();
   private transactionRateLimit: Map<string, number[]> = new Map();
@@ -123,7 +123,7 @@ export default class PiCoinManager {
 
   public earnCoins(userId: string, amount: number, description: string, metadata?: any): boolean {
     if (amount <= 0) return false;
-    
+
     if (this.isRateLimited(userId)) {
       console.warn('Transaction rate limit exceeded for user:', userId);
       return false;
@@ -160,7 +160,7 @@ export default class PiCoinManager {
 
   public spendCoins(userId: string, amount: number, description: string, metadata?: any): boolean {
     if (amount <= 0) return false;
-    
+
     if (this.isRateLimited(userId)) {
       console.warn('Transaction rate limit exceeded for user:', userId);
       return false;
@@ -194,7 +194,7 @@ export default class PiCoinManager {
 
   public transferCoins(fromUserId: string, toUserId: string, amount: number, description: string): boolean {
     if (amount <= 0) return false;
-    
+
     if (this.isRateLimited(fromUserId) || this.isRateLimited(toUserId)) {
       console.warn('Rate limit exceeded for transfer between users:', fromUserId, toUserId);
       return false;
@@ -266,7 +266,7 @@ export default class PiCoinManager {
     if (wallet.totalEarned >= nextLevelThreshold) {
       wallet.level += 1;
       wallet.achievements.push(`level_${wallet.level}`);
-      
+
       // Award level up bonus
       this.earnCoins(wallet.userId, wallet.level * 10, `Level ${wallet.level} achievement bonus`);
     }
@@ -341,6 +341,34 @@ export default class PiCoinManager {
     }
   }
 
+  // Purchase Pi Coins (for store purchases)
+  public purchasePiCoins(userId: string, amount: number, paymentMethod: string, metadata?: any): boolean {
+    return this.earnCoins(userId, amount, `Purchased ${amount} Pi Coins via ${paymentMethod}`, {
+      type: 'purchase',
+      paymentMethod,
+      ...metadata
+    });
+  }
+
+  // Get balance for a user
+  public getBalance(userId: string): any {
+    const wallet = this.wallets.get(userId);
+    if (!wallet) {
+      return this.createWallet(userId);
+    }
+    return {
+      userId: wallet.userId,
+      balance: wallet.balance,
+      totalEarned: wallet.totalEarned,
+      lastUpdated: new Date()
+    };
+  }
+
+  // Get transactions for a user
+  public getTransactions(userId: string): PiTransaction[] {
+    return this.getTransactionHistory(userId);
+  }
+
   // Utility method to reset wallet (for testing)
   public resetWallet(userId: string): boolean {
     if (this.wallets.has(userId)) {
@@ -352,6 +380,8 @@ export default class PiCoinManager {
   }
 }
 
-// Create and export default instance
+// Export class and instance
+export { PiCoinManager };
+
 const piCoinManagerInstance = PiCoinManager.getInstance();
 export default piCoinManagerInstance;

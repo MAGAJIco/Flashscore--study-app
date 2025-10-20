@@ -1,0 +1,35 @@
+
+# =======================================
+# MagajiCo ML Prediction API - Requirements
+# =======================================
+
+# --- Core API ---
+fastapi==0.115.0
+uvicorn[standard]==0.30.1
+
+# --- MongoDB + Config ---
+motor>=3.1.1
+pymongo>=4.3.0
+python-dotenv>=1.0.0
+
+# --- ML + Data ---
+numpy==2.1.2
+pandas==2.2.3
+scikit-learn==1.5.2
+joblib==1.4.2
+
+# --- Networking + Utils ---
+requests==2.32.3
+httpx==0.27.2
+PyYAML==6.0.2
+python-multipart==0.0.9
+pydantic==2.9.2
+loguru==0.7.2
+
+# --- Testing (Optional) ---
+pytest==7.4.4
+pytest-asyncio==0.21.0
+
+# --- Optional (if using deep learning) ---
+# torch==2.4.1
+# transformers==4.55.2

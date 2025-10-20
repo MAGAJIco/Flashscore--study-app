@@ -1,0 +1,103 @@
+
+/* Mobile Performance Optimizations - Liverpool Theme */
+@media (max-width: 768px) {
+  /* Reduce animations on mobile */
+  .reduce-motion * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Optimize touch targets - Liverpool styled */
+  button, a, input, select {
+    min-height: 48px;
+    min-width: 48px;
+    touch-action: manipulation;
+  }
+
+  /* Liverpool themed buttons */
+  button:not(.secondary):not(.danger) {
+    background: linear-gradient(135deg, var(--liverpool-red), #a00d26);
+    color: white;
+    border: 1px solid var(--liverpool-gold);
+    box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+  }
+
+  button:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 8px rgba(200, 16, 46, 0.4);
+  }
+
+  /* Reduce shadow complexity */
+  .glass-card {
+    box-shadow: 0 2px 8px rgba(200, 16, 46, 0.2) !important;
+    border: 1px solid rgba(246, 235, 97, 0.2);
+  }
+
+  /* Optimize images */
+  img {
+    content-visibility: auto;
+    will-change: transform;
+  }
+
+  /* Liverpool gradient backgrounds */
+  .bg-gradient-to-br {
+    background: linear-gradient(135deg, 
+      rgba(200, 16, 46, 0.1) 0%, 
+      rgba(13, 17, 23, 0.9) 50%,
+      rgba(200, 16, 46, 0.1) 100%
+    );
+  }
+
+  /* Reduce blur effects for performance */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+    background: rgba(200, 16, 46, 0.05);
+  }
+
+  /* Enable GPU acceleration for transforms */
+  .hover-lift, .transition-all {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Liverpool accent colors */
+  .text-blue-600, .text-blue-500 {
+    color: var(--liverpool-red) !important;
+  }
+
+  .bg-blue-600 {
+    background: var(--liverpool-red) !important;
+  }
+
+  /* Card styling */
+  .card, .sport-card {
+    background: linear-gradient(135deg, 
+      rgba(200, 16, 46, 0.05) 0%, 
+      rgba(13, 17, 23, 0.95) 100%
+    );
+    border: 1px solid rgba(246, 235, 97, 0.2);
+  }
+}
+
+/* Battery saver mode */
+.lite-mode {
+  animation: none !important;
+  transition: none !important;
+}
+
+.lite-mode * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Optimized loading states */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
