@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -101,7 +100,10 @@ export default function LiveMatchTracker() {
   return (
     <div className="live-match-tracker">
       <div className="header">
-        <h2>🔴 Live Matches</h2>
+        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+        <span className="text-red-500">🔴</span>
+        Live Match Tracker
+      </h2>
         <span className="live-badge">LIVE</span>
       </div>
 
@@ -213,7 +215,7 @@ export default function LiveMatchTracker() {
 
       <style jsx>{`
         .live-match-tracker {
-          background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+          background: var(--bg-primary);
           border-radius: 16px;
           padding: 24px;
           color: white;
@@ -252,12 +254,12 @@ export default function LiveMatchTracker() {
         }
 
         .match-card {
-          background: rgba(255, 255, 255, 0.05);
+          background: var(--bg-secondary);
           border-radius: 12px;
           padding: 20px;
           cursor: pointer;
           transition: all 0.3s ease;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid var(--border-color);
         }
 
         .match-card:hover {

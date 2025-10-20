@@ -73,7 +73,7 @@ export default function LivePage() {
             <Filter className="w-5 h-5" />
           </button>
         </div>
-        
+
         <DateSelector />
       </div>
 
