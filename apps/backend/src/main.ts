@@ -147,8 +147,8 @@ fastify.addHook('onRequest', endpointRateLimitMiddleware(endpointRateLimits));
 // Optimize MongoDB
 // optimizeMongoDB(); // Disabled for build fix
 
-// ML Service URL - internal communication on same server
-const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://127.0.0.1:8000';
+// ML Service URL - for unified Render deployment use localhost, for development use env var
+const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://0.0.0.0:8000';
 fastify.log.info(`ML Service URL: ${ML_SERVICE_URL}`);
 
 // MongoDB connection with verification
