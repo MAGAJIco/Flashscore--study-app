@@ -3,11 +3,8 @@ const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ['*.replit.dev'],
   reactStrictMode: true,
-  allowedDevOrigins: [
-    'dc0b718b-6402-4fac-948e-c16d576d1fc1-00-20w0a6r7eaaf6.janeway.replit.dev'
-  ],
+  allowedDevOrigins: ['*.replit.dev'],
   experimental: {
     externalDir: true,
     optimizeCss: process.env.NODE_ENV === 'production',
