@@ -1,3 +1,11 @@
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// Load environment variables from .env.development in development
+if (process.env.NODE_ENV !== 'production') {
+  config({ path: resolve(process.cwd(), '.env.development') });
+}
+
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
@@ -147,9 +155,10 @@ fastify.addHook('onRequest', endpointRateLimitMiddleware(endpointRateLimits));
 // Optimize MongoDB
 // optimizeMongoDB(); // Disabled for build fix
 
-// ML Service URL - for unified Render deployment use localhost, for development use env var
+// ML Service URL - read from environment or default to local
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://0.0.0.0:8000';
-fastify.log.info(`ML Service URL: ${ML_SERVICE_URL}`);
+fastify.log.info(`ML Service URL configured: ${ML_SERVICE_URL}`);
+fastify.log.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
 
 // MongoDB connection with verification
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/sportscentral";
