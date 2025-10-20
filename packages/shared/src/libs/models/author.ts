@@ -1,4 +1,3 @@
-
 class Author {
   constructor(id, name, email, bio, expertise, isActive = true, badges = [], stats = {}) {
     this.id = id;
@@ -53,19 +52,19 @@ class Author {
   // Method to validate author data
   validate() {
     const errors = [];
-    
+
     if (!this.name || this.name.trim().length < 2) {
       errors.push('Name must be at least 2 characters long');
     }
-    
+
     if (!this.email || !this.isValidEmail(this.email)) {
       errors.push('Valid email is required');
     }
-    
+
     if (!this.expertise || !Array.isArray(this.expertise) || this.expertise.length === 0) {
       errors.push('At least one area of expertise is required');
     }
-    
+
     return {
       isValid: errors.length === 0,
       errors

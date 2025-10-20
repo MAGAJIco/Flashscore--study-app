@@ -47,7 +47,7 @@ export const aiSuggestions = {
     if (nextLevel && growthScore.totalPredictions >= nextLevel.minPredictions - 5) {
       const predictionsNeeded = nextLevel.minPredictions - growthScore.totalPredictions;
       const winRateNeeded = nextLevel.minWinRate - growthScore.winRate;
-      
+
       suggestions.push({
         type: 'prediction',
         title: `Close to ${nextLevel.name} Rank!`,
@@ -75,7 +75,7 @@ export const aiSuggestions = {
     if (lockedPhases.length > 0) {
       const nextLocked = lockedPhases[0];
       const powerNeeded = nextLocked.requiredPower - totalPower;
-      
+
       if (powerNeeded > 0 && powerNeeded <= 50) {
         suggestions.push({
           type: 'phase',
@@ -120,7 +120,7 @@ export const aiSuggestions = {
     if (recentPredictions === 0) {
       return 'No predictions yet. Start making predictions to build your empire!';
     }
-    
+
     if (winRate >= 0.75) {
       return `Exceptional performance! ${(winRate * 100).toFixed(1)}% win rate puts you among the elite.`;
     } else if (winRate >= 0.6) {
