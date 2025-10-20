@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import GrowthDashboard from '../components/GrowthDashboard';
 import EmpireLeaderboard from '../components/EmpireLeaderboard';
 import { foundationApi, Phase } from '@/lib/api/foundation';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 export default function GrowthPage() {
   const [userId, setUserId] = useState<string>('');
@@ -51,6 +52,13 @@ export default function GrowthPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6">
       <div className="max-w-7xl mx-auto">
+        <Breadcrumbs 
+          items={[
+            { label: "Empire", href: "/empire" },
+            { label: "Growth" }
+          ]}
+        />
+        
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">📈 Empire Growth</h1>
           <p className="text-gray-300">

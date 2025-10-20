@@ -5,6 +5,7 @@ import PowerDisplay from "./PowerDisplay";
 import Notification from "./Notification";
 import Leaderboard from "./Leaderboard";
 import { foundationApi, type Phase } from "@/lib/api/foundation";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 export default function MagajiCoFoundation() {
   const [userId] = useState(() => {
@@ -329,6 +330,13 @@ export default function MagajiCoFoundation() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6 text-white transition-all duration-300">
+      <Breadcrumbs 
+        items={[
+          { label: "Empire", href: "/empire" },
+          { label: "Foundation" }
+        ]}
+      />
+      
       {notification && (
         <Notification
           message={notification.message}
