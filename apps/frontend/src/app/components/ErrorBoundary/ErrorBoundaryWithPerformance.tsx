@@ -1,8 +1,7 @@
-
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { AlertManager } from '@/../../packages/shared/src/libs/utils/alertUtils';
+import { triggerFloatingAlert } from '../FloatingAlert';
 
 interface Props {
   children: ReactNode;
@@ -40,7 +39,15 @@ class ErrorBoundaryWithPerformance extends Component<Props, State> {
     this.logErrorToService(error, errorInfo, renderTime);
 
     this.setState({ error, errorInfo });
-    AlertManager.showError(`Application error: ${error.message}`);
+
+    // Trigger floating alert for error notification
+    if (typeof triggerFloatingAlert === 'function') {
+      triggerFloatingAlert({
+        type: 'danger',
+        title: 'Application Error',
+        message: error.message
+      });
+    }
   }
 
   private logErrorToService(error: Error, errorInfo: ErrorInfo, renderTime: number) {
@@ -55,7 +62,7 @@ class ErrorBoundaryWithPerformance extends Component<Props, State> {
     };
 
     console.log('Error data for tracking service:', errorData);
-    
+
     // Save to localStorage for debugging
     try {
       const existingErrors = JSON.parse(localStorage.getItem('error_logs') || '[]');
