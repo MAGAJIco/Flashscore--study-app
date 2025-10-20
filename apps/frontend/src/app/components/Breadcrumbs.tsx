@@ -1,7 +1,8 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
 
 interface BreadcrumbItem {
@@ -14,6 +15,15 @@ interface BreadcrumbsProps {
 }
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
+  const pathname = usePathname();
+  const [origin, setOrigin] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setOrigin(window.location.origin);
+    }
+  }, []);
+
   const breadcrumbList = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -22,16 +32,21 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": typeof window !== 'undefined' ? `${window.location.origin}/` : "/"
+        "item": origin ? `${origin}/` : "/"
       },
-      ...items.map((item, index) => ({
-        "@type": "ListItem",
-        "position": index + 2,
-        "name": item.label,
-        "item": item.href && typeof window !== 'undefined' 
-          ? `${window.location.origin}${item.href}` 
-          : undefined
-      }))
+      ...items.map((item, index) => {
+        const isLastItem = index === items.length - 1;
+        const itemUrl = item.href 
+          ? (origin ? `${origin}${item.href}` : item.href)
+          : (isLastItem && origin ? `${origin}${pathname}` : undefined);
+        
+        return {
+          "@type": "ListItem",
+          "position": index + 2,
+          "name": item.label,
+          "item": itemUrl
+        };
+      })
     ]
   };
 
