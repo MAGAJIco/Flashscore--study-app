@@ -1,10 +1,9 @@
+// CRITICAL: Load environment variables FIRST before any other imports
 import { config } from 'dotenv';
 import { resolve } from 'path';
 
-// Load environment variables from .env.development in development
-if (process.env.NODE_ENV !== 'production') {
-  config({ path: resolve(process.cwd(), '.env.development') });
-}
+// Explicitly load .env.development file
+config({ path: resolve(process.cwd(), '.env.development') });
 
 import Fastify from "fastify";
 import cors from "@fastify/cors";
