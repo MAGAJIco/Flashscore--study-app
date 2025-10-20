@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
@@ -35,41 +36,46 @@ class ErrorBoundaryWithPerformance extends Component<Props, State> {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
     console.log('Render time before error:', renderTime, 'ms');
 
-    // Log to your error tracking service
     this.logErrorToService(error, errorInfo, renderTime);
 
     this.setState({ error, errorInfo });
 
     // Trigger floating alert for error notification
-    if (typeof triggerFloatingAlert === 'function') {
+    try {
       triggerFloatingAlert({
         type: 'danger',
         title: 'Application Error',
         message: error.message
       });
+    } catch (alertError) {
+      console.warn('Failed to trigger alert:', alertError);
+    }
+
+    if (this.props.onError) {
+      this.props.onError(error, errorInfo);
     }
   }
 
   private logErrorToService(error: Error, errorInfo: ErrorInfo, renderTime: number) {
-    // Here you would send to your error tracking service
     const errorData = {
       message: error.message,
       stack: error.stack,
       componentStack: errorInfo.componentStack,
       renderTime,
-      userAgent: navigator.userAgent,
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
       timestamp: new Date().toISOString(),
     };
 
     console.log('Error data for tracking service:', errorData);
 
-    // Save to localStorage for debugging
-    try {
-      const existingErrors = JSON.parse(localStorage.getItem('error_logs') || '[]');
-      existingErrors.unshift(errorData);
-      localStorage.setItem('error_logs', JSON.stringify(existingErrors.slice(0, 50)));
-    } catch (e) {
-      console.warn('Could not save error to localStorage:', e);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const existingErrors = JSON.parse(localStorage.getItem('error_logs') || '[]');
+        existingErrors.unshift(errorData);
+        localStorage.setItem('error_logs', JSON.stringify(existingErrors.slice(0, 50)));
+      } catch (e) {
+        console.warn('Could not save error to localStorage:', e);
+      }
     }
   }
 
