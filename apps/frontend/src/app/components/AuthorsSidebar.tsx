@@ -83,45 +83,45 @@ export default function AuthorsSidebar() {
     .slice(0, 5);
 
   return (
-    <aside className={`fixed left-0 top-0 h-screen bg-[#0a0e1a] border-r border-gray-700/50 overflow-y-auto transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-80'}`}>
+    <aside className={`fixed left-0 top-0 h-screen bg-white/95 backdrop-blur-xl border-r border-[#e5e5e7] overflow-y-auto transition-all duration-300 shadow-sm ${isCollapsed ? 'w-16' : 'w-80'}`}>
       {/* Collapse Toggle Button */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute top-4 -right-3 z-50 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors"
+        className="absolute top-4 -right-3 z-50 w-7 h-7 bg-[#007AFF] rounded-full flex items-center justify-center text-white hover:bg-[#0051D5] active:bg-[#004BB8] transition-all shadow-md"
         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
         {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
       </button>
 
       {/* Header */}
-      <Link href="/" className="block p-4 border-b border-gray-700/50 hover:bg-white/5 transition-colors">
-        <h2 className="text-white text-xl font-bold flex items-center gap-2">
-          <Zap className="w-5 h-5 text-yellow-400" />
+      <Link href="/" className="block p-5 border-b border-[#e5e5e7] hover:bg-[#f5f5f7] transition-colors">
+        <h2 className="text-[#1d1d1f] text-xl font-bold flex items-center gap-2">
+          <Zap className="w-5 h-5 text-[#FF9500]" />
           {!isCollapsed && 'Sports Central'}
         </h2>
-        {!isCollapsed && <p className="text-gray-400 text-sm mt-1">Authors & News</p>}
+        {!isCollapsed && <p className="text-[#6e6e73] text-sm mt-1 font-medium">Authors & News</p>}
       </Link>
 
       {!isCollapsed && (
         <>
           {/* Authors Leaderboard Section */}
-          <div className="p-4 border-b border-gray-700/50">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3 flex items-center gap-2">
-              <Trophy className="w-4 h-4 text-yellow-400" />
+          <div className="p-5 border-b border-[#e5e5e7]">
+            <h3 className="text-[#6e6e73] text-xs font-bold uppercase mb-4 flex items-center gap-2 tracking-wide">
+              <Trophy className="w-4 h-4 text-[#FFD700]" />
               Top Authors
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {leaderboardAuthors.map((author) => (
                 <div
                   key={author.id}
-                  className="p-2 rounded-lg bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20"
+                  className="p-3 rounded-2xl bg-[#f5f5f7] border border-[#e5e5e7] hover:bg-white hover:shadow-sm transition-all"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-yellow-400 font-bold text-sm">#{author.rank}</span>
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-[#FFD700] font-bold text-sm">#{author.rank}</span>
                       <div>
-                        <div className="text-white text-sm font-medium">{author.name}</div>
-                        <div className="text-xs text-gray-400">{author.totalPredictions} predictions</div>
+                        <div className="text-[#1d1d1f] text-sm font-semibold">{author.name}</div>
+                        <div className="text-xs text-[#6e6e73] font-medium">{author.totalPredictions} predictions</div>
                       </div>
                     </div>
                     <div className="text-green-400 font-bold text-sm">{author.accuracy}%</div>
@@ -132,50 +132,50 @@ export default function AuthorsSidebar() {
           </div>
 
           {/* Prediction Foundation Section */}
-          <div className="p-4 border-b border-gray-700/50">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3 flex items-center gap-2">
-              <Zap className="w-4 h-4 text-purple-400" />
+          <div className="p-5 border-b border-[#e5e5e7]">
+            <h3 className="text-[#6e6e73] text-xs font-bold uppercase mb-4 flex items-center gap-2 tracking-wide">
+              <Zap className="w-4 h-4 text-[#5856D6]" />
               Prediction Foundation
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <Link
                 href="/empire/MagajiCoFoundation"
-                className="block p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 hover:border-purple-500/40 transition-all"
+                className="block p-3 rounded-2xl bg-[#f5f5f7] border border-[#e5e5e7] hover:bg-white hover:shadow-sm transition-all"
               >
-                <div className="flex items-center gap-2 mb-1">
-                  <Building2 className="w-5 h-5 text-purple-400" />
-                  <span className="text-white font-medium text-sm">Empire Builder</span>
+                <div className="flex items-center gap-2.5 mb-1">
+                  <Building2 className="w-5 h-5 text-[#5856D6]" />
+                  <span className="text-[#1d1d1f] font-semibold text-sm">Empire Builder</span>
                 </div>
-                <p className="text-xs text-gray-400">Build your prediction empire</p>
+                <p className="text-xs text-[#6e6e73] font-medium">Build your prediction empire</p>
               </Link>
 
               <Link
                 href="/empire/ai-ceo"
-                className="block p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-500/40 transition-all"
+                className="block p-3 rounded-2xl bg-[#f5f5f7] border border-[#e5e5e7] hover:bg-white hover:shadow-sm transition-all"
               >
-                <div className="flex items-center gap-2 mb-1">
-                  <Bot className="w-5 h-5 text-blue-400" />
-                  <span className="text-white font-medium text-sm">AI CEO</span>
+                <div className="flex items-center gap-2.5 mb-1">
+                  <Bot className="w-5 h-5 text-[#007AFF]" />
+                  <span className="text-[#1d1d1f] font-semibold text-sm">AI CEO</span>
                 </div>
-                <p className="text-xs text-gray-400">AI-powered predictions</p>
+                <p className="text-xs text-[#6e6e73] font-medium">AI-powered predictions</p>
               </Link>
 
               <Link
                 href="/empire/growth"
-                className="block p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 hover:border-green-500/40 transition-all"
+                className="block p-3 rounded-2xl bg-[#f5f5f7] border border-[#e5e5e7] hover:bg-white hover:shadow-sm transition-all"
               >
-                <div className="flex items-center gap-2 mb-1">
-                  <TrendingUp className="w-5 h-5 text-green-400" />
-                  <span className="text-white font-medium text-sm">Growth Dashboard</span>
+                <div className="flex items-center gap-2.5 mb-1">
+                  <TrendingUp className="w-5 h-5 text-[#34C759]" />
+                  <span className="text-[#1d1d1f] font-semibold text-sm">Growth Dashboard</span>
                 </div>
-                <p className="text-xs text-gray-400">Track your progress</p>
+                <p className="text-xs text-[#6e6e73] font-medium">Track your progress</p>
               </Link>
             </div>
           </div>
 
           {/* Authors Section */}
-          <div className="p-4 border-b border-gray-700/50">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3 flex items-center gap-2">
+          <div className="p-5 border-b border-[#e5e5e7]">
+            <h3 className="text-[#6e6e73] text-xs font-bold uppercase mb-4 flex items-center gap-2 tracking-wide">
               <Users className="w-4 h-4" />
               Authors
             </h3>
@@ -184,21 +184,23 @@ export default function AuthorsSidebar() {
                 <button
                   key={author.id}
                   onClick={() => setSelectedAuthor(selectedAuthor === author.id ? null : author.id)}
-                  className={`w-full text-left px-3 py-2 rounded-lg transition-all ${
+                  className={`w-full text-left px-3 py-2.5 rounded-2xl transition-all ${
                     selectedAuthor === author.id 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-gray-300 hover:bg-white/10'
+                      ? 'bg-[#007AFF] text-white shadow-sm' 
+                      : 'bg-[#f5f5f7] text-[#1d1d1f] hover:bg-white hover:shadow-sm'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#007AFF] to-[#5856D6] flex items-center justify-center text-white font-bold text-sm">
                       {author.name.charAt(0)}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-semibold text-sm truncate">{author.name}</div>
-                      <div className="text-xs opacity-75">{author.expertise}</div>
+                      <div className={`text-xs ${selectedAuthor === author.id ? 'text-white/80' : 'text-[#6e6e73]'}`}>{author.expertise}</div>
                     </div>
-                    <div className="px-2 py-0.5 bg-white/10 rounded-full text-xs">
+                    <div className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                      selectedAuthor === author.id ? 'bg-white/20 text-white' : 'bg-white text-[#1d1d1f]'
+                    }`}>
                       {author.newsCount}
                     </div>
                   </div>
@@ -208,32 +210,32 @@ export default function AuthorsSidebar() {
           </div>
 
           {/* Recent News Section */}
-          <div className="p-4 border-b border-gray-700/50">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-gray-400 text-xs font-semibold uppercase flex items-center gap-2">
+          <div className="p-5 border-b border-[#e5e5e7]">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[#6e6e73] text-xs font-bold uppercase flex items-center gap-2 tracking-wide">
                 <Newspaper className="w-4 h-4" />
                 {selectedAuthor ? 'Author News' : 'Recent News'}
               </h3>
               {selectedAuthor && (
                 <button
                   onClick={() => setSelectedAuthor(null)}
-                  className="text-xs text-blue-400 hover:text-blue-300"
+                  className="text-xs text-[#007AFF] hover:text-[#0051D5] font-semibold"
                 >
                   Clear
                 </button>
               )}
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {filteredNews.map((news) => (
                 <Link
                   key={news.id}
                   href={`/news/${news.id}`}
-                  className="block p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all border border-gray-700/50 hover:border-gray-600"
+                  className="block p-3 rounded-2xl bg-[#f5f5f7] hover:bg-white hover:shadow-sm transition-all border border-[#e5e5e7]"
                 >
-                  <h4 className="text-white text-sm font-medium mb-1 line-clamp-2">
+                  <h4 className="text-[#1d1d1f] text-sm font-semibold mb-2 line-clamp-2">
                     {news.title}
                   </h4>
-                  <div className="flex items-center justify-between text-xs text-gray-400">
+                  <div className="flex items-center justify-between text-xs text-[#6e6e73] font-medium">
                     <span>By {getAuthorName(news.authorId)}</span>
                     <span>{news.date}</span>
                   </div>
@@ -243,57 +245,57 @@ export default function AuthorsSidebar() {
           </div>
 
           {/* Quick Links Section */}
-          <div className="p-4 border-b border-gray-700/50">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-2 flex items-center gap-2">
+          <div className="p-5 border-b border-[#e5e5e7]">
+            <h3 className="text-[#6e6e73] text-xs font-bold uppercase mb-3 flex items-center gap-2 tracking-wide">
               <Zap className="w-4 h-4" />
               Quick Links
             </h3>
-            <div className="space-y-1">
-              <Link href="/" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                <Home className="w-4 h-4" />
+            <div className="space-y-1.5">
+              <Link href="/" className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#1d1d1f] font-medium hover:bg-[#f5f5f7] rounded-xl transition">
+                <Home className="w-4 h-4 text-[#6e6e73]" />
                 Home
               </Link>
-              <Link href="/author" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                <Users className="w-4 h-4" />
+              <Link href="/author" className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#1d1d1f] font-medium hover:bg-[#f5f5f7] rounded-xl transition">
+                <Users className="w-4 h-4 text-[#6e6e73]" />
                 All Authors
               </Link>
-              <Link href="/news" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                <Newspaper className="w-4 h-4" />
+              <Link href="/news" className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#1d1d1f] font-medium hover:bg-[#f5f5f7] rounded-xl transition">
+                <Newspaper className="w-4 h-4 text-[#6e6e73]" />
                 All News
               </Link>
-              <Link href="/predictions" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                <BarChart3 className="w-4 h-4" />
+              <Link href="/predictions" className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#1d1d1f] font-medium hover:bg-[#f5f5f7] rounded-xl transition">
+                <BarChart3 className="w-4 h-4 text-[#6e6e73]" />
                 Predictions
               </Link>
-              <Link href="/odds" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                <DollarSign className="w-4 h-4" />
+              <Link href="/odds" className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#1d1d1f] font-medium hover:bg-[#f5f5f7] rounded-xl transition">
+                <DollarSign className="w-4 h-4 text-[#6e6e73]" />
                 Odds
               </Link>
-              <Link href="/analytics" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition">
-                <LineChart className="w-4 h-4" />
+              <Link href="/analytics" className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#1d1d1f] font-medium hover:bg-[#f5f5f7] rounded-xl transition">
+                <LineChart className="w-4 h-4 text-[#6e6e73]" />
                 Analytics
               </Link>
             </div>
           </div>
 
           {/* Stats Section */}
-          <div className="p-4">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase mb-3 flex items-center gap-2">
+          <div className="p-5 pb-8">
+            <h3 className="text-[#6e6e73] text-xs font-bold uppercase mb-4 flex items-center gap-2 tracking-wide">
               <BarChart3 className="w-4 h-4" />
               Platform Stats
             </h3>
-            <div className="space-y-2">
-              <div className="p-2 rounded-lg bg-white/5">
-                <div className="text-xs text-gray-400">Total Predictions</div>
-                <div className="text-white font-bold">12,845</div>
+            <div className="space-y-2.5">
+              <div className="p-3 rounded-2xl bg-[#f5f5f7] border border-[#e5e5e7]">
+                <div className="text-xs text-[#6e6e73] font-medium mb-1">Total Predictions</div>
+                <div className="text-[#1d1d1f] font-bold text-lg">12,845</div>
               </div>
-              <div className="p-2 rounded-lg bg-white/5">
-                <div className="text-xs text-gray-400">Active Users</div>
-                <div className="text-white font-bold">3,421</div>
+              <div className="p-3 rounded-2xl bg-[#f5f5f7] border border-[#e5e5e7]">
+                <div className="text-xs text-[#6e6e73] font-medium mb-1">Active Users</div>
+                <div className="text-[#1d1d1f] font-bold text-lg">3,421</div>
               </div>
-              <div className="p-2 rounded-lg bg-white/5">
-                <div className="text-xs text-gray-400">Avg Accuracy</div>
-                <div className="text-green-400 font-bold">84.6%</div>
+              <div className="p-3 rounded-2xl bg-[#f5f5f7] border border-[#e5e5e7]">
+                <div className="text-xs text-[#6e6e73] font-medium mb-1">Avg Accuracy</div>
+                <div className="text-[#34C759] font-bold text-lg">84.6%</div>
               </div>
             </div>
           </div>
