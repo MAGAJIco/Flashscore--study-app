@@ -5,13 +5,15 @@ const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
 const nextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: [
-    'dc0b718b-6402-4fac-948e-c16d576d1fc1-00-20w0a6r7eaaf6.janeway.replit.dev'
+    '99ce9bbc-a923-422f-8b7e-678d1f59d15a-00-32s0yd0zps0ky.janeway.replit.dev',
+    '127.0.0.1'
   ],
   experimental: {
     externalDir: true,
     optimizeCss: true,
     webpackBuildWorker: true,
   },
+  assetPrefix: undefined,
 
   // Production optimizations
   compress: true,
