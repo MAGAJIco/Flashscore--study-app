@@ -5,8 +5,8 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install && npm run build --workspace=@magajico/backend
-    startCommand: cd apps/backend && node dist/main.js
+    buildCommand: npm install && npm run build --workspace=packages/shared && npm run build --workspace=@magajico/backend
+    startCommand: node apps/backend/dist/main.js
     envVars:
       - key: NODE_ENV
         value: production
