@@ -2,31 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src/app",
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "jsx": "preserve",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "paths": {
-      "@/*": ["./*"],
-      "@components/*": ["components/*"],
-      "@hooks/*": ["hooks/*"],
-      "@controllers/*": ["controllers/*"],
-      "@api/*": ["api/*"],
-      "@services/*": ["services/*"],
-      "@styles/*": ["styles/*"],
-      "@config/*": ["config/*"],
-      "@actions/*": ["actions/*"],
-      "@shared/types/*": ["../../../../packages/shared/src/libs/types/*"],
-      "@shared/utils/*": ["../../../../packages/shared/src/libs/utils/*"],
-      "@shared/models/*": ["../../../../packages/shared/src/libs/models/*"]
-    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -38,18 +14,22 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@hooks/*": ["./src/app/hooks/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@utils/*": ["./src/app/utils/*"],
+      "@shared/*": ["../../packages/shared/src/*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./src/*"],
-      "@hooks/*": ["./src/app/hooks/*"],
-      "@components/*": ["./src/app/components/*"],
-      "@shared/*": ["../../packages/shared/src/*"]
-    },
-    "baseUrl": "."
+    ]
   },
   "include": ["src/**/*", "types/**/*", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "dist"]

@@ -2,30 +2,31 @@
   "name": "@magajico/shared",
   "version": "1.0.0",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
     },
     "./types": {
-      "import": "./dist/libs/types/index.js",
-      "types": "./dist/libs/types/index.d.ts"
+      "import": "./src/libs/types/index.ts",
+      "types": "./src/libs/types/index.ts"
     },
     "./utils": {
-      "import": "./dist/libs/utils/index.js",
-      "types": "./dist/libs/utils/index.js"
+      "import": "./src/libs/utils/index.ts",
+      "types": "./src/libs/utils/index.ts"
     },
     "./models": {
-      "import": "./dist/libs/models/index.js",
-      "types": "./dist/libs/models/index.d.ts"
+      "import": "./src/libs/models/index.ts",
+      "types": "./src/libs/models/index.ts"
     }
   },
   "dependencies": {
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "echo 'No build needed - Next.js transpiles source files'",
+    "type-check": "tsc --noEmit"
   }
 }
