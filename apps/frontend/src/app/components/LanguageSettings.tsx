@@ -59,15 +59,17 @@ export default function LanguageSettings() {
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
         gap: '12px'
-      }}>
+      }}
+      className="language-grid"
+      >
         {locales.map((loc) => (
           <button
             key={loc}
             onClick={() => handleLanguageChange(loc)}
             style={{
-              padding: '16px',
+              padding: '20px 16px',
               borderRadius: '12px',
               border: `2px solid ${locale === loc ? '#3b82f6' : 'rgba(255, 255, 255, 0.1)'}`,
               background: locale === loc ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.03)',
@@ -77,7 +79,10 @@ export default function LanguageSettings() {
               display: 'flex',
               alignItems: 'center',
               gap: '12px',
-              fontSize: '1rem'
+              fontSize: '1rem',
+              minHeight: '80px',
+              touchAction: 'manipulation',
+              WebkitTapHighlightColor: 'transparent'
             }}
             onMouseEnter={(e) => {
               if (locale !== loc) {
@@ -89,8 +94,18 @@ export default function LanguageSettings() {
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
               }
             }}
+            onTouchStart={(e) => {
+              if (locale !== loc) {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+              }
+            }}
+            onTouchEnd={(e) => {
+              if (locale !== loc) {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+              }
+            }}
           >
-            <span style={{ fontSize: '1.5rem' }}>
+            <span style={{ fontSize: '2rem' }}>
               {loc === 'en' && '🇬🇧'}
               {loc === 'es' && '🇪🇸'}
               {loc === 'fr' && '🇫🇷'}
@@ -98,7 +113,7 @@ export default function LanguageSettings() {
               {loc === 'pt' && '🇵🇹'}
             </span>
             <div style={{ flex: 1, textAlign: 'left' }}>
-              <div style={{ fontWeight: 'bold' }}>{localeNames[loc]}</div>
+              <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{localeNames[loc]}</div>
               {locale === loc && (
                 <div style={{ fontSize: '0.75rem', color: '#60a5fa', marginTop: '4px' }}>
                   Current
@@ -106,11 +121,25 @@ export default function LanguageSettings() {
               )}
             </div>
             {locale === loc && (
-              <span style={{ color: '#60a5fa', fontSize: '1.2rem' }}>✓</span>
+              <span style={{ color: '#60a5fa', fontSize: '1.5rem' }}>✓</span>
             )}
           </button>
         ))}
       </div>
+      
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .language-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+          }
+        }
+        @media (min-width: 641px) and (max-width: 768px) {
+          .language-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+      `}</style>
 
       <div style={{
         marginTop: '24px',
