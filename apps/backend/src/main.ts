@@ -147,6 +147,10 @@ fastify.addHook('onRequest', endpointRateLimitMiddleware(endpointRateLimits));
 // Optimize MongoDB
 // optimizeMongoDB(); // Disabled for build fix
 
+// ML Service URL - internal communication on same server
+const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://127.0.0.1:8000';
+fastify.log.info(`ML Service URL: ${ML_SERVICE_URL}`);
+
 // MongoDB connection with verification
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/sportscentral";
 const REQUIRE_DB = process.env.REQUIRE_DB === 'true' || process.env.NODE_ENV === 'production';
