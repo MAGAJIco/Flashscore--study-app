@@ -9,7 +9,7 @@ const nextConfig = {
   ],
   experimental: {
     externalDir: true,
-    optimizeCss: true,
+    optimizeCss: process.env.NODE_ENV === 'production',
     webpackBuildWorker: true,
   },
 
