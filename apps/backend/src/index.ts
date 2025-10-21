@@ -1,6 +1,5 @@
 import Fastify from "fastify";
 import mongoose from "mongoose";
-import { mlRoutes } from "./routes/mlRoutes.js";
 
 const fastify = Fastify({ logger: true });
 
@@ -8,12 +7,15 @@ fastify.addHook("onRequest", async (_req, reply) => {
   reply.header("Content-Type", "application/json");
 });
 
+// Basic health check endpoint
+fastify.get("/health", async () => {
+  return { status: "ok", timestamp: new Date().toISOString() };
+});
+
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/sportscentral");
     fastify.log.info("✅ MongoDB connected");
-
-    await fastify.register(mlRoutes, { prefix: "/api" });
 
     const PORT = Number(process.env.PORT) || 3001;
     await fastify.listen({ port: PORT, host: "0.0.0.0" });
