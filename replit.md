@@ -14,12 +14,20 @@ The platform features a clean, responsive design with a Day/Night theme system, 
 ### Technical Implementations
 - **Monorepo Structure**: Organized into `apps/` (frontend, backend, ML service) and `packages/shared/` for shared utilities.
 - **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS. Configured for SSR-safe theme initialization and Vercel deployment.
-- **Backend**: Fastify (Node.js 20, Express.js).
+- **Backend**: Fastify (Node.js 20) with MongoDB (Mongoose). Architecture follows routes → services → models pattern. All 7 route modules registered and connected:
+  - Health & Monitoring: `/health`, `/health/metrics`
+  - Predictions: `/api/predictions/*` (ML-powered with mlPredictionService and aiEnhancementService)
+  - Matches: `/api/matches/*` (MongoDB with scraperServices)
+  - News: `/api/news/*` (MongoDB)
+  - Authors: `/api/news-authors/*` (Service Layer)
+  - Foundation: `/api/foundation/:userId` (MongoDB)
+  - Errors: `/api/errors/*` (MongoDB)
 - **ML Service**: Python 3.11, FastAPI, scikit-learn, PyTorch.
 - **Authentication**: NextAuth for email/password and Google OAuth, JWT-based sessions, bcrypt password hashing, and COPPA-compliant age verification (13+ years required).
-- **Security**: Environment variable validation, CORS with allowlist, no hard-coded secrets.
+- **Security**: Environment variable validation, CORS enabled with credentials support, no hard-coded secrets.
 - **Deployment**: Configured for Replit Autoscale deployment and Vercel for the frontend.
 - **Port Configuration**: Frontend (5000), Backend (3001), ML Service (8000).
+- **Database Models**: Match, News, NewsAuthor, Prediction, User, Foundation, ErrorLog (all indexed and optimized).
 
 ### Feature Specifications
 - **Authentication System**: Secure user registration, login, Google OAuth, JWT sessions, age verification for access restrictions (e.g., betting/payments blocked for minors).
