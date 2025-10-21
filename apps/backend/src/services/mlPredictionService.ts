@@ -1,5 +1,4 @@
 // src/services/mlPredictionService.ts
-import fetch from "node-fetch";
 
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || "http://0.0.0.0:8000";
 

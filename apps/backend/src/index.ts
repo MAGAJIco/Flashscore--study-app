@@ -19,8 +19,8 @@ const startServer = async () => {
     await fastify.listen({ port: PORT, host: "0.0.0.0" });
     fastify.log.info(`✅ Backend running at http://0.0.0.0:${PORT}`);
   } catch (err: unknown) {
-    if (err instanceof Error) fastify.log.error("❌ Server error:", err.message);
-    else fastify.log.error("❌ Server error:", err);
+    if (err instanceof Error) fastify.log.error(`❌ Server error: ${err.message}`);
+    else fastify.log.error(`❌ Server error: ${err}`);
     process.exit(1);
   }
 };
