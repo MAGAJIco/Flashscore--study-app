@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   title: 'Sports Central - AI-Powered Predictions',
   description: 'Get AI-powered sports predictions, live scores, and real-time odds',
   manifest: '/manifest.json',
-  themeColor: '#1a1f3a',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -50,7 +49,10 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   viewportFit: 'cover',
-  themeColor: '#1a1f3a',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#1a1f3a' }
+  ],
 };
 
 export default async function RootLayout({

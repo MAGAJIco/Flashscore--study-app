@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -20,7 +19,7 @@ export default function BackendStatusIndicator() {
     };
 
     checkBackend();
-    const interval = setInterval(checkBackend, 30000);
+    const interval = setInterval(checkBackend, 120000); // Check every 2 minutes
     return () => clearInterval(interval);
   }, []);
 
