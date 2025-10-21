@@ -7,13 +7,31 @@ export function useMobile(): boolean {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const width = window.innerWidth < 768;
+      const userAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+      const touchPoints = navigator.maxTouchPoints > 0;
+      
+      setIsMobile(width || (userAgent && touchPoints));
     };
 
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    
+    const handleResize = () => {
+      // Debounce resize events for better performance
+      clearTimeout((window as any).__mobileResizeTimeout);
+      (window as any).__mobileResizeTimeout = setTimeout(checkMobile, 150);
+    };
 
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', checkMobile, { passive: true });
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', checkMobile);
+      clearTimeout((window as any).__mobileResizeTimeout);
+    };
   }, []);
 
   return isMobile;

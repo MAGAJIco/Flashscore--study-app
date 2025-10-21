@@ -1,12 +1,18 @@
 "use client";
 
-import React from 'react';
+import React, { useRef } from 'react';
 
 export default function PrivacyPolicyPage() {
+  const contentRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <div className="glass-card p-8">
+        <div 
+          ref={contentRef}
+          className="glass-card p-8"
+          style={{ scrollBehavior: 'smooth' }}
+        >
           <h1 className="text-4xl font-bold text-white mb-6">Privacy Policy</h1>
 
           <div className="space-y-6 text-gray-300">

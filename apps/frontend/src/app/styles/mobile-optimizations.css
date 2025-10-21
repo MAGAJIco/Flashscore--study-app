@@ -1,10 +1,35 @@
 
 /* Mobile Performance Optimizations - Liverpool Theme */
+
+/* Global mobile optimizations */
+* {
+  -webkit-tap-highlight-color: rgba(200, 16, 46, 0.1);
+  -webkit-touch-callout: none;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 @media (max-width: 768px) {
   /* Reduce animations on mobile */
   .reduce-motion * {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* Safe area insets for notched devices */
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   /* Optimize touch targets - Liverpool styled */

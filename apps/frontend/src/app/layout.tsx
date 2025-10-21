@@ -16,6 +16,7 @@ import ErrorBoundaryWithPerformance from "./components/ErrorBoundary/ErrorBounda
 import ErrorMonitor from './components/ErrorMonitor';
 import BackendStatusIndicator from './components/BackendStatusIndicator';
 import ThemeToggle from './components/ThemeToggle';
+import MobileMetaOptimizer from "./components/MobileMetaOptimizer";
 
 export const metadata: Metadata = {
   title: 'Sports Central - AI-Powered Predictions',
@@ -84,6 +85,7 @@ export default async function RootLayout({
                 <UserPreferencesProvider>
                   <PWAServiceWorker />
                   <PushNotificationManager />
+                  <MobileMetaOptimizer />
                   <MobilePerformanceOptimizer />
                   <ThemeToggle />
                   {children}
