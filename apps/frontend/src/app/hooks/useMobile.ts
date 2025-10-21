@@ -1,38 +1,68 @@
 
-"use client";
-import { useState, useEffect } from 'react';
+```typescript
+'use client';
 
-export function useMobile(): boolean {
-  const [isMobile, setIsMobile] = useState(false);
+import { useState, useEffect, useCallback, useRef } from 'react';
 
-  useEffect(() => {
-    const checkMobile = () => {
-      const width = window.innerWidth < 768;
-      const userAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-      const touchPoints = navigator.maxTouchPoints > 0;
-      
-      setIsMobile(width || (userAgent && touchPoints));
-    };
+interface WindowDimensions {
+  readonly width: number;
+  readonly height: number;
+}
 
+interface MobileDetectionConfig {
+  readonly breakpoint: number;
+  readonly debounceMs: number;
+}
+
+const MOBILE_CONFIG: Readonly<MobileDetectionConfig> = {
+  breakpoint: 768,
+  debounceMs: 150,
+} as const;
+
+type ResizeHandler = () => void;
+
+const useMobile = (): boolean => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const getCurrentDimensions = useCallback((): WindowDimensions => ({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }), []);
+
+  const checkMobile = useCallback((): void => {
+    const { width } = getCurrentDimensions();
+    setIsMobile(width < MOBILE_CONFIG.breakpoint);
+  }, [getCurrentDimensions]);
+
+  const debouncedCheckMobile = useCallback((): void => {
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout((): void => {
+      checkMobile();
+      timeoutRef.current = null;
+    }, MOBILE_CONFIG.debounceMs);
+  }, [checkMobile]);
+
+  useEffect((): (() => void) => {
     checkMobile();
-    
-    const handleResize = () => {
-      // Debounce resize events for better performance
-      clearTimeout((window as any).__mobileResizeTimeout);
-      (window as any).__mobileResizeTimeout = setTimeout(checkMobile, 150);
-    };
 
-    window.addEventListener('resize', handleResize, { passive: true });
-    window.addEventListener('orientationchange', checkMobile, { passive: true });
+    const handleResize: ResizeHandler = debouncedCheckMobile;
+    window.addEventListener('resize', handleResize);
 
-    return () => {
+    return (): void => {
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+      }
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', checkMobile);
-      clearTimeout((window as any).__mobileResizeTimeout);
     };
-  }, []);
+  }, [checkMobile, debouncedCheckMobile]);
 
   return isMobile;
-}
+};
+
+export { useMobile };
+export type { WindowDimensions, MobileDetectionConfig };
+```

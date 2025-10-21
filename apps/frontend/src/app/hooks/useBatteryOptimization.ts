@@ -1,96 +1,115 @@
 
-"use client";
+```typescript
+'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface BatteryManager extends EventTarget {
-  charging: boolean;
-  chargingTime: number;
-  dischargingTime: number;
-  level: number;
-  addEventListener(type: string, listener: EventListener): void;
-  removeEventListener(type: string, listener: EventListener): void;
+  readonly charging: boolean;
+  readonly chargingTime: number;
+  readonly dischargingTime: number;
+  readonly level: number;
+  onchargingchange: ((this: BatteryManager, ev: Event) => unknown) | null;
+  onchargingtimechange: ((this: BatteryManager, ev: Event) => unknown) | null;
+  ondischargingtimechange: ((this: BatteryManager, ev: Event) => unknown) | null;
+  onlevelchange: ((this: BatteryManager, ev: Event) => unknown) | null;
 }
 
-interface Navigator {
+interface NavigatorWithBattery extends Navigator {
   getBattery?: () => Promise<BatteryManager>;
 }
 
-export function useBatteryOptimization() {
-  const [batteryLevel, setBatteryLevel] = useState<number>(1);
-  const [isCharging, setIsCharging] = useState<boolean>(true);
-  const [powerSaveMode, setPowerSaveMode] = useState<boolean>(false);
+interface OptimizationSettings {
+  readonly disableAnimations: boolean;
+  readonly reducedQuality: boolean;
+  readonly limitBackgroundTasks: boolean;
+}
 
-  useEffect(() => {
-    const nav = navigator as Navigator;
-    
-    if (nav.getBattery) {
-      nav.getBattery().then((battery) => {
-        const updateBatteryStatus = () => {
-          setBatteryLevel(battery.level);
-          setIsCharging(battery.charging);
-          
-          // Enable power save mode when battery is low and not charging
-          if (battery.level < 0.2 && !battery.charging) {
-            setPowerSaveMode(true);
-          } else if (battery.level > 0.3 || battery.charging) {
-            setPowerSaveMode(false);
-          }
-        };
+interface BatteryState {
+  readonly level: number;
+  readonly charging: boolean;
+}
 
-        updateBatteryStatus();
-        
-        battery.addEventListener('chargingchange', updateBatteryStatus);
-        battery.addEventListener('levelchange', updateBatteryStatus);
-        
-        return () => {
-          battery.removeEventListener('chargingchange', updateBatteryStatus);
-          battery.removeEventListener('levelchange', updateBatteryStatus);
-        };
+const LOW_BATTERY_THRESHOLD = 0.2 as const;
+const CRITICAL_BATTERY_THRESHOLD = 0.1 as const;
+
+const getDefaultOptimizations = (batteryLevel: number): OptimizationSettings => ({
+  disableAnimations: batteryLevel < LOW_BATTERY_THRESHOLD,
+  reducedQuality: batteryLevel < CRITICAL_BATTERY_THRESHOLD,
+  limitBackgroundTasks: batteryLevel < LOW_BATTERY_THRESHOLD,
+});
+
+export const useBatteryOptimization = () => {
+  const [batteryState, setBatteryState] = useState<BatteryState>({
+    level: 1,
+    charging: true,
+  });
+
+  const [optimizationSettings, setOptimizationSettings] = useState<OptimizationSettings>(
+    getDefaultOptimizations(1)
+  );
+
+  const updateOptimizations = useCallback((level: number, charging: boolean): void => {
+    if (charging) {
+      setOptimizationSettings({
+        disableAnimations: false,
+        reducedQuality: false,
+        limitBackgroundTasks: false,
       });
+    } else {
+      setOptimizationSettings(getDefaultOptimizations(level));
     }
   }, []);
 
-  const getOptimizationSettings = useCallback(() => {
-    if (powerSaveMode) {
-      return {
-        disableAnimations: true,
-        reducePolling: true,
-        pollingInterval: 30000, // 30 seconds
-        disableBackgroundSync: true,
-        reducedQuality: true,
-        disableAutoRefresh: true,
-        throttleUpdates: true
-      };
-    }
-    
-    if (batteryLevel < 0.5 && !isCharging) {
-      return {
-        disableAnimations: false,
-        reducePolling: true,
-        pollingInterval: 15000, // 15 seconds
-        disableBackgroundSync: false,
-        reducedQuality: false,
-        disableAutoRefresh: false,
-        throttleUpdates: true
-      };
-    }
-    
-    return {
-      disableAnimations: false,
-      reducePolling: false,
-      pollingInterval: 5000, // 5 seconds
-      disableBackgroundSync: false,
-      reducedQuality: false,
-      disableAutoRefresh: false,
-      throttleUpdates: false
+  const handleBatteryChange = useCallback((battery: BatteryManager): void => {
+    const newState: BatteryState = {
+      level: battery.level,
+      charging: battery.charging,
     };
-  }, [powerSaveMode, batteryLevel, isCharging]);
+    
+    setBatteryState(newState);
+    updateOptimizations(newState.level, newState.charging);
+  }, [updateOptimizations]);
+
+  useEffect((): (() => void) | void => {
+    const nav = navigator as NavigatorWithBattery;
+    
+    if (!nav.getBattery) {
+      return;
+    }
+
+    let battery: BatteryManager | null = null;
+
+    const setupBatteryMonitoring = async (): Promise<void> => {
+      try {
+        battery = await nav.getBattery!();
+        handleBatteryChange(battery);
+
+        const onLevelChange = (): void => battery && handleBatteryChange(battery);
+        const onChargingChange = (): void => battery && handleBatteryChange(battery);
+
+        battery.addEventListener('levelchange', onLevelChange);
+        battery.addEventListener('chargingchange', onChargingChange);
+      } catch (error) {
+        console.warn('Battery API not supported:', error);
+      }
+    };
+
+    setupBatteryMonitoring();
+
+    return (): void => {
+      if (battery) {
+        battery.removeEventListener('levelchange', () => {});
+        battery.removeEventListener('chargingchange', () => {});
+      }
+    };
+  }, [handleBatteryChange]);
 
   return {
-    batteryLevel,
-    isCharging,
-    powerSaveMode,
-    optimizationSettings: getOptimizationSettings()
-  };
-}
+    batteryState,
+    optimizationSettings,
+  } as const;
+};
+
+export type { BatteryManager, OptimizationSettings, BatteryState };
+```
