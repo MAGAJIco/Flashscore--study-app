@@ -162,6 +162,112 @@ const errorsRoutes: FastifyPluginAsync = async (fastify) => {
       });
     }
   });
+
+  // Error pattern analysis
+  fastify.get('/errors/patterns', async (request, reply) => {
+    try {
+      const last7Days = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+      const patterns = await ErrorLog.aggregate([
+        { $match: { createdAt: { $gte: last7Days } } },
+        {
+          $group: {
+            _id: {
+              message: { $substr: ['$message', 0, 50] },
+              type: '$type',
+              severity: '$severity'
+            },
+            count: { $sum: 1 },
+            lastOccurrence: { $max: '$createdAt' },
+            sources: { $addToSet: '$source' }
+          }
+        },
+        { $match: { count: { $gte: 3 } } },
+        { $sort: { count: -1 } },
+        { $limit: 20 }
+      ]);
+
+      return reply.send({
+        success: true,
+        patterns: patterns.map(p => ({
+          pattern: p._id.message,
+          type: p._id.type,
+          severity: p._id.severity,
+          frequency: p.count,
+          lastOccurrence: p.lastOccurrence,
+          affectedSources: p.sources
+        }))
+      });
+    } catch (error) {
+      fastify.log.error({ err: error }, 'Error analyzing patterns');
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to analyze error patterns'
+      });
+    }
+  });
+
+  // Error trend analysis
+  fastify.get('/errors/trends', async (request, reply) => {
+    try {
+      const { days = 7 } = request.query as any;
+      const startDate = new Date(Date.now() - parseInt(days) * 24 * 60 * 60 * 1000);
+
+      const trends = await ErrorLog.aggregate([
+        { $match: { createdAt: { $gte: startDate } } },
+        {
+          $group: {
+            _id: {
+              date: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+              type: '$type',
+              severity: '$severity'
+            },
+            count: { $sum: 1 }
+          }
+        },
+        { $sort: { '_id.date': 1 } }
+      ]);
+
+      return reply.send({
+        success: true,
+        trends
+      });
+    } catch (error) {
+      fastify.log.error({ err: error }, 'Error analyzing trends');
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to analyze error trends'
+      });
+    }
+  });
+
+  // Auto-resolve similar errors
+  fastify.post('/errors/auto-resolve', async (request, reply) => {
+    try {
+      const { pattern, resolveAll = false } = request.body as any;
+
+      const filter: any = { resolved: false };
+      if (pattern) {
+        filter.message = { $regex: pattern, $options: 'i' };
+      }
+
+      const result = await ErrorLog.updateMany(
+        filter,
+        { $set: { resolved: true, metadata: { autoResolved: true } } }
+      );
+
+      return reply.send({
+        success: true,
+        resolvedCount: result.modifiedCount
+      });
+    } catch (error) {
+      fastify.log.error({ err: error }, 'Error auto-resolving');
+      return reply.status(500).send({
+        success: false,
+        error: 'Failed to auto-resolve errors'
+      });
+    }
+  });
 };
 
 export default errorsRoutes;
