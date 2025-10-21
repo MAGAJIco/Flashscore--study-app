@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
@@ -16,7 +15,8 @@ interface State {
   errorInfo?: ErrorInfo;
 }
 
-export class ErrorBoundaryWithPerformance extends Component<Props, State> {
+// Renamed to ProductionErrorBoundary for clarity in the fix
+export class ProductionErrorBoundary extends Component<Props, State> {
   private performanceStart: number;
 
   constructor(props: Props) {
@@ -55,7 +55,7 @@ export class ErrorBoundaryWithPerformance extends Component<Props, State> {
     };
 
     console.log('Error data for tracking service:', errorData);
-    
+
     // Save to localStorage for debugging
     try {
       const existingErrors = JSON.parse(localStorage.getItem('error_logs') || '[]');
@@ -108,3 +108,6 @@ export class ErrorBoundaryWithPerformance extends Component<Props, State> {
     return this.props.children;
   }
 }
+
+export { ProductionErrorBoundary as ErrorBoundaryWithPerformance };
+export default ProductionErrorBoundary;

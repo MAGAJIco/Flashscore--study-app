@@ -65,9 +65,43 @@ waitForPort = 3001
 [workflows.workflow.metadata]
 outputType = "console"
 
+[[workflows.workflow]]
+name = "Start All Services"
+author = 48859100
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend/ml && uv run python api.py"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && npm run dev"
+
+[[workflows.workflow]]
+name = "Production Build"
+author = 48859100
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build --workspace=packages/shared"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build --workspace=@magajico/backend"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && npm run build"
+
 [deployment]
 build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
-run = ["sh", "-c", "cd apps/frontend && pnpm start"]
+run = ["sh", "-c", "npm run start:all"]
 
 [[deployment.responseHeaders]]
 path = "/*"

@@ -3,7 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { KidsModeProvider } from "../context/KidsModeContext";
 import { UserPreferencesProvider } from "./providers/UserPreferencesProvider";
-import NextAuthSessionProvider from "./providers/SessionProvider";
+import { SessionProvider as NextAuthSessionProvider } from './providers/SessionProvider';
 import './styles/globals.css'
 import './styles/mobile-optimizations.css'
 import { Analytics } from '@vercel/analytics/react';
@@ -12,8 +12,8 @@ import type { Metadata, Viewport } from "next";
 import PWAServiceWorker from "./components/PWAServiceWorker";
 import PushNotificationManager from "./components/PushNotificationManager";
 import MobilePerformanceOptimizer from "./components/MobilePerformanceOptimizer";
-import ErrorBoundaryWithPerformance from "./components/ErrorBoundary/ErrorBoundaryWithPerformance";
-import ErrorMonitor from './components/ErrorMonitor';
+import { ErrorBoundaryWithPerformance } from "./components/ErrorBoundary/ErrorBoundaryWithPerformance";
+import { ErrorMonitor } from './components/ErrorMonitor';
 import BackendStatusIndicator from './components/BackendStatusIndicator';
 import ThemeToggle from './components/ThemeToggle';
 import MobileMetaOptimizer from "./components/MobileMetaOptimizer";

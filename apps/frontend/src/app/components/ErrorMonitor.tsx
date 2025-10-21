@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -20,7 +19,7 @@ export function ErrorMonitor() {
 
   useEffect(() => {
     loadErrorLogs();
-    
+
     // Listen for new errors
     const handleError = (event: ErrorEvent) => {
       logError({
@@ -114,8 +113,8 @@ export function ErrorMonitor() {
       <button
         onClick={() => setIsVisible(true)}
         className={`fixed bottom-4 right-4 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all z-50 font-bold text-lg ${
-          errors.length > 0 
-            ? 'bg-gradient-to-br from-red-500 to-red-700 animate-pulse hover:from-red-600 hover:to-red-800' 
+          errors.length > 0
+            ? 'bg-gradient-to-br from-red-500 to-red-700 animate-pulse hover:from-red-600 hover:to-red-800'
             : 'bg-gradient-to-br from-green-500 to-green-700 hover:from-green-600 hover:to-green-800'
         }`}
         title={`${errors.length} errors logged`}
@@ -163,7 +162,7 @@ export function ErrorMonitor() {
             </div>
           </div>
         </div>
-        
+
         {/* Error List */}
         <div className="overflow-y-auto max-h-[calc(85vh-140px)] p-6">
           {errors.length === 0 ? (
@@ -175,8 +174,8 @@ export function ErrorMonitor() {
           ) : (
             <div className="space-y-4">
               {errors.map(error => (
-                <div 
-                  key={error.id} 
+                <div
+                  key={error.id}
                   className={`rounded-xl p-5 border-l-4 backdrop-blur-sm transition-all hover:scale-[1.02] ${
                     error.severity === 'critical'
                       ? 'bg-red-900/20 border-red-500 shadow-lg shadow-red-500/20'
@@ -200,11 +199,11 @@ export function ErrorMonitor() {
                       {new Date(error.timestamp).toLocaleString()}
                     </span>
                   </div>
-                  
+
                   <p className="font-semibold text-white mb-2 text-lg leading-relaxed">
                     {error.message}
                   </p>
-                  
+
                   {error.stack && (
                     <details className="mt-3 group">
                       <summary className="cursor-pointer text-sm text-gray-400 hover:text-gray-300 font-medium flex items-center gap-2">
@@ -225,3 +224,6 @@ export function ErrorMonitor() {
     </div>
   );
 }
+
+export { ErrorMonitor };
+export default ErrorMonitor;
