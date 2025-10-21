@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -9,7 +8,7 @@ export default function PrivacyPolicyPage() {
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="glass-card p-8">
           <h1 className="text-4xl font-bold text-white mb-6">Privacy Policy</h1>
-          
+
           <div className="space-y-6 text-gray-300">
             <section>
               <h2 className="text-2xl font-semibold text-white mb-3">1. Information We Collect</h2>
