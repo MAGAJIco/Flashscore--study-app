@@ -1,5 +1,4 @@
 
-```typescript
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -21,7 +20,7 @@ const MOBILE_CONFIG: Readonly<MobileDetectionConfig> = {
 
 type ResizeHandler = () => void;
 
-const useMobile = (): boolean => {
+export const useMobile = (): boolean => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -63,6 +62,4 @@ const useMobile = (): boolean => {
   return isMobile;
 };
 
-export { useMobile };
 export type { WindowDimensions, MobileDetectionConfig };
-```

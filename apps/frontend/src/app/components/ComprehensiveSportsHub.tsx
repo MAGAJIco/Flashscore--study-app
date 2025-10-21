@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
-import { useMobile } from '@hooks/useMobile';
+import { useMobile } from '../hooks/useMobile';
 import dynamic from 'next/dynamic';
 
 // Lazy load heavy components

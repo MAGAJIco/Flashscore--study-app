@@ -29,7 +29,7 @@ const OPTIMIZATION_CONFIG: Readonly<OptimizationConfig> = {
 
 const ANIMATION_DURATION = '0s' as const;
 
-const MobileHomeOptimizer: FC = () => {
+const MobileHomeOptimizer: React.FC = () => {
   const isMobile = useMobile();
   const { optimizationSettings } = useBatteryOptimization();
 
@@ -124,4 +124,5 @@ const MobileHomeOptimizer: FC = () => {
 };
 
 export default MobileHomeOptimizer;
+export { MobileHomeOptimizer };
 ```

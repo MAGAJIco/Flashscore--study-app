@@ -4,43 +4,57 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import dynamic from 'next/dynamic';
 import { useMobile } from './hooks/useMobile';
 import LoadingSkeleton from './components/LoadingSkeleton';
+import LanguageSwitcher from './components/LanguageSwitcher';
+import NavBar from './components/NavBar';
+import MobileHomeOptimizer from './components/MobileHomeOptimizer';
+import Link from 'next/link';
 
 const HorizontalCarousel = dynamic(() => import('./components/HorizontalCarousel'), {
   loading: () => <LoadingSkeleton />,
   ssr: false
 });
 
-const ComprehensiveSportsHub = dynamic(() => import("@/app/components/ComprehensiveSportsHub"), {
+const ComprehensiveSportsHub = dynamic(() => import('./components/ComprehensiveSportsHub'), {
   loading: () => <LoadingSkeleton />,
   ssr: false
 });
 
-const AuthorsSidebar = dynamic(() => import("@/app/components/AuthorsSidebar"), {
+const AuthorsSidebar = dynamic(() => import('./components/AuthorsSidebar'), {
   loading: () => <LoadingSkeleton />,
   ssr: false
 });
 
-const ChessboardCompetitiveAnalysis = dynamic(() => import("./components/ChessboardCompetitiveAnalysis"), {
+const ChessboardCompetitiveAnalysis = dynamic(() => import('./components/ChessboardCompetitiveAnalysis'), {
   loading: () => <LoadingSkeleton />,
   ssr: false
 });
 
-import LanguageSwitcher from "@/app/components/LanguageSwitcher";
-import NavBar from "@/app/components/NavBar";
-import MobileHomeOptimizer from "./components/MobileHomeOptimizer";
-import Link from "next/link";
+interface LiveStats {
+  activeUsers: number;
+  predictions24h: number;
+  accuracyRate: number;
+  topStreak: number;
+}
 
-export default function HomePage() {
-  const isMobile = useMobile();
-  const [liveStats, setLiveStats] = useState({
+interface FeaturePreview {
+  title: string;
+  description: string;
+  icon: string;
+  link: string;
+  color: string;
+}
+
+export default function HomePage(): JSX.Element {
+  const isMobile: boolean = useMobile();
+  const [liveStats, setLiveStats] = useState<LiveStats>({
     activeUsers: 2341,
     predictions24h: 8547,
     accuracyRate: 78.5,
     topStreak: 12
   });
 
-  const [currentFeature, setCurrentFeature] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [currentFeature, setCurrentFeature] = useState<number>(0);
+  const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     if (isMobile) {
@@ -62,7 +76,7 @@ export default function HomePage() {
     }
   }, [isMobile]);
 
-  const featuredPreviews = [
+  const featuredPreviews: readonly FeaturePreview[] = [
     {
       title: "AI-Powered Predictions",
       description: "Get 87% accurate predictions with our advanced ML models",

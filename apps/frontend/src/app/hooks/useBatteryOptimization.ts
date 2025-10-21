@@ -1,5 +1,4 @@
 
-```typescript
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -30,8 +29,8 @@ interface BatteryState {
   readonly charging: boolean;
 }
 
-const LOW_BATTERY_THRESHOLD = 0.2 as const;
-const CRITICAL_BATTERY_THRESHOLD = 0.1 as const;
+const LOW_BATTERY_THRESHOLD: number = 0.2 as const;
+const CRITICAL_BATTERY_THRESHOLD: number = 0.1 as const;
 
 const getDefaultOptimizations = (batteryLevel: number): OptimizationSettings => ({
   disableAnimations: batteryLevel < LOW_BATTERY_THRESHOLD,
@@ -112,4 +111,3 @@ export const useBatteryOptimization = () => {
 };
 
 export type { BatteryManager, OptimizationSettings, BatteryState };
-```
