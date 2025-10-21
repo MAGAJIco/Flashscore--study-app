@@ -6,7 +6,7 @@ import { useMobile } from './hooks/useMobile';
 import LoadingSkeleton from './components/LoadingSkeleton';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import NavBar from './components/NavBar';
-import MobileHomeOptimizer from './components/MobileHomeOptimizer';
+import { MobileHomeOptimizer } from './components/MobileHomeOptimizer';
 import Link from 'next/link';
 
 const HorizontalCarousel = dynamic(() => import('./components/HorizontalCarousel'), {

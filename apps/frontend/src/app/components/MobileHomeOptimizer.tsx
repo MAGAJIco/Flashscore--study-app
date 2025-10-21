@@ -1,5 +1,4 @@
 
-```typescript
 'use client';
 
 import { useEffect, useCallback, useMemo } from 'react';
@@ -29,7 +28,7 @@ const OPTIMIZATION_CONFIG: Readonly<OptimizationConfig> = {
 
 const ANIMATION_DURATION = '0s' as const;
 
-const MobileHomeOptimizer: React.FC = () => {
+export const MobileHomeOptimizer: FC = () => {
   const isMobile = useMobile();
   const { optimizationSettings } = useBatteryOptimization();
 
@@ -122,7 +121,3 @@ const MobileHomeOptimizer: React.FC = () => {
 
   return null;
 };
-
-export default MobileHomeOptimizer;
-export { MobileHomeOptimizer };
-```

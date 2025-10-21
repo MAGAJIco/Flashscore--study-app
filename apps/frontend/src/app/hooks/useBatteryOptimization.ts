@@ -29,6 +29,11 @@ interface BatteryState {
   readonly charging: boolean;
 }
 
+interface BatteryOptimizationReturn {
+  readonly batteryState: BatteryState;
+  readonly optimizationSettings: OptimizationSettings;
+}
+
 const LOW_BATTERY_THRESHOLD: number = 0.2 as const;
 const CRITICAL_BATTERY_THRESHOLD: number = 0.1 as const;
 
@@ -38,7 +43,7 @@ const getDefaultOptimizations = (batteryLevel: number): OptimizationSettings => 
   limitBackgroundTasks: batteryLevel < LOW_BATTERY_THRESHOLD,
 });
 
-export const useBatteryOptimization = () => {
+export const useBatteryOptimization = (): BatteryOptimizationReturn => {
   const [batteryState, setBatteryState] = useState<BatteryState>({
     level: 1,
     charging: true,
@@ -107,7 +112,7 @@ export const useBatteryOptimization = () => {
   return {
     batteryState,
     optimizationSettings,
-  } as const;
+  };
 };
 
-export type { BatteryManager, OptimizationSettings, BatteryState };
+export type { BatteryManager, OptimizationSettings, BatteryState, BatteryOptimizationReturn };
