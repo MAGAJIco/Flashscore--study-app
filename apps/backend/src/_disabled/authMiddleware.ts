@@ -93,4 +93,11 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
   }
 }
 
-export default authMiddleware;
+export {
+  authMiddleware as default,
+  authMiddleware,
+  signAccessToken,
+  signRefreshToken,
+  verifyToken,
+  type TokenPayload
+};

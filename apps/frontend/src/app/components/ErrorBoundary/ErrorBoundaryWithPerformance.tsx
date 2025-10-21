@@ -16,7 +16,7 @@ interface State {
   errorInfo?: ErrorInfo;
 }
 
-class ErrorBoundaryWithPerformance extends Component<Props, State> {
+export class ErrorBoundaryWithPerformance extends Component<Props, State> {
   private performanceStart: number;
 
   constructor(props: Props) {

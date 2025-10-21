@@ -12,7 +12,7 @@ interface State {
   error?: Error;
 }
 
-export class AppErrorBoundary extends React.Component<Props, State> {
+class AppErrorBoundaryClass extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
@@ -52,4 +52,5 @@ export class AppErrorBoundary extends React.Component<Props, State> {
   }
 }
 
+export const AppErrorBoundary = AppErrorBoundaryClass;
 export default AppErrorBoundary;

@@ -36,7 +36,7 @@ async function safeFetch(url: string, options: any, retries = 2, timeout = 10000
   throw new Error(`ML service unavailable after ${retries} retries: ${lastError?.message}`);
 }
 
-export default {
+export const mlPredictionService = {
   async predictMatch(req: PredictionRequest): Promise<PredictionResponse> {
     try {
       const data = await safeFetch(`${ML_SERVICE_URL}/predict`, {
@@ -92,3 +92,9 @@ export default {
     };
   },
 };
+
+export const predictMatch = mlPredictionService.predictMatch;
+export const batchPredict = mlPredictionService.batchPredict;
+export const strategicAnalysis = mlPredictionService.strategicAnalysis;
+
+export default mlPredictionService;

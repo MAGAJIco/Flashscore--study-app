@@ -14,7 +14,7 @@ interface ErrorLog {
   severity: 'low' | 'medium' | 'high' | 'critical';
 }
 
-export default function ErrorMonitor() {
+export function ErrorMonitor() {
   const [errors, setErrors] = useState<ErrorLog[]>([]);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -225,3 +225,5 @@ export default function ErrorMonitor() {
     </div>
   );
 }
+
+export default ErrorMonitor;

@@ -9,7 +9,7 @@ interface LazyComponentProps {
   children?: React.ReactNode;
 }
 
-const LazyComponent: React.FC<LazyComponentProps> = ({ 
+export const LazyComponent: React.FC<LazyComponentProps> = ({ 
   importFunc, 
   fallback = <div className="animate-pulse bg-gray-200 rounded h-32 w-full"></div>,
   children

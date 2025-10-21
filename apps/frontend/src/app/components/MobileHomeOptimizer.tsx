@@ -3,7 +3,7 @@
 import { useEffect, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 
-export default function MobileHomeOptimizer() {
+export function MobileHomeOptimizer() {
   const pathname = usePathname();
 
   const isMobile = useMemo(() => {
@@ -40,3 +40,5 @@ export default function MobileHomeOptimizer() {
 
   return null;
 }
+
+export default MobileHomeOptimizer;
