@@ -53,4 +53,3 @@ class AppErrorBoundaryClass extends React.Component<Props, State> {
 }
 
 export const AppErrorBoundary = AppErrorBoundaryClass;
-export default AppErrorBoundary;

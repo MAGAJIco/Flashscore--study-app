@@ -40,5 +40,3 @@ export function MobileHomeOptimizer() {
 
   return null;
 }
-
-export default MobileHomeOptimizer;

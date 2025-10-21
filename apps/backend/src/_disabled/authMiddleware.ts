@@ -94,7 +94,6 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
 }
 
 export {
-  authMiddleware as default,
   authMiddleware,
   signAccessToken,
   signRefreshToken,

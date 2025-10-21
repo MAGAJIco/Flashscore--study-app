@@ -225,5 +225,3 @@ export function ErrorMonitor() {
     </div>
   );
 }
-
-export default ErrorMonitor;

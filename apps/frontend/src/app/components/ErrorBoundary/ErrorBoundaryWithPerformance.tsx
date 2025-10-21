@@ -108,5 +108,3 @@ export class ErrorBoundaryWithPerformance extends Component<Props, State> {
     return this.props.children;
   }
 }
-
-export default ErrorBoundaryWithPerformance;

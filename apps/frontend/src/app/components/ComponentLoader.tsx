@@ -12,5 +12,3 @@ export const ComponentLoader: React.FC<ComponentLoaderProps> = ({ children }) =>
     </div>
   );
 };
-
-export default ComponentLoader;

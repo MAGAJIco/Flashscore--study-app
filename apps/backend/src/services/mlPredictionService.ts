@@ -96,5 +96,3 @@ export const mlPredictionService = {
 export const predictMatch = mlPredictionService.predictMatch;
 export const batchPredict = mlPredictionService.batchPredict;
 export const strategicAnalysis = mlPredictionService.strategicAnalysis;
-
-export default mlPredictionService;
