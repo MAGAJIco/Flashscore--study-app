@@ -3,7 +3,20 @@
 import React, { useState, useEffect } from 'react';
 import { ClientStorage } from '../utils/clientStorage';
 import { PiCoinManager } from '../../../../../packages/shared/src/libs/utils/piCoinManager';
-import { User } from '../utils/userManager';
+import UserManager from '../../../../../packages/shared/src/libs/utils/userManager';
+
+interface User {
+  id: string;
+  username: string;
+  email?: string;
+  createdAt?: Date;
+  lastLogin?: Date;
+  sessionToken?: string;
+  loginAttempts?: number;
+  lockedUntil?: Date;
+  emailVerified?: boolean;
+  role?: string;
+}
 
 interface Challenge {
   id: string;
