@@ -100,3 +100,5 @@ export default function BackgroundParticles() {
     />
   );
 }
+
+export default BackgroundParticles;
