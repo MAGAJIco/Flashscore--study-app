@@ -1,14 +1,33 @@
-
 {
-  "buildCommand": "npm run build --workspace=apps/frontend",
+  "buildCommand": "npm run build --workspace=packages/shared && npm run build --workspace=apps/frontend",
   "installCommand": "npm ci",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
   "regions": ["iad1"],
+  "functions": {
+    "apps/frontend/src/app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     {
       "source": "/api/backend/:path*",
       "destination": "https://magajico-backend.onrender.com/api/:path*"
+    },
+    {
+      "source": "/api/ml/:path*",
+      "destination": "https://magajico-ml-service.onrender.com/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ]
 }

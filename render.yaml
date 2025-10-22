@@ -1,11 +1,12 @@
 services:
+  # Fastify Backend Service
   - type: web
     name: magajico-backend
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install && npm run build --workspace=packages/shared && npm run build --workspace=@magajico/backend
-    startCommand: node apps/backend/dist/main.js
+    buildCommand: npm install
+    startCommand: cd apps/backend && npx tsx src/index.ts
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,9 +15,26 @@ services:
       - key: FRONTEND_URL
         sync: false
       - key: ML_SERVICE_URL
-        value: http://127.0.0.1:8000
-      - key: REQUIRE_DB
-        value: true
+        sync: false
       - key: PORT
+        value: 3001
+    healthCheckPath: /health
+    
+  # FastAPI ML Service
+  - type: web
+    name: magajico-ml-service
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: cd apps/backend/ml && pip install -r requirements.txt
+    startCommand: cd apps/backend/ml && uvicorn api:app --host 0.0.0.0 --port $PORT --workers 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: MODEL_PATH
+        value: model_data.pkl
+      - key: ENVIRONMENT
+        value: production
+      - key: FRONTEND_URL
         sync: false
     healthCheckPath: /health
