@@ -20,7 +20,6 @@ const nextConfig = {
   poweredByHeader: false,
   swcMinify: true,
   generateEtags: true,
-  output: 'standalone',
 
   // For monorepo setup with shared packages
   transpilePackages: ["@magajico/shared"],

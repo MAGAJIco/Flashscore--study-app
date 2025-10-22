@@ -1,6 +1,7 @@
+
 {
-  "buildCommand": "npm run build --workspace=packages/shared && npm run build --workspace=apps/frontend",
-  "installCommand": "npm ci",
+  "buildCommand": "cd packages/shared && npm run build && cd ../../apps/frontend && npm run build",
+  "installCommand": "npm install",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
   "regions": ["iad1"],
