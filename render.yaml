@@ -1,36 +1,61 @@
 services:
-  # Fastify Backend Service
+  # Fastify Backend Service (Zero Cost - Free Tier)
   - type: web
     name: magajico-backend
-    env: node
+    runtime: node
     region: oregon
     plan: free
-    buildCommand: npm install
-    startCommand: cd apps/backend && npx tsx src/index.ts
+    buildCommand: npm ci && npm run build --workspace=packages/shared && npm run build --workspace=apps/backend
+    startCommand: cd apps/backend && node dist/index.js
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
       - key: MONGODB_URI
         sync: false
       - key: FRONTEND_URL
         sync: false
       - key: ML_SERVICE_URL
         sync: false
-      - key: PORT
-        value: 3001
+      - key: JWT_SECRET
+        sync: false
+      - key: ENCRYPTION_KEY
+        sync: false
+      - key: PICOIN_ENCRYPTION_KEY
+        sync: false
+      - key: JWT_PRIVATE_KEY
+        sync: false
+      - key: JWT_PUBLIC_KEY
+        sync: false
+      - key: JWT_ACCESS_EXPIRES
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES
+        value: 7d
+      - key: SPORTS_API_KEY
+        sync: false
+      - key: ODDS_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: CLAUDE_API_KEY
+        sync: false
+      - key: ANALYTICS_API_KEY
+        sync: false
     healthCheckPath: /health
+    autoDeploy: true
     
-  # FastAPI ML Service
+  # FastAPI ML Service (Zero Cost - Free Tier)
   - type: web
     name: magajico-ml-service
-    env: python
+    runtime: python
     region: oregon
     plan: free
     buildCommand: cd apps/backend/ml && pip install -r requirements.txt
-    startCommand: cd apps/backend/ml && uvicorn api:app --host 0.0.0.0 --port $PORT --workers 1
+    startCommand: cd apps/backend/ml && uvicorn api:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: 3.11
       - key: MODEL_PATH
         value: model_data.pkl
       - key: ENVIRONMENT
@@ -38,3 +63,4 @@ services:
       - key: FRONTEND_URL
         sync: false
     healthCheckPath: /health
+    autoDeploy: true

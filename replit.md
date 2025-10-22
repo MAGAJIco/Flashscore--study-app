@@ -25,7 +25,7 @@ The platform features a clean, responsive design with a Day/Night theme system, 
 - **ML Service**: Python 3.11, FastAPI, scikit-learn, PyTorch.
 - **Authentication**: NextAuth for email/password and Google OAuth, JWT-based sessions, bcrypt password hashing, and COPPA-compliant age verification (13+ years required).
 - **Security**: Environment variable validation, CORS enabled with credentials support, no hard-coded secrets.
-- **Deployment**: Configured for Replit Autoscale deployment and Vercel for the frontend.
+- **Deployment**: Configured for zero-cost deployment via Render (backend + ML service using Blueprint) and Vercel (frontend). See DEPLOY.md for detailed deployment instructions.
 - **Port Configuration**: Frontend (5000), Backend (3001), ML Service (8000).
 - **Database Models**: Match, News, NewsAuthor, Prediction, User, Foundation, ErrorLog (all indexed and optimized).
 

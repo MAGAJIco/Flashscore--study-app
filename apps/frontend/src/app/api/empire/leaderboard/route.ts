@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     // Fetch real predictions from database
-    const predictionsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://0.0.0.0:5000'}/api/predictions?limit=500`, {
+    const predictionsResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:3001'}/api/predictions?limit=500`, {
       cache: 'no-store'
     });
     
