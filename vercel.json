@@ -1,6 +1,6 @@
 
 {
-  "buildCommand": "npm run build --workspace=packages/shared && npm run build --workspace=apps/frontend",
+  "buildCommand": "npm run build --workspace=@magajico/shared && npm run build --workspace=@magajico/frontend",
   "installCommand": "npm install",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
