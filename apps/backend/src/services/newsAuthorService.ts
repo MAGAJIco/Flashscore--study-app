@@ -1,5 +1,5 @@
-import NewsAuthor, { INewsAuthor } from '../models/NewsAuthor.js';
-import News, { INews } from '../models/News.js';
+import { NewsAuthor, INewsAuthor } from '../models/NewsAuthor.js';
+import { News, INews } from '../models/News.js';
 
 export class NewsAuthorService {
   // Create or update a news author
