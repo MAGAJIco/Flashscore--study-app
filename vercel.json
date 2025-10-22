@@ -1,8 +1,9 @@
 
 {
-  "buildCommand": "npm run build --workspace=@magajico/shared && npm run build --workspace=@magajico/frontend",
+  "buildCommand": "cd apps/frontend && npm install && npm run build",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
+  "installCommand": "npm install --legacy-peer-deps",
   "functions": {
     "apps/frontend/src/app/api/**/*.ts": {
       "maxDuration": 30
