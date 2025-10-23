@@ -128,11 +128,29 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
 
     // Deduct Pi stake
     const piCoinManager = PiCoinManager.getInstance();
-    piCoinManager.spendCoins(
+    
+    // Ensure wallet exists
+    let wallet = piCoinManager.getWallet(currentUser.id);
+    if (!wallet) {
+      wallet = piCoinManager.createWallet(currentUser.id);
+    }
+    
+    // Check if user has enough balance
+    if (wallet.balance < newChallenge.piStake) {
+      alert(`Insufficient Pi Coins! You need ${newChallenge.piStake} but only have ${wallet.balance}`);
+      return;
+    }
+    
+    const success = piCoinManager.spendCoins(
       currentUser.id,
       newChallenge.piStake,
       `Challenge stake: ${newChallenge.matchName}`
     );
+    
+    if (!success) {
+      alert('Failed to deduct Pi stake. Please try again.');
+      return;
+    }
 
     saveChallenges([challenge, ...challenges]);
     setShowCreateChallenge(false);
@@ -153,11 +171,29 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
       if (c.id === challengeId) {
         // Deduct Pi stake from challenged user
         const piCoinManager = PiCoinManager.getInstance();
-        piCoinManager.spendCoins(
+        
+        // Ensure wallet exists
+        let wallet = piCoinManager.getWallet(currentUser.id);
+        if (!wallet) {
+          wallet = piCoinManager.createWallet(currentUser.id);
+        }
+        
+        // Check if user has enough balance
+        if (wallet.balance < c.piStake) {
+          alert(`Insufficient Pi Coins! You need ${c.piStake} but only have ${wallet.balance}`);
+          return c;
+        }
+        
+        const success = piCoinManager.spendCoins(
           currentUser.id,
           c.piStake,
           `Challenge stake: ${c.matchName}`
         );
+        
+        if (!success) {
+          alert('Failed to accept challenge. Please try again.');
+          return c;
+        }
 
         return {
           ...c,
