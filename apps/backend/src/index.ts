@@ -10,6 +10,7 @@ import { newsRoutes } from "./routes/news.js";
 import { newsAuthorsRoutes } from "./routes/newsAuthors.js";
 import { foundationRoutes } from "./routes/foundation.js";
 import errorsRoutes from "./routes/errors.js";
+import { authRoutes } from "./routes/auth.js";
 
 const fastify = Fastify({ logger: true });
 
@@ -30,6 +31,7 @@ const startServer = async () => {
 
     // Register routes
     await fastify.register(healthRoutes);
+    await fastify.register(authRoutes, { prefix: "/api/auth" });
     await fastify.register(predictionsRoutes, { prefix: "/api/predictions" });
     await fastify.register(matchRoutes, { prefix: "/api" });
     await fastify.register(newsRoutes, { prefix: "/api/news" });
@@ -48,6 +50,7 @@ const startServer = async () => {
     fastify.log.info(`   ✓ Authors: /api/news-authors/* (Service Layer)`);
     fastify.log.info(`   ✓ Foundation: /api/foundation/:userId (MongoDB)`);
     fastify.log.info(`   ✓ Errors: /api/errors/* (MongoDB)`);
+    fastify.log.info(`   ✓ Authentication: /api/auth/* (JWT)`);
     fastify.log.info(`📊 Models: Match, News, NewsAuthor, Prediction, User, Foundation, ErrorLog`);
   } catch (err: unknown) {
     if (err instanceof Error) fastify.log.error(`❌ Server error: ${err.message}`);
