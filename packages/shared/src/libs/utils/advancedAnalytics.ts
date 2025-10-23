@@ -281,5 +281,4 @@ class AdvancedAnalytics {
   }
 }
 
-const advancedAnalyticsInstance = new AdvancedAnalytics();
-export default advancedAnalyticsInstance;
+export const advancedAnalytics = new AdvancedAnalytics();

@@ -77,5 +77,4 @@ class FoundationAPI {
 }
 
 export const foundationApi = new FoundationAPI();
-export default foundationApi;
 export type { FoundationAPI };

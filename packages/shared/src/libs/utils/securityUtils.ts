@@ -278,4 +278,5 @@ class SecurityUtils {
   }
 }
 
-export default SecurityUtils;
+export { SecurityUtils };
+export const securityUtils = SecurityUtils;
