@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import mongoose from "mongoose";
+import { connectDB } from "./config/db.js";
 
 // Import all route handlers
 import { healthRoutes } from "./routes/health.js";
@@ -26,8 +26,8 @@ fastify.addHook("onRequest", async (_req, reply) => {
 
 const startServer = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/sportscentral");
-    fastify.log.info("✅ MongoDB connected");
+    // Connect to MongoDB (optional if REQUIRE_DB=false)
+    await connectDB();
 
     // Register routes
     await fastify.register(healthRoutes);
