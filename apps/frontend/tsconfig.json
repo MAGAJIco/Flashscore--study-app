@@ -23,7 +23,13 @@
       "@components/*": ["./src/app/components/*"],
       "@services/*": ["./src/app/services/*"],
       "@utils/*": ["./src/app/utils/*"],
-      "@shared/*": ["../../packages/shared/src/*"]
+      "@shared/*": ["../../packages/shared/src/*"],
+      "@shared/types": ["../../packages/shared/src/libs/types/index.ts"],
+      "@shared/types/*": ["../../packages/shared/src/libs/types/*"],
+      "@shared/utils": ["../../packages/shared/src/libs/utils/index.ts"],
+      "@shared/utils/*": ["../../packages/shared/src/libs/utils/*"],
+      "@shared/models": ["../../packages/shared/src/libs/models/index.ts"],
+      "@shared/models/*": ["../../packages/shared/src/libs/models/*"]
     },
     "plugins": [
       {

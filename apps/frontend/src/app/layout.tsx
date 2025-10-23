@@ -1,14 +1,15 @@
-import React from "react";
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { KidsModeProvider } from "../context/KidsModeContext";
-import { UserPreferencesProvider } from "./providers/UserPreferencesProvider";
-import { SessionProvider as NextAuthSessionProvider } from './providers/SessionProvider';
-import './styles/globals.css'
-import './styles/mobile-optimizations.css'
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata, Viewport } from "next";
+
+import { KidsModeProvider } from "../context/KidsModeContext";
+import { UserPreferencesProvider } from "./providers/UserPreferencesProvider";
+import { SessionProvider } from './providers/SessionProvider';
+import './styles/globals.css';
+import './styles/mobile-optimizations.css';
 import PWAServiceWorker from "./components/PWAServiceWorker";
 import PushNotificationManager from "./components/PushNotificationManager";
 import MobilePerformanceOptimizer from "./components/MobilePerformanceOptimizer";
@@ -79,7 +80,7 @@ export default async function RootLayout({
       </head>
       <body className="antialiased">
         <ErrorBoundaryWithPerformance>
-          <NextAuthSessionProvider>
+          <SessionProvider>
             <NextIntlClientProvider messages={messages} locale={locale}>
               <KidsModeProvider>
                 <UserPreferencesProvider>
@@ -96,7 +97,7 @@ export default async function RootLayout({
                 </UserPreferencesProvider>
               </KidsModeProvider>
             </NextIntlClientProvider>
-          </NextAuthSessionProvider>
+          </SessionProvider>
         </ErrorBoundaryWithPerformance>
       </body>
     </html>
