@@ -78,6 +78,9 @@ ANALYTICS_API_KEY=<your-analytics-key>
 For **magajico-ml-service**:
 ```bash
 FRONTEND_URL=https://your-app.vercel.app
+PYTHON_VERSION=3.11.13
+MODEL_PATH=model_data.pkl
+ENVIRONMENT=production
 ```
 
 6. Click **Apply** and wait 5-10 minutes for builds

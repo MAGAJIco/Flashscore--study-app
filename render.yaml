@@ -1,6 +1,6 @@
 services:
   # Fastify Backend Service (Zero Cost - Free Tier)
-  - type: 🕸️ 
+  - type: web
     name: magajico-backend
     runtime: node
     region: oregon
@@ -55,7 +55,7 @@ services:
     startCommand: cd apps/backend/ml && uvicorn api:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.1x.x
+        value: 3.11.13
       - key: MODEL_PATH
         value: model_data.pkl
       - key: ENVIRONMENT
