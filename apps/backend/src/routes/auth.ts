@@ -1,7 +1,6 @@
-
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { JWTUtils } from '../utils/jwtUtils.js';
-import User from '../models/User.js';
+import { User } from '../models/User.js';
 import bcrypt from 'bcrypt';
 
 interface LoginBody {
@@ -21,7 +20,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     try {
       // Find user (you'll need to implement password hashing/verification)
       const user = await User.findOne({ email });
-      
+
       if (!user) {
         return reply.status(401).send({ error: 'Invalid credentials' });
       }
