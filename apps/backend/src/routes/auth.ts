@@ -2,6 +2,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { JWTUtils } from '../utils/jwtUtils.js';
 import User from '../models/User.js';
+import bcrypt from 'bcrypt';
 
 interface LoginBody {
   email: string;
@@ -25,11 +26,11 @@ export async function authRoutes(fastify: FastifyInstance) {
         return reply.status(401).send({ error: 'Invalid credentials' });
       }
 
-      // TODO: Verify password using bcrypt
-      // const isValidPassword = await bcrypt.compare(password, user.password);
-      // if (!isValidPassword) {
-      //   return reply.status(401).send({ error: 'Invalid credentials' });
-      // }
+      // Verify password using bcrypt
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
+        return reply.status(401).send({ error: 'Invalid credentials' });
+      }
 
       // Generate tokens
       const tokens = JWTUtils.generateTokenPair({

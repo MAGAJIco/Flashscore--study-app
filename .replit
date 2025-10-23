@@ -99,9 +99,26 @@ args = "npm run build --workspace=@magajico/backend"
 task = "shell.exec"
 args = "cd apps/frontend && npm run build"
 
+[[workflows.workflow]]
+name = "Test Production Build"
+author = 48910990
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build --workspace=packages/shared"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build --workspace=@magajico/backend"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && npm run build"
+
 [deployment]
 build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
-run = ["sh", "-c", "npm run start:all"]
+run = ["sh", "-c", "cd apps/backend && node dist/src/index.js"]
 
 [[deployment.responseHeaders]]
 path = "/*"
