@@ -44,10 +44,7 @@ export const connectDB = async (): Promise<void | null> => {
     const options: Record<string, any> = {
       maxPoolSize: 10,
       serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-      bufferMaxEntries: 0,
-      useNewUrlParser: true,
-      useUnifiedTopology: true
+      socketTimeoutMS: 45000
     };
 
     // Add server API settings for Atlas connections
