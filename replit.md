@@ -3,6 +3,14 @@
 ## Overview
 Sports Central is a premium monorepo sports prediction and community platform built with Next.js. It features AI-powered predictions, live scores, interactive experiences, and community rewards. The platform aims to provide a comprehensive multi-sport experience inspired by FlashScore, incorporating real-time data, personalized content, and engaging user interfaces. Key capabilities include multi-sport browsing, live scorecards with AI insights, an authentication system with age verification, and a Kids Mode for educational sports content.
 
+## Recent Changes (October 23, 2025)
+- **Deployment Configuration Fixes**: Fixed critical deployment errors for both Render and Vercel platforms
+  - Fixed `render.yaml`: Changed invalid service type from emoji to `web`, updated Python version to `3.11.13`
+  - Updated `vercel.json`: Improved monorepo build order to ensure shared packages build first
+  - Enhanced `DEPLOY.md`: Added complete ML service environment variables documentation
+  - Created comprehensive `.env.example`: Documented all required environment variables for all services
+- **Status**: All three workflows (Backend, Frontend, ML Service) running successfully in development environment
+
 ## User Preferences
 I prefer simple language in explanations. I want iterative development, so please ask before making major changes. I prefer detailed explanations for complex features.
 
