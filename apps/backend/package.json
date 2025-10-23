@@ -4,8 +4,8 @@
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc && echo 'Backend build complete'",
     "start": "node dist/index.js",
+    "build": "tsc",
     "start:prod": "NODE_ENV=production node dist/index.js",
     "seed": "node src/seed/seedCollections.ts"
   },
