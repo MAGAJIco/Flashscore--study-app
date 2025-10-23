@@ -1,9 +1,9 @@
 
 {
-  "buildCommand": "cd apps/frontend && npm run build",
+  "buildCommand": "npm run build --workspace=packages/shared && cd apps/frontend && npm run build",
   "outputDirectory": "apps/frontend/.next",
   "framework": "nextjs",
-  "installCommand": "npm install",
+  "installCommand": "npm install --legacy-peer-deps",
   "functions": {
     "apps/frontend/src/app/api/**/*.ts": {
       "maxDuration": 30
