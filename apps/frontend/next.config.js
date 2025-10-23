@@ -5,8 +5,9 @@ const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
 const nextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: [
-    '99ce9bbc-a923-422f-8b7e-678d1f59d15a-00-32s0yd0zps0ky.janeway.replit.dev',
-    '127.0.0.1'
+    '35b3dd54-a8e5-4b3f-8300-6093dc2f0937-00-3clwrn3umkhzx.picard.replit.dev',
+    '127.0.0.1',
+    'localhost'
   ],
   experimental: {
     externalDir: true,
@@ -34,6 +35,15 @@ const nextConfig = {
     config.resolve.extensionAlias = {
       '.js': ['.ts', '.tsx', '.js', '.jsx'],
     };
+    
+    // Handle module resolution errors
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    };
+
     if (!isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',

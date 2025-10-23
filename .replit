@@ -116,6 +116,39 @@ args = "npm run build --workspace=@magajico/backend"
 task = "shell.exec"
 args = "cd apps/frontend && npm run build"
 
+[[workflows.workflow]]
+name = "Optimized Production Build"
+author = 48910515
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"Building shared package...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd packages/shared && npm run type-check"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"Building backend...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd ../../apps/backend && npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"Building frontend...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd ../frontend && npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"Build complete!\""
+
 [deployment]
 build = ["sh", "-c", "cd apps/frontend && pnpm install && pnpm build"]
 run = ["sh", "-c", "cd apps/backend && node dist/src/index.js"]
