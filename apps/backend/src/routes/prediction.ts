@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { mlPredictionService, PredictionRequest } from '../services/mlPredictionService';
-import { aiEnhancementService } from '../services/aiEnhancementService';
+import { mlPredictionService, PredictionRequest } from '../services/mlPredictionService.js';
+import { aiEnhancementService } from '../services/aiEnhancementService.js';
+import { Prediction } from '../models/Predictions.js';
 
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://0.0.0.0:8000';
 
@@ -20,6 +21,53 @@ export async function predictionsRoutes(fastify: FastifyInstance) {
       version: 'MagajiCo-ML-v2.1',
       timestamp: new Date().toISOString(),
     };
+  });
+
+  // 📊 GET all predictions with optional limit
+  fastify.get('/', async (req: FastifyRequest<{ Querystring: { limit?: string } }>, rep: FastifyReply) => {
+    try {
+      const limit = parseInt(req.query.limit || '50');
+      const predictions = await Prediction.find()
+        .sort({ createdAt: -1 })
+        .limit(Math.min(limit, 100));
+      
+      return {
+        success: true,
+        data: predictions,
+        count: predictions.length
+      };
+    } catch (error) {
+      fastify.log.error(error);
+      return rep.status(500).send({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to fetch predictions'
+      });
+    }
+  });
+
+  // 📊 GET single prediction by ID
+  fastify.get('/:id', async (req: FastifyRequest<{ Params: { id: string } }>, rep: FastifyReply) => {
+    try {
+      const prediction = await Prediction.findById(req.params.id);
+      
+      if (!prediction) {
+        return rep.status(404).send({
+          success: false,
+          error: 'Prediction not found'
+        });
+      }
+      
+      return {
+        success: true,
+        data: prediction
+      };
+    } catch (error) {
+      fastify.log.error(error);
+      return rep.status(500).send({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to fetch prediction'
+      });
+    }
   });
 
   // ⚽ Single match prediction with optional AI enhancement
