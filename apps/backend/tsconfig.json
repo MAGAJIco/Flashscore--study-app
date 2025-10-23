@@ -1,35 +1,21 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "lib": ["ES2022"],
-    "types": ["node"],
-    "moduleResolution": "bundler",
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./src",
-    "composite": false,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+    "module": "commonjs",
+    "target": "ES2020",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@btypes/*": ["types/*"],
-      "@bmodels/*": ["models/*"],
-      "@bcontrollers/*": ["controllers/*"],
-      "@broutes/*": ["routes/*"],
-      "@bservices/*": ["services/*"],
-      "@bconfig/*": ["config/*"],
-      "@shared/types/*": ["../../../packages/shared/src/libs/types/*"],
-      "@shared/utils/*": ["../../../packages/shared/src/libs/utils/*"],
-      "@shared/models/*": ["../../../packages/shared/src/libs/models/*"]
-    }
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "types": ["node"],
+    "declaration": false,
+    "sourceMap": false
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts", "src/_disabled/**/*"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/__tests__/**"]
 }
