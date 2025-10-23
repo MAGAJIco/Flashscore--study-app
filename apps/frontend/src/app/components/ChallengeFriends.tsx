@@ -103,6 +103,15 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
     const friend = friends.find(f => f.id === selectedFriend);
     if (!friend) return;
 
+    // Check transaction rate limit
+    const piCoinManager = PiCoinManager.getInstance();
+    const rateInfo = piCoinManager.getTransactionRateInfo(currentUser.id);
+    
+    if (rateInfo.isLimited) {
+      alert(`Transaction rate limit reached! You can make ${rateInfo.remainingTransactions} more transactions. Please wait a moment.`);
+      return;
+    }
+
     const challenge: Challenge = {
       id: `challenge_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       challenger: {
@@ -167,10 +176,18 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
   const acceptChallenge = (challengeId: string, prediction: string, confidence: number) => {
     if (!currentUser) return;
 
+    const piCoinManager = PiCoinManager.getInstance();
+    
+    // Check transaction rate limit
+    const rateInfo = piCoinManager.getTransactionRateInfo(currentUser.id);
+    if (rateInfo.isLimited) {
+      alert(`Transaction rate limit reached! You have ${rateInfo.remainingTransactions} transactions remaining. Please wait.`);
+      return;
+    }
+
     const updatedChallenges = challenges.map(c => {
       if (c.id === challengeId) {
         // Deduct Pi stake from challenged user
-        const piCoinManager = PiCoinManager.getInstance();
         
         // Ensure wallet exists
         let wallet = piCoinManager.getWallet(currentUser.id);

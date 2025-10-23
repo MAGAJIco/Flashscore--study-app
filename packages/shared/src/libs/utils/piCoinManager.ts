@@ -378,6 +378,41 @@ class PiCoinManager {
     }
     return false;
   }
+
+  // Get transaction rate info for a user
+  public getTransactionRateInfo(userId: string): {
+    recentTransactions: number;
+    maxTransactions: number;
+    rateLimitWindow: number;
+    isLimited: boolean;
+    remainingTransactions: number;
+  } {
+    const now = Date.now();
+    const userTransactions = this.transactionRateLimit.get(userId) || [];
+    
+    // Count recent transactions within the window
+    const recentTransactions = userTransactions.filter(
+      timestamp => now - timestamp < this.RATE_LIMIT_WINDOW
+    );
+
+    return {
+      recentTransactions: recentTransactions.length,
+      maxTransactions: this.MAX_TRANSACTIONS_PER_MINUTE,
+      rateLimitWindow: this.RATE_LIMIT_WINDOW,
+      isLimited: recentTransactions.length >= this.MAX_TRANSACTIONS_PER_MINUTE,
+      remainingTransactions: Math.max(0, this.MAX_TRANSACTIONS_PER_MINUTE - recentTransactions.length)
+    };
+  }
+
+  // Add a transaction with explicit rate limit checking
+  public addTransaction(userId: string, amount: number, type: 'earn' | 'spend' | 'transfer', description: string, metadata?: any): boolean {
+    if (type === 'earn') {
+      return this.earnCoins(userId, amount, description, metadata);
+    } else if (type === 'spend') {
+      return this.spendCoins(userId, amount, description, metadata);
+    }
+    return false;
+  }
 }
 
 // Export class and instance
