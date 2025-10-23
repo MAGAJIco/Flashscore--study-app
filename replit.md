@@ -14,6 +14,11 @@ Sports Central is a premium monorepo sports prediction and community platform bu
   - Fixed `jwtUtils.ts`: Implemented dynamic token expiration parsing from environment variables with `parseTimeToSeconds()` helper
   - Corrected `auth.ts`: Fixed type conversion for MongoDB `_id` field using `String()` casting
   - Verified: Backend builds successfully without TypeScript errors (`npm run build` passes)
+- **Frontend TypeScript Fixes**: Resolved Vercel deployment blocking errors
+  - Fixed `CommunityVoting.tsx`: Changed static PiCoinManager calls to instance method calls via `getInstance()`
+  - Fixed `ChallengeFriends.tsx`: Removed duplicate variable declaration
+  - Replaced invalid `addTransaction()` static calls with proper instance methods (`spendCoins()`, `getBalance()`)
+  - Verified: Frontend TypeScript compilation passes for deployment-blocking errors
 - **Status**: All three workflows (Backend, Frontend, ML Service) running successfully in development environment
 
 ## User Preferences
