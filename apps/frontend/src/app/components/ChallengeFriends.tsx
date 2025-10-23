@@ -127,10 +127,10 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
     };
 
     // Deduct Pi stake
-    PiCoinManager.addTransaction(
+    const piCoinManager = PiCoinManager.getInstance();
+    piCoinManager.spendCoins(
       currentUser.id,
-      -newChallenge.piStake,
-      'bonus',
+      newChallenge.piStake,
       `Challenge stake: ${newChallenge.matchName}`
     );
 
@@ -152,10 +152,10 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
     const updatedChallenges = challenges.map(c => {
       if (c.id === challengeId) {
         // Deduct Pi stake from challenged user
-        PiCoinManager.addTransaction(
+        const piCoinManager = PiCoinManager.getInstance();
+        piCoinManager.spendCoins(
           currentUser.id,
-          -c.piStake,
-          'bonus',
+          c.piStake,
           `Challenge stake: ${c.matchName}`
         );
 
@@ -180,10 +180,10 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
         // Refund Pi stake to challenger
         const challenge = challenges.find(ch => ch.id === challengeId);
         if (challenge) {
-          PiCoinManager.addTransaction(
+          const piCoinManager = PiCoinManager.getInstance();
+          piCoinManager.earnCoins(
             challenge.challenger.id,
             challenge.piStake,
-            'bonus',
             `Challenge refund: ${challenge.matchName}`
           );
         }
@@ -207,35 +207,33 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
     const challengerCorrect = challenge.challengerPrediction.outcome === actualResult;
     const challengedCorrect = challenge.challengedPrediction.outcome === actualResult;
 
+    const piCoinManager = PiCoinManager.getInstance();
+    
     if (challengerCorrect && !challengedCorrect) {
       winner = challenge.challenger.id;
       // Award double the stake to winner
-      PiCoinManager.addTransaction(
+      piCoinManager.earnCoins(
         challenge.challenger.id,
         challenge.piStake * 2,
-        'bonus',
         `Won challenge: ${challenge.matchName}`
       );
     } else if (challengedCorrect && !challengerCorrect) {
       winner = challenge.challenged.id;
-      PiCoinManager.addTransaction(
+      piCoinManager.earnCoins(
         challenge.challenged.id,
         challenge.piStake * 2,
-        'bonus',
         `Won challenge: ${challenge.matchName}`
       );
     } else {
       // Draw - refund both players
-      PiCoinManager.addTransaction(
+      piCoinManager.earnCoins(
         challenge.challenger.id,
         challenge.piStake,
-        'bonus',
         `Challenge draw refund: ${challenge.matchName}`
       );
-      PiCoinManager.addTransaction(
+      piCoinManager.earnCoins(
         challenge.challenged.id,
         challenge.piStake,
-        'bonus',
         `Challenge draw refund: ${challenge.matchName}`
       );
     }
