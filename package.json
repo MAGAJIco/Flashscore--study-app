@@ -7,20 +7,10 @@
     "packages/*"
   ],
   "scripts": {
-    "install:all": "npm install",
-    "dev": "npm run dev --workspaces --if-present",
-    "build": "npm run build --workspace=packages/shared && npm run build --workspace=apps/backend && npm run build --workspace=apps/frontend",
-    "tsc:check": "npm run type-check --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:debug": "playwright test --debug",
-    "test:all": "npm test && npm run test:e2e",
-    "start:all": "concurrently \"npm run start:backend\" \"npm run start:ml\" \"npm run start:frontend\"",
-    "start:backend": "cd apps/backend && node dist/main.js",
-    "start:ml": "cd apps/backend/ml && uv run python api.py",
-    "start:frontend": "cd apps/frontend && npm start",
-    "build:all": "npm run build --workspace=packages/shared && npm run build --workspace=@magajico/backend && cd apps/frontend && npm run build"
+    "build:shared": "npm run build --workspace=packages/shared",
+    "build:frontend": "npm run build --workspace=@magajico/frontend",
+    "build": "npm run build:shared && npm run build:frontend",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",

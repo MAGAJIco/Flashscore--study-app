@@ -1,7 +1,11 @@
-
 {
   "name": "@magajico/shared",
   "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc --noEmit",
+    "type-check": "tsc --noEmit"
+  },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
@@ -24,9 +28,5 @@
   },
   "dependencies": {
     "typescript": "^5.9.3"
-  },
-  "scripts": {
-    "build": "echo 'Shared package ready - Next.js will transpile on demand'",
-    "type-check": "tsc --noEmit"
   }
 }

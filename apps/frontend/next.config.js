@@ -24,6 +24,9 @@ const nextConfig = {
 
   // For monorepo setup with shared packages
   transpilePackages: ["@magajico/shared"],
+  
+  // Output standalone build for Vercel
+  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
 
   // Compiler options
   compiler: {
