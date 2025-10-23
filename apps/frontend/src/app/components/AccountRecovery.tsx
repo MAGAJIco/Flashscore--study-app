@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import UserManager from '../../../../../packages/shared/src/libs/utils/userManager';
+import { UserManager } from '../../../../../packages/shared/src/libs/utils/userManager';
 
 interface AccountRecoveryProps {
   isOpen: boolean;
