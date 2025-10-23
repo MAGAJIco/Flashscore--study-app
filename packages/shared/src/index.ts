@@ -38,8 +38,13 @@ export * from './libs/utils/piCoinManager';
 export * from './libs/utils/userManager';
 export * from './libs/utils/securityUtils';
 export * from './libs/utils/advancedAnalytics';
+export { default as AdvancedAnalytics } from './libs/utils/advancedAnalytics';
+
 export * from './libs/utils/mlEnhancement';
+export { default as MLEnhancement } from './libs/utils/mlEnhancement';
+
 export * from './libs/services/gamificationEngine';
+export { default as GamificationEngine } from './libs/services/gamificationEngine';
 
 export * from './libs/utils/apifoundation';
 export { default as foundationApi } from './libs/utils/apifoundation';

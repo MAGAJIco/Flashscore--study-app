@@ -208,4 +208,5 @@ class MLEnhancement {
   }
 }
 
-export default new MLEnhancement();
+const mlEnhancementInstance = new MLEnhancement();
+export default mlEnhancementInstance;

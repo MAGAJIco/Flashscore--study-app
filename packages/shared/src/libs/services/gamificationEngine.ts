@@ -342,4 +342,5 @@ class GamificationEngine {
   }
 }
 
-export default new GamificationEngine();
+const gamificationEngineInstance = new GamificationEngine();
+export default gamificationEngineInstance;

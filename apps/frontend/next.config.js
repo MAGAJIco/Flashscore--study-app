@@ -31,6 +31,9 @@ const nextConfig = {
 
   // Webpack configuration
   webpack: (config, { isServer }) => {
+    config.resolve.extensionAlias = {
+      '.js': ['.ts', '.tsx', '.js', '.jsx'],
+    };
     if (!isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
