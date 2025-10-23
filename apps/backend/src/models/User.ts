@@ -3,6 +3,8 @@ import { Schema, model, Document } from "mongoose";
 export interface IUser extends Document {
   username: string;
   email: string;
+  password: string;
+  role?: string;
   age: number;
   isMinor?: boolean;
   accessRestrictions: {
@@ -37,6 +39,14 @@ const userSchema = new Schema<IUser>({
     unique: true,
     lowercase: true,
     trim: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  role: {
+    type: String,
+    default: 'user'
   },
   age: {
     type: Number,

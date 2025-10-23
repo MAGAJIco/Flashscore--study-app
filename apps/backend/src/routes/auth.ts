@@ -33,7 +33,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
       // Generate tokens
       const tokens = JWTUtils.generateTokenPair({
-        userId: user._id.toString(),
+        userId: String(user._id),
         email: user.email,
         role: user.role || 'user'
       });

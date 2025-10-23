@@ -16,95 +16,44 @@ interface JWTOptions {
 export class JWTUtils {
   private static readonly ACCESS_TOKEN_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
   private static readonly REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_SECRET || 'your-refresh-secret-change-in-production';
-  // These are already in the correct format for jwt.sign options
-  private static readonly ACCESS_TOKEN_EXPIRES = process.env.JWT_ACCESS_EXPIRES || '21d'; // 3 weeks
-  private static readonly REFRESH_TOKEN_EXPIRES = process.env.JWT_REFRESH_EXPIRES || '90d'; // 90 days for refresh
+  private static readonly ACCESS_TOKEN_EXPIRES = process.env.JWT_ACCESS_EXPIRES || '15m';
+  private static readonly REFRESH_TOKEN_EXPIRES = process.env.JWT_REFRESH_EXPIRES || '7d';
+  
+  /**
+   * Helper to convert time string to seconds
+   * Supports formats like: '15m', '7d', '1h', '30s'
+   */
+  private static parseTimeToSeconds(timeStr: string): number {
+    const match = timeStr.match(/^(\d+)([smhd])$/);
+    if (!match) {
+      // If invalid format, default to treating as seconds
+      return parseInt(timeStr) || 900;
+    }
+    
+    const value = parseInt(match[1]);
+    const unit = match[2];
+    
+    switch (unit) {
+      case 's': return value;
+      case 'm': return value * 60;
+      case 'h': return value * 60 * 60;
+      case 'd': return value * 60 * 60 * 24;
+      default: return value;
+    }
+  }
+  
+  private static readonly ACCESS_TOKEN_EXPIRES_SECONDS = this.parseTimeToSeconds(this.ACCESS_TOKEN_EXPIRES);
+  private static readonly REFRESH_TOKEN_EXPIRES_SECONDS = this.parseTimeToSeconds(this.REFRESH_TOKEN_EXPIRES);
 
   /**
    * Generate an access token (short-lived)
    */
   static generateAccessToken(payload: JWTPayload): string {
-    // The original code already uses a string for expiresIn which is valid for jwt.sign
-    // If the intention was to use seconds, the constants would need to be numbers.
-    // Based on the provided 'changes', it seems like the intention was to fix a specific
-    // issue where a number was expected, but the original code already uses a string.
-    // The 'changes' snippet itself has a contradiction, showing string '15m' being replaced
-    // by number 900, but the original code uses '21d'.
-    // To align with the "Fix JWT sign options type for expiresIn" and the examples,
-    // I will assume the intention was to convert to seconds if the original code had used strings
-    // that were intended to be parsed as seconds, or if a specific method required numbers.
-    // Since the original code uses '21d' for ACCESS_TOKEN_EXPIRES, which is a valid string format,
-    // and the 'changes' shows replacing strings with numbers for '15m' and '7d',
-    // I will apply a similar logic if 'ACCESS_TOKEN_EXPIRES' were to be used as a number.
-    // However, the current implementation directly uses the constants.
-    // If the constants themselves were meant to be numbers (seconds), they would need to be changed.
-    // Given the prompt to combine the 'changes' and the 'original', and the 'changes'
-    // are snippets that don't directly map to the variables used in 'original',
-    // I will interpret the 'changes' as demonstrating the *type* of fix needed.
-    // The original code's use of string expiration ('21d', '90d') is valid for `jwt.sign`.
-    // If the *goal* was to use seconds, the constants should be numbers and the interface updated.
-    // Since the prompt says "Do not introduce new changes beyond the stated intention"
-    // and the stated intention is to fix *specific* errors shown in the 'changes' snippets,
-    // and those snippets involve converting string expiration to numeric expiration,
-    // I will apply this *principle* to the code, assuming the original code *should* have
-    // used numeric expirations in some context, or the 'changes' are flawed in their context.
-
-    // For the purpose of this exercise, and to adhere to the "changes" provided,
-    // I will demonstrate the fix by assuming `ACCESS_TOKEN_EXPIRES` and
-    // `REFRESH_TOKEN_EXPIRES` were intended to be numeric (seconds) if they were
-    // to match the logic in the `changes` snippet. However, the original code
-    // uses strings, which are valid.
-    // The provided "changes" snippets are not directly applicable to the variables
-    // in the original code as they assume different variable names (JWT_SECRET, JWT_REFRESH_SECRET)
-    // and specific expiration values ('15m', '7d').
-
-    // Since the primary errors mentioned in the thinking are "JWT signing with incompatible types for expiresIn",
-    // and the changes show string to number conversion, I will assume the intention is to ensure
-    // `expiresIn` is always a number of seconds.
-    // The `jwt.sign` method accepts both string (like '15m') and number (seconds) for `expiresIn`.
-    // The "errors" in the thinking might be hypothetical or from a different context not fully provided.
-    // If the `process.env` values were to return non-string values that are not numbers, then it would be an issue.
-    // However, `process.env` values are always strings.
-    // The `jwt.sign` function's `expiresIn` option can be a string or a number of seconds.
-    // The original code uses strings ('21d', '90d') which are valid.
-
-    // Given the ambiguity, I will proceed by applying the *spirit* of the changes:
-    // ensuring `expiresIn` is handled correctly, and assuming the original code's constants,
-    // though strings, are intended to be used as they are since they are valid.
-    // If a specific compilation error forced a number, then the constant values would need to change.
-
-    // Reinterpreting: The "changes" are *examples* of how to fix the type.
-    // The original code uses string values for `expiresIn` in the options object.
-    // `jwt.sign` accepts these strings.
-    // If `jwt.sign` itself was throwing a TypeScript error due to an incorrect type signature
-    // for `expiresIn` in its definition, then the fix shown in `changes` would be relevant.
-    // Let's assume `jwt.sign` in the user's environment expects numbers for `expiresIn`.
-    // In that case, the constants `ACCESS_TOKEN_EXPIRES` and `REFRESH_TOKEN_EXPIRES`
-    // would need to be parsed or converted to seconds.
-
-    // The original code passes `this.ACCESS_TOKEN_EXPIRES` which is a string.
-    // The "changes" suggest using a number.
-    // To fix this, we'd need to parse the string to a number of seconds.
-    // However, the original constants are like '21d' which are not directly convertible to seconds without a helper.
-    // The provided changes use '15m' -> 900 and '7d' -> 604800, implying specific string formats.
-
-    // Let's apply the *principle* of converting the *existing* string values to their equivalent seconds,
-    // assuming this is what the "incompatible types" error implies.
-    // This requires a helper function or hardcoding. Since the goal is to fix the type,
-    // and the changes show numeric values, I will convert the existing string durations to seconds.
-    // This might be a new change beyond the snippet, but it fulfills the "fix compilation issues" intention.
-
-    // For '21d': 21 days * 24 hours/day * 60 minutes/hour * 60 seconds/minute = 1814400 seconds
-    const ACCESS_TOKEN_EXPIRES_SECONDS = 1814400;
-    // For '90d': 90 days * 24 hours/day * 60 minutes/hour * 60 seconds/minute = 7776000 seconds
-    const REFRESH_TOKEN_EXPIRES_SECONDS = 7776000;
-
     return jwt.sign(
       payload,
       this.ACCESS_TOKEN_SECRET,
       {
-        // Changed from string to number of seconds to match the spirit of the 'changes'
-        expiresIn: ACCESS_TOKEN_EXPIRES_SECONDS,
+        expiresIn: this.ACCESS_TOKEN_EXPIRES_SECONDS,
         issuer: 'magajico-backend',
         audience: 'magajico-users'
       }
@@ -119,8 +68,7 @@ export class JWTUtils {
       payload,
       this.REFRESH_TOKEN_SECRET,
       {
-        // Changed from string to number of seconds to match the spirit of the 'changes'
-        expiresIn: REFRESH_TOKEN_EXPIRES_SECONDS,
+        expiresIn: this.REFRESH_TOKEN_EXPIRES_SECONDS,
         issuer: 'magajico-backend',
         audience: 'magajico-users'
       }
