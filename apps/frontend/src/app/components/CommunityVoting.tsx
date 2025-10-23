@@ -1,7 +1,13 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { PiCoinManager } from '../../../../../packages/shared/src/libs/utils/piCoinManager';
-import { UserManager, User } from '../../../../../packages/shared/src/libs/utils/userManager';
+import UserManager from '../../../../../packages/shared/src/libs/utils/userManager';
+
+interface User {
+  id: string;
+  username: string;
+  email?: string;
+}
 
 interface VotingTopic {
   id: string;
@@ -52,7 +58,8 @@ const CommunityVoting: React.FC<CommunityVotingProps> = ({ currentUser }) => {
   useEffect(() => {
     loadVotingTopics();
     if (currentUser) {
-      const balance = PiCoinManager.getBalance(currentUser.id);
+      const piCoinManager = PiCoinManager.getInstance();
+      const balance = piCoinManager.getBalance(currentUser.id);
       setUserBalance(balance.balance);
     }
   }, [currentUser]);
@@ -138,17 +145,17 @@ const CommunityVoting: React.FC<CommunityVotingProps> = ({ currentUser }) => {
     });
 
     // Deduct Pi coins from user balance
-    PiCoinManager.addTransaction(
+    const piCoinManager = PiCoinManager.getInstance();
+    piCoinManager.spendCoins(
       currentUser.id,
-      -coinsToSpend,
-      'bonus',
+      coinsToSpend,
       `Voted on: ${votingTopics.find(t => t.id === topicId)?.title}`
     );
 
     saveVotingTopics(updatedTopics);
 
     // Update user balance
-    const newBalance = PiCoinManager.getBalance(currentUser.id);
+    const newBalance = piCoinManager.getBalance(currentUser.id);
     setUserBalance(newBalance.balance);
   };
 

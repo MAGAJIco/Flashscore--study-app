@@ -136,8 +136,6 @@ const ChallengeFriends: React.FC<ChallengeFriendsProps> = ({ currentUser }) => {
     };
 
     // Deduct Pi stake
-    const piCoinManager = PiCoinManager.getInstance();
-    
     // Ensure wallet exists
     let wallet = piCoinManager.getWallet(currentUser.id);
     if (!wallet) {
