@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import CacheManager from '../../../../../packages/shared/src/libs/utils/cacheManager';
+import { ClientCacheManager } from '../../../../../packages/shared/src/libs/utils/cacheManager';
 import { ClientStorage } from '../../../../../packages/shared/src/libs/utils/clientStorage';
 
 interface ToolsProps {
@@ -18,13 +18,13 @@ function InteractiveTools({ predictions }: ToolsProps) {
 
   // Load favorites from cache
   useEffect(() => {
-    const cached = CacheManager.get('user_favorites') || [];
+    const cached = ClientCacheManager.get<string[]>('user_favorites') || [];
     setFavorites(cached);
   }, []);
 
   // Save favorites to cache
   useEffect(() => {
-    CacheManager.set('user_favorites', favorites, 60 * 24); // 24 hours
+    ClientCacheManager.set('user_favorites', favorites, 60 * 24); // 24 hours
   }, [favorites]);
 
   const toggleFavorite = (title: string) => {

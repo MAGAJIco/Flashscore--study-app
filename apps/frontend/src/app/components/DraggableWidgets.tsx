@@ -25,10 +25,10 @@ const DraggableWidgets: React.FC = () => {
   }, []);
 
   const loadWidgetLayout = () => {
-    const saved = ClientStorage.getItem('widget_layout', [
+    const saved = ClientStorage.getItem<Widget[]>('widget_layout', [
       {
         id: 'predictions',
-        type: 'predictions',
+        type: 'predictions' as const,
         title: '🎯 Today\'s Predictions',
         icon: '🎯',
         position: { x: 20, y: 20 },
@@ -37,7 +37,7 @@ const DraggableWidgets: React.FC = () => {
       },
       {
         id: 'live-scores',
-        type: 'live-scores',
+        type: 'live-scores' as const,
         title: '⚽ Live Scores',
         icon: '⚽',
         position: { x: 390, y: 20 },
@@ -46,7 +46,7 @@ const DraggableWidgets: React.FC = () => {
       },
       {
         id: 'stats',
-        type: 'stats',
+        type: 'stats' as const,
         title: '📊 My Stats',
         icon: '📊',
         position: { x: 20, y: 240 },
@@ -55,7 +55,7 @@ const DraggableWidgets: React.FC = () => {
       },
       {
         id: 'leaderboard',
-        type: 'leaderboard',
+        type: 'leaderboard' as const,
         title: '🏆 Leaderboard',
         icon: '🏆',
         position: { x: 390, y: 240 },

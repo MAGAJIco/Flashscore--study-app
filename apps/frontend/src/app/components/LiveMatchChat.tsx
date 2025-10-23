@@ -1,10 +1,23 @@
 
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { ClientStorage } from '@shared/clientStorage';
-import UserManager, { User } from '@shared/userManager';
+import { ClientStorage } from '../utils/clientStorage';
+import { UserManager } from '../../../../../packages/shared/src/libs/utils/userManager';
 import translationService from '../services/translationService';
 import timeZoneService from '../services/timeZoneService';
+
+interface User {
+  id: string;
+  username: string;
+  email?: string;
+  createdAt?: Date;
+  lastLogin?: Date;
+  sessionToken?: string;
+  loginAttempts?: number;
+  lockedUntil?: Date;
+  emailVerified?: boolean;
+  role?: string;
+}
 
 interface ChatMessage {
   id: string;
@@ -175,7 +188,7 @@ const LiveMatchChat: React.FC<LiveMatchChatProps> = ({ match, currentUser }) => 
     setMessages(prev => {
       const updated = prev.map(message => {
         if (message.id === messageId) {
-          const reactions = { ...message.reactions } || {};
+          const reactions = message.reactions ? { ...message.reactions } : {};
           if (!reactions[emoji]) reactions[emoji] = [];
           
           if (reactions[emoji].includes(currentUser.id)) {

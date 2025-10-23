@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { magajicoCEO } from './ai/magajicoCEO';
 
 interface Message {
   id: string;
@@ -17,6 +16,23 @@ interface Message {
     prediction?: string;
   };
 }
+
+// Temporary chat AI function until real implementation
+const chatAI = async (userInput: string) => {
+  const lowerInput = userInput.toLowerCase();
+  
+  if (lowerInput.includes('predict') || lowerInput.includes('match')) {
+    return {
+      message: "I analyze sports predictions using advanced strategic intelligence. Share specific match details for personalized insights!",
+      type: 'analysis' as const
+    };
+  }
+  
+  return {
+    message: "I'm here to help with sports predictions and insights. What would you like to know?",
+    type: 'text' as const
+  };
+};
 
 export default function MagajiCoPredictionChat() {
   const [messages, setMessages] = useState<Message[]>([
@@ -63,7 +79,7 @@ export default function MagajiCoPredictionChat() {
     setStreamingText('');
 
     try {
-      const response = await magajicoCEO(input);
+      const response = await chatAI(input);
       
       await simulateStreaming(response.message);
 
@@ -73,11 +89,7 @@ export default function MagajiCoPredictionChat() {
         content: streamingText || response.message,
         timestamp: new Date(),
         type: response.type || 'text',
-        metadata: response.prediction ? {
-          confidence: parseFloat(response.prediction.confidence),
-          match: response.prediction.match,
-          prediction: response.message
-        } : undefined
+        metadata: undefined
       };
 
       setMessages(prev => [...prev, assistantMessage]);

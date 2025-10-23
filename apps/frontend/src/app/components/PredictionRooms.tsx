@@ -2,7 +2,19 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { ClientStorage } from '../utils/clientStorage';
-import { User } from '../utils/userManager';
+
+interface User {
+  id: string;
+  username: string;
+  email?: string;
+  createdAt?: Date;
+  lastLogin?: Date;
+  sessionToken?: string;
+  loginAttempts?: number;
+  lockedUntil?: Date;
+  emailVerified?: boolean;
+  role?: string;
+}
 
 interface PredictionRoom {
   id: string;

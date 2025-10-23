@@ -28,10 +28,26 @@ interface Match {
 }
 
 // Loading skeleton component
-const ModulesGridSkeleton = () => { /* ...same as before... */ };
+const ModulesGridSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+    {[1, 2, 3].map(i => (
+      <div key={i} className="animate-pulse bg-gray-200 rounded-lg h-48" />
+    ))}
+  </div>
+);
 
 // Error component
-const ModulesGridError = ({ error, onRetry }: { error: string; onRetry: () => void }) => { /* ...same as before... */ };
+const ModulesGridError = ({ error, onRetry }: { error: string; onRetry: () => void }) => (
+  <div className="p-6 text-center">
+    <p className="text-red-500 mb-4">{error}</p>
+    <button 
+      onClick={onRetry}
+      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+    >
+      Retry
+    </button>
+  </div>
+);
 
 // Local storage key
 const LOCAL_STORAGE_KEY = "cachedModules";

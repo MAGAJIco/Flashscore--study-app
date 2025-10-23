@@ -41,8 +41,8 @@ const NewsAuthorManager: React.FC<NewsAuthorManagerProps> = ({ className = '' })
 
   const loadRecentNews = async () => {
     try {
-      const news = await NewsService.getAllNews();
-      setRecentNews(news.slice(0, 5)); // Show latest 5 news items
+      const newsResponse = await NewsService.getAllNews();
+      setRecentNews(newsResponse.data.slice(0, 5)); // Show latest 5 news items
     } catch (error) {
       console.error('Failed to load recent news:', error);
     }

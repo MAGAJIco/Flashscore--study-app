@@ -43,7 +43,7 @@ export default function MobileMetaOptimizer() {
 
     // Prevent text size adjustment on mobile
     document.documentElement.style.webkitTextSizeAdjust = '100%';
-    document.documentElement.style.textSizeAdjust = '100%';
+    (document.documentElement.style as any).textSizeAdjust = '100%';
 
     // Add touch-action optimization
     document.body.style.touchAction = 'manipulation';

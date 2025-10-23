@@ -1,6 +1,19 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import UserManager, { User } from '../utils/userManager';
+import { UserManager } from '../../../../../packages/shared/src/libs/utils/userManager';
+
+interface User {
+  id: string;
+  username: string;
+  email?: string;
+  createdAt?: Date;
+  lastLogin?: Date;
+  sessionToken?: string;
+  loginAttempts?: number;
+  lockedUntil?: Date;
+  emailVerified?: boolean;
+  role?: string;
+}
 
 interface ForumPost {
   id: string;
