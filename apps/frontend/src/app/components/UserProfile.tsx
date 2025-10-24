@@ -22,7 +22,7 @@ interface UserBadge {
   earnedDate?: string;
 }
 
-export default function UserProfile() {
+export function UserProfile() {
   const [userStats] = useState<UserStats>({
     totalPredictions: 247,
     correctPredictions: 189,

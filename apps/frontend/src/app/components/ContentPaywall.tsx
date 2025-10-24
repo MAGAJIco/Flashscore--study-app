@@ -253,4 +253,4 @@ const ContentPaywall: React.FC<ContentPaywallProps> = ({
   );
 };
 
-export default ContentPaywall;
+export { ContentPaywall };

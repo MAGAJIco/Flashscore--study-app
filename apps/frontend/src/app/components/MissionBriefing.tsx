@@ -14,7 +14,7 @@ interface Mission {
 
 // Remove the first MissionBriefing component and keep only one
 
-export default function MissionBriefing() {
+export function MissionBriefing() {
   const [currentMission, setCurrentMission] = useState<Mission | null>(null);
   const [fade, setFade] = useState(false);
   const [activeMetric, setActiveMetric] = useState(0);

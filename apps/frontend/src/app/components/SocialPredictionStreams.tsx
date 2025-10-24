@@ -528,4 +528,4 @@ const SocialPredictionStreams: React.FC = () => {
   );
 };
 
-export default SocialPredictionStreams;
+export { SocialPredictionStreams };

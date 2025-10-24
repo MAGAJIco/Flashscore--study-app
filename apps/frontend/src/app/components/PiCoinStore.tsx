@@ -122,13 +122,15 @@ const PiCoinStore: React.FC<PiCoinStoreProps> = ({ isOpen, onClose, userId, onPu
           }
         );
         
-        if (success) {
-          alert(`Successfully purchased ${totalAmount.toLocaleString()} Pi coins!`);
-          onPurchaseComplete();
-          onClose();
-        } else {
-          alert('Failed to award Pi coins. Please contact support.');
-        }
+        PiCoinManager.earnCoins(
+          userId, 
+          totalAmount, 
+          `Purchased ${totalAmount.toLocaleString()} Pi Coins`
+        );
+        
+        alert(`Successfully purchased ${totalAmount.toLocaleString()} Pi coins!`);
+        onPurchaseComplete();
+        onClose();
       } else {
         alert(`Purchase failed: ${paymentResult.error || 'Unknown error'}`);
       }
@@ -299,4 +301,4 @@ const PiCoinStore: React.FC<PiCoinStoreProps> = ({ isOpen, onClose, userId, onPu
   );
 };
 
-export default PiCoinStore;
+export { PiCoinStore };

@@ -3,10 +3,10 @@
 // Models
 export * from './libs/models';
 
-// Services
+// Core Libraries
+export * from './libs/api/client';
+export * from './libs/models';
 export * from './libs/services';
-
-// Types
 export * from './libs/types';
 
 // Utils

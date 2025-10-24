@@ -23,7 +23,7 @@ interface Sport {
 // Using emoji icons for better visual recognition
 // Can be replaced with custom icon components later
 
-export default function SportSelector() {
+export function SportSelector() {
   const [sports, setSports] = useState<Sport[]>([
     { id: 'football', name: 'Football', icon: '⚽', liveCount: 121, totalCount: 1107, isFavorite: true, category: 'popular' },
     { id: 'tennis', name: 'Tennis', icon: '🎾', liveCount: 149, totalCount: 456, isFavorite: true, category: 'popular' },

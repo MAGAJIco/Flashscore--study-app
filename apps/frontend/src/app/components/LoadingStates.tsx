@@ -105,4 +105,4 @@ export const LoadingState: React.FC<LoadingStateProps> = ({ type, message }) => 
   );
 };
 
-export default LoadingState;
+export { LoadingState };

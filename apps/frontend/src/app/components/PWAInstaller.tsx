@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-export default function PWAInstaller() {
+export function PWAInstaller() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')

@@ -594,4 +594,4 @@ const PredictionRooms: React.FC<PredictionRoomsProps> = ({ currentUser }) => {
   );
 };
 
-export default PredictionRooms;
+export { PredictionRooms };

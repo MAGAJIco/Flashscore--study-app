@@ -170,4 +170,4 @@ const PredictionPreview: React.FC<PredictionPreviewProps> = ({
   );
 };
 
-export default PredictionPreview;
+export { PredictionPreview };

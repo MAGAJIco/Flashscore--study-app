@@ -213,4 +213,4 @@ const QuickBetSlip: React.FC<QuickBetSlipProps> = ({ match, onBetPlaced }) => {
   );
 };
 
-export default QuickBetSlip;
+export { QuickBetSlip };

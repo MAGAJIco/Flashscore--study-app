@@ -18,11 +18,14 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@app/*": ["./src/app/*"],
-      "@hooks/*": ["./src/app/hooks/*"],
+      "@components": ["./src/app/components"],
       "@components/*": ["./src/app/components/*"],
-      "@services/*": ["./src/app/services/*"],
+      "@hooks": ["./src/app/hooks"],
+      "@hooks/*": ["./src/app/hooks/*"],
+      "@utils": ["./src/app/utils"],
       "@utils/*": ["./src/app/utils/*"],
+      "@services": ["./src/app/services"],
+      "@services/*": ["./src/app/services/*"],
       "@styles/*": ["./src/app/styles/*"],
       "@context/*": ["./src/app/context/*"],
       "@providers/*": ["./src/app/providers/*"],
@@ -32,7 +35,9 @@
       "@shared/utils": ["../../packages/shared/src/libs/utils/index.ts"],
       "@shared/utils/*": ["../../packages/shared/src/libs/utils/*"],
       "@shared/models": ["../../packages/shared/src/libs/models/index.ts"],
-      "@shared/models/*": ["../../packages/shared/src/libs/models/*"]
+      "@shared/models/*": ["../../packages/shared/src/libs/models/*"],
+      "@magajico/shared": ["../../packages/shared/src"],
+      "@magajico/shared/*": ["../../packages/shared/src/*"]
     },
     "plugins": [
       {

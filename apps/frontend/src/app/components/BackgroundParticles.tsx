@@ -4,7 +4,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { loadSlim } from "@tsparticles/slim";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 
-export default function BackgroundParticles() {
+export function BackgroundParticles() {
   const [init, setInit] = useState(false);
 
   // Initialize engine once

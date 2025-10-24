@@ -52,7 +52,7 @@ const ModulesGridError = ({ error, onRetry }: { error: string; onRetry: () => vo
 // Local storage key
 const LOCAL_STORAGE_KEY = "cachedModules";
 
-export default function ModulesGrid() {
+export function ModulesGrid() {
   const [modules, setModules] = useState<Module[]>([]);
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);

@@ -168,4 +168,4 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
   );
 };
 
-export default FloatingActionButtons;
+export { FloatingActionButtons };

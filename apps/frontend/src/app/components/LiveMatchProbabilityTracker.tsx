@@ -307,4 +307,4 @@ const LiveMatchProbabilityTracker: React.FC = () => {
   );
 };
 
-export default LiveMatchProbabilityTracker;
+export { LiveMatchProbabilityTracker };

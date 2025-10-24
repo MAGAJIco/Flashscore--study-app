@@ -295,4 +295,4 @@ const OptimizedDashboard: React.FC = () => {
   );
 };
 
-export default OptimizedDashboard;
+export { OptimizedDashboard };

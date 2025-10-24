@@ -42,7 +42,7 @@ const REGIONS: Region[] = [
   { id: 'global', name: 'Global', icon: '🌐', popularSports: ['tennis', 'golf', 'racing', 'mma'] },
 ];
 
-export default function GlobalSportsCoverage() {
+export function GlobalSportsCoverage() {
   const isMobile = useMobile();
   const [selectedRegion, setSelectedRegion] = useState<string>('global');
   const [selectedSports, setSelectedSports] = useState<string[]>([]);

@@ -343,4 +343,4 @@ const BackupSettings: React.FC<BackupSettingsProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default BackupSettings;
+export { BackupSettings };

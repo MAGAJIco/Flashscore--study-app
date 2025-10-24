@@ -98,7 +98,7 @@ const AVAILABLE_LEAGUES: League[] = [
   { id: 'pdc-darts', name: 'PDC Darts', sport: 'Darts', country: 'Global', icon: '🎯', color: '#E30613', enabled: false },
 ];
 
-export default function ExtraSportsCoverage() {
+export function ExtraSportsCoverage() {
   const isMobile = useMobile();
   const [mounted, setMounted] = useState(false);
   const [leagues, setLeagues] = useState<League[]>(AVAILABLE_LEAGUES);

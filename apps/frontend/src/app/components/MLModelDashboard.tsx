@@ -11,7 +11,7 @@ interface ModelMetrics {
   confidence_avg: number;
 }
 
-export default function MLModelDashboard() {
+export function MLModelDashboard() {
   const [metrics, setMetrics] = useState<ModelMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [retraining, setRetraining] = useState(false);

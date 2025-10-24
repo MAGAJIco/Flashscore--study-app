@@ -352,4 +352,4 @@ function InteractiveTools({ predictions }: ToolsProps) {
   );
 }
 
-export default InteractiveTools;
+export { InteractiveTools };

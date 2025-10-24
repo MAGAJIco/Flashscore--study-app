@@ -372,4 +372,4 @@ const UserFavorites: React.FC<UserFavoritesProps> = ({ onFavoriteSelect }) => {
   );
 };
 
-export default UserFavorites;
+export { UserFavorites };

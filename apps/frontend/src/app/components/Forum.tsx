@@ -472,4 +472,4 @@ const Forum: React.FC<ForumProps> = ({ currentUser }) => {
   );
 };
 
-export default Forum;
+export { Forum };

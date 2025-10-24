@@ -212,4 +212,4 @@ const EchoSystem: React.FC<EchoSystemProps> = ({
   );
 };
 
-export default EchoSystem;
+export { EchoSystem };
