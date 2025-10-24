@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Breadcrumbs from "@/app/components/Breadcrumbs";
+import { Breadcrumbs } from "@/app/components/Breadcrumbs";
 
 interface NewsItem {
   _id: string;

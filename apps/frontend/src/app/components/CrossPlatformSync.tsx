@@ -643,4 +643,4 @@ const CrossPlatformSync: React.FC = () => {
   );
 };
 
-export { CrossPlatformSync };
+export { CrossPlatformSync };export default CrossPlatformSync;

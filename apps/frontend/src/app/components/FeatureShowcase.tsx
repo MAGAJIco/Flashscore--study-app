@@ -195,7 +195,7 @@ export function FeatureShowcase() {
                 {feature.status === 'coming-soon' && '🚀 Soon'}
               </div>
             </div>
-            <h3 className="feature-title">{feature.title}</h3>
+            <h3 className="feature-title">{feature.name}</h3>
             <p className="feature-description">{feature.description}</p>
             {feature.link && (
               <Link href={feature.link} className="feature-link">

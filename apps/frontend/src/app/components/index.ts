@@ -1,6 +1,6 @@
 // Error Monitoring & Boundaries
 export { ErrorMonitor } from './ErrorMonitor';
-export { ErrorBoundary } from './ErrorBoundary/ErrorBoundaryWithPerformance';
+export { ProductionErrorBoundary as ErrorBoundary } from './ErrorBoundary/ErrorBoundaryWithPerformance';
 export { BackendHealthMonitor } from './BackendHealthMonitor';
 export { BackendStatusIndicator } from './BackendStatusIndicator';
 
@@ -27,7 +27,7 @@ export { FeatureHub } from './FeatureHub';
 
 // Live Features
 export { LiveMatchTracker } from './LiveMatchTracker';
-export { LiveScoreCard } from './LiveScoreCard';
+export { default as LiveScoreCard } from './LiveScoreCard';
 
 // Prediction Features
 export { PredictionInterface } from './PredictionInterface';
@@ -37,7 +37,7 @@ export { LatestNews } from './LatestNews';
 export { SmartNewsFeed } from './SmartNewsFeed';
 
 // Alerts & Notifications
-export { FloatingAlert } from './FloatingAlert';
+export { default as FloatingAlert, triggerFloatingAlert } from './FloatingAlert';
 
 // Re-export all components for backward compatibility
 export * from './ErrorMonitor';

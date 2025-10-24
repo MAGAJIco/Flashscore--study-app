@@ -9,6 +9,7 @@ interface Player {
   rating: number;
   x: number;
   y: number;
+  number?: number;
 }
 
 interface Formation {
@@ -406,17 +407,9 @@ const FootballFormations: React.FC<FootballFormationsProps> = ({
               }
             }}
             onMouseUp={() => setDraggedPlayer(null)}
-          >
-            {player.number}
-          </div>
-        ))}
-                }
-              }
-            }}
-            onMouseUp={() => setDraggedPlayer(null)}
             title={`${player.name} - ${player.position} (${player.rating})`}
           >
-            {player.id}
+            {player.number || player.id}
           </div>
         ))}
       </div>

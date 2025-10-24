@@ -1,8 +1,8 @@
 import MagajiCoFoundation from './MagajiCoFoundation/MagajiCoFoundation';
 import Link from 'next/link';
-import Breadcrumbs from '../components/Breadcrumbs';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 
-export function Home() {
+export default function Home() {
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4 pt-6">
@@ -28,4 +28,3 @@ export function Home() {
   );
 }
 
-export default Home;

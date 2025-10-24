@@ -14,7 +14,7 @@ import { SmartNewsFeed } from '@components/SmartNewsFeed';
 import { LiveMatchTracker } from '@components/LiveMatchTracker';
 import { PredictionInterface } from '@components/PredictionInterface';
 
-export function HomePage() {
+export default function HomePage() {
   const t = useTranslations('home');
 
   return (
@@ -53,4 +53,3 @@ export function HomePage() {
 }
 
 // Default export for Next.js page compatibility
-export default HomePage;

@@ -1,12 +1,12 @@
 "use client";
 
 import React from 'react';
-import CrossPlatformSync from '../components/CrossPlatformSync';
-import SmartNotifications from '../components/SmartNotifications';
-import LanguageSettings from '../components/LanguageSettings';
+import { CrossPlatformSync } from '../components/CrossPlatformSync';
+import { SmartNotifications } from '../components/SmartNotifications';
+import { LanguageSettings } from '../components/LanguageSettings';
 import TimeZoneSettings from '../components/TimeZoneSettings';
 
-export function SettingsPage() {
+export default function SettingsPage() {
   return (
     <div style={{
       minHeight: '100vh',
@@ -77,4 +77,3 @@ export function SettingsPage() {
   );
 }
 
-export default SettingsPage;

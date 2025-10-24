@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import PiCoinManager from '@services/PiCoinManager';
-import { UserManager } from '@magajico/shared/utils';
+import { PiCoinManager, UserManager } from '@magajico/shared/utils';
 
 interface User {
   id: string;

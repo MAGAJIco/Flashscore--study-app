@@ -3,12 +3,12 @@
 import React, { useState } from 'react';
 import { Plus, Star, Trophy, User, Newspaper } from 'lucide-react';
 import LiveScoreCard from '../components/LiveScoreCard';
-import BottomNavigation from '../components/BottomNavigation';
+import { BottomNavigation } from '../components/BottomNavigation';
 import UserFavorites from '@components/UserFavorites';
 
 type FavTab = 'games' | 'teams' | 'players' | 'news';
 
-export function FavoritesPage() {
+export default function FavoritesPage() {
   const [activeTab, setActiveTab] = useState<FavTab>('games');
   const [filter, setFilter] = useState<'all' | 'live'>('all');
 
@@ -196,4 +196,3 @@ export function FavoritesPage() {
   );
 }
 
-export default FavoritesPage;

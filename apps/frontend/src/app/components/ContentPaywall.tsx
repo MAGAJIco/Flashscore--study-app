@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import VisitorManager from '@magajico/shared/utils';
+import { VisitorManager } from '@magajico/shared/utils';
 
 interface ContentPaywallProps {
   contentType: 'predictions' | 'live_data' | 'statistics' | 'premium_analysis';

@@ -4,9 +4,9 @@ import React from 'react';
 import { useKidsMode } from '@hooks/useKidsMode';
 import { ProtectedGambling } from '../../components/ProtectedGambling';
 import { KidsModeToggle } from '../../components/KidsModeToggle';
-import AgeRestrictionGuard from '../components/AgeRestrictionGuard';
+import { AgeRestrictionGuard } from '../components/AgeRestrictionGuard';
 
-export function TestKidsModeePage() {
+export default function TestKidsModeePage() {
   const { kidsMode } = useKidsMode();
 
   return (
@@ -88,4 +88,3 @@ export function TestKidsModeePage() {
   );
 }
 
-export default TestKidsModeePage;

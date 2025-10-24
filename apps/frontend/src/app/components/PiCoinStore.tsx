@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { PiCoinManager } from '@magajico/shared/utils';
+import { piCoinManagerInstance } from '@magajico/shared/utils';
 
 interface PiCoinStoreProps {
   isOpen: boolean;
@@ -110,7 +110,7 @@ const PiCoinStore: React.FC<PiCoinStoreProps> = ({ isOpen, onClose, userId, onPu
       if (paymentResult.success) {
         // Award Pi Coins to user
         const totalAmount = pkg.amount + pkg.bonus;
-        const success = PiCoinManager.earnCoins(
+        const success = piCoinManagerInstance.earnCoins(
           userId, 
           totalAmount, 
           `Purchased ${totalAmount.toLocaleString()} Pi Coins`,

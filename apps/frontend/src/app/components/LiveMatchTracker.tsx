@@ -33,9 +33,11 @@ interface MatchStats {
 }
 
 export function LiveMatchTracker() {
-  const [liveMatches, setLiveMatches] = useState<any[]>([]);
+  const [liveMatches, setLiveMatches] = useState<LiveMatch[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
+  const [predictionOdds] = useState({ home: 2.1, draw: 3.2, away: 2.8 });
 
   useEffect(() => {
     const fetchLiveMatches = async () => {
