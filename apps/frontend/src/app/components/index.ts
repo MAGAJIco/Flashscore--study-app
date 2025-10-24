@@ -39,7 +39,7 @@ export { MobileInstallPrompter } from './MobileInstallPrompter';
 export { ThemeToggle } from './ThemeToggle';
 
 // Alerts & Notifications
-export { default as FloatingAlert, triggerFloatingAlert } from './FloatingAlert';
+export { FloatingAlert, triggerFloatingAlert } from './FloatingAlert';
 
 // Type exports
 export type { Achievement } from './AchievementCelebration';
