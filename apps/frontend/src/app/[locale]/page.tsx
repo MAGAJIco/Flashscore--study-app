@@ -1,22 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ErrorMonitor } from '@components/ErrorMonitor';
-import { BackendHealthMonitor } from '@components';
-import { SmartLoadingState } from '@components/SmartLoadingState';
-import { FeatureShowcase } from '@components/FeatureShowcase';
-import { PWAServiceWorker } from '@components/PWAServiceWorker';
-import { MobileMetaOptimizer } from '@components/MobileMetaOptimizer';
-import { MobilePerformanceOptimizer } from '@components/MobilePerformanceOptimizer';
-import { LatestNews } from '@components/LatestNews';
-import { SmartNewsFeed } from '@components/SmartNewsFeed';
-import { LiveMatchTracker } from '@components/LiveMatchTracker';
-import { PredictionInterface } from '@components/PredictionInterface';
+import { SmartErrorRecovery } from '@components/SmartErrorRecovery';
 
-// Component wrapper with error boundary and logging
-function SafeComponent({ name, children }: { name: string; children: React.ReactNode }) {
-  const [error, setError] = useState<Error | null>(null);
+// Component wrapper with debugging
+function ComponentWrapper({ 
+  name, 
+  children, 
+  fallback 
+}: { 
+  name: string; 
+  children: React.ReactNode; 
+  fallback?: React.ReactNode;
+}) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -25,128 +22,157 @@ function SafeComponent({ name, children }: { name: string; children: React.React
     return () => console.log(`🔄 ${name} unmounted`);
   }, [name]);
 
-  if (error) {
-    console.error(`❌ ${name} failed:`, error);
-    return (
-      <div style={{ padding: '20px', background: '#fee', border: '1px solid #f00', margin: '10px', borderRadius: '8px' }}>
-        <strong>{name} Error:</strong> {error.message}
-      </div>
-    );
-  }
-
-  try {
-    return <>{children}</>;
-  } catch (err) {
-    setError(err as Error);
-    return null;
-  }
-}
-
-export default function HomePage() {
-  const [renderStage, setRenderStage] = useState('initializing');
-  
-  useEffect(() => {
-    console.log('🚀 HomePage: Component mounting');
-    console.log('📍 Current URL:', window.location.href);
-    console.log('🌐 Locale:', window.location.pathname.split('/')[1]);
-    setRenderStage('mounted');
-    
-    return () => {
-      console.log('🔚 HomePage: Component unmounting');
-    };
-  }, []);
-
-  console.log('🎨 HomePage: Rendering (stage:', renderStage, ')');
-
-  let t;
-  try {
-    t = useTranslations('home');
-    console.log('✅ useTranslations hook initialized');
-  } catch (error) {
-    console.error('❌ useTranslations failed:', error);
-    return (
-      <div style={{ padding: '40px', textAlign: 'center', background: '#fff', minHeight: '100vh' }}>
-        <h1 style={{ color: '#f00' }}>Translation Error</h1>
-        <p>{String(error)}</p>
-      </div>
-    );
+  if (!mounted) {
+    return fallback || <div className="h-20 animate-pulse bg-gray-200 dark:bg-gray-700 rounded" />;
   }
 
   return (
+    <SmartErrorRecovery
+      fallback={
+        <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+          <p className="text-red-600 dark:text-red-400">⚠️ {name} failed to load</p>
+        </div>
+      }
+    >
+      {children}
+    </SmartErrorRecovery>
+  );
+}
+
+// Lazy load heavy components
+const ErrorMonitor = React.lazy(() => import('@components/ErrorMonitor').then(m => ({ default: m.ErrorMonitor })));
+const BackendHealthMonitor = React.lazy(() => import('@components').then(m => ({ default: m.BackendHealthMonitor })));
+const PWAServiceWorker = React.lazy(() => import('@components/PWAServiceWorker').then(m => ({ default: m.PWAServiceWorker })));
+const MobileMetaOptimizer = React.lazy(() => import('@components/MobileMetaOptimizer').then(m => ({ default: m.MobileMetaOptimizer })));
+const MobilePerformanceOptimizer = React.lazy(() => import('@components/MobilePerformanceOptimizer').then(m => ({ default: m.MobilePerformanceOptimizer })));
+const FeatureShowcase = React.lazy(() => import('@components/FeatureShowcase').then(m => ({ default: m.FeatureShowcase })));
+const SmartNewsFeed = React.lazy(() => import('@components/SmartNewsFeed').then(m => ({ default: m.SmartNewsFeed })));
+const LiveMatchTracker = React.lazy(() => import('@components/LiveMatchTracker').then(m => ({ default: m.LiveMatchTracker })));
+const PredictionInterface = React.lazy(() => import('@components/PredictionInterface').then(m => ({ default: m.PredictionInterface })));
+const LatestNews = React.lazy(() => import('@components/LatestNews').then(m => ({ default: m.LatestNews })));
+
+export default function HomePage() {
+  const t = useTranslations('home');
+  const [debugMode, setDebugMode] = useState(false);
+
+  useEffect(() => {
+    console.log('🏠 HomePage rendering started');
+    // Enable debug mode with query param ?debug=true
+    setDebugMode(window.location.search.includes('debug=true'));
+    return () => console.log('🏠 HomePage unmounting');
+  }, []);
+
+  return (
     <>
-      {/* Debug Info Panel - Remove in production */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        background: 'rgba(0,0,0,0.9)',
-        color: '#0f0',
-        padding: '10px',
-        fontSize: '12px',
-        zIndex: 99999,
-        maxWidth: '300px',
-        fontFamily: 'monospace'
-      }}>
-        <div>🎯 HomePage Render Stage: {renderStage}</div>
-        <div>📍 Path: {typeof window !== 'undefined' ? window.location.pathname : 'SSR'}</div>
-        <div>⏰ Time: {new Date().toLocaleTimeString()}</div>
-      </div>
+      {/* Debug Panel */}
+      {debugMode && (
+        <div className="fixed top-20 right-4 z-50 bg-black/80 text-white p-4 rounded-lg text-xs max-w-xs">
+          <h3 className="font-bold mb-2">🐛 Debug Mode</h3>
+          <p>Check console for component lifecycle logs</p>
+        </div>
+      )}
 
-      <SafeComponent name="ErrorMonitor">
-        <ErrorMonitor />
-      </SafeComponent>
+      {/* Background Services - Load silently */}
+      <Suspense fallback={null}>
+        <ComponentWrapper name="ErrorMonitor">
+          <ErrorMonitor />
+        </ComponentWrapper>
+      </Suspense>
+      
+      <Suspense fallback={null}>
+        <ComponentWrapper name="BackendHealthMonitor">
+          <BackendHealthMonitor />
+        </ComponentWrapper>
+      </Suspense>
+      
+      <Suspense fallback={null}>
+        <ComponentWrapper name="PWAServiceWorker">
+          <PWAServiceWorker />
+        </ComponentWrapper>
+      </Suspense>
+      
+      <Suspense fallback={null}>
+        <ComponentWrapper name="MobileMetaOptimizer">
+          <MobileMetaOptimizer />
+        </ComponentWrapper>
+      </Suspense>
+      
+      <Suspense fallback={null}>
+        <ComponentWrapper name="MobilePerformanceOptimizer">
+          <MobilePerformanceOptimizer />
+        </ComponentWrapper>
+      </Suspense>
 
-      <SafeComponent name="BackendHealthMonitor">
-        <BackendHealthMonitor />
-      </SafeComponent>
-
-      <SafeComponent name="PWAServiceWorker">
-        <PWAServiceWorker />
-      </SafeComponent>
-
-      <SafeComponent name="MobileMetaOptimizer">
-        <MobileMetaOptimizer />
-      </SafeComponent>
-
-      <SafeComponent name="MobilePerformanceOptimizer">
-        <MobilePerformanceOptimizer />
-      </SafeComponent>
-
+      {/* Main Content */}
       <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="container mx-auto px-4 py-8 space-y-8">
-          <SafeComponent name="HeroSection">
-            <section className="text-center py-12">
-              <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
-                {t('welcome', { defaultValue: 'Welcome to MajajiCo' })}
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                {t('tagline', { defaultValue: 'AI-Powered Sports Predictions & Analytics' })}
-              </p>
-            </section>
-          </SafeComponent>
+          
+          {/* Hero Section - Always render */}
+          <section className="text-center py-12">
+            <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
+              {t('welcome', { defaultValue: 'Welcome to MajajiCo' })}
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              {t('tagline', { defaultValue: 'AI-Powered Sports Predictions & Analytics' })}
+            </p>
+          </section>
 
-          <SafeComponent name="FeatureShowcase">
-            <FeatureShowcase />
-          </SafeComponent>
+          {/* Feature Showcase */}
+          <Suspense fallback={
+            <div className="h-64 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+          }>
+            <ComponentWrapper name="FeatureShowcase" fallback={
+              <div className="h-64 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+            }>
+              <FeatureShowcase />
+            </ComponentWrapper>
+          </Suspense>
 
-          <SafeComponent name="NewsAndMatches">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <SafeComponent name="SmartNewsFeed">
+          {/* News Feed & Match Tracker Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Suspense fallback={
+              <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+            }>
+              <ComponentWrapper name="SmartNewsFeed" fallback={
+                <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+              }>
                 <SmartNewsFeed />
-              </SafeComponent>
-              <SafeComponent name="LiveMatchTracker">
+              </ComponentWrapper>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+            }>
+              <ComponentWrapper name="LiveMatchTracker" fallback={
+                <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+              }>
                 <LiveMatchTracker />
-              </SafeComponent>
-            </div>
-          </SafeComponent>
+              </ComponentWrapper>
+            </Suspense>
+          </div>
 
-          <SafeComponent name="PredictionInterface">
-            <PredictionInterface />
-          </SafeComponent>
+          {/* Prediction Interface */}
+          <Suspense fallback={
+            <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+          }>
+            <ComponentWrapper name="PredictionInterface" fallback={
+              <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+            }>
+              <PredictionInterface />
+            </ComponentWrapper>
+          </Suspense>
 
-          <SafeComponent name="LatestNews">
-            <LatestNews />
-          </SafeComponent>
+          {/* Latest News */}
+          <Suspense fallback={
+            <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+          }>
+            <ComponentWrapper name="LatestNews" fallback={
+              <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+            }>
+              <LatestNews />
+            </ComponentWrapper>
+          </Suspense>
+
         </div>
       </main>
     </>

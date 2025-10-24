@@ -1,4 +1,3 @@
-
 import React, { Suspense } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
@@ -20,6 +19,7 @@ import { HydrationMonitor } from '@components/HydrationMonitor';
 import { HydrationCoordinator } from '@components/HydrationCoordinator';
 import { ThemeInitializer } from '@components/ThemeInitializer';
 import { DebugPanel } from '@components/DebugPanel';
+import { RenderDebugger } from '@components/RenderDebugger';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -58,7 +58,7 @@ export default async function RootLayout({
   params: { locale: string };
 }) {
   console.log('🏗️ RootLayout: Starting render for locale:', locale);
-  
+
   let messages;
   try {
     messages = await getMessages();
@@ -115,7 +115,9 @@ export default async function RootLayout({
           </NextIntlClientProvider>
           <Analytics />
           <SpeedInsights />
-          <DebugPanel />
+          <Suspense fallback={null}>
+            <RenderDebugger />
+          </Suspense>
         </HydrationCoordinator>
       </body>
     </html>
