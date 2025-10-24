@@ -13,12 +13,12 @@ import { MobileInstallPrompter } from '@components/MobileInstallPrompter';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import '@styles/globals.css';
-import { MobileMetaOptimizer } from '../components/MobileMetaOptimizer';
-import { MobileLayout } from '../components/MobileLayout';
-import { MobilePerformanceMonitor } from '../components/MobilePerformanceMonitor';
-import { HydrationMonitor } from '../components/HydrationMonitor';
-import { HydrationCoordinator } from '../components/HydrationCoordinator';
-import { ThemeInitializer } from '../components/ThemeInitializer';
+import { MobileMetaOptimizer } from '@components/MobileMetaOptimizer';
+import { MobileLayout } from '@components/MobileLayout';
+import { MobilePerformanceMonitor } from '@components/MobilePerformanceMonitor';
+import { HydrationMonitor } from '@components/HydrationMonitor';
+import { HydrationCoordinator } from '@components/HydrationCoordinator';
+import { ThemeInitializer } from '@components/ThemeInitializer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -49,7 +49,7 @@ export const viewport: Viewport = {
   ]
 };
 
-export default async function LocaleLayout({
+export default async function RootLayout({
   children,
   params: { locale }
 }: {
