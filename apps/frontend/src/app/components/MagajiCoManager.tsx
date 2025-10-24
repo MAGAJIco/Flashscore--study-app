@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import FloatingAlert, { triggerFloatingAlert } from "@components/FloatingAlert";
+import { FloatingAlert, triggerFloatingAlert } from "@components/FloatingAlert";
 import {
   magajicoCEO,
   Prediction,

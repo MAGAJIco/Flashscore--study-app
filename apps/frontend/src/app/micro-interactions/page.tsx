@@ -1,4 +1,4 @@
-import EnhancedMicroInteractions from '@components/EnhancedMicroInteractions';
+import { EnhancedMicroInteractions } from '@components/EnhancedMicroInteractions';
 
 export const metadata = {
   title: 'Enhanced Micro-Interactions | MagajiCo',

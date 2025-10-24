@@ -230,7 +230,7 @@ const AchievementSystem: React.FC<AchievementSystemProps> = ({
         achievement.unlockedAt = new Date();
 
         // Award Pi Coins
-        PiCoinManager.getInstance().earnCoins('default', achievement.reward.piCoins, `Achievement: ${achievement.title}`);
+        piCoinManagerInstance.earnCoins('default', achievement.reward.piCoins, `Achievement: ${achievement.title}`);
 
         // Show notification
         setShowNotification(achievement);
@@ -261,7 +261,7 @@ const AchievementSystem: React.FC<AchievementSystemProps> = ({
       challenges_created: ClientStorage.getItem('user_challenges_created', 0),
       daily_login_streak: ClientStorage.getItem('user_daily_streak', 0),
       quizzes_completed: ClientStorage.getItem('user_quizzes_completed', 0),
-      pi_coins_earned: PiCoinManager.getInstance().getWallet('default')?.totalEarned || 0,
+      pi_coins_earned: piCoinManagerInstance.getWallet('default')?.totalEarned || 0,
       achievements_unlocked: achievements.filter(a => a.unlocked).length
     };
   };

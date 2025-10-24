@@ -116,8 +116,8 @@ export const QuizMode: React.FC<QuizProps> = ({ isOffline = false }) => {
 
         if (userId && userId !== 'undefined' && userId.length > 0) {
           // Use the correct method name
-          if (typeof PiCoinManager.awardDailyLoginBonus === 'function') {
-            PiCoinManager.awardDailyLoginBonus(userId);
+          if (typeof piCoinManagerInstance.awardDailyLoginBonus === 'function') {
+            piCoinManagerInstance.awardDailyLoginBonus(userId);
           } else if (typeof (PiCoinManager as any).awardDailyLogin === 'function') {
             (PiCoinManager as any).awardDailyLogin(userId);
           }
@@ -129,7 +129,7 @@ export const QuizMode: React.FC<QuizProps> = ({ isOffline = false }) => {
 
     handleDailyLogin();
 
-    const balance = PiCoinManager.getBalance('default');
+    const balance = piCoinManagerInstance.getBalance('default');
     setCurrentBalance(balance.balance);
 
     const currentUser = UserManager.getCurrentUser();
@@ -195,14 +195,14 @@ export const QuizMode: React.FC<QuizProps> = ({ isOffline = false }) => {
       } else {
         let earnedCoins = 0;
         if (!hasAwardedPiCoins && typeof PiCoinManager?.awardQuizCompletion === 'function') {
-          earnedCoins = PiCoinManager.awardQuizCompletion('default', score, questions.length);
+          earnedCoins = piCoinManagerInstance.awardQuizCompletion('default', score, questions.length);
           if (earnedCoins > 0) {
             setHasAwardedPiCoins(true);
           }
         }
         setPiCoinsEarned(earnedCoins);
 
-        const newBalance = PiCoinManager.getBalance('default');
+        const newBalance = piCoinManagerInstance.getBalance('default');
         setCurrentBalance(newBalance.balance);
 
         setQuizComplete(true);

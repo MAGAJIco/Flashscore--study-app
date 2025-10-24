@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import MagajiCoManager from "@components/MagajiCoManager";
+import { MagajiCoManager } from "@components/MagajiCoManager";
 
 export function CustomerServiceApp() {
   const [highlightedMatch, setHighlightedMatch] = useState<string | null>(null);

@@ -35,7 +35,7 @@ const StakingSystem: React.FC = () => {
   ];
 
   useEffect(() => {
-    const userBalance = PiCoinManager.getBalance('default');
+    const userBalance = piCoinManagerInstance.getBalance('default');
     setBalance(userBalance);
     loadActiveStakes();
   }, []);
@@ -65,7 +65,7 @@ const StakingSystem: React.FC = () => {
       return;
     }
 
-    const success = PiCoinManager.spendCoins(
+    const success = piCoinManagerInstance.spendCoins(
       'default',
       selectedStake,
       `Staked ${selectedStake} Pi at ${selectedMultiplier}x multiplier`,
@@ -97,7 +97,7 @@ const StakingSystem: React.FC = () => {
     const stake = activeStakes.find(s => s.id === stakeId);
     if (!stake) return;
 
-    PiCoinManager.earnCoins(
+    piCoinManagerInstance.earnCoins(
       'default',
       stake.potentialReturn,
       `Won staked prediction - ${stake.multiplier}x return`
@@ -109,7 +109,7 @@ const StakingSystem: React.FC = () => {
     setActiveStakes(updatedStakes);
     localStorage.setItem('active_stakes', JSON.stringify(updatedStakes));
     
-    const userBalance = PiCoinManager.getBalance('default');
+    const userBalance = piCoinManagerInstance.getBalance('default');
     setBalance(userBalance);
   };
 

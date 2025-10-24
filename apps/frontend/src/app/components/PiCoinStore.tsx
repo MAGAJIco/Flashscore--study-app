@@ -122,7 +122,7 @@ const PiCoinStore: React.FC<PiCoinStoreProps> = ({ isOpen, onClose, userId, onPu
           }
         );
         
-        PiCoinManager.earnCoins(
+        piCoinManagerInstance.earnCoins(
           userId, 
           totalAmount, 
           `Purchased ${totalAmount.toLocaleString()} Pi Coins`

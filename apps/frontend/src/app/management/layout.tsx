@@ -1,4 +1,4 @@
-import ManagementSidebar from "@components/ManagementSidebar";
+import { ManagementSidebar } from "@components/ManagementSidebar";
 
 export default function ManagementLayout({ children }: { children: React.ReactNode }) {
   return (

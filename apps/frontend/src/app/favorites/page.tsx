@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Plus, Star, Trophy, User, Newspaper } from 'lucide-react';
-import LiveScoreCard from '../components/LiveScoreCard';
+import { LiveScoreCard } from '../components/LiveScoreCard';
 import { BottomNavigation } from '../components/BottomNavigation';
 import UserFavorites from '@components/UserFavorites';
 
