@@ -17,6 +17,7 @@ import { MobileLayout } from './components/MobileLayout';
 import { MobilePerformanceMonitor } from './components/MobilePerformanceMonitor';
 import { HydrationMonitor } from './components/HydrationMonitor';
 import { HydrationCoordinator } from './components/HydrationCoordinator';
+import { ThemeInitializer } from './components/ThemeInitializer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -58,18 +59,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale || 'en'} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const theme = localStorage.getItem('theme') || 'light';
-                document.documentElement.setAttribute('data-theme', theme);
-              } catch (e) {}
-            `,
-          }}
-        />
-      </head>
+      <head />
       <body className={inter.className} suppressHydrationWarning>
         <HydrationCoordinator priority="high">
           <NextIntlClientProvider messages={messages}>
@@ -83,6 +73,7 @@ export default async function RootLayout({
                     <MobileMetaOptimizer />
                     <MobilePerformanceMonitor />
                     <HydrationMonitor />
+                    <ThemeInitializer />
                   </Suspense>
                   <MobileLayout>
                     {children}
