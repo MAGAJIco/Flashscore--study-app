@@ -10,6 +10,9 @@ const nextConfig = {
     optimizeCss: true,
     webpackBuildWorker: true,
     esmExternals: 'loose',
+    optimisticClientCache: false,
+    adjustFontFallbacks: true,
+    adjustFontFallbacksWithSizeAdjust: true,
   },
   assetPrefix: undefined,
   
@@ -17,14 +20,6 @@ const nextConfig = {
   onDemandEntries: {
     maxInactiveAge: 25 * 1000,
     pagesBufferLength: 2,
-  },
-
-  // Additional hydration optimizations
-  experimental: {
-    ...nextConfig.experimental,
-    optimisticClientCache: false,
-    adjustFontFallbacks: true,
-    adjustFontFallbacksWithSizeAdjust: true,
   },
 
   // Production optimizations
