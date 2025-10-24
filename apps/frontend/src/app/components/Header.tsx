@@ -1,4 +1,9 @@
-import React from "react";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { GoogleStyleMenu } from './GoogleStyleMenu';
 
 interface HeaderProps {
   currentUser?: any;
@@ -15,6 +20,31 @@ export function Header({
   onWalletClick,
   onStoreClick
 }: HeaderProps) {
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isAuthPage = pathname === '/auth/signin' || pathname === '/auth/signup';
+
+  if (isAuthPage) {
+    return null;
+  }
+
+  if (!mounted) {
+    return (
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-16 items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2">
+            <span className="text-xl font-bold">MajajiCo</span>
+          </Link>
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header className="glass-card mx-4 mt-4 p-6 animate-slide-up">
       <div className="flex justify-between items-center flex-wrap gap-4">

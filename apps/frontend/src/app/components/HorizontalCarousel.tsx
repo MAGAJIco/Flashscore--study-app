@@ -18,6 +18,7 @@ interface Card {
 }
 
 export function HorizontalCarousel() {
+  const [mounted, setMounted] = useState(false);
   const [liveMatches, setLiveMatches] = useState(0);
   const [todayPredictions, setTodayPredictions] = useState(0);
   const [piBalance, setPiBalance] = useState(0);
@@ -28,6 +29,11 @@ export function HorizontalCarousel() {
   const [communityEvents, setCommunityEvents] = useState(0);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const fetchData = async () => {
       try {
         // Fetch live matches count
@@ -147,7 +153,7 @@ export function HorizontalCarousel() {
 
   const visibleCards = lifeConnectingCards.filter((card) => card.show);
 
-  if (visibleCards.length === 0) {
+  if (!mounted || visibleCards.length === 0) {
     return null;
   }
 

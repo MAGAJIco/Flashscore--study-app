@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Home, Circle, Star, Newspaper, Trophy } from 'lucide-react';
@@ -14,7 +14,12 @@ interface NavItem {
 }
 
 export function BottomNavigation() {
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navItems: NavItem[] = [
     {
@@ -49,6 +54,21 @@ export function BottomNavigation() {
       href: '/leagues'
     }
   ];
+
+  if (!mounted) {
+    return (
+      <nav 
+        className="fixed bottom-0 left-0 right-0 z-40 border-t"
+        style={{
+          backgroundColor: 'var(--bg-secondary)',
+          borderColor: 'var(--border-color)',
+          boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        <div className="flex justify-around items-center h-16 max-w-7xl mx-auto px-2" />
+      </nav>
+    );
+  }
 
   return (
     <nav 
