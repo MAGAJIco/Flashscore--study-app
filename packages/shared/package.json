@@ -4,6 +4,13 @@
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./utils": "./src/libs/utils/index.ts",
+    "./models": "./src/libs/models/index.ts",
+    "./services": "./src/libs/services/index.ts",
+    "./types": "./src/libs/types/index.ts"
+  },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
