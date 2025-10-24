@@ -14,7 +14,9 @@ export { LiveOddsUpdater } from './LiveOddsUpdater';
 export { ConfidenceSlider } from './ConfidenceSlider';
 export { PullToRefreshWrapper } from './PullToRefreshWrapper';
 export { EnhancedMicroInteractions } from './EnhancedMicroInteractions';
-export { HapticFeedback } from './HapticFeedback';
+
+// Haptic & Feedback
+export { HapticManager, haptic, useHapticFeedback } from './HapticFeedback';
 
 // PWA
 export { InstallPrompt } from './InstallPrompt';
