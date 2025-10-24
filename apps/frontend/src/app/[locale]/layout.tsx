@@ -18,7 +18,6 @@ import { MobilePerformanceMonitor } from '@components/MobilePerformanceMonitor';
 import { HydrationMonitor } from '@components/HydrationMonitor';
 import { HydrationCoordinator } from '@components/HydrationCoordinator';
 import { ThemeInitializer } from '@components/ThemeInitializer';
-import { DebugPanel } from '@components/DebugPanel';
 import { RenderDebugger } from '@components/RenderDebugger';
 
 const inter = Inter({ subsets: ['latin'] });
