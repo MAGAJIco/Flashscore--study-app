@@ -12,6 +12,12 @@ const nextConfig = {
     esmExternals: 'loose',
   },
   assetPrefix: undefined,
+  
+  // Suppress hydration warnings in production
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
 
   // Production optimizations
   compress: true,

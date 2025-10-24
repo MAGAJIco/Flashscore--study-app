@@ -1,21 +1,20 @@
-
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { ClientOnly } from './ClientOnly';
 
 interface InstallPromptEvent extends Event {
   prompt(): Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
 }
 
-export function MobileInstallPrompter() {
+function MobileInstallPrompterContent() {
   const [showPrompt, setShowPrompt] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<InstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
-    // Check if user is on mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || 
@@ -28,7 +27,6 @@ export function MobileInstallPrompter() {
       return; // Don't show on desktop or if already installed
     }
 
-    // Check if user has already been prompted
     const hasBeenPrompted = localStorage.getItem('mobileInstallPrompted');
     const installDismissed = localStorage.getItem('installPromptDismissed');
     
@@ -36,7 +34,6 @@ export function MobileInstallPrompter() {
       return;
     }
 
-    // Listen for beforeinstallprompt event (Android/Chrome)
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as InstallPromptEvent);
@@ -44,7 +41,6 @@ export function MobileInstallPrompter() {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-    // Show prompt after 4 minutes (240 seconds)
     const timer = setTimeout(() => {
       setShowPrompt(true);
       localStorage.setItem('mobileInstallPrompted', 'true');
@@ -58,7 +54,6 @@ export function MobileInstallPrompter() {
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
-      // Android/Chrome install
       deferredPrompt.prompt();
       const choiceResult = await deferredPrompt.userChoice;
       
@@ -69,7 +64,6 @@ export function MobileInstallPrompter() {
       setDeferredPrompt(null);
       setShowPrompt(false);
     } else if (isIOS) {
-      // iOS instructions - we can't trigger install programmatically
       setShowPrompt(true);
     }
   };
@@ -81,8 +75,6 @@ export function MobileInstallPrompter() {
 
   const handleLater = () => {
     setShowPrompt(false);
-    // Don't set dismissed flag, so it can show again later
-    // Set a shorter timer for next prompt (30 minutes)
     setTimeout(() => {
       const stillDismissed = localStorage.getItem('installPromptDismissed');
       if (!stillDismissed && !isStandalone) {
@@ -344,5 +336,13 @@ export function MobileInstallPrompter() {
         }
       `}</style>
     </div>
+  );
+}
+
+export function MobileInstallPrompter() {
+  return (
+    <ClientOnly>
+      <MobileInstallPrompterContent />
+    </ClientOnly>
   );
 }

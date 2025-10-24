@@ -56,12 +56,26 @@ export default async function RootLayout({
 
   return (
     <html lang={locale || 'en'} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className={inter.className} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
             <UserPreferencesProvider>
               <AppErrorBoundary>
-                <Header />
+                <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
+                  <Header />
+                </Suspense>
                 <Suspense fallback={null}>
                   <MobileMetaOptimizer />
                   <MobilePerformanceMonitor />
@@ -69,7 +83,9 @@ export default async function RootLayout({
                 <MobileLayout>
                   {children}
                 </MobileLayout>
-                <BottomNavigation />
+                <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
+                  <BottomNavigation />
+                </Suspense>
                 <Suspense fallback={null}>
                   <MobileInstallPrompter />
                 </Suspense>
