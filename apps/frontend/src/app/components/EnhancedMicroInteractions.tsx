@@ -7,7 +7,9 @@ import PullToRefreshWrapper from './PullToRefreshWrapper';
 import { useGestureControls, useSwipeableItem } from '../hooks/useGestureControls';
 import { haptic } from './HapticFeedback';
 
-export default function EnhancedMicroInteractions() {
+const haptic = HapticFeedback;
+
+function EnhancedMicroInteractions() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [confidenceFactors] = useState([
     {

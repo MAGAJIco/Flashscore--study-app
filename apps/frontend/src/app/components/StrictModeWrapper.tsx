@@ -8,7 +8,7 @@ interface StrictModeWrapperProps {
   suppressStrictMode?: boolean;
 }
 
-export default function StrictModeWrapper({ 
+export function StrictModeWrapper({ 
   children, 
   suppressStrictMode = false 
 }: StrictModeWrapperProps) {

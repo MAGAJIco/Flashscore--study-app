@@ -13,7 +13,7 @@ interface EnhancedSocialShareProps {
   };
 }
 
-export default function EnhancedSocialShare({ prediction }: EnhancedSocialShareProps) {
+export function EnhancedSocialShare({ prediction }: EnhancedSocialShareProps) {
   const [copied, setCopied] = useState(false);
 
   const generateOGImageUrl = () => {

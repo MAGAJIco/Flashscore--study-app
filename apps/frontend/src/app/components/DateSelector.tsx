@@ -7,7 +7,7 @@ interface DateSelectorProps {
   onDateChange?: (date: Date) => void;
 }
 
-export default function DateSelector({ onDateChange }: DateSelectorProps) {
+export function DateSelector({ onDateChange }: DateSelectorProps) {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   // Generate array of dates (3 days before and 3 days after selected date)

@@ -14,4 +14,4 @@ const OfflineBanner: React.FC<OfflineBannerProps> = ({ lastOnlineTime }) => {
   );
 };
 
-export default OfflineBanner;
+export { OfflineBanner };

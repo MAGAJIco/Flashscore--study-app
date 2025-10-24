@@ -182,4 +182,4 @@ const WelcomeNotificationSetup: React.FC<WelcomeNotificationSetupProps> = ({ onC
   );
 };
 
-export default WelcomeNotificationSetup;
+export { WelcomeNotificationSetup };

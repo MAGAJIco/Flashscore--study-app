@@ -1,7 +1,7 @@
 // src/components/ApiTest.jsx
 import { useState } from "react";
 
-export default function ApiTest() {
+export function ApiTest() {
   const [paymentResult, setPaymentResult] = useState(null);
   const [predictionResult, setPredictionResult] = useState(null);
 

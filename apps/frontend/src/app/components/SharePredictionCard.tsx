@@ -246,4 +246,4 @@ Join me on MagajiCo! 🚀`;
   );
 };
 
-export default SharePredictionCard;
+export { SharePredictionCard };

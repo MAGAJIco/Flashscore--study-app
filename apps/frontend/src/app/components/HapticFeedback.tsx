@@ -107,4 +107,4 @@ export function useHapticFeedback() {
   }, []);
 }
 
-export default HapticManager;
+export { HapticManager };

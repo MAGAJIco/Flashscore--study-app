@@ -11,7 +11,7 @@ interface ErrorRecoveryAction {
   priority: 'low' | 'medium' | 'high' | 'critical';
 }
 
-export default function ErrorRecoverySystem() {
+export function ErrorRecoverySystem() {
   const [recoveryActions, setRecoveryActions] = useState<ErrorRecoveryAction[]>([]);
   const [autoRecoveryEnabled, setAutoRecoveryEnabled] = useState(true);
 

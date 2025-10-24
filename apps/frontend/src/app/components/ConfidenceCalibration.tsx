@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 
-export default function ConfidenceCalibration() {
+export function ConfidenceCalibration() {
   const [features, setFeatures] = useState<number[]>([0.7, 0.65, 0.6, 0.75, 0.7, 0.5, 0.8]);
   const [prediction, setPrediction] = useState<any>(null);
   const [loading, setLoading] = useState(false);

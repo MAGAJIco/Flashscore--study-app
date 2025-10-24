@@ -8,7 +8,7 @@ interface IOSInterfaceProps {
   enableHapticFeedback?: boolean;
 }
 
-export default function IOSInterface({
+function IOSInterface({
   children,
   showStatusBar = true,
   enableHapticFeedback = true,

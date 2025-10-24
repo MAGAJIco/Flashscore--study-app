@@ -37,7 +37,7 @@ export function LiveOddsUpdater({
         const response = await fetch(`/api/odds?matchId=${matchId}`);
         if (response.ok) {
           const newOdds = await response.json();
-          
+
           if (JSON.stringify(newOdds) !== JSON.stringify(currentOdds)) {
             setPreviousOdds(currentOdds);
             setCurrentOdds(newOdds);
@@ -64,14 +64,14 @@ export function LiveOddsUpdater({
 
   const formatOdds = (odds: number) => odds.toFixed(2);
 
-  const OddsItem = ({ 
-    label, 
-    current, 
-    previous 
-  }: { 
-    label: string; 
-    current: number; 
-    previous: number; 
+  const OddsItem = ({
+    label,
+    current,
+    previous
+  }: {
+    label: string;
+    current: number;
+    previous: number;
   }) => {
     const change = getOddsChange(current, previous);
     const hasChanged = current !== previous;
@@ -120,26 +120,26 @@ export function LiveOddsUpdater({
       </div>
 
       <div className="odds-grid">
-        <OddsItem 
-          label="Home Win" 
-          current={currentOdds.home} 
-          previous={previousOdds.home} 
+        <OddsItem
+          label="Home Win"
+          current={currentOdds.home}
+          previous={previousOdds.home}
         />
         {currentOdds.draw !== undefined && (
-          <OddsItem 
-            label="Draw" 
-            current={currentOdds.draw} 
-            previous={previousOdds.draw || currentOdds.draw} 
+          <OddsItem
+            label="Draw"
+            current={currentOdds.draw}
+            previous={previousOdds.draw || currentOdds.draw}
           />
         )}
-        <OddsItem 
-          label="Away Win" 
-          current={currentOdds.away} 
-          previous={previousOdds.away} 
+        <OddsItem
+          label="Away Win"
+          current={currentOdds.away}
+          previous={previousOdds.away}
         />
       </div>
 
-      <button 
+      <button
         className="toggle-live-btn"
         onClick={() => {
           setIsLive(!isLive);
@@ -223,10 +223,10 @@ export function LiveOddsUpdater({
         }
 
         @keyframes highlight {
-          0%, 100% { 
+          0%, 100% {
             background: rgba(255, 255, 255, 0.05);
           }
-          50% { 
+          50% {
             background: rgba(255, 255, 255, 0.15);
             transform: scale(1.05);
           }
@@ -257,10 +257,10 @@ export function LiveOddsUpdater({
         }
 
         @keyframes valuePulse {
-          0%, 100% { 
+          0%, 100% {
             transform: scale(1);
           }
-          50% { 
+          50% {
             transform: scale(1.2);
           }
         }

@@ -128,4 +128,4 @@ const BettingAgreement: React.FC<BettingAgreementProps> = ({ isVisible }) => {
   );
 };
 
-export default BettingAgreement;
+export { BettingAgreement };

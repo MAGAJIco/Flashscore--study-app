@@ -13,7 +13,7 @@ interface PullToRefreshProps {
   releaseText?: string;
 }
 
-export default function PullToRefreshWrapper({
+export function PullToRefreshWrapper({
   onRefresh,
   children,
   pullThreshold = 80,
@@ -37,21 +37,21 @@ export default function PullToRefreshWrapper({
 
   const handleTouchMove = (e: React.TouchEvent) => {
     const scrollTop = scrollableRef.current?.scrollTop || 0;
-    
+
     if (scrollTop === 0 && !isRefreshing && touchStartY.current > 0) {
       const touchY = e.touches[0].clientY;
       const distance = touchY - touchStartY.current;
-      
+
       if (distance > 0) {
         e.preventDefault();
-        
+
         const dampedDistance = Math.min(
           distance * 0.5,
           maxPullDistance
         );
-        
+
         setPullDistance(dampedDistance);
-        
+
         if (dampedDistance >= pullThreshold && !canRefresh) {
           setCanRefresh(true);
           haptic.selection();
@@ -65,7 +65,7 @@ export default function PullToRefreshWrapper({
   const handleTouchEnd = async () => {
     if (pullDistance >= pullThreshold && !isRefreshing) {
       setIsRefreshing(true);
-      
+
       try {
         await onRefresh();
         if (typeof window !== 'undefined') {
@@ -104,7 +104,7 @@ export default function PullToRefreshWrapper({
 
   return (
     <div className="pull-to-refresh-container">
-      <div 
+      <div
         className="refresh-indicator"
         style={{
           height: `${isRefreshing ? pullThreshold : pullDistance}px`,
@@ -112,7 +112,7 @@ export default function PullToRefreshWrapper({
         }}
       >
         <div className="refresh-content">
-          <div 
+          <div
             className={`refresh-spinner ${isRefreshing ? 'spinning' : ''}`}
             style={{
               transform: `rotate(${isRefreshing ? 0 : getRefreshIndicatorRotation()}deg)`
@@ -220,7 +220,7 @@ export default function PullToRefreshWrapper({
           .refresh-indicator {
             display: none;
           }
-          
+
           .scrollable-content {
             transform: none !important;
           }

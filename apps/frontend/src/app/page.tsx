@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ErrorMonitor } from '@components/ErrorMonitor';
-import { BackendHealthMonitor } from '@components/BackendHealthMonitor';
+import { BackendHealthMonitor } from '@components';
 import { SmartLoadingState } from '@components/SmartLoadingState';
 import { FeatureShowcase } from '@components/FeatureShowcase';
 import { PWAServiceWorker } from '@components/PWAServiceWorker';
