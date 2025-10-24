@@ -50,6 +50,5 @@ const NewsSchema: Schema = new Schema(
 // Indexes for performance
 NewsSchema.index({ isActive: 1, createdAt: -1 });
 NewsSchema.index({ tags: 1 });
-NewsSchema.index({ id: 1 });
 
 export const News = mongoose.models.News || mongoose.model<INews>("News", NewsSchema);

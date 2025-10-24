@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
 from predictionModel import MagajiCoMLPredictor
+from contextlib import asynccontextmanager
 import uvicorn
 import os
 import asyncio
@@ -14,16 +15,27 @@ from datetime import datetime
 request_queue = deque(maxlen=1000)
 processing_semaphore = asyncio.Semaphore(10)  # Max 10 concurrent predictions
 
+# Lifespan context manager for startup/shutdown events
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    app.state.start_time = time.time()
+    print("🚀 ML Service started successfully")
+    yield
+    # Shutdown
+    print("👋 ML Service shutting down")
+
 app = FastAPI(
     title="MagajiCo ML Prediction API",
     description="Advanced sports prediction using Machine Learning",
-    version="3.0.0"
+    version="3.0.0",
+    lifespan=lifespan
 )
 
 # Rate limiting middleware
 @app.middleware("http")
 async def rate_limit_middleware(request: Request, call_next):
-    client_ip = request.client.host
+    client_ip = request.client.host if request.client else "unknown"
     current_time = time.time()
 
     # Simple in-memory rate limiting (100 requests per minute per IP)
@@ -112,12 +124,6 @@ async def health_check():
         "model_loaded": predictor is not None,
         "timestamp": datetime.now().isoformat()
     }
-
-@app.on_event("startup")
-async def startup_event():
-    import time
-    app.state.start_time = time.time()
-    print("🚀 ML Service started successfully")
 
 @app.get("/model/info")
 async def get_model_info():
