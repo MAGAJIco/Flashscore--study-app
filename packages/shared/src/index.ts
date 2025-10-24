@@ -17,7 +17,7 @@ export { SharedAPIClient, sharedAPIClient } from './libs/api/client';
 
 // Re-export commonly used items
 export { Author } from './libs/models/author';
-export { PytorchModel, pytorchModelInstance, initializePytorchModel } from './libs/models/pytorchModel';
+export { MLModelClient, mlModelClient, createMLModelClient, PytorchModel, pytorchModelInstance, initializePytorchModel } from './libs/models/pytorchModel';
 export { foundationApi } from './libs/utils/apifoundation';
 export { mlEnhancement } from './libs/utils/mlEnhancement';
 export { UserManager, userManager } from './libs/utils/userManager';
