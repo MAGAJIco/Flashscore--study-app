@@ -5,7 +5,7 @@ import PowerDisplay from "./PowerDisplay";
 import Notification from "./Notification";
 import Leaderboard from "./Leaderboard";
 import { foundationApi, type Phase } from "@/lib/api/foundation";
-import { Breadcrumbs } from "../../components/Breadcrumbs";
+import { Breadcrumbs } from '@components/Breadcrumbs';
 
 export default function MagajiCoFoundation() {
   const [userId] = useState(() => {
@@ -106,7 +106,7 @@ export default function MagajiCoFoundation() {
               ],
             },
           ];
-          setPhases(defaultPhases);
+          setPhases(defaultPhases as any);
         }
       } catch (err) {
         console.error('Failed to load foundation progress:', err);
@@ -166,13 +166,12 @@ export default function MagajiCoFoundation() {
             ],
           },
         ];
-        setPhases(defaultPhases);
+        setPhases(defaultPhases as any);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPhases();
     loadProgress();
   }, [userId]);
 

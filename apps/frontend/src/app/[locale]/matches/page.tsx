@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { FlashScoreMatchTracker } from '../components/FlashScoreMatchTracker';
-import { Breadcrumbs } from '../components/Breadcrumbs';
+import { FlashScoreMatchTracker } from '@components/FlashScoreMatchTracker';
+import { Breadcrumbs } from '@components/Breadcrumbs';
 
 export default function MatchesPage() {
   return (

@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { HorizontalCarousel } from "../components/HorizontalCarousel";
-import PWAInstaller from "../components/PWAInstaller";
-import { AdvancedPullToRefreshWrapper, useRefreshListener } from "../components/AdvancedPullToRefreshWrapper";
-import { Breadcrumbs } from "../components/Breadcrumbs";
+import { HorizontalCarousel } from '@components/HorizontalCarousel';
+import PWAInstaller from '@components/PWAInstaller';
+import { AdvancedPullToRefreshWrapper, useRefreshListener } from '@components/AdvancedPullToRefreshWrapper';
+import { Breadcrumbs } from '@components/Breadcrumbs';
 import PredictionDashboard from '@components/PredictionDashboard';
 
 interface Prediction {

@@ -1,6 +1,6 @@
 import MagajiCoFoundation from './MagajiCoFoundation/MagajiCoFoundation';
 import Link from 'next/link';
-import { Breadcrumbs } from '../components/Breadcrumbs';
+import { Breadcrumbs } from '@components/Breadcrumbs';
 
 export default function Home() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { AdvancedAnalytics } from '../components/AdvancedAnalytics';
+import { AdvancedAnalytics } from '@components/AdvancedAnalytics';
 import { OptimizedDashboard } from '@components/OptimizedDashboard';
 
 export default function PersonalAnalyticsPage() {

@@ -70,7 +70,7 @@ export default function MagajiCoFoundation() {
   // ⚡ Check for newly unlocked phases
   useEffect(() => {
     phases.forEach((phase) => {
-      if (totalPower >= phase.requiredPower && !phase.unlocked && !phase.completed) {
+      if (phase.requiredPower !== undefined && totalPower >= phase.requiredPower && !phase.unlocked && !phase.completed) {
         setNewlyUnlocked(phase.id);
         setTimeout(() => setNewlyUnlocked(null), 1500);
       }
@@ -114,10 +114,10 @@ export default function MagajiCoFoundation() {
       setPhases((prev) =>
         prev.map((p) => {
           if (p.id === currentPhase) {
-            const installedComponents = p.components.map((c) => ({
+            const installedComponents = p.components?.map((c) => ({
               ...c,
               installed: true,
-            }));
+            })) || [];
             const phaseBoost = installedComponents.reduce(
               (sum, c) => sum + c.powerBoost,
               0
@@ -182,7 +182,7 @@ export default function MagajiCoFoundation() {
             }`}
           >
             <PhaseCard
-              phase={phase}
+              phase={phase as any}
               currentPhase={currentPhase}
               isBuilding={isBuilding}
               startBuilding={startBuilding}

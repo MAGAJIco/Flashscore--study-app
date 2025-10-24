@@ -13,7 +13,7 @@ interface HealthStatus {
 export function SystemHealth() {
   const [status, setStatus] = useState<HealthStatus | null>(null);
   const [loading, setLoading] = useState(false);
-  const [flash, setFlash] = useState(false); // for dot flash effect
+  const [flash, setFlash] = useState(false);
 
   const fetchStatus = () => {
     setLoading(true);
@@ -21,8 +21,8 @@ export function SystemHealth() {
       .then((res) => res.json())
       .then((data) => {
         setStatus(data);
-        setFlash(true); // trigger flash
-        setTimeout(() => setFlash(false), 500); // stop after 0.5s
+        setFlash(true);
+        setTimeout(() => setFlash(false), 500);
       })
       .catch(() => setStatus(null))
       .finally(() => setTimeout(() => setLoading(false), 500));
@@ -31,7 +31,6 @@ export function SystemHealth() {
   useEffect(() => {
     fetchStatus();
 
-    // Auto-refresh for mobile every 30s
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
     if (isMobile) {
       const interval = setInterval(fetchStatus, 30000);
@@ -95,14 +94,4 @@ export function SystemHealth() {
       </button>
     </div>
   );
-}
-
-/* Add this custom animation to globals.css or tailwind.config.css */
-@keyframes ping-once {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0.6; }
-  100% { transform: scale(1); opacity: 1; }
-}
-.animate-ping-once {
-  animation: ping-once 0.5s ease-in-out;
 }

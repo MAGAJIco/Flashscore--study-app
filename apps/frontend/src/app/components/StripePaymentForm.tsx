@@ -3,31 +3,6 @@
 import React, { useState } from 'react';
 
 interface StripePaymentFormProps {
-  amount: number;
-  currency?: string;
-  description: string;
-  onSuccess?: (result: any) => void;
-  onError?: (error: string) => void;
-}
-
-/**
- * Stripe Payment Form Component
- * 
- * SECURITY FEATURES:
- * - Requires JWT authentication (accessToken must be passed)
- * - Age verification performed server-side from user database
- * - No sensitive user data in request body
- * - Stripe.js handles card details securely (PCI compliant)
- * 
- * PRODUCTION SETUP:
- * 1. Install: npm install @stripe/stripe-js @stripe/react-stripe-js
- * 2. Set NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY in environment
- * 3. Use real Stripe Elements instead of demo form below
- * 
- * See STRIPE_INTEGRATION.md for complete setup instructions.
- */
-
-interface StripePaymentFormProps {
   accessToken: string;
   onSuccess?: (paymentId: string) => void;
   onError?: (error: string) => void;
@@ -57,7 +32,6 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         throw new Error('Please enter a valid amount');
       }
 
-      // Step 1: Create payment intent (authenticated)
       const intentResponse = await fetch('/api/payments/create-intent', {
         method: 'POST',
         headers: {
@@ -77,13 +51,9 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         throw new Error(intentData.error || 'Failed to create payment intent');
       }
 
-      // Step 2: In a real app, you would use Stripe.js here to collect card details
-      // Example: const result = await stripe.confirmCardPayment(intentData.clientSecret, {...});
-      // For demo purposes, we'll just check the payment status
       console.log('Payment Intent Created:', intentData.paymentIntentId);
       console.log('Client Secret (use with Stripe.js):', intentData.clientSecret);
 
-      // Step 3: Check payment status (in production, webhooks handle this automatically)
       const confirmResponse = await fetch('/api/payments/confirm', {
         method: 'POST',
         headers: {
@@ -106,7 +76,6 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         onSuccess(confirmData.payment?.id || intentData.paymentIntentId);
       }
 
-      // Reset form
       setAmount('');
       setDescription('');
     } catch (err: any) {
@@ -250,167 +219,6 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           {loading ? 'Processing...' : `Pay $${amount || '0.00'}`}
         </button>
       </form>
-
-      export default function StripePaymentForm({ 
-  amount, 
-  currency = 'USD', 
-  description,
-  onSuccess,
-  onError 
-}: StripePaymentFormProps) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handlePayment = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Get authentication token (in production, get from session/context)
-      const accessToken = localStorage.getItem('accessToken');
-      
-      if (!accessToken) {
-        throw new Error('Authentication required. Please sign in.');
-      }
-
-      // Step 1: Create payment intent with authentication
-      const intentResponse = await fetch('/api/payments/create-intent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          amount,
-          currency,
-          description,
-        }),
-      });
-
-      const intentData = await intentResponse.json();
-
-      if (!intentResponse.ok) {
-        // Handle age restrictions
-        if (intentData.code === 'AGE_RESTRICTION_UNDERAGE') {
-          throw new Error(intentData.error);
-        }
-        if (intentData.code === 'PARENTAL_CONSENT_REQUIRED') {
-          throw new Error('Parental consent required. Please have a parent/guardian complete the consent process in settings.');
-        }
-        if (intentData.code === 'MINOR_AMOUNT_LIMIT_EXCEEDED') {
-          throw new Error(`Transaction exceeds minor limit of $${intentData.maxAmount}`);
-        }
-        throw new Error(intentData.error || 'Failed to create payment');
-      }
-
-      const { clientSecret, paymentIntentId } = intentData;
-
-      // Step 2: In production, use Stripe.js to confirm payment
-      // const stripe = useStripe();
-      // const result = await stripe.confirmCardPayment(clientSecret, {
-      //   payment_method: { card: elements.getElement(CardElement) }
-      // });
-
-      // DEMO: Simulate successful payment
-      console.log('Payment Intent Created:', paymentIntentId);
-      console.log('⚠️ In production, use Stripe Elements to collect card and confirm payment');
-
-      // Step 3: Confirm payment status
-      const confirmResponse = await fetch('/api/payments/confirm', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          paymentIntentId,
-        }),
-      });
-
-      const confirmData = await confirmResponse.json();
-
-      if (confirmData.success) {
-        onSuccess?.(confirmData.payment);
-      } else {
-        throw new Error(confirmData.error || 'Payment confirmation failed');
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Payment failed';
-      setError(errorMessage);
-      onError?.(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
-      <div style={{ marginBottom: '16px' }}>
-        <h3>Payment Details</h3>
-        <p>Amount: ${amount.toFixed(2)} {currency}</p>
-        <p>Description: {description}</p>
-      </div>
-
-      {error && (
-        <div style={{
-          padding: '12px',
-          backgroundColor: '#fee2e2',
-          color: '#991b1b',
-          borderRadius: '8px',
-          marginBottom: '16px',
-        }}>
-          ⚠️ {error}
-        </div>
-      )}
-
-      <div style={{
-        marginBottom: '16px',
-        padding: '12px',
-        backgroundColor: '#fef3c7',
-        borderRadius: '8px',
-        fontSize: '0.85rem',
-        color: '#92400e',
-      }}>
-        ⚠️ <strong>Demo Mode:</strong> This is a demo. Install Stripe Elements for production.
-      </div>
-
-      <button
-        onClick={handlePayment}
-        disabled={loading}
-        style={{
-          width: '100%',
-          padding: '12px',
-          backgroundColor: loading ? '#9ca3af' : '#3b82f6',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          cursor: loading ? 'not-allowed' : 'pointer',
-        }}
-      >
-        {loading ? 'Processing...' : `Pay $${amount.toFixed(2)}`}
-      </button>
-
-      <div style={{
-        marginTop: '16px',
-        padding: '12px',
-        backgroundColor: '#eff6ff',
-        borderRadius: '8px',
-        fontSize: '0.85rem',
-        color: '#1e40af',
-      }}>
-        🔒 <strong>Security:</strong>
-        <ul style={{ marginTop: '8px', paddingLeft: '20px' }}>
-          <li>Age verified from your profile (server-side)</li>
-          <li>JWT authentication required</li>
-          <li>Stripe handles card details securely</li>
-          <li>Minors protected with transaction limits</li>
-        </ul>
-      </div>
-    </div>
-  );
-}
     </div>
   );
 };

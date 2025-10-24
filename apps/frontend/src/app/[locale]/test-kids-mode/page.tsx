@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { useKidsMode } from '@hooks/useKidsMode';
-import { ProtectedGambling } from '../../components/ProtectedGambling';
-import { KidsModeToggle } from '../../components/KidsModeToggle';
-import { AgeRestrictionGuard } from '../components/AgeRestrictionGuard';
+import { ProtectedContent } from '@components/ProtectedContent';
+import { KidsModeDashboard } from '@components/KidsModeDashboard';
+import { AgeRestrictionGuard } from '@components/AgeRestrictionGuard';
 
 export default function TestKidsModeePage() {
   const { kidsMode } = useKidsMode();
@@ -17,13 +17,13 @@ export default function TestKidsModeePage() {
         <h2>Current Status</h2>
         <p>Kids Mode: <strong>{kidsMode ? 'ENABLED ✓' : 'DISABLED'}</strong></p>
         <div style={{ marginTop: '15px' }}>
-          <KidsModeToggle />
+          <p>Toggle Kids Mode from Settings or Profile</p>
         </div>
       </div>
 
       <div style={{ marginBottom: '30px' }}>
         <h2>Test 1: Gambling Content Protection</h2>
-        <ProtectedGambling
+        <ProtectedContent
           fallback={<div style={{ padding: '15px', background: '#4ade80', color: 'white', borderRadius: '8px' }}>
             ✓ PASS: Gambling content is hidden in Kids Mode
           </div>}
@@ -38,7 +38,7 @@ export default function TestKidsModeePage() {
               </button>
             </div>
           </div>
-        </ProtectedGambling>
+        </ProtectedContent>
       </div>
 
       <div style={{ marginBottom: '30px' }}>

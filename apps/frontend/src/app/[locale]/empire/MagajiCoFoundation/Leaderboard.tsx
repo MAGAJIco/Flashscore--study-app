@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { foundationApi } from "@/lib/api/foundation";
-
-interface LeaderboardEntry {
-  rank: number;
-  userId: string;
-  totalPower: number;
-  completedPhases: number;
-  totalPhases: number;
-}
+import { foundationApi, type LeaderboardEntry } from "@/lib/api/foundation";
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);

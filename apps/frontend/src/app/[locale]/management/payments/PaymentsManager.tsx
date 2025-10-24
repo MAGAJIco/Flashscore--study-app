@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { ProtectedGambling } from '../../../components/ProtectedGambling';
+import { ProtectedContent } from '@components/ProtectedContent';
 import { useAuth } from '@hooks/useAuth';
 
 interface Payment {
@@ -189,9 +189,9 @@ export function PaymentsManager() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button className="text-indigo-600 hover:text-indigo-900 mr-2">View</button>
-                  <ProtectedGambling>
+                  <ProtectedContent>
                     <button className="text-red-600 hover:text-red-900">Refund</button>
-                  </ProtectedGambling>
+                  </ProtectedContent>
                 </td>
               </tr>
             ))}

@@ -8,8 +8,8 @@ const buildingPhases = [
     building: false,
     completed: false,
     components: [
-      { name: "Vision Blueprint", type: "ai" as const, powerBoost: 10, installed: false },
-      { name: "Faith Reinforcement", type: "community" as const, powerBoost: 5, installed: false },
+      { id: "vision-blueprint", name: "Vision Blueprint", type: "ai" as const, powerBoost: 10, installed: false },
+      { id: "faith-reinforcement", name: "Faith Reinforcement", type: "community" as const, powerBoost: 5, installed: false },
     ],
   },
   {
@@ -21,8 +21,8 @@ const buildingPhases = [
     building: false,
     completed: false,
     components: [
-      { name: "Discipline Beam", type: "security" as const, powerBoost: 10, installed: false },
-      { name: "Growth Column", type: "prediction" as const, powerBoost: 10, installed: false },
+      { id: "discipline-beam", name: "Discipline Beam", type: "security" as const, powerBoost: 10, installed: false },
+      { id: "growth-column", name: "Growth Column", type: "prediction" as const, powerBoost: 10, installed: false },
     ],
   },
   {
@@ -34,8 +34,8 @@ const buildingPhases = [
     building: false,
     completed: false,
     components: [
-      { name: "Brand Polish", type: "crypto" as const, powerBoost: 15, installed: false },
-      { name: "Strategic Reach", type: "ai" as const, powerBoost: 20, installed: false },
+      { id: "brand-polish", name: "Brand Polish", type: "crypto" as const, powerBoost: 15, installed: false },
+      { id: "strategic-reach", name: "Strategic Reach", type: "ai" as const, powerBoost: 20, installed: false },
     ],
   },
   {
@@ -47,8 +47,8 @@ const buildingPhases = [
     building: false,
     completed: false,
     components: [
-      { name: "Legacy Seal", type: "community" as const, powerBoost: 25, installed: false },
-      { name: "Cultural Impact", type: "security" as const, powerBoost: 30, installed: false },
+      { id: "legacy-seal", name: "Legacy Seal", type: "community" as const, powerBoost: 25, installed: false },
+      { id: "cultural-impact", name: "Cultural Impact", type: "security" as const, powerBoost: 30, installed: false },
     ],
   },
 ];

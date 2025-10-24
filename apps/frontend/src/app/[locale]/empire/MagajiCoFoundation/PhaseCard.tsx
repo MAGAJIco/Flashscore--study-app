@@ -13,11 +13,11 @@ interface PhaseCardProps {
     id: string;
     name: string;
     description: string;
-    requiredPower: number;
+    requiredPower?: number;
     unlocked: boolean;
     building: boolean;
     completed: boolean;
-    components: Component[];
+    components?: Component[];
   };
   currentPhase: string;
   isBuilding: boolean;
@@ -39,14 +39,14 @@ export default function PhaseCard({ phase, currentPhase, isBuilding, startBuildi
         </div>
         <div className="text-right">
           <div className="text-sm text-gray-400">Required Power</div>
-          <div className="text-lg font-bold text-yellow-400">{phase.requiredPower}</div>
+          <div className="text-lg font-bold text-yellow-400">{phase.requiredPower || 0}</div>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 mb-4">
-        {phase.components.map((comp, idx) => (
+        {phase.components?.map((comp, idx) => (
           <ComponentTile key={idx} {...comp} />
-        ))}
+        )) || null}
       </div>
 
       <div className="flex justify-center">

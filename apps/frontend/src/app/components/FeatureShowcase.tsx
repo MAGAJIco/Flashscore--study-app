@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FEATURE_REGISTRY, getFeaturesByCategory, type FeatureMetadata } from '@/app/features/registry';
+import { FEATURE_REGISTRY, getFeaturesByCategory, type FeatureMetadata } from '@/app/[locale]/features/registry';
 
 export function FeatureShowcase() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
