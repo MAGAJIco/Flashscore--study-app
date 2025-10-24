@@ -15,6 +15,8 @@ import '@styles/globals.css';
 import { MobileMetaOptimizer } from './components/MobileMetaOptimizer';
 import { MobileLayout } from './components/MobileLayout';
 import { MobilePerformanceMonitor } from './components/MobilePerformanceMonitor';
+import { HydrationMonitor } from './components/HydrationMonitor';
+import { HydrationCoordinator } from './components/HydrationCoordinator';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -69,32 +71,35 @@ export default async function RootLayout({
         />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <NextIntlClientProvider messages={messages}>
-          <SessionProvider>
-            <UserPreferencesProvider>
-              <AppErrorBoundary>
-                <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
-                  <Header />
-                </Suspense>
-                <Suspense fallback={null}>
-                  <MobileMetaOptimizer />
-                  <MobilePerformanceMonitor />
-                </Suspense>
-                <MobileLayout>
-                  {children}
-                </MobileLayout>
-                <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
-                  <BottomNavigation />
-                </Suspense>
-                <Suspense fallback={null}>
-                  <MobileInstallPrompter />
-                </Suspense>
-              </AppErrorBoundary>
-            </UserPreferencesProvider>
-          </SessionProvider>
-        </NextIntlClientProvider>
-        <Analytics />
-        <SpeedInsights />
+        <HydrationCoordinator priority="high">
+          <NextIntlClientProvider messages={messages}>
+            <SessionProvider>
+              <UserPreferencesProvider>
+                <AppErrorBoundary>
+                  <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
+                    <Header />
+                  </Suspense>
+                  <Suspense fallback={null}>
+                    <MobileMetaOptimizer />
+                    <MobilePerformanceMonitor />
+                    <HydrationMonitor />
+                  </Suspense>
+                  <MobileLayout>
+                    {children}
+                  </MobileLayout>
+                  <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
+                    <BottomNavigation />
+                  </Suspense>
+                  <Suspense fallback={null}>
+                    <MobileInstallPrompter />
+                  </Suspense>
+                </AppErrorBoundary>
+              </UserPreferencesProvider>
+            </SessionProvider>
+          </NextIntlClientProvider>
+          <Analytics />
+          <SpeedInsights />
+        </HydrationCoordinator>
       </body>
     </html>
   );

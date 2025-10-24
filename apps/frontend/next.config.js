@@ -19,6 +19,14 @@ const nextConfig = {
     pagesBufferLength: 2,
   },
 
+  // Additional hydration optimizations
+  experimental: {
+    ...nextConfig.experimental,
+    optimisticClientCache: false,
+    adjustFontFallbacks: true,
+    adjustFontFallbacksWithSizeAdjust: true,
+  },
+
   // Production optimizations
   compress: true,
   poweredByHeader: false,
