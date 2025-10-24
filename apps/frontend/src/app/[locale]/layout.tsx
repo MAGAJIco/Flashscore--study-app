@@ -19,6 +19,7 @@ import { MobilePerformanceMonitor } from '@components/MobilePerformanceMonitor';
 import { HydrationMonitor } from '@components/HydrationMonitor';
 import { HydrationCoordinator } from '@components/HydrationCoordinator';
 import { ThemeInitializer } from '@components/ThemeInitializer';
+import { DebugPanel } from '@components/DebugPanel';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -56,18 +57,38 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  const messages = await getMessages();
+  console.log('🏗️ RootLayout: Starting render for locale:', locale);
+  
+  let messages;
+  try {
+    messages = await getMessages();
+    console.log('✅ RootLayout: Messages loaded successfully');
+  } catch (error) {
+    console.error('❌ RootLayout: Failed to load messages:', error);
+    throw error;
+  }
+
+  console.log('✅ RootLayout: Rendering complete');
 
   return (
     <html lang={locale || 'en'} suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `console.log('🎨 RootLayout: HTML body rendered at', new Date().toISOString());`
+          }}
+        />
         <HydrationCoordinator priority="high">
           <NextIntlClientProvider messages={messages}>
             <SessionProvider>
               <UserPreferencesProvider>
                 <AppErrorBoundary>
                   <ThemeInitializer />
-                  <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
+                  <Suspense fallback={
+                    <div style={{ minHeight: '60px', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span>Loading Header...</span>
+                    </div>
+                  }>
                     <Header />
                   </Suspense>
                   <Suspense fallback={null}>
@@ -78,7 +99,11 @@ export default async function RootLayout({
                   <MobileLayout>
                     {children}
                   </MobileLayout>
-                  <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
+                  <Suspense fallback={
+                    <div style={{ minHeight: '60px', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span>Loading Navigation...</span>
+                    </div>
+                  }>
                     <BottomNavigation />
                   </Suspense>
                   <Suspense fallback={null}>
@@ -90,6 +115,7 @@ export default async function RootLayout({
           </NextIntlClientProvider>
           <Analytics />
           <SpeedInsights />
+          <DebugPanel />
         </HydrationCoordinator>
       </body>
     </html>
