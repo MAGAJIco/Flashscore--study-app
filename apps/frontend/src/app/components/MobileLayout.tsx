@@ -11,8 +11,10 @@ interface MobileLayoutProps {
 export function MobileLayout({ children }: MobileLayoutProps) {
   const isMobile = useMobile();
   const [isPWA, setIsPWA] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Detect if running as PWA
     const isPWAMode = window.matchMedia('(display-mode: standalone)').matches ||
                       (window.navigator as any).standalone === true;
@@ -41,6 +43,10 @@ export function MobileLayout({ children }: MobileLayoutProps) {
       };
     }
   }, [isMobile]);
+
+  if (!mounted) {
+    return <div className="mobile-layout">{children}</div>;
+  }
 
   return (
     <div className={`mobile-layout ${isPWA ? 'pwa-mode' : ''}`}>

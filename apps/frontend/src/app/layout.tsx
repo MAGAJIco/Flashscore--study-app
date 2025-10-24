@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
@@ -56,17 +56,23 @@ export default async function RootLayout({
 
   return (
     <html lang={locale || 'en'} suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
             <UserPreferencesProvider>
               <AppErrorBoundary>
                 <Header />
-                <MobileMetaOptimizer />
-                <MobilePerformanceMonitor />
-                {children}
+                <Suspense fallback={null}>
+                  <MobileMetaOptimizer />
+                  <MobilePerformanceMonitor />
+                </Suspense>
+                <MobileLayout>
+                  {children}
+                </MobileLayout>
                 <BottomNavigation />
-                <MobileInstallPrompter />
+                <Suspense fallback={null}>
+                  <MobileInstallPrompter />
+                </Suspense>
               </AppErrorBoundary>
             </UserPreferencesProvider>
           </SessionProvider>

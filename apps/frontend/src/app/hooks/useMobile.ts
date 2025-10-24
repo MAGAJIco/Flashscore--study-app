@@ -5,8 +5,10 @@ import { useState, useEffect } from 'react';
 
 export function useMobile() {
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
       const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -20,5 +22,6 @@ export function useMobile() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  return isMobile;
+  // Return false during SSR to match initial server render
+  return mounted ? isMobile : false;
 }

@@ -1,10 +1,17 @@
 
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export function MobileMetaOptimizer() {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     // Optimize viewport for mobile
     const viewport = document.querySelector('meta[name="viewport"]');
     if (viewport) {
