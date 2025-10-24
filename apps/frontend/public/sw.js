@@ -1,7 +1,8 @@
 
 /* sw.js - Enhanced Sports Central PWA Service Worker */
-const CACHE_NAME = 'sports-central-v3.0';
-const DYNAMIC_CACHE = 'sports-central-dynamic-v2';
+const CACHE_NAME = 'sports-central-v3.1-mobile';
+const DYNAMIC_CACHE = 'sports-central-dynamic-v3';
+const IMAGE_CACHE = 'sports-central-images-v1';
 
 const STATIC_ASSETS = [
   '/',
@@ -51,12 +52,35 @@ self.addEventListener('fetch', (event) => {
 
   const { url } = event.request;
   const isAPI = url.includes('/api/');
+  const isImage = event.request.destination === 'image';
 
   event.respondWith((async () => {
-    // Network-first for API calls
-    if (isAPI) {
+    // Image optimization strategy
+    if (isImage) {
+      const cached = await caches.match(event.request);
+      if (cached) return cached;
+
       try {
         const response = await fetch(event.request);
+        if (response && response.status === 200) {
+          const cache = await caches.open(IMAGE_CACHE);
+          cache.put(event.request, response.clone());
+        }
+        return response;
+      } catch (err) {
+        return new Response('', { status: 404 });
+      }
+    }
+
+    // Network-first for API calls with timeout
+    if (isAPI) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        
+        const response = await fetch(event.request, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        
         const cache = await caches.open(DYNAMIC_CACHE);
         cache.put(event.request, response.clone());
         return response;

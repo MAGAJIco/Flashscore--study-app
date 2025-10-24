@@ -12,6 +12,9 @@ import { MobileInstallPrompter } from '@components/MobileInstallPrompter';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import '@styles/globals.css';
+import { MobileMetaOptimizer } from './components/MobileMetaOptimizer';
+import { MobileLayout } from './components/MobileLayout';
+import { MobilePerformanceMonitor } from './components/MobilePerformanceMonitor';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -59,6 +62,8 @@ export default async function RootLayout({
             <UserPreferencesProvider>
               <AppErrorBoundary>
                 <Header />
+                <MobileMetaOptimizer />
+                <MobilePerformanceMonitor />
                 {children}
                 <BottomNavigation />
                 <MobileInstallPrompter />

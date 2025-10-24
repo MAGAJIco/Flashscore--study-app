@@ -10,8 +10,26 @@ export function MobileMetaOptimizer() {
     if (viewport) {
       viewport.setAttribute(
         'content',
-        'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes, viewport-fit=cover, interactive-widget=resizes-content'
+        'width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, user-scalable=yes, viewport-fit=cover, interactive-widget=resizes-content'
       );
+
+    // Add mobile-web-app-capable
+    let mobileWebApp = document.querySelector('meta[name="mobile-web-app-capable"]');
+    if (!mobileWebApp) {
+      mobileWebApp = document.createElement('meta');
+      mobileWebApp.setAttribute('name', 'mobile-web-app-capable');
+      mobileWebApp.setAttribute('content', 'yes');
+      document.head.appendChild(mobileWebApp);
+    }
+
+    // Add format detection
+    let formatDetection = document.querySelector('meta[name="format-detection"]');
+    if (!formatDetection) {
+      formatDetection = document.createElement('meta');
+      formatDetection.setAttribute('name', 'format-detection');
+      formatDetection.setAttribute('content', 'telephone=no');
+      document.head.appendChild(formatDetection);
+    }
     }
 
     // Add theme-color for mobile browsers
