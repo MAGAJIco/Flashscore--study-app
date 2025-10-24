@@ -281,6 +281,35 @@ args = "cd apps/frontend && npm run build"
 task = "shell.exec"
 args = "echo \"✅ Build complete - ready for deployment!\""
 
+[[workflows.workflow]]
+name = "Quick Build Test"
+author = 48961353
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🧹 Clearing Next.js cache...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "rm -rf apps/frontend/.next"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Cache cleared\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔨 Building frontend...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Build complete!\""
+
 [deployment]
 build = ["sh", "-c", "npm ci && npm run build --workspace=packages/shared && npm run build --workspace=apps/backend"]
 run = ["sh", "-c", "node apps/backend/dist/src/index.js"]

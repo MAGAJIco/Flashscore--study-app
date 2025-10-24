@@ -1,3 +1,4 @@
+
 import React, { Suspense } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
@@ -59,13 +60,13 @@ export default async function RootLayout({
 
   return (
     <html lang={locale || 'en'} suppressHydrationWarning>
-      <head />
       <body className={inter.className} suppressHydrationWarning>
         <HydrationCoordinator priority="high">
           <NextIntlClientProvider messages={messages}>
             <SessionProvider>
               <UserPreferencesProvider>
                 <AppErrorBoundary>
+                  <ThemeInitializer />
                   <Suspense fallback={<div style={{ minHeight: '60px' }} />}>
                     <Header />
                   </Suspense>
@@ -73,7 +74,6 @@ export default async function RootLayout({
                     <MobileMetaOptimizer />
                     <MobilePerformanceMonitor />
                     <HydrationMonitor />
-                    <ThemeInitializer />
                   </Suspense>
                   <MobileLayout>
                     {children}
