@@ -51,5 +51,3 @@ export default function HomePage() {
     </>
   );
 }
-
-// Default export for Next.js page compatibility

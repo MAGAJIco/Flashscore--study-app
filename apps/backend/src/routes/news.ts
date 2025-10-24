@@ -10,7 +10,7 @@ interface CreateNewsBody {
   publishedAt?: Date;
 }
 
-async function newsRoutes(fastify: FastifyInstance) {
+export async function newsRoutes(fastify: FastifyInstance) {
   // 📰 Create news
   fastify.post(
     "/",
@@ -54,5 +54,3 @@ async function newsRoutes(fastify: FastifyInstance) {
     },
   );
 }
-
-export { newsRoutes };

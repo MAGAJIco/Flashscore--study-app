@@ -33,6 +33,33 @@
       "@config/*": ["apps/frontend/src/app/config/*"],
       "@utils": ["apps/frontend/src/app/utils"],
       "@utils/*": ["apps/frontend/src/app/utils/*"],
+      "@providers": ["apps/frontend/src/app/providers"],
+      "@providers/*": ["apps/frontend/src/app/providers/*"],
+      
+      // --- Backend ---
+      "@": ["apps/backend/src"],
+      "@/*": ["apps/backend/src/*"],
+      "@bcomponents/*": ["apps/backend/src/components/*"],
+      "@btypes/*": ["apps/backend/src/types/*"],
+      "@bcontrollers/*": ["apps/backend/src/controllers/*"],
+      "@broutes/*": ["apps/backend/src/routes/*"],
+      "@bservices/*": ["apps/backend/src/services/*"],
+      "@bstyles/*": ["apps/backend/src/styles/*"],
+      "@bconfig/*": ["apps/backend/src/config/*"],
+      "@middleware/*": ["apps/backend/src/middleware/*"],
+      "@models/*": ["apps/backend/src/models/*"],
+
+      // --- Shared ---
+      "@shared": ["packages/shared/src"],
+      "@shared/*": ["packages/shared/src/*"],
+      "@shared/types": ["packages/shared/src/libs/types"],
+      "@shared/types/*": ["packages/shared/src/libs/types/*"],
+      "@shared/utils": ["packages/shared/src/libs/utils"],
+      "@shared/utils/*": ["packages/shared/src/libs/utils/*"],
+      "@shared/models": ["packages/shared/src/libs/models"],
+      "@shared/models/*": ["packages/shared/src/libs/models/*"],
+      "@shared/services": ["packages/shared/src/libs/services"],
+      "@shared/services/*": ["packages/shared/src/libs/services/*"]"],
 
       // --- Backend ---
       "@bcomponents/*": ["apps/backend/src/components/*"],
