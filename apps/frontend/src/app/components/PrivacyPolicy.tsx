@@ -327,4 +327,4 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
   );
 };
 
-export default PrivacyPolicy;
+export { PrivacyPolicy };

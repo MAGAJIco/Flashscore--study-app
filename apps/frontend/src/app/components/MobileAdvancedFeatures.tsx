@@ -313,4 +313,4 @@ const MobileAdvancedFeatures: React.FC = () => {
   );
 };
 
-export default MobileAdvancedFeatures;
+export { MobileAdvancedFeatures };

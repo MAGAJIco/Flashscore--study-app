@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { PiCoinManager } from '@magajico/shared/utils';
+import { piCoinManagerInstance } from '@magajico/shared/utils';
 
 interface PiCoinStoreProps {
   isOpen: boolean;
@@ -110,7 +110,7 @@ const PiCoinStore: React.FC<PiCoinStoreProps> = ({ isOpen, onClose, userId, onPu
       if (paymentResult.success) {
         // Award Pi Coins to user
         const totalAmount = pkg.amount + pkg.bonus;
-        const success = PiCoinManager.earnCoins(
+        const success = piCoinManagerInstance.earnCoins(
           userId, 
           totalAmount, 
           `Purchased ${totalAmount.toLocaleString()} Pi Coins`,
@@ -122,13 +122,15 @@ const PiCoinStore: React.FC<PiCoinStoreProps> = ({ isOpen, onClose, userId, onPu
           }
         );
         
-        if (success) {
-          alert(`Successfully purchased ${totalAmount.toLocaleString()} Pi coins!`);
-          onPurchaseComplete();
-          onClose();
-        } else {
-          alert('Failed to award Pi coins. Please contact support.');
-        }
+        PiCoinManager.earnCoins(
+          userId, 
+          totalAmount, 
+          `Purchased ${totalAmount.toLocaleString()} Pi Coins`
+        );
+        
+        alert(`Successfully purchased ${totalAmount.toLocaleString()} Pi coins!`);
+        onPurchaseComplete();
+        onClose();
       } else {
         alert(`Purchase failed: ${paymentResult.error || 'Unknown error'}`);
       }
@@ -299,4 +301,4 @@ const PiCoinStore: React.FC<PiCoinStoreProps> = ({ isOpen, onClose, userId, onPu
   );
 };
 
-export default PiCoinStore;
+export { PiCoinStore };

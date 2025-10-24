@@ -25,7 +25,7 @@ interface HealthMetrics {
   };
 }
 
-export default function HealthDashboard() {
+export function HealthDashboard() {
   const [metrics, setMetrics] = useState<HealthMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

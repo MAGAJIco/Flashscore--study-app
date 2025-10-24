@@ -1,25 +1,24 @@
 // Error Monitoring & Boundaries
 export { ErrorMonitor } from './ErrorMonitor';
-export { ErrorBoundary } from './ErrorBoundary/ErrorBoundaryWithPerformance';
+export { ProductionErrorBoundary as ErrorBoundary } from './ErrorBoundary/ErrorBoundaryWithPerformance';
 export { BackendHealthMonitor } from './BackendHealthMonitor';
 export { BackendStatusIndicator } from './BackendStatusIndicator';
 
-// Loading States
-export { SmartLoadingState } from './SmartLoadingState';
-export { LoadingSkeleton, NewsLoadingSkeleton, QuizLoadingSkeleton, CardLoadingSkeleton, ListLoadingSkeleton } from './LoadingSkeleton';
+// Navigation
+export { BottomNavigation } from './BottomNavigation';
+export { Header } from './Header';
 
-// Navigation & Layout
-export { NavBar } from './NavBar';
-export { HorizontalCarousel } from './HorizontalCarousel';
+// Features
+export { LiveMatchTracker } from './LiveMatchTracker';
+export { LiveOddsUpdater } from './LiveOddsUpdater';
+export { ConfidenceSlider } from './ConfidenceSlider';
+export { PullToRefreshWrapper } from './PullToRefreshWrapper';
+export { EnhancedMicroInteractions } from './EnhancedMicroInteractions';
+export { HapticFeedback } from './HapticFeedback';
 
-// PWA & Mobile Features
-export { PWAServiceWorker } from './PWAServiceWorker';
-export { PushNotificationManager } from './PushNotificationManager';
-export { MobileMetaOptimizer } from './MobileMetaOptimizer';
-export { MobilePerformanceOptimizer } from './MobilePerformanceOptimizer';
-export { MobileHomeOptimizer } from './MobileHomeOptimizer';
-export { OfflineIndicator } from './OfflineIndicator';
+// PWA
 export { InstallPrompt } from './InstallPrompt';
+export { PWAServiceWorker } from './PWAServiceWorker';
 
 // Feature Components
 export { FeatureShowcase } from './FeatureShowcase';
@@ -27,29 +26,29 @@ export { FeatureHub } from './FeatureHub';
 
 // Live Features
 export { LiveMatchTracker } from './LiveMatchTracker';
-export { LiveScoreCard } from './LiveScoreCard';
+export { default as LiveScoreCard } from './LiveScoreCard';
 
-// Prediction Features
-export { PredictionInterface } from './PredictionInterface';
+// Error Handling
+export { ErrorMonitor } from './ErrorMonitor';
+export { BackendHealthMonitor } from './BackendHealthMonitor';
 
-// News Features
+// Additional Components
+export { AppDrawer } from './AppDrawer';
+export { AuthorCard } from './AuthorCard';
+export { AuthorNewsDisplay } from './AuthorNewsDisplay';
+export { AuthorsLeaderboard } from './AuthorsLeaderboard';
+export { AuthorsSidebar } from './AuthorsSidebar';
+export { Breadcrumbs } from './Breadcrumbs';
+export { DateSelector } from './DateSelector';
+export { FloatingAlert } from './FloatingAlert';
 export { LatestNews } from './LatestNews';
-export { SmartNewsFeed } from './SmartNewsFeed';
+export { LiveScoreCard } from './LiveScoreCard';
+export { LoginModal } from './LoginModal';
+export { MobileInstallPrompter } from './MobileInstallPrompter';
+export { ThemeToggle } from './ThemeToggle';
 
 // Alerts & Notifications
-export { FloatingAlert } from './FloatingAlert';
+export { default as FloatingAlert, triggerFloatingAlert } from './FloatingAlert';
 
-// Re-export all components for backward compatibility
-export * from './ErrorMonitor';
-export * from './BackendHealthMonitor';
-export * from './SmartLoadingState';
-export * from './FeatureShowcase';
-export * from './PWAServiceWorker';
-export * from './MobileMetaOptimizer';
-export * from './MobilePerformanceOptimizer';
-export * from './LatestNews';
-export * from './SmartNewsFeed';
-export * from './LiveMatchTracker';
-export * from './PredictionInterface';
-export * from './OfflineIndicator';
-export * from './InstallPrompt';
+// Type exports
+export type { Achievement } from './AchievementCelebration';

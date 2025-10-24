@@ -34,7 +34,7 @@ interface LiveScoreCardProps {
   showPrediction?: boolean;
 }
 
-export default function LiveScoreCard({ match, onToggleFavorite, showPrediction = false }: LiveScoreCardProps) {
+export function LiveScoreCard({ match, onToggleFavorite, showPrediction = false }: LiveScoreCardProps) {
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {

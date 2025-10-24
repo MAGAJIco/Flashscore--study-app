@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ErrorMonitor } from '@components/ErrorMonitor';
-import { BackendHealthMonitor } from '@components/BackendHealthMonitor';
+import { BackendHealthMonitor } from '@components';
 import { SmartLoadingState } from '@components/SmartLoadingState';
 import { FeatureShowcase } from '@components/FeatureShowcase';
 import { PWAServiceWorker } from '@components/PWAServiceWorker';
@@ -14,7 +14,7 @@ import { SmartNewsFeed } from '@components/SmartNewsFeed';
 import { LiveMatchTracker } from '@components/LiveMatchTracker';
 import { PredictionInterface } from '@components/PredictionInterface';
 
-export function HomePage() {
+export default function HomePage() {
   const t = useTranslations('home');
 
   return (
@@ -51,6 +51,3 @@ export function HomePage() {
     </>
   );
 }
-
-// Default export for Next.js page compatibility
-export default HomePage;

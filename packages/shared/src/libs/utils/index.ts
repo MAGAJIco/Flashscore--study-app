@@ -1,3 +1,4 @@
+
 export * from './advancedAnalytics';
 export * from './alertUtils';
 export * from './apiManager';
@@ -14,6 +15,7 @@ export * from './ethicalSecurityManager';
 export * from './imageOptimizer';
 export * from './kidsMode';
 export * from './mlEnhancement';
+export * from './mlAnalytics';
 export * from './monetizationManager';
 export * from './offlineStorage';
 export * from './offlineUtils';

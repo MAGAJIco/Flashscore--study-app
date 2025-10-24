@@ -1,7 +1,7 @@
 
 "use client";
 import React, { useState, useEffect } from 'react';
-import { PiCoinManager } from '@magajico/shared/utils';
+import { piCoinManagerInstance } from '@magajico/shared/utils';
 
 interface StakingOption {
   multiplier: number;
@@ -36,7 +36,7 @@ const StakingSystem: React.FC = () => {
 
   useEffect(() => {
     const userBalance = PiCoinManager.getBalance('default');
-    setBalance(userBalance.balance);
+    setBalance(userBalance);
     loadActiveStakes();
   }, []);
 
@@ -100,8 +100,7 @@ const StakingSystem: React.FC = () => {
     PiCoinManager.earnCoins(
       'default',
       stake.potentialReturn,
-      `Won staked prediction - ${stake.multiplier}x return`,
-      { type: 'stake_win', originalStake: stake.amount }
+      `Won staked prediction - ${stake.multiplier}x return`
     );
 
     const updatedStakes = activeStakes.map(s => 
@@ -111,7 +110,7 @@ const StakingSystem: React.FC = () => {
     localStorage.setItem('active_stakes', JSON.stringify(updatedStakes));
     
     const userBalance = PiCoinManager.getBalance('default');
-    setBalance(userBalance.balance);
+    setBalance(userBalance);
   };
 
   return (
@@ -324,4 +323,4 @@ const StakingSystem: React.FC = () => {
   );
 };
 
-export default StakingSystem;
+export { StakingSystem };

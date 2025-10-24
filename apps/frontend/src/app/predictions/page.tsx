@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import HorizontalCarousel from "../components/HorizontalCarousel";
+import { HorizontalCarousel } from "../components/HorizontalCarousel";
 import PWAInstaller from "../components/PWAInstaller";
-import AdvancedPullToRefreshWrapper, { useRefreshListener } from "../components/AdvancedPullToRefreshWrapper";
-import Breadcrumbs from "../components/Breadcrumbs";
+import { AdvancedPullToRefreshWrapper, useRefreshListener } from "../components/AdvancedPullToRefreshWrapper";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 import PredictionDashboard from '@components/PredictionDashboard';
 
 interface Prediction {
@@ -15,7 +15,7 @@ interface Prediction {
   confidence: number;
 }
 
-export function PredictionsPage() {
+export default function PredictionsPage() {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -177,4 +177,3 @@ export function PredictionsPage() {
   );
 }
 
-export default PredictionsPage;

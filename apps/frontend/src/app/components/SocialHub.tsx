@@ -430,4 +430,4 @@ const SocialHub: React.FC = () => {
   );
 };
 
-export default SocialHub;
+export { SocialHub };

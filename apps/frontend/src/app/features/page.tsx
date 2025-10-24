@@ -1,5 +1,5 @@
 
-import FeatureShowcase from '@components/FeatureShowcase';
+import { FeatureShowcase } from '@components/FeatureShowcase';
 
 export default function FeaturesPage() {
   return <FeatureShowcase />;

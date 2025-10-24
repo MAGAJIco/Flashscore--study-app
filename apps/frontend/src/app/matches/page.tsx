@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import FlashScoreMatchTracker from '../components/FlashScoreMatchTracker';
-import Breadcrumbs from '../components/Breadcrumbs';
-import MatchList from '@components/MatchList';
+import { FlashScoreMatchTracker } from '../components/FlashScoreMatchTracker';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 
 export default function MatchesPage() {
   return (
@@ -16,7 +15,6 @@ export default function MatchesPage() {
         />
       </div>
       <FlashScoreMatchTracker />
-      <MatchList />
     </div>
   );
 }

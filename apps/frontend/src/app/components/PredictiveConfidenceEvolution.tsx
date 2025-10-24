@@ -438,4 +438,4 @@ const PredictiveConfidenceEvolution: React.FC = () => {
   );
 };
 
-export default PredictiveConfidenceEvolution;
+export { PredictiveConfidenceEvolution };

@@ -25,7 +25,7 @@ interface MagajiCoManagerProps {
   embedded?: boolean; // New prop for embedded mode
 }
 
-export default function MagajiCoManager({
+export function MagajiCoManager({
   isOpen = false,
   onToggle,
   embedded = false,

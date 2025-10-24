@@ -1,14 +1,25 @@
 
 /* Mobile Performance Optimizations - Liverpool Theme */
 
+/* CSS Variables for Dynamic Viewport */
+:root {
+  --vh: 1vh;
+  --safe-area-top: env(safe-area-inset-top);
+  --safe-area-bottom: env(safe-area-inset-bottom);
+  --safe-area-left: env(safe-area-inset-left);
+  --safe-area-right: env(safe-area-inset-right);
+}
+
 /* Global mobile optimizations */
 * {
   -webkit-tap-highlight-color: rgba(200, 16, 46, 0.1);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
-  /* Prevent iOS Safari bounce effect */
   overscroll-behavior-y: contain;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 input, textarea {
@@ -27,18 +38,31 @@ body {
 }
 
 @media (max-width: 768px) {
+  /* Mobile viewport optimization */
+  html {
+    height: -webkit-fill-available;
+    height: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-height: calc(var(--vh, 1vh) * 100);
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--safe-area-left);
+    padding-right: var(--safe-area-right);
+  }
+
   /* Reduce animations on mobile */
   .reduce-motion * {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 
-  /* Safe area insets for notched devices */
-  body {
-    padding-top: max(env(safe-area-inset-top), 0px);
-    padding-bottom: max(env(safe-area-inset-bottom), 0px);
-    padding-left: max(env(safe-area-inset-left), 0px);
-    padding-right: max(env(safe-area-inset-right), 0px);
+  /* PWA-specific optimizations */
+  .pwa-mode {
+    padding-top: calc(var(--safe-area-top) + 0px);
   }
 
   /* Prevent iOS rubber band scrolling */

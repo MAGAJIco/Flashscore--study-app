@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { locales, localeNames, type Locale } from '@/i18n';
 
-export default function LanguageLearningMode() {
+export function LanguageLearningMode() {
   const currentLocale = useLocale() as Locale;
   const t = useTranslations('common');
   const [learningMode, setLearningMode] = useState(false);

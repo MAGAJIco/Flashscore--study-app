@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import PiCoinManager from '@services/PiCoinManager';
-import { UserManager } from '@magajico/shared/utils';
+import { piCoinManagerInstance, UserManager } from '@magajico/shared/utils';
 
 interface User {
   id: string;
@@ -58,9 +57,8 @@ const CommunityVoting: React.FC<CommunityVotingProps> = ({ currentUser }) => {
   useEffect(() => {
     loadVotingTopics();
     if (currentUser) {
-      const piCoinManager = PiCoinManager.getInstance();
-      const balance = piCoinManager.getBalance(currentUser.id);
-      setUserBalance(balance.balance);
+      const balance = PiCoinManager.getBalance(currentUser.id);
+      setUserBalance(balance);
     }
   }, [currentUser]);
 
@@ -145,8 +143,7 @@ const CommunityVoting: React.FC<CommunityVotingProps> = ({ currentUser }) => {
     });
 
     // Deduct Pi coins from user balance
-    const piCoinManager = PiCoinManager.getInstance();
-    piCoinManager.spendCoins(
+    PiCoinManager.spendCoins(
       currentUser.id,
       coinsToSpend,
       `Voted on: ${votingTopics.find(t => t.id === topicId)?.title}`
@@ -155,8 +152,8 @@ const CommunityVoting: React.FC<CommunityVotingProps> = ({ currentUser }) => {
     saveVotingTopics(updatedTopics);
 
     // Update user balance
-    const newBalance = piCoinManager.getBalance(currentUser.id);
-    setUserBalance(newBalance.balance);
+    const newBalance = PiCoinManager.getBalance(currentUser.id);
+    setUserBalance(newBalance);
   };
 
   const addOption = () => {
@@ -573,4 +570,4 @@ const CommunityVoting: React.FC<CommunityVotingProps> = ({ currentUser }) => {
   );
 };
 
-export default CommunityVoting;
+export { CommunityVoting };

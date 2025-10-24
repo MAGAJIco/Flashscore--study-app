@@ -110,4 +110,3 @@ export class ProductionErrorBoundary extends Component<Props, State> {
 }
 
 export { ProductionErrorBoundary as ErrorBoundaryWithPerformance };
-export default ProductionErrorBoundary;

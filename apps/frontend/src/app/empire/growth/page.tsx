@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import GrowthDashboard from '@/app/empire/components/GrowthDashboard';
 import EmpireLeaderboard from '../components/EmpireLeaderboard';
 import { foundationApi, Phase } from '@/lib/api/foundation';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import { Breadcrumbs } from '../../components/Breadcrumbs';
 
-export function GrowthPage() {
+export default function GrowthPage() {
   const [userId, setUserId] = useState<string>('');
   const [totalPower, setTotalPower] = useState(0);
   const [phases, setPhases] = useState<Phase[]>([]);
@@ -105,4 +105,3 @@ export function GrowthPage() {
   );
 }
 
-export default GrowthPage;

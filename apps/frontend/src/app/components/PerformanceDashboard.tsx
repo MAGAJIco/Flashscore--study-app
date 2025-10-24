@@ -11,7 +11,7 @@ interface PerformanceMetrics {
   cacheHitRate?: number;
 }
 
-export default function PerformanceDashboard() {
+export function PerformanceDashboard() {
   const [metrics, setMetrics] = useState<PerformanceMetrics | null>(null);
   const [optimizations, setOptimizations] = useState<string[]>([]);
 

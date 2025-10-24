@@ -47,7 +47,7 @@ export const triggerFloatingAlert = (
   }
 };
 
-export default function FloatingAlert({ enabled, onToggle }: FloatingAlertProps) {
+export function FloatingAlert({ enabled, onToggle }: FloatingAlertProps) {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [isMinimized, setIsMinimized] = useState(false);
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Search, Star, ChevronRight } from 'lucide-react';
-import BottomNavigation from '@components/BottomNavigation';
+import { BottomNavigation } from '@components/BottomNavigation';
 
 interface Competition {
   id: string;
@@ -14,7 +14,7 @@ interface Competition {
   category: 'favorite' | 'other';
 }
 
-export function LeaguesPage() {
+export default function LeaguesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [competitions, setCompetitions] = useState<Competition[]>([
     // Favorites
@@ -223,4 +223,3 @@ export function LeaguesPage() {
   );
 }
 
-export default LeaguesPage;

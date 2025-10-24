@@ -69,7 +69,7 @@ export function ConfidenceSlider({
     <div className="confidence-slider-container">
       <div className="confidence-header">
         <h3>Prediction Confidence</h3>
-        <div 
+        <div
           className="confidence-badge"
           style={{ backgroundColor: getConfidenceColor(adjustedConfidence) }}
         >
@@ -79,9 +79,9 @@ export function ConfidenceSlider({
 
       <div className="confidence-visual">
         <div className="confidence-bar-bg">
-          <div 
+          <div
             className={`confidence-bar-fill ${isDragging ? 'dragging' : ''}`}
-            style={{ 
+            style={{
               width: `${adjustedConfidence}%`,
               backgroundColor: getConfidenceColor(adjustedConfidence),
               transition: isDragging ? 'none' : 'all 0.3s ease'
@@ -90,7 +90,7 @@ export function ConfidenceSlider({
             <div className="confidence-glow" />
           </div>
         </div>
-        
+
         <div className="confidence-labels">
           <span>0%</span>
           <span className="confidence-level">{getConfidenceLabel(adjustedConfidence)}</span>
@@ -122,8 +122,8 @@ export function ConfidenceSlider({
           <h4>Influencing Factors</h4>
           <div className="factors-list">
             {factors.map((factor, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="factor-item"
                 style={{
                   animationDelay: `${index * 0.1}s`
@@ -131,7 +131,7 @@ export function ConfidenceSlider({
               >
                 <div className="factor-header">
                   <span className="factor-name">{factor.name}</span>
-                  <span 
+                  <span
                     className={`factor-impact ${factor.impact >= 0 ? 'positive' : 'negative'}`}
                   >
                     {factor.impact > 0 ? '+' : ''}{factor.impact}%
@@ -139,9 +139,9 @@ export function ConfidenceSlider({
                 </div>
                 <p className="factor-description">{factor.description}</p>
                 <div className="factor-bar">
-                  <div 
+                  <div
                     className="factor-bar-fill"
-                    style={{ 
+                    style={{
                       width: `${Math.abs(factor.impact) * 2}%`,
                       backgroundColor: factor.impact >= 0 ? '#10b981' : '#ef4444'
                     }}
@@ -219,9 +219,9 @@ export function ConfidenceSlider({
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(90deg, 
-            transparent 0%, 
-            rgba(255, 255, 255, 0.3) 50%, 
+          background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 50%,
             transparent 100%
           );
           animation: shimmer 2s infinite;

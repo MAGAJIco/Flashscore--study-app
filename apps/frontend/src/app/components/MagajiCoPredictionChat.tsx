@@ -34,7 +34,7 @@ const chatAI = async (userInput: string) => {
   };
 };
 
-export default function MagajiCoPredictionChat() {
+export function MagajiCoPredictionChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',

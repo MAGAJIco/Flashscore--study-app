@@ -247,12 +247,6 @@ const BackupSettings: React.FC<BackupSettingsProps> = ({ isOpen, onClose }) => {
             </label>
           </div>
         </div>
-      </div>
-    );
-  };
-
-export { BackupManager };
-          </div>
         </div>
 
         {/* Cloud Sync Section */}
@@ -346,8 +340,7 @@ export { BackupManager };
           </button>
         </div>
       </div>
-    </div>
   );
 };
 
-export default BackupSettings;
+export { BackupSettings };

@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { Circle, Filter, TrendingUp } from 'lucide-react';
 import LiveScoreCard from '../components/LiveScoreCard';
-import BottomNavigation from '../components/BottomNavigation';
+import { BottomNavigation } from '../components/BottomNavigation';
 import DateSelector from '../components/DateSelector';
 
-export function LivePage() {
+export default function LivePage() {
   const [liveMatches, setLiveMatches] = useState([
     {
       id: '1',
@@ -132,4 +132,3 @@ export function LivePage() {
   );
 }
 
-export default LivePage;

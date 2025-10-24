@@ -1,10 +1,10 @@
 "use client";
 
 import React from 'react';
-import AdvancedAnalytics from '../components/AdvancedAnalytics';
+import { AdvancedAnalytics } from '../components/AdvancedAnalytics';
 import OptimizedDashboard from '@components/OptimizedDashboard';
 
-export function PersonalAnalyticsPage() {
+export default function PersonalAnalyticsPage() {
   return (
     <div style={{
       minHeight: '100vh',
@@ -43,5 +43,3 @@ export function PersonalAnalyticsPage() {
     </div>
   );
 }
-
-export default PersonalAnalyticsPage;

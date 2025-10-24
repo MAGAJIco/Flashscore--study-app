@@ -1,6 +1,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import PaymentManager from '@shared/libs/utils/paymentManager';
+import { paymentManagerInstance } from '@shared/libs/utils/paymentManager';
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
         const paymentIntent = event.data.object;
         
         // Process the successful payment
-        await PaymentManager.handleWebhook('stripe', {
+        await paymentManagerInstance.handleWebhook('stripe', {
           type: 'payment_succeeded',
           transactionId: paymentIntent.id,
           amount: paymentIntent.amount / 100,
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       case 'payment_intent.payment_failed':
         const failedPayment = event.data.object;
         
-        await PaymentManager.handleWebhook('stripe', {
+        await paymentManagerInstance.handleWebhook('stripe', {
           type: 'payment_failed',
           transactionId: failedPayment.id,
           error: failedPayment.last_payment_error?.message

@@ -1,7 +1,7 @@
 
 "use client";
 import React, { useState, useEffect } from 'react';
-import { PiCoinManager } from '@magajico/shared/utils';
+import { piCoinManagerInstance } from '@magajico/shared/utils';
 
 interface League {
   id: string;
@@ -354,4 +354,4 @@ const PredictionLeague: React.FC = () => {
   );
 };
 
-export default PredictionLeague;
+export { PredictionLeague };

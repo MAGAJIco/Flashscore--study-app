@@ -255,4 +255,4 @@ const SmartOnboarding: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
   );
 };
 
-export default SmartOnboarding;
+export { SmartOnboarding };

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { systemOptimizer, paymentManager, emailManager, crudManager } from '@magajico/shared/utils';
+import { systemOptimizerInstance, paymentManagerInstance, emailManagerInstance, crudManagerInstance } from '@magajico/shared/utils';
 import { useMobile } from '@hooks/useMobile';
 
 interface FeatureGroup {
@@ -201,7 +201,7 @@ const FeatureHub: React.FC = () => {
 
   const loadSystemHealth = async () => {
     try {
-      const health = systemOptimizer.getSystemHealth();
+      const health = systemOptimizerInstance.getSystemHealth();
       setSystemHealth(health);
     } catch (error) {
       console.error('Error loading system health:', error);
@@ -211,14 +211,14 @@ const FeatureHub: React.FC = () => {
   const handleFeatureSearch = (query: string) => {
     setSearchQuery(query);
     if (query) {
-      const results = systemOptimizer.search(query);
+      const results = systemOptimizerInstance.search(query);
       console.log('Search results:', results);
     }
   };
 
   const testPaymentSystem = async () => {
     try {
-      const result = await paymentManager.processPayment({
+      const result = await paymentManagerInstance.processPayment({
         amount: 10,
         currency: 'USD',
         provider: 'pi_network',
@@ -234,7 +234,7 @@ const FeatureHub: React.FC = () => {
 
   const testEmailSystem = async () => {
     try {
-      const success = await emailManager.sendTemplatedEmail(
+      const success = await emailManagerInstance.sendTemplatedEmail(
         'welcome',
         'test@example.com',
         {
@@ -252,7 +252,7 @@ const FeatureHub: React.FC = () => {
 
   const testCRUDSystem = async () => {
     try {
-      const health = await crudManager.healthCheck();
+      const health = await crudManagerInstance.healthCheck();
       alert(`CRUD system health: ${health.status}`);
     } catch (error) {
       alert('CRUD test error');

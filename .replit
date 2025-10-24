@@ -182,6 +182,39 @@ args = "echo \"✅ Frontend build complete!\""
 task = "shell.exec"
 args = "echo \"📦 Build artifacts ready in apps/frontend/.next\""
 
+[[workflows.workflow]]
+name = "Vercel Build Test"
+author = 48948294
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔨 Installing root dependencies...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install --legacy-peer-deps"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔨 Installing frontend dependencies...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && npm install --legacy-peer-deps"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔨 Building frontend...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Build complete!\""
+
 [deployment]
 build = ["sh", "-c", "npm install --legacy-peer-deps && npm run build --workspace=packages/shared && npm run build --workspace=apps/backend"]
 run = ["sh", "-c", "cd apps/backend && node dist/src/index.js"]
@@ -259,6 +292,10 @@ externalPort = 8099
 [[ports]]
 localPort = 45307
 externalPort = 8080
+
+[[ports]]
+localPort = 45641
+externalPort = 9000
 
 [[ports]]
 localPort = 45655

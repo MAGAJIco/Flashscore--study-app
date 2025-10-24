@@ -7,7 +7,7 @@ interface SearchResult {
   description?: string;
 }
 
-export default function SearchDirectory() {
+export function SearchDirectory() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);

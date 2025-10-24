@@ -84,4 +84,4 @@ const OfflineManager: React.FC<OfflineManagerProps> = ({ children }) => {
   );
 };
 
-export default OfflineManager;
+export { OfflineManager };

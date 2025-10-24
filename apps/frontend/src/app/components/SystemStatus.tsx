@@ -10,7 +10,7 @@ interface HealthStatus {
   timestamp: string;
 }
 
-export default function SystemHealth() {
+export function SystemHealth() {
   const [status, setStatus] = useState<HealthStatus | null>(null);
   const [loading, setLoading] = useState(false);
   const [flash, setFlash] = useState(false); // for dot flash effect
