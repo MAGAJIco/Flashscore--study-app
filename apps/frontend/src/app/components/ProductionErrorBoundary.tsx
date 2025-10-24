@@ -99,4 +99,4 @@ class ProductionErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default ProductionErrorBoundary;
+export { ProductionErrorBoundary };

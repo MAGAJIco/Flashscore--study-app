@@ -21,7 +21,7 @@ const navItems = [
   { href: "/management/analytics", label: "Analytics", icon: BarChart3 },
 ];
 
-export default function ManagementNav() {
+export function ManagementNav() {
   const pathname = usePathname();
 
   return (

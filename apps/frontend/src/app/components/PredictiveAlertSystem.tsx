@@ -16,7 +16,7 @@ interface Alert {
   isRead: boolean;
 }
 
-export default function PredictiveAlertSystem() {
+export function PredictiveAlertSystem() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [filter, setFilter] = useState<'all' | 'unread' | 'high' | 'value' | 'injury' | 'weather'>('all');

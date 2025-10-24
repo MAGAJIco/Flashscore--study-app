@@ -19,7 +19,7 @@ interface ErrorMetrics {
   }>;
 }
 
-export default function ErrorAnalyticsDashboard() {
+export function ErrorAnalyticsDashboard() {
   const [metrics, setMetrics] = useState<ErrorMetrics>({
     totalErrors: 0,
     errorsByType: {},

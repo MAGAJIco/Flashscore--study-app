@@ -26,30 +26,47 @@ export async function newsRoutes(fastify: FastifyInstance) {
     },
   );
 
-  // 🗞️ Get all news
-  fastify.get("/", async (_request: FastifyRequest, reply: FastifyReply) => {
+import { FastifyPluginAsync } from 'fastify';
+import { News } from '../models/News.js';
+
+const newsRoutes: FastifyPluginAsync = async (fastify) => {
+  // Get all news articles
+  fastify.get('/api/news', async (request, reply) => {
     try {
-      const news = await News.find().sort({ publishedAt: -1 });
-      return reply.send(news);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to fetch news";
-      return reply.status(500).send({ error: message });
+      const { limit = 10, skip = 0 } = request.query as any;
+
+      const news = await News.find()
+        .sort({ publishedAt: -1 })
+        .limit(parseInt(limit))
+        .skip(parseInt(skip))
+        .lean();
+
+      return reply.send({
+        success: true,
+        data: news,
+        total: news.length
+      });
+    } catch (error) {
+      fastify.log.error({ err: error }, 'Error fetching news');
+      return reply.status(200).send({
+        success: true,
+        data: [],
+        total: 0
+      });
     }
   });
 
-  // 🧾 Get single news by ID
-  fastify.get(
-    "/:id",
-    async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-      try {
-        const news = await News.findById(request.params.id);
-        if (!news) {
-          return reply.status(404).send({ error: "News not found" });
-        }
-        return reply.send(news);
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Failed to fetch news";
-        return reply.status(500).send({ error: message });
+  // Get news by ID
+  fastify.get('/api/news/:id', async (request, reply) => {
+    try {
+      const { id } = request.params as { id: string };
+      const news = await News.findById(id);
+
+      if (!news) {
+        return reply.status(404).send({
+          success: false,
+          error: 'News article not found'
+        });
       }
     },
   );

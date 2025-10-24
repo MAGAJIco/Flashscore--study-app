@@ -13,7 +13,7 @@ interface ErrorInsight {
   trend: 'increasing' | 'decreasing' | 'stable';
 }
 
-export default function ErrorInsightsPanel() {
+export function ErrorInsightsPanel() {
   const [insights, setInsights] = useState<ErrorInsight[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 

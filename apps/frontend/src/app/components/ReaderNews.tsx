@@ -9,7 +9,7 @@ interface NewsItem {
   publishedAt: string;
 }
 
-export default function ReaderNews() {
+export function ReaderNews() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [expanded, setExpanded] = useState<string | null>(null);
 

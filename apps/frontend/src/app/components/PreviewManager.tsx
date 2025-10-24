@@ -93,4 +93,4 @@ const PreviewManager: React.FC = () => {
   );
 };
 
-export default PreviewManager;
+export { PreviewManager };

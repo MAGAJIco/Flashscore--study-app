@@ -230,4 +230,4 @@ const BlockchainVerification: React.FC = () => {
   );
 };
 
-export default BlockchainVerification;
+export { BlockchainVerification };

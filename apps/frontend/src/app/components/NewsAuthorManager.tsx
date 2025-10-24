@@ -58,7 +58,7 @@ interface NewsAuthorManagerProps {
   className?: string;
 }
 
-export default function NewsAuthorManager({ className = '' }: NewsAuthorManagerProps) {
+export function NewsAuthorManager({ className = '' }: NewsAuthorManagerProps) {
   const [authors, setAuthors] = useState<NewsAuthor[]>([]);
   const [loading, setLoading] = useState(true);
   const [recentNews, setRecentNews] = useState<NewsItem[]>([]);

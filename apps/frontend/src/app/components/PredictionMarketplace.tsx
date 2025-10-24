@@ -14,7 +14,7 @@ interface TradablePrediction {
   insuranceCost: number;
 }
 
-export default function PredictionMarketplace() {
+export function PredictionMarketplace() {
   const [listings, setListings] = useState<TradablePrediction[]>([
     {
       id: '1',

@@ -81,4 +81,4 @@ export const PrivacyNotice: React.FC = () => {
   );
 };
 
-export default PrivacyNotice;
+export { PrivacyNotice };

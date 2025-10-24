@@ -30,6 +30,12 @@ const nextConfig = {
 
   // For monorepo setup with shared packages
   transpilePackages: ["@magajico/shared"],
+  
+  // Ensure proper module resolution
+  experimental: {
+    ...nextConfig.experimental,
+    esmExternals: 'loose',
+  },
 
   // Compiler options
   compiler: {

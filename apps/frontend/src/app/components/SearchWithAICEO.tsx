@@ -7,7 +7,7 @@ interface SearchWithAICEOProps {
   onSearch: (query: string) => void;
 }
 
-export default function SearchWithAICEO({ onSearch }: SearchWithAICEOProps) {
+export function SearchWithAICEO({ onSearch }: SearchWithAICEOProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAICEO, setShowAICEO] = useState(false);
 

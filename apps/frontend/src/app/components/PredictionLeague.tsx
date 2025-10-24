@@ -354,4 +354,4 @@ const PredictionLeague: React.FC = () => {
   );
 };
 
-export default PredictionLeague;
+export { PredictionLeague };

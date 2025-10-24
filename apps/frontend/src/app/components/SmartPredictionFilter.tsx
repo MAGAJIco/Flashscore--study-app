@@ -24,7 +24,7 @@ interface SmartFilterProps {
   onBetCancel: () => void;
 }
 
-export default function SmartPredictionFilter({ onBetConfirm, onBetCancel }: SmartFilterProps) {
+export function SmartPredictionFilter({ onBetConfirm, onBetCancel }: SmartFilterProps) {
   const [showComparison, setShowComparison] = useState(false);
   const [coolingPeriod, setCoolingPeriod] = useState(0);
   const [betComparison, setBetComparison] = useState<BetComparison | null>(null);

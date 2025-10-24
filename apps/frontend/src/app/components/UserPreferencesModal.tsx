@@ -366,4 +366,3 @@ export function UserPreferencesModal({ isOpen, onClose }: UserPreferencesModalPr
   );
 }
 
-export default UserPreferencesModal;

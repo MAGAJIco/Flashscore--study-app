@@ -23,7 +23,7 @@ interface SocialShareButtonProps {
   type?: 'prediction' | 'leaderboard' | 'match' | 'news';
 }
 
-export default function SocialShareButton({ data, type = 'prediction' }: SocialShareButtonProps) {
+export function SocialShareButton({ data, type = 'prediction' }: SocialShareButtonProps) {
   const [showOptions, setShowOptions] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);

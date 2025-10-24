@@ -383,4 +383,4 @@ REMEMBER: Seeking help is a sign of strength, not weakness. Our community suppor
   );
 };
 
-export default ResponsibleBettingTutorial;
+export { ResponsibleBettingTutorial };
