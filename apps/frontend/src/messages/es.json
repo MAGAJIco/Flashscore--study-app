@@ -1,5 +1,9 @@
 
 {
+  "home": {
+    "welcome": "Bienvenido a MajajiCo",
+    "tagline": "Predicciones y Análisis Deportivos con IA"
+  },
   "common": {
     "home": "Inicio",
     "profile": "Perfil",

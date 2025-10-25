@@ -1,5 +1,9 @@
 
 {
+  "home": {
+    "welcome": "Willkommen bei MajajiCo",
+    "tagline": "KI-gestützte Sportvorhersagen & Analysen"
+  },
   "common": {
     "home": "Startseite",
     "profile": "Profil",
