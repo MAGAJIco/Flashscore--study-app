@@ -164,14 +164,7 @@ export default function HomePage() {
           </div>
         </EnhancedErrorBoundary>
 
-        {/* PRIORITY 3: Live Matches (Dynamic Content) */}
-        <EnhancedErrorBoundary sectionName="Live Matches" fallback={<CleanSkeleton height="h-96" />}>
-          <Suspense fallback={<CleanSkeleton height="h-96" />}>
-            <LiveMatchTracker />
-          </Suspense>
-        </EnhancedErrorBoundary>
-
-        {/* PRIORITY 4: Predictions */}
+        {/* PRIORITY 3: Predictions */}
         <EnhancedErrorBoundary sectionName="Predictions" fallback={<CleanSkeleton height="h-96" />}>
           <Suspense fallback={<CleanSkeleton height="h-96" />}>
             <PredictionInterface />
