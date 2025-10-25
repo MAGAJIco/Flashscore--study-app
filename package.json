@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "scripts": {
+    "start:safe": "node error-monitor.js",
     "build:shared": "npm run build --workspace=packages/shared",
     "build:frontend": "npm run build --workspace=@magajico/frontend",
     "build": "npm run build:shared && npm run build:frontend",

@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
+import { BackendErrorBoundary } from './middleware/globalErrorHandler';
 import { connectDB } from "@/config/db";
 import { matchRoutes } from "@/routes/matches";
 import { newsRoutes } from "@/routes/news";
@@ -41,6 +42,11 @@ const startServer = async () => {
     await fastify.register(errorsRoutes, { prefix: "/api" });
     await fastify.register(stripeRoutes, { prefix: "/api/stripe" });
     await fastify.register(paymentsRoutes, { prefix: "/api/payments" });
+
+    // Global error handler - keeps MagajiCo running even on errors
+    fastify.setErrorHandler((error, request, reply) => {
+      BackendErrorBoundary.handle(error, request, reply);
+    });
 
     const PORT = Number(process.env.PORT) || 3001;
     await fastify.listen({ port: PORT, host: "0.0.0.0" });

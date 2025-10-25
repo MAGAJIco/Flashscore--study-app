@@ -1,5 +1,8 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+import traceback
+import sys
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
 from predictionModel import MagajiCoMLPredictor
@@ -264,6 +267,39 @@ ml_latency_avg {stats['avg_latency_ms']}
 ml_uptime_seconds {stats['uptime_seconds']}
 """
     return metrics
+
+# Global Error Boundary - keeps ML service alive
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    error_details = {
+        "service": "MagajiCo ML Service",
+        "error": str(exc),
+        "type": type(exc).__name__,
+        "path": request.url.path,
+        "timestamp": str(__import__('datetime').datetime.now()),
+        "message": "ML service encountered an error but is still running"
+    }
+
+    print(f"🚨 ML Error Boundary caught: {exc}", file=sys.stderr)
+    print(f"Traceback: {traceback.format_exc()}", file=sys.stderr)
+
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content=error_details
+    )
+
+# Process-level error handling
+def setup_error_handlers():
+    """Setup process-level error handlers to prevent crashes"""
+    def exception_handler(exc_type, exc_value, exc_traceback):
+        print(f"🚨 UNCAUGHT EXCEPTION - ML Service Still Running", file=sys.stderr)
+        print(f"Type: {exc_type}", file=sys.stderr)
+        print(f"Value: {exc_value}", file=sys.stderr)
+        traceback.print_tb(exc_traceback, file=sys.stderr)
+
+    sys.excepthook = exception_handler
+
+setup_error_handlers()
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", os.getenv("ML_PORT", 8000)))
