@@ -146,8 +146,15 @@ export function FlashScoreMatchTracker() {
       <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 mb-6">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3 md:gap-4">
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-xl md:text-2xl">⚽</span>
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg animate-pulse">
+              <svg className="w-6 h-6 md:w-7 md:h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.5"/>
+                <circle cx="8" cy="8" r="1" fill="white" opacity="0.7"/>
+                <circle cx="16" cy="8" r="1" fill="white" opacity="0.7"/>
+                <circle cx="8" cy="16" r="1" fill="white" opacity="0.7"/>
+                <circle cx="16" cy="16" r="1" fill="white" opacity="0.7"/>
+              </svg>
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-bold text-gray-800">Match Center</h1>
