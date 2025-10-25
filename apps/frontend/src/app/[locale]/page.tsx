@@ -58,29 +58,14 @@ const PredictionInterface = React.lazy(() =>
 export default function HomePage() {
   const t = useTranslations('home');
   const [mounted, setMounted] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     console.log('🏠 HomePage: Mounting with pie-chart workload division');
     setMounted(true);
-    
-    // Progressive hydration - wait for clean mount
-    const hydrateTimer = setTimeout(() => {
-      setHydrated(true);
-    }, 100);
-
-    return () => clearTimeout(hydrateTimer);
   }, []);
 
   if (!mounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-300">Loading MagajiCo...</p>
-        </div>
-      </div>
-    );
+    return null; // Return null during SSR to prevent hydration mismatch
   }
 
   return (
@@ -97,70 +82,50 @@ export default function HomePage() {
           </p>
         </section>
 
-        {/* Only load components after hydration is complete */}
-        {hydrated && (
-          <>
-            {/* Background Services - Hidden */}
-            <SectionErrorBoundary sectionName="Background Services">
-              <div style={{ display: 'none' }}>
-                <Suspense fallback={null}>
-                  <ErrorMonitor />
-                </Suspense>
-                <Suspense fallback={null}>
-                  <BackendHealthMonitor />
-                </Suspense>
-              </div>
-            </SectionErrorBoundary>
+        {/* Background Services - Hidden */}
+        <SectionErrorBoundary sectionName="Background Services">
+          <div style={{ display: 'none' }}>
+            <Suspense fallback={null}>
+              <ErrorMonitor />
+            </Suspense>
+            <Suspense fallback={null}>
+              <BackendHealthMonitor />
+            </Suspense>
+          </div>
+        </SectionErrorBoundary>
 
-            {/* Feature Showcase */}
-            <SectionErrorBoundary sectionName="Feature Showcase">
-              <Suspense fallback={<CleanSkeleton />}>
-                <FeatureShowcase />
-              </Suspense>
-            </SectionErrorBoundary>
+        {/* Feature Showcase */}
+        <SectionErrorBoundary sectionName="Feature Showcase">
+          <Suspense fallback={<CleanSkeleton />}>
+            <FeatureShowcase />
+          </Suspense>
+        </SectionErrorBoundary>
 
-            {/* News & Matches Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <SectionErrorBoundary sectionName="News Feed">
-                <Suspense fallback={<CleanSkeleton height="h-96" />}>
-                  <SmartNewsFeed />
-                </Suspense>
-              </SectionErrorBoundary>
+        {/* News & Matches Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SectionErrorBoundary sectionName="News Feed">
+            <Suspense fallback={<CleanSkeleton height="h-96" />}>
+              <SmartNewsFeed />
+            </Suspense>
+          </SectionErrorBoundary>
 
-              <SectionErrorBoundary sectionName="Live Matches">
-                <Suspense fallback={<CleanSkeleton height="h-96" />}>
-                  <LiveMatchTracker />
-                </Suspense>
-              </SectionErrorBoundary>
-            </div>
+          <SectionErrorBoundary sectionName="Live Matches">
+            <Suspense fallback={<CleanSkeleton height="h-96" />}>
+              <LiveMatchTracker />
+            </Suspense>
+          </SectionErrorBoundary>
+        </div>
 
-            {/* Predictions */}
-            <SectionErrorBoundary sectionName="Predictions">
-              <Suspense fallback={<CleanSkeleton height="h-96" />}>
-                <PredictionInterface />
-              </Suspense>
-            </SectionErrorBoundary>
-          </>
-        )}
-
-        {/* Clean loading state while hydrating */}
-        {!hydrated && (
-          <>
-            <CleanSkeleton />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <CleanSkeleton height="h-96" />
-              <CleanSkeleton height="h-96" />
-            </div>
-            <CleanSkeleton height="h-96" />
-          </>
-        )}
+        {/* Predictions */}
+        <SectionErrorBoundary sectionName="Predictions">
+          <Suspense fallback={<CleanSkeleton height="h-96" />}>
+            <PredictionInterface />
+          </Suspense>
+        </SectionErrorBoundary>
 
         {/* Status Footer - Always visible */}
-        <div className="text-center py-4 text-gray-500 dark:text-gray-400 text-sm">
+        <div className="text-center py-4 text-gray-500 dark:text-gray-400 text-sm" suppressHydrationWarning>
           <p>✅ MagajiCo - Progressive Loading Architecture</p>
-          <p className="text-xs mt-1">
-            {hydrated ? 'All sections loaded' : 'Initializing components...'}
-          </p>
         </div>
 
       </div>
