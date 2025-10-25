@@ -2,179 +2,148 @@
 
 import React, { Suspense, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { SmartErrorRecovery } from '@components/SmartErrorRecovery';
 
-// Component wrapper with debugging
-function ComponentWrapper({ 
-  name, 
-  children, 
-  fallback 
-}: { 
-  name: string; 
-  children: React.ReactNode; 
-  fallback?: React.ReactNode;
-}) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    console.log(`✅ ${name} mounted successfully`);
-    setMounted(true);
-    return () => console.log(`🔄 ${name} unmounted`);
-  }, [name]);
-
-  if (!mounted) {
-    return fallback || <div className="h-20 animate-pulse bg-gray-200 dark:bg-gray-700 rounded" />;
+// Pie-chart division: Each section is isolated with its own error boundary
+class SectionErrorBoundary extends React.Component<
+  { children: React.ReactNode; sectionName: string; fallback?: React.ReactNode },
+  { hasError: boolean; error?: Error }
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
   }
 
-  return (
-    <SmartErrorRecovery
-      fallback={
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-          <p className="text-red-600 dark:text-red-400">⚠️ {name} failed to load</p>
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error(`❌ ${this.props.sectionName} section failed:`, error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback || (
+        <div className="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg">
+          <h3 className="font-bold text-yellow-800 mb-2">⚠️ {this.props.sectionName}</h3>
+          <p className="text-yellow-700 text-sm">
+            This section failed to load. Other features are still available.
+          </p>
+          <button
+            onClick={() => this.setState({ hasError: false })}
+            className="mt-2 px-3 py-1 bg-yellow-600 text-white rounded text-sm hover:bg-yellow-700"
+          >
+            Retry
+          </button>
         </div>
-      }
-    >
-      {children}
-    </SmartErrorRecovery>
-  );
+      );
+    }
+    return this.props.children;
+  }
 }
 
-// Lazy load heavy components
+// Lazy load components - each section is independent
 const ErrorMonitor = React.lazy(() => import('@components/ErrorMonitor').then(m => ({ default: m.ErrorMonitor })));
 const BackendHealthMonitor = React.lazy(() => import('@components').then(m => ({ default: m.BackendHealthMonitor })));
-const PWAServiceWorker = React.lazy(() => import('@components/PWAServiceWorker').then(m => ({ default: m.PWAServiceWorker })));
-const MobileMetaOptimizer = React.lazy(() => import('@components/MobileMetaOptimizer').then(m => ({ default: m.MobileMetaOptimizer })));
-const MobilePerformanceOptimizer = React.lazy(() => import('@components/MobilePerformanceOptimizer').then(m => ({ default: m.MobilePerformanceOptimizer })));
 const FeatureShowcase = React.lazy(() => import('@components/FeatureShowcase').then(m => ({ default: m.FeatureShowcase })));
 const SmartNewsFeed = React.lazy(() => import('@components/SmartNewsFeed').then(m => ({ default: m.SmartNewsFeed })));
 const LiveMatchTracker = React.lazy(() => import('@components/LiveMatchTracker').then(m => ({ default: m.LiveMatchTracker })));
 const PredictionInterface = React.lazy(() => import('@components/PredictionInterface').then(m => ({ default: m.PredictionInterface })));
-const LatestNews = React.lazy(() => import('@components/LatestNews').then(m => ({ default: m.LatestNews })));
 
 export default function HomePage() {
   const t = useTranslations('home');
-  const [debugMode, setDebugMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    console.log('🏠 HomePage rendering started');
-    // Enable debug mode with query param ?debug=true
-    setDebugMode(window.location.search.includes('debug=true'));
-    return () => console.log('🏠 HomePage unmounting');
+    console.log('🏠 HomePage: Mounting with pie-chart workload division');
+    setMounted(true);
   }, []);
 
-  return (
-    <>
-      {/* Debug Panel */}
-      {debugMode && (
-        <div className="fixed top-20 right-4 z-50 bg-black/80 text-white p-4 rounded-lg text-xs max-w-xs">
-          <h3 className="font-bold mb-2">🐛 Debug Mode</h3>
-          <p>Check console for component lifecycle logs</p>
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading MagajiCo...</p>
         </div>
-      )}
+      </div>
+    );
+  }
 
-      {/* Background Services - Load silently */}
-      <Suspense fallback={null}>
-        <ComponentWrapper name="ErrorMonitor">
-          <ErrorMonitor />
-        </ComponentWrapper>
-      </Suspense>
-      
-      <Suspense fallback={null}>
-        <ComponentWrapper name="BackendHealthMonitor">
-          <BackendHealthMonitor />
-        </ComponentWrapper>
-      </Suspense>
-      
-      <Suspense fallback={null}>
-        <ComponentWrapper name="PWAServiceWorker">
-          <PWAServiceWorker />
-        </ComponentWrapper>
-      </Suspense>
-      
-      <Suspense fallback={null}>
-        <ComponentWrapper name="MobileMetaOptimizer">
-          <MobileMetaOptimizer />
-        </ComponentWrapper>
-      </Suspense>
-      
-      <Suspense fallback={null}>
-        <ComponentWrapper name="MobilePerformanceOptimizer">
-          <MobilePerformanceOptimizer />
-        </ComponentWrapper>
-      </Suspense>
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="container mx-auto px-4 py-8 space-y-8">
 
-      {/* Main Content */}
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        <div className="container mx-auto px-4 py-8 space-y-8">
-          
-          {/* Hero Section - Always render */}
+        {/* Hero Section - Slice 1 (Always renders) */}
+        <SectionErrorBoundary sectionName="Hero Section">
           <section className="text-center py-12">
             <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
-              {t('welcome', { defaultValue: 'Welcome to MajajiCo' })}
+              {t('welcome', { defaultValue: 'Welcome to MagajiCo' })}
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               {t('tagline', { defaultValue: 'AI-Powered Sports Predictions & Analytics' })}
             </p>
           </section>
+        </SectionErrorBoundary>
 
-          {/* Feature Showcase */}
+        {/* Background Services - Slice 2 (Silent failures) */}
+        <SectionErrorBoundary sectionName="Background Services" fallback={null}>
+          <div style={{ display: 'none' }}>
+            <Suspense fallback={null}>
+              <ErrorMonitor />
+            </Suspense>
+            <Suspense fallback={null}>
+              <BackendHealthMonitor />
+            </Suspense>
+          </div>
+        </SectionErrorBoundary>
+
+        {/* Feature Showcase - Slice 3 */}
+        <SectionErrorBoundary sectionName="Feature Showcase">
           <Suspense fallback={
             <div className="h-64 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
           }>
-            <ComponentWrapper name="FeatureShowcase" fallback={
-              <div className="h-64 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
-            }>
-              <FeatureShowcase />
-            </ComponentWrapper>
+            <FeatureShowcase />
           </Suspense>
+        </SectionErrorBoundary>
 
-          {/* News Feed & Match Tracker Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* News & Matches Grid - Slice 4 & 5 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SectionErrorBoundary sectionName="News Feed">
             <Suspense fallback={
               <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
             }>
-              <ComponentWrapper name="SmartNewsFeed" fallback={
-                <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
-              }>
-                <SmartNewsFeed />
-              </ComponentWrapper>
+              <SmartNewsFeed />
             </Suspense>
+          </SectionErrorBoundary>
 
+          <SectionErrorBoundary sectionName="Live Matches">
             <Suspense fallback={
               <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
             }>
-              <ComponentWrapper name="LiveMatchTracker" fallback={
-                <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
-              }>
-                <LiveMatchTracker />
-              </ComponentWrapper>
+              <LiveMatchTracker />
             </Suspense>
-          </div>
-
-          {/* Prediction Interface */}
-          <Suspense fallback={
-            <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
-          }>
-            <ComponentWrapper name="PredictionInterface" fallback={
-              <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
-            }>
-              <PredictionInterface />
-            </ComponentWrapper>
-          </Suspense>
-
-          {/* Latest News */}
-          <Suspense fallback={
-            <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
-          }>
-            <ComponentWrapper name="LatestNews" fallback={
-              <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
-            }>
-              <LatestNews />
-            </ComponentWrapper>
-          </Suspense>
-
+          </SectionErrorBoundary>
         </div>
-      </main>
-    </>
+
+        {/* Predictions - Slice 6 */}
+        <SectionErrorBoundary sectionName="Predictions">
+          <Suspense fallback={
+            <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />
+          }>
+            <PredictionInterface />
+          </Suspense>
+        </SectionErrorBoundary>
+
+        {/* Status Footer - Always visible */}
+        <SectionErrorBoundary sectionName="Status">
+          <div className="text-center py-4 text-gray-500 text-sm">
+            <p>✅ MagajiCo is running with isolated section architecture</p>
+            <p className="text-xs mt-1">Each section loads independently - if one fails, others continue working</p>
+          </div>
+        </SectionErrorBoundary>
+
+      </div>
+    </main>
   );
 }
