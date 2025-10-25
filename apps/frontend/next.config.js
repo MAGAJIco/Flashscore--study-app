@@ -62,7 +62,10 @@ const nextConfig = withNextIntl({
           lib: {
             test: /[\\/]node_modules[\\/]/,
             name(module) {
-              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+              if (!module.context) return 'npm.unknown';
+              const match = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
+              if (!match || !match[1]) return 'npm.unknown';
+              const packageName = match[1];
               return `npm.${packageName.replace('@', '')}`;
             },
             priority: 10,
