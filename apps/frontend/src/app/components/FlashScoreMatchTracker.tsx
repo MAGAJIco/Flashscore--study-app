@@ -162,7 +162,7 @@ export function FlashScoreMatchTracker() {
             </div>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="flex md:hidden">
+            <div className="flex md:hidden" suppressHydrationWarning>
               <LanguageSwitcher />
             </div>
             <div className="hidden md:flex items-center gap-3">

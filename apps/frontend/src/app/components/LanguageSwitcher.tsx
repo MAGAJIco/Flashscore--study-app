@@ -44,18 +44,26 @@ export function LanguageSwitcher() {
     setIsOpen(false);
     if (newLocale === locale) return;
 
-    // Set cookie
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    try {
+      // Set cookie first
+      document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+      
+      // Store in localStorage as backup
+      localStorage.setItem('preferredLocale', newLocale);
 
-    // Update path and navigate
-    const currentPath = pathname.split('/').slice(2).join('/') || '';
-    const newPath = `/${newLocale}/${currentPath}`;
-    
-    // Update preferences in background
-    updatePreferences({ language: newLocale }).catch(console.error);
-    
-    // Navigate to new locale path
-    window.location.href = newPath;
+      // Update preferences in background
+      await updatePreferences({ language: newLocale }).catch(console.error);
+      
+      // Update path and navigate
+      const pathParts = pathname.split('/').filter(Boolean);
+      const currentPath = pathParts.length > 1 ? pathParts.slice(1).join('/') : '';
+      const newPath = `/${newLocale}${currentPath ? '/' + currentPath : ''}`;
+      
+      // Force reload to apply new locale
+      window.location.href = newPath;
+    } catch (error) {
+      console.error('Failed to change language:', error);
+    }
   };
 
   return (
@@ -123,17 +131,20 @@ export function LanguageSwitcher() {
           </div>
 
           <div className="overflow-y-auto flex-1">
-            {locales.map((loc) => (
+            {locales.map((loc) => {
+              const isSelected = locale === loc;
+              return (
               <button
                 key={loc}
                 data-lang-option={localeNames[loc]}
                 onClick={() => handleLanguageChange(loc)}
                 className={`w-full px-5 md:px-4 py-4 md:py-3 text-left hover:bg-white/10 active:bg-white/20 transition-colors flex items-center gap-4 md:gap-3 touch-manipulation ${
-                  locale === loc ? 'bg-white/20 text-cyan-400' : 'text-white'
+                  isSelected ? 'bg-cyan-500/30 text-cyan-300 font-semibold border-l-4 border-cyan-400' : 'text-white'
                 }`}
                 style={{ minHeight: '64px' }}
                 role="menuitem"
-                aria-current={locale === loc ? 'true' : 'false'}
+                aria-current={isSelected ? 'true' : 'false'}
+                aria-selected={isSelected}
               >
                 <span className="text-3xl md:text-xl">
                   {loc === 'en' && '🇬🇧'}
@@ -152,9 +163,12 @@ export function LanguageSwitcher() {
                     {loc === 'pt' && 'Português'}
                   </div>
                 </div>
-                {locale === loc && <Check className="ml-auto w-5 h-5 md:w-4 md:h-4 text-cyan-400" />}
+                {isSelected && (
+                  <Check className="ml-auto w-5 h-5 md:w-4 md:h-4 text-cyan-300 animate-pulse" />
+                )}
               </button>
-            ))}
+            );
+            })}
           </div>
 
           <div className="p-3 md:p-2 border-t border-white/10 bg-white/5">
