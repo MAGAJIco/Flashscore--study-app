@@ -414,3 +414,5 @@ useEffect(() => {
   );
 }
 
+export default MagajiCoFoundation;
+
