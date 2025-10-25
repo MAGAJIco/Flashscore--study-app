@@ -35,9 +35,11 @@ const LiveMatchTracker = lazyLoadComponent(() =>
 const PredictionInterface = lazyLoadComponent(() => 
   import('@/app/components/PredictionInterface').then(m => ({ default: m.PredictionInterface }))
 );
+const Welcome = lazyLoadComponent(() => 
+  import('@/app/components/Welcome').then(m => ({ default: m.Welcome }))
+);
 
 export default function HomePage() {
-  const t = useTranslations('home');
   const [mounted, setMounted] = useState(false);
   const [themeLoaded, setThemeLoaded] = useState(false);
 
@@ -135,17 +137,14 @@ export default function HomePage() {
     >
       <div className="container mx-auto px-4 py-8 space-y-8" style={{ maxWidth: '100%', overflowX: 'hidden' }}>
 
-        {/* PRIORITY 1: Welcome Framework - Always First */}
-        <section className="text-center py-12 animate-fade-in">
-          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
-            {t('welcome', { defaultValue: 'Welcome to MagajiCo' })}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            {t('tagline', { defaultValue: 'AI-Powered Sports Predictions & Analytics' })}
-          </p>
-        </section>
+        {/* PRIORITY 1: Welcome - Fast Loading */}
+        <EnhancedErrorBoundary sectionName="Welcome" fallback={<CleanSkeleton height="h-32" />}>
+          <Suspense fallback={<CleanSkeleton height="h-32" />}>
+            <Welcome />
+          </Suspense>
+        </EnhancedErrorBoundary>
 
-        {/* PRIORITY 2: Comprehensive Sports Hub - Before Menu */}
+        {/* PRIORITY 2: Comprehensive Sports Hub */}
         <EnhancedErrorBoundary sectionName="Sports Hub" fallback={<CleanSkeleton height="h-screen" />}>
           <Suspense fallback={<CleanSkeleton height="h-screen" />}>
             <ComprehensiveSportsHub />
