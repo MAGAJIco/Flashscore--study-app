@@ -382,7 +382,7 @@ useEffect(() => {
                 className="bg-gradient-to-r from-yellow-400 to-pink-500 h-4 transition-all duration-100"
                 style={{ width: `${buildingProgress}%` }}
               />
-            </div>
+            </div>/div>
           )}
 
           <div className="grid grid-cols-1 gap-6 mt-6">

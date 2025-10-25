@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PhaseCard from "./PhaseCard";
-import PowerDisplay from "./PowerDisplay";
-import Notification from "./Notification";
-import Leaderboard from "./Leaderboard";
+import PhaseCard from "./MagajiCoFoundation/PhaseCard";
+import PowerDisplay from "./MagajiCoFoundation/PowerDisplay";
+import Notification from "./MagajiCoFoundation/Notification";
+import Leaderboard from "./MagajiCoFoundation/Leaderboard";
 import { foundationApi, type Phase } from "@/lib/api/foundation";
 import { Breadcrumbs } from '@components/Breadcrumbs';
 
