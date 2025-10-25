@@ -248,7 +248,7 @@ export const NavBar: React.FC = () => {
           <div className="hidden md:flex items-center space-x-3">
             <LanguageSwitcher />
             <GoogleStyleMenu />
-            
+
             {status === 'loading' ? (
               <div className="w-20 h-10 bg-gray-700 animate-pulse rounded-full"></div>
             ) : session ? (
@@ -260,7 +260,7 @@ export const NavBar: React.FC = () => {
                   <User size={16} />
                   <span>{session.user?.name || 'User'}</span>
                 </button>
-                
+
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg overflow-hidden z-50" style={{
                     backgroundColor: 'var(--bg-tertiary)',
@@ -363,12 +363,9 @@ export const NavBar: React.FC = () => {
               </div>
             ))}
 
-            {/* Mobile Language & Apps */}
+            {/* Mobile Apps Menu */}
             <div className="px-4 py-3 border-t border-gray-700">
               <div className="flex items-center gap-3 mb-3">
-                <div className="flex-1">
-                  <LanguageSwitcher />
-                </div>
                 <GoogleStyleMenu />
               </div>
             </div>
