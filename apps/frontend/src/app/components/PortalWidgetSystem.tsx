@@ -154,14 +154,15 @@ function QuickPredictWidget() {
         background: 'rgba(16, 185, 129, 0.1)',
         padding: '16px',
         borderRadius: '12px',
-        marginBottom: '12px'
-      }}>
+        marginBottom: '12px',
+        transition: 'all 0.3s ease'
+      }} className="hover-lift">
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
           <span style={{ fontSize: '0.9rem' }}>Lakers vs Warriors</span>
           <span style={{ fontSize: '0.8rem', color: '#10b981' }}>🔴 LIVE</span>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button style={{
+          <button className="prediction-button" style={{
             flex: 1,
             background: 'linear-gradient(135deg, #10b981, #059669)',
             border: 'none',
@@ -169,11 +170,13 @@ function QuickPredictWidget() {
             padding: '12px',
             borderRadius: '8px',
             cursor: 'pointer',
-            fontSize: '0.9rem'
+            fontSize: '0.9rem',
+            transition: 'all 0.2s ease',
+            fontWeight: '600'
           }}>
             Lakers Win
           </button>
-          <button style={{
+          <button className="prediction-button-secondary" style={{
             flex: 1,
             background: 'rgba(255, 255, 255, 0.1)',
             border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -181,7 +184,9 @@ function QuickPredictWidget() {
             padding: '12px',
             borderRadius: '8px',
             cursor: 'pointer',
-            fontSize: '0.9rem'
+            fontSize: '0.9rem',
+            transition: 'all 0.2s ease',
+            fontWeight: '600'
           }}>
             Warriors Win
           </button>
@@ -190,6 +195,21 @@ function QuickPredictWidget() {
       <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>
         ⚡ 3 more matches available for quick predictions
       </p>
+      <style jsx>{`
+        .hover-lift:hover {
+          transform: translateY(-2px);
+          background: rgba(16, 185, 129, 0.15) !important;
+        }
+        .prediction-button:hover {
+          transform: scale(1.05);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        .prediction-button-secondary:hover {
+          transform: scale(1.05);
+          background: rgba(255, 255, 255, 0.2) !important;
+          box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+      `}</style>
     </div>
   );
 }
@@ -204,17 +224,20 @@ function LiveMatchesWidget() {
   return (
     <div style={{ color: 'white' }}>
       {matches.map((match, idx) => (
-        <div key={idx} style={{
+        <div key={idx} className="match-card" style={{
           background: 'rgba(255, 255, 255, 0.05)',
           padding: '12px',
           borderRadius: '8px',
           marginBottom: '8px',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          border: '1px solid transparent'
         }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
+            <div style={{ fontSize: '0.9rem', marginBottom: '4px', fontWeight: '500' }}>
               {match.team1} vs {match.team2}
             </div>
             <div style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.6)' }}>
@@ -226,6 +249,14 @@ function LiveMatchesWidget() {
           </div>
         </div>
       ))}
+      <style jsx>{`
+        .match-card:hover {
+          background: rgba(255, 255, 255, 0.1) !important;
+          transform: translateX(4px);
+          border: 1px solid rgba(16, 185, 129, 0.3) !important;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+      `}</style>
     </div>
   );
 }

@@ -121,6 +121,23 @@ export function HorizontalCarousel() {
     setIsDragging(false);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent, action: () => void) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      action();
+    }
+  };
+
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    if (!scrollContainerRef.current) return;
+    const scrollAmount = 200;
+    const newScrollLeft = scrollContainerRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
+    scrollContainerRef.current.scrollTo({
+      left: newScrollLeft,
+      behavior: 'smooth'
+    });
+  };
+
   const lifeConnectingCards: Card[] = [
     {
       id: "live-matches",
@@ -203,8 +220,8 @@ export function HorizontalCarousel() {
           Life Connection Hub
         </h3>
         {visibleCards.length > 2 && (
-          <span className="text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded-full">
-            Swipe →
+          <span className="text-xs text-gray-400">
+            {visibleCards.length} cards
           </span>
         )}
       </div>
@@ -222,17 +239,23 @@ export function HorizontalCarousel() {
           onTouchEnd={handleTouchEnd}
         >
           {visibleCards.map((card, index) => (
-            <div
+            <button
               key={card.id}
               onClick={() => !isDragging && card.action()}
-              className="carousel-item min-w-[170px] flex-shrink-0 snap-start focus:outline-none focus:ring-2 focus:ring-blue-500/50 rounded-2xl transition-all duration-300"
+              onKeyDown={(e) => handleKeyDown(e, card.action)}
+              className="carousel-item min-w-[170px] flex-shrink-0 snap-start focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-2xl transition-all duration-300"
               style={{
                 animation: `slideInUp 0.5s ease-out ${index * 0.1}s forwards`,
                 opacity: 0,
+                border: 'none',
+                background: 'transparent',
+                padding: 0,
+                cursor: isDragging ? 'grabbing' : 'pointer'
               }}
               aria-label={`${card.title}: ${card.value}`}
+              tabIndex={0}
             >
-              <div className="backdrop-blur-lg bg-white/10 border border-white/20 p-5 rounded-2xl hover:scale-105 hover:bg-white/15 hover:border-white/40 group cursor-pointer h-full relative overflow-hidden transition-all duration-300 shadow-2xl hover:shadow-green-500/20">
+              <div className="backdrop-blur-lg bg-white/10 border border-white/20 p-5 rounded-2xl hover:scale-105 hover:bg-white/15 hover:border-white/40 group cursor-pointer h-full relative overflow-hidden transition-all duration-300 shadow-2xl hover:shadow-green-500/20 focus-within:scale-105 focus-within:border-blue-500">
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${card.bgGradient} opacity-40 group-hover:opacity-60 transition-opacity duration-300`}
                 ></div>
@@ -263,7 +286,7 @@ export function HorizontalCarousel() {
 
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 
@@ -271,6 +294,29 @@ export function HorizontalCarousel() {
           <>
             <div className="absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent pointer-events-none z-10"></div>
             <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-gray-900 via-gray-900/80 to-transparent pointer-events-none z-10"></div>
+            
+            {/* Navigation Arrows for Accessibility */}
+            <button
+              onClick={() => scrollCarousel('left')}
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full p-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Scroll carousel left"
+              tabIndex={0}
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <button
+              onClick={() => scrollCarousel('right')}
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full p-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Scroll carousel right"
+              tabIndex={0}
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </>
         )}
       </div>

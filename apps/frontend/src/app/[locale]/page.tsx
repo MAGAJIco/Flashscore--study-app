@@ -7,6 +7,7 @@ import { FlashScoreMatchTracker } from '@/app/components/FlashScoreMatchTracker'
 import { UnifiedSportsHub } from '@/app/components/UnifiedSportsHub';
 import { PortalWidgetSystem } from '@/app/components/PortalWidgetSystem';
 import { PortalCommandCenter } from '@/app/components/PortalCommandCenter';
+import { HorizontalCarousel } from '@/app/components/HorizontalCarousel';
 
 export default function HomePage() {
   const t = useTranslations('home');
@@ -24,65 +25,11 @@ export default function HomePage() {
             {t('tagline')}
           </p>
         </div>
+      </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <a
-            href="/predictions"
-            className="p-6 rounded-xl text-center transition-all duration-200 hover:scale-105"
-            style={{
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border-color)',
-            }}
-          >
-            <div className="text-3xl mb-2">🎯</div>
-            <div className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-              {tc('predictions')}
-            </div>
-          </a>
-
-          <a
-            href="/matches"
-            className="p-6 rounded-xl text-center transition-all duration-200 hover:scale-105"
-            style={{
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border-color)',
-            }}
-          >
-            <div className="text-3xl mb-2">⚽</div>
-            <div className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-              {tc('matches')}
-            </div>
-          </a>
-
-          <a
-            href="/news"
-            className="p-6 rounded-xl text-center transition-all duration-200 hover:scale-105"
-            style={{
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border-color)',
-            }}
-          >
-            <div className="text-3xl mb-2">📰</div>
-            <div className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-              {tc('news')}
-            </div>
-          </a>
-
-          <a
-            href="/empire"
-            className="p-6 rounded-xl text-center transition-all duration-200 hover:scale-105"
-            style={{
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border-color)',
-            }}
-          >
-            <div className="text-3xl mb-2">🏰</div>
-            <div className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-              {tc('empire')}
-            </div>
-          </a>
-        </div>
+      {/* Horizontal Carousel - Interactive Cards */}
+      <div className="max-w-7xl mx-auto mb-8">
+        <HorizontalCarousel />
       </div>
 
       {/* Portal Widget System */}
