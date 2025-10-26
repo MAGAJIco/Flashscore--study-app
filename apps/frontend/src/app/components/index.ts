@@ -42,6 +42,8 @@ export { ConfidenceCalibration } from './ConfidenceCalibration';
 
 // Portal & Dashboard
 export { PortalDashboard } from './PortalDashboard';
+export { PortalWidgetSystem } from './PortalWidgetSystem';
+export { PortalCommandCenter } from './PortalCommandCenter';
 export { UnifiedSportsHub } from './UnifiedSportsHub';
 
 // News & Social
