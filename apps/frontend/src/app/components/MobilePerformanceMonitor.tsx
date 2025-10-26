@@ -2,28 +2,15 @@
 
 import { useEffect } from 'react';
 import { ClientOnly } from './ClientOnly';
+import { usePerformanceMonitor } from '@hooks/usePerformanceMonitor';
 
 function MobilePerformanceMonitorContent() {
+  const { trackPerformance } = usePerformanceMonitor();
+
   useEffect(() => {
-    // Monitor performance metrics
-    if ('performance' in window && 'PerformanceObserver' in window) {
-      try {
-        const observer = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (entry.entryType === 'navigation') {
-              console.log('Navigation timing:', entry);
-            }
-          }
-        });
-
-        observer.observe({ entryTypes: ['navigation', 'paint'] });
-
-        return () => observer.disconnect();
-      } catch (e) {
-        console.warn('Performance monitoring not available:', e);
-      }
-    }
-  }, []);
+    // Track mobile-specific performance events
+    trackPerformance('mobile_performance_monitor_mounted');
+  }, [trackPerformance]);
 
   return null;
 }

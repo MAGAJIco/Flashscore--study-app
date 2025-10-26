@@ -109,7 +109,7 @@ export const usePerformanceMonitor = () => {
     });
   };
 
-  // New: trackPerformance API expected by components (e.g. OptimizedDashboard)
+  // Track performance events with ML/prediction-specific support
   const trackPerformance = (eventName: string, payload?: any) => {
     if (typeof window === 'undefined') return;
 
@@ -123,11 +123,9 @@ export const usePerformanceMonitor = () => {
     }
 
     // Optionally: send to server-side analytics if a runtime URL is provided
-    // NOTE: This fetch runs only at runtime in the browser; it will never execute during SSR/build.
     const analyticsUrl = (window as any).__PERF_ANALYTICS_URL || (process.env.NEXT_PUBLIC_PERF_ANALYTICS_URL as string | undefined);
     if (analyticsUrl) {
       try {
-        // Fire-and-forget; don't await to avoid blocking UI
         fetch(analyticsUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -139,9 +137,29 @@ export const usePerformanceMonitor = () => {
     }
   };
 
+  // ML-specific tracking methods
+  const trackPredictionAccuracy = (userId: string, predictionId: string, wasCorrect: boolean) => {
+    trackPerformance(`prediction_accuracy_${userId}`, { predictionId, wasCorrect });
+  };
+
+  const trackMLModelLatency = (modelName: string, latency: number) => {
+    trackPerformance(`ml_model_${modelName}_latency`, { latency });
+    if (latency > 2000) {
+      console.warn(`[PerfMonitor] ML model ${modelName} took ${latency}ms - consider optimization`);
+    }
+  };
+
+  const reportWebVitals = (metric: any) => {
+    console.log(`[WebVitals] ${metric.name}: ${metric.value}`);
+    trackPerformance(`web-vital-${metric.name}`, { value: metric.value });
+  };
+
   return {
     getMetrics,
     logMetrics,
-    trackPerformance
+    trackPerformance,
+    trackPredictionAccuracy,
+    trackMLModelLatency,
+    reportWebVitals
   };
 };

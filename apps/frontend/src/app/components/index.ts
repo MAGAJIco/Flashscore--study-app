@@ -94,6 +94,8 @@ export { AchievementSystem } from './AchievementSystem';
 // Type exports
 export type { Achievement } from './AchievementCelebration';
 
-// Export all components from this barrel file
+// Main app export
 export { default as App } from './App';
+
+// Hub component (default export)
 export { default as ComprehensiveSportsHub } from './ComprehensiveSportsHub';

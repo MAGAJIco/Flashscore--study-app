@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useCallback } from 'react';
-import { usePerformanceMonitor } from '@hooks/usePerformanceMonitor';
+import { usePerformanceMonitor } from '@/app/hooks/usePerformanceMonitor';
 
 interface DashboardMetrics {
   totalPredictions: number;
