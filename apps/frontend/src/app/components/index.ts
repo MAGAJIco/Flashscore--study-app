@@ -96,10 +96,4 @@ export type { Achievement } from './AchievementCelebration';
 
 // Export all components from this barrel file
 export { default as App } from './App';
-
-// Missing exports that are causing errors
 export { default as ComprehensiveSportsHub } from './ComprehensiveSportsHub';
-export { default as PortalWidgetSystem } from './PortalWidgetSystem';
-export { default as PortalCommandCenter } from './PortalCommandCenter';
-export { default as FloatingAlert } from './FloatingAlert';
-export { default as AmazonStylePerformanceMonitor } from './AmazonStylePerformanceMonitor';
