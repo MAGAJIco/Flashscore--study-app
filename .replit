@@ -5,7 +5,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["glibcLocales", "libxcrypt", "libyaml", "gir-rs", "speech-tools"]
+packages = ["gir-rs", "glibcLocales", "libxcrypt", "libyaml", "speech-tools"]
 
 [workflows]
 runButton = "Project"
@@ -305,7 +305,7 @@ outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/backend/ml && uv run python api.py"
+args = "cd apps/backend/ml && python3 -m uvicorn api:app --host 0.0.0.0 --port 8000"
 waitForPort = 8000
 
 [[workflows.workflow]]
@@ -437,10 +437,6 @@ localPort = 3001
 externalPort = 3001
 
 [[ports]]
-localPort = 5000
-externalPort = 80
-
-[[ports]]
 localPort = 8000
 externalPort = 8000
 
@@ -499,6 +495,10 @@ externalPort = 9000
 [[ports]]
 localPort = 45655
 externalPort = 3002
+
+[[ports]]
+localPort = 46541
+externalPort = 80
 
 [env]
 REPLIT_KEEP_PACKAGE_DEV_DEPENDENCIES = "1"
