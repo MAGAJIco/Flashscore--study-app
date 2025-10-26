@@ -2,7 +2,11 @@
 "use client";
 
 import React from 'react';
-import { ComprehensiveSportsHub, PortalWidgetSystem, PortalCommandCenter } from '@/app/components';
+import { 
+  ComprehensiveSportsHub, 
+  PortalWidgetSystem, 
+  PortalCommandCenter 
+} from '@components';
 
 export default function HomePage() {
   return (

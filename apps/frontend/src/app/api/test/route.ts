@@ -9,3 +9,7 @@ export async function GET() {
     nodeVersion: process.version
   });
 }
+
+export async function POST() {
+  return NextResponse.json({ message: 'POST method' });
+}
