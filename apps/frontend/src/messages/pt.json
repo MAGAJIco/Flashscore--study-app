@@ -1,4 +1,3 @@
-
 {
   "home": {
     "welcome": "Bem-vindo ao MajajiCo",
@@ -21,7 +20,8 @@
     "confirm": "Confirmar",
     "save": "Salvar",
     "delete": "Excluir",
-    "edit": "Editar"
+    "edit": "Editar",
+    "empire": "Império"
   },
   "header": {
     "title": "SPORTS CENTRAL",
