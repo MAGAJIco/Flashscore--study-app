@@ -10,7 +10,6 @@ import {
   MobileLayout,
   MobileOptimizationWrapper,
   HydrationSafeWrapper,
-  AmazonStylePerformanceMonitor,
   GlobalErrorHandler,
 } from '@/app/components';
 import { locales } from '@/i18n';
@@ -127,7 +126,6 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             <MobileLayout>
               <AppWrapper>
                 <HydrationSafeWrapper>
-                  <AmazonStylePerformanceMonitor />
                   {children}
                 </HydrationSafeWrapper>
               </AppWrapper>

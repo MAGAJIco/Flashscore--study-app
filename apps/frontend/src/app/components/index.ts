@@ -7,6 +7,7 @@ export { EnhancedErrorBoundary } from './EnhancedErrorBoundary';
 export { GlobalErrorHandler } from './GlobalErrorHandler';
 
 // Core Layout Components
+export { AppWrapper } from './AppWrapper';
 export { DIYF } from './diyf';
 export { MobileLayout } from './MobileLayout';
 export { MobileOptimizationWrapper } from './MobileOptimizationWrapper';
@@ -24,7 +25,7 @@ export { LoadingSpinner } from './LoadingSpinner';
 export { SmartLoadingState } from './SmartLoadingState';
 
 // Performance Monitoring
-export { AmazonStylePerformanceMonitor } from './AmazonStylePerformanceMonitor'; // Moved to recyclebin
+// export { AmazonStylePerformanceMonitor } from './AmazonStylePerformanceMonitor'; // Moved to recyclebin
 
 // Live Features
 export { LiveMatchTracker } from './LiveMatchTracker';
