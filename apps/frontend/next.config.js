@@ -11,6 +11,12 @@ const nextConfig = withNextIntl({
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
   },
 
+  // Prevent build hangs
+  staticPageGenerationTimeout: 180,
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
+  },
+
   // Error handling
   eslint: {
     ignoreDuringBuilds: true,
@@ -46,17 +52,22 @@ const nextConfig = withNextIntl({
   },
 
   // Webpack configuration
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     // Fix for shared package resolution
     config.resolve.alias = {
       ...config.resolve.alias,
       '@magajico/shared': require('path').resolve(__dirname, '../../packages/shared/src'),
     };
 
+    // Prevent build hangs
+    config.infrastructureLogging = { level: 'error' };
+    
     // Optimize chunks
     if (!isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
+        maxInitialRequests: 25,
+        minSize: 20000,
         cacheGroups: {
           default: false,
           vendors: false,

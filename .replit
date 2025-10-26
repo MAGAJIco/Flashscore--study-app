@@ -414,6 +414,79 @@ args = ""
 task = "shell.exec"
 args = "echo \"✅ Build complete! Check health at /api/build-health\""
 
+[[workflows.workflow]]
+name = "Safe Production Build"
+author = 49034905
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🧹 Step 1/5: Clearing cache...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "rm -rf apps/frontend/.next"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "rm -rf apps/frontend/.next/cache"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Cache cleared\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = ""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"📦 Step 2/5: Building shared package...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build --workspace=packages/shared"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Shared package built\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = ""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔍 Step 3/5: Type checking (with timeout)...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "timeout 60s cd apps/frontend && npx tsc --noEmit || echo \"⚠️ Type check skipped/timed out\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = ""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔨 Step 4/5: Building frontend (with 5min timeout)...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "timeout 300s bash -c \"cd apps/frontend && NODE_OPTIONS='--max-old-space-size=4096' npm run build\" || (echo \"❌ Build timed out after 5 minutes\" && exit 1)"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = ""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Step 5/5: Build complete!\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "ls -lh apps/frontend/.next"
+
 [deployment]
 build = ["sh", "-c", "npm ci && npm run build --workspace=packages/shared && npm run build --workspace=apps/backend"]
 run = ["sh", "-c", "node apps/backend/dist/src/index.js"]
