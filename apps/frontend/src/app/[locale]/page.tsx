@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
+import { DIYF } from '@/app/components/diyf';
 import { FlashScoreMatchTracker } from '@/app/components/FlashScoreMatchTracker';
 import { UnifiedSportsHub } from '@/app/components/UnifiedSportsHub';
 import { PortalWidgetSystem } from '@/app/components/PortalWidgetSystem';

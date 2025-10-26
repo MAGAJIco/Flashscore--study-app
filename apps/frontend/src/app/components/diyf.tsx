@@ -1,8 +1,9 @@
+
 "use client";
 
 import React from "react";
 import { SessionProvider } from "next-auth/react";
-import { UserPreferencesProvider } from "@/app/components/UserPreferencesProvider";
+import { UserPreferencesProvider } from "@/app/providers/UserPreferencesProvider";
 import { NavBar } from "@/app/components/NavBar";
 import { BottomNavigation } from "@/app/components/BottomNavigation";
 
