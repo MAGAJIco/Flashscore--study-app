@@ -77,11 +77,3 @@ const startServer = async () => {
 };
 
 startServer();
-// Re-export all major backend modules
-export * from './config';
-export * from './models';
-export * from './routes';
-export * from './services';
-export * from './middleware';
-export * from './utils';
-export * from './types';
