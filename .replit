@@ -305,7 +305,7 @@ outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/backend/ml && python3 -m uvicorn api:app --host 0.0.0.0 --port 8000"
+args = "cd apps/backend/ml && uv run uvicorn api:app --host 0.0.0.0 --port 8000"
 waitForPort = 8000
 
 [[workflows.workflow]]
@@ -516,10 +516,6 @@ externalPort = 80
 [[ports]]
 localPort = 8000
 externalPort = 8000
-
-[[ports]]
-localPort = 34693
-externalPort = 8081
 
 [[ports]]
 localPort = 35757

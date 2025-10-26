@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { BackendErrorBoundary } from './middleware/globalErrorHandler';
+import { BackendErrorBoundary } from './middleware';
 import { connectDB } from "@/config/db";
 import { matchRoutes } from "@/routes/matches";
 import { newsRoutes } from "@/routes/news";
