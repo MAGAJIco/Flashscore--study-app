@@ -66,7 +66,7 @@ export function encryptData(data: string): string {
 - API keys in database
 
 **Key Management**:
-- Master encryption key in environment variable
+- Encryption key in environment variable (ENCRYPTION_KEY)
 - Rotate keys every 90 days
 - Keep old keys for decryption (with expiry)
 

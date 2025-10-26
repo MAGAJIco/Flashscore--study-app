@@ -109,7 +109,7 @@ class SecurityUtils {
   }
 
   // Data encryption for sensitive storage using AES-256-GCM
-  static async encryptData(data: string, masterKey: string): Promise<string> {
+  static async encryptData(data: string, encryptionKey: string): Promise<string> {
     try {
       // Use Web Crypto API for browser, crypto module for Node.js
       if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle) {
@@ -117,10 +117,10 @@ class SecurityUtils {
         const encoder = new TextEncoder();
         const dataBuffer = encoder.encode(data);
         
-        // Derive key from master key using PBKDF2
+        // Derive key from encryption key using PBKDF2
         const keyMaterial = await window.crypto.subtle.importKey(
           'raw',
-          encoder.encode(masterKey),
+          encoder.encode(encryptionKey),
           { name: 'PBKDF2' },
           false,
           ['deriveBits', 'deriveKey']
@@ -162,7 +162,7 @@ class SecurityUtils {
         const iv = crypto.randomBytes(12);
         
         // Derive key using PBKDF2
-        const key = crypto.pbkdf2Sync(masterKey, salt, 100000, 32, 'sha256');
+        const key = crypto.pbkdf2Sync(encryptionKey, salt, 100000, 32, 'sha256');
         
         // Encrypt using AES-256-GCM
         const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
@@ -180,7 +180,7 @@ class SecurityUtils {
     }
   }
 
-  static async decryptData(encryptedData: string, masterKey: string): Promise<string> {
+  static async decryptData(encryptedData: string, encryptionKey: string): Promise<string> {
     try {
       if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle) {
         // Browser implementation
@@ -200,7 +200,7 @@ class SecurityUtils {
         // Derive key
         const keyMaterial = await window.crypto.subtle.importKey(
           'raw',
-          encoder.encode(masterKey),
+          encoder.encode(encryptionKey),
           { name: 'PBKDF2' },
           false,
           ['deriveBits', 'deriveKey']
@@ -243,7 +243,7 @@ class SecurityUtils {
         const encrypted = parts[3];
         
         // Derive key
-        const key = crypto.pbkdf2Sync(masterKey, salt, 100000, 32, 'sha256');
+        const key = crypto.pbkdf2Sync(encryptionKey, salt, 100000, 32, 'sha256');
         
         // Decrypt
         const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
