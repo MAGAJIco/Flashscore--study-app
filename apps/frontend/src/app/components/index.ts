@@ -25,7 +25,7 @@ export { LoadingSpinner } from './LoadingSpinner';
 export { SmartLoadingState } from './SmartLoadingState';
 
 // Performance Monitoring
-// export { AmazonStylePerformanceMonitor } from './AmazonStylePerformanceMonitor'; // Moved to recyclebin
+// AmazonStylePerformanceMonitor moved to recyclebin
 
 // Live Features
 export { LiveMatchTracker } from './LiveMatchTracker';

@@ -8,3 +8,6 @@ export * from './News';
 export * from './Predictions';
 export * from './User';
 export * from './Payment';
+
+// Export the User model explicitly for backend use
+export { User } from './User';
