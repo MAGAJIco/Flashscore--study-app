@@ -18,4 +18,3 @@ export function SessionProvider({ children, session }: SessionProviderProps) {
 }
 
 export { SessionProvider as NextAuthSessionProvider };
-export default SessionProvider;

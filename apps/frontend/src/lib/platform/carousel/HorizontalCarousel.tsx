@@ -8,7 +8,7 @@ interface HorizontalCarouselProps {
   className?: string;
 }
 
-export default function HorizontalCarousel({ 
+export function HorizontalCarousel({ 
   children, 
   className = '' 
 }: HorizontalCarouselProps) {

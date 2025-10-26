@@ -1,3 +1,4 @@
 
 // Export HorizontalCarousel component
-export { default as HorizontalCarousel } from './HorizontalCarousel';
+export { HorizontalCarousel } from './HorizontalCarousel';
+export type { CarouselCard, CarouselCategory } from './types';
