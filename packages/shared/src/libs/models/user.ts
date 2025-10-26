@@ -1,3 +1,4 @@
+
 // Shared types that can be used on both client and server
 export interface ICoppaConsent {
   status: "pending" | "approved" | "rejected" | null;
@@ -26,6 +27,3 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
-
-// Note: Mongoose models should be imported from backend models directly
-// Do not export Mongoose models from shared package as they cannot run in browser
