@@ -5,6 +5,7 @@ import './styles/globals.css';
 import './styles/mobile-optimizations.css';
 import './styles/responsive-layout.css';
 import './fonts.css';
+import '../themes/theme-base.css';
 import {
   AppWrapper,
   MobileLayout,
