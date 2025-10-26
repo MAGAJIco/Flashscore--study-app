@@ -569,9 +569,5 @@ externalPort = 9000
 localPort = 45655
 externalPort = 3002
 
-[[ports]]
-localPort = 46541
-externalPort = 80
-
 [env]
 REPLIT_KEEP_PACKAGE_DEV_DEPENDENCIES = "1"
