@@ -96,7 +96,6 @@ export type { Achievement } from './AchievementCelebration';
 
 // Export all components from this barrel file
 export { default as App } from './App';
-export { default as AppWrapper } from './AppWrapper';
 
 // Missing exports that are causing errors
 export { default as ComprehensiveSportsHub } from './ComprehensiveSportsHub';
