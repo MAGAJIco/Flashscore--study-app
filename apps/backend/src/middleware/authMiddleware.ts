@@ -17,12 +17,13 @@ export async function authenticateToken(request: FastifyRequest, reply: FastifyR
     const authHeader = request.headers.authorization;
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      request.log.warn('Missing or invalid authorization header');
       return reply.status(401).send({ error: 'Missing or invalid authorization header' });
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(7);
 
-    // Verify token
+    // Verify token using production-ready JWT implementation
     const payload = JWTUtils.verifyAccessToken(token);
 
     // Attach user info to request
@@ -32,8 +33,14 @@ export async function authenticateToken(request: FastifyRequest, reply: FastifyR
       role: payload.role
     };
 
+    request.log.info({ userId: payload.userId }, 'User authenticated successfully');
+
   } catch (error) {
-    return reply.status(401).send({ error: 'Invalid or expired token' });
+    request.log.error({ error }, 'Token verification failed');
+    return reply.status(401).send({ 
+      error: 'Invalid or expired token',
+      message: error instanceof Error ? error.message : 'Authentication failed'
+    });
   }
 }
 

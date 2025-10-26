@@ -32,27 +32,26 @@ export async function GET(request: NextRequest) {
   // Check backend health
   try {
     const backendRes = await fetch(`${BACKEND_URL}/health`, { 
-      signal: AbortSignal.timeout(3000),
-      headers: { 'Content-Type': 'application/json' }
+      signal: AbortSignal.timeout(5000),
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store'
     });
-    const backendData = await backendRes.json();
-    services.backend = backendRes.ok ? 'ok' : 'error';
-    services.database = backendData.db?.status || 'unknown';
+    
+    if (backendRes.ok) {
+      const backendData = await backendRes.json();
+      services.backend = 'ok';
+      services.database = backendData.db?.status || 'unknown';
+      services.ml = backendData.ml?.status || 'unknown';
+    } else {
+      services.backend = 'error';
+      services.database = 'error';
+      services.ml = 'error';
+    }
   } catch (error) {
-    console.warn('Backend health check failed:', error instanceof Error ? error.message : 'Unknown error');
+    const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+    console.error('[Health Check] Backend check failed:', errorMsg);
     services.backend = 'offline';
     services.database = 'offline';
-  }
-
-  // Check ML service health via backend proxy
-  try {
-    const mlRes = await fetch(`${BACKEND_URL}/ml-status`, { 
-      signal: AbortSignal.timeout(3000),
-      headers: { 'Content-Type': 'application/json' }
-    });
-    services.ml = mlRes.ok ? 'ok' : 'error';
-  } catch (error) {
-    console.warn('ML service health check failed:', error instanceof Error ? error.message : 'Unknown error');
     services.ml = 'offline';
   }
 

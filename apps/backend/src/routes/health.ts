@@ -10,27 +10,59 @@ export async function healthRoutes(fastify: FastifyInstance) {
       const dbStatus = dbConnected ? 'ok' : 'down';
       const requireDb = process.env.REQUIRE_DB === 'true' || process.env.NODE_ENV === 'production';
 
+      // Check ML service
+      let mlStatus = 'unknown';
+      try {
+        const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://0.0.0.0:8000';
+        const mlResponse = await fetch(`${ML_SERVICE_URL}/health`, {
+          signal: AbortSignal.timeout(2000)
+        }).catch(() => null);
+        mlStatus = mlResponse?.ok ? 'ok' : 'down';
+      } catch {
+        mlStatus = 'down';
+      }
+
+      // Determine overall status
+      let overallStatus = 'ok';
+      if (requireDb && !dbConnected) {
+        overallStatus = 'degraded';
+      }
+      if (!dbConnected && mlStatus === 'down') {
+        overallStatus = 'unhealthy';
+      }
+
       const health = {
-        status: (requireDb && !dbConnected) ? 'degraded' : 'ok',
+        status: overallStatus,
         api: 'ok',
         db: {
           status: dbStatus,
           required: requireDb,
           readyState: mongoose.connection.readyState,
+          readyStateText: ['disconnected', 'connected', 'connecting', 'disconnecting'][mongoose.connection.readyState] || 'unknown',
           host: mongoose.connection.host || 'N/A',
           name: mongoose.connection.name || 'N/A'
         },
+        ml: {
+          status: mlStatus,
+          endpoint: process.env.ML_SERVICE_URL || 'http://0.0.0.0:8000'
+        },
         uptime: process.uptime(),
+        memory: {
+          used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+          total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024),
+          unit: 'MB'
+        },
         timestamp: new Date().toISOString(),
         version: process.env.npm_package_version || '1.0.0',
         environment: process.env.NODE_ENV || 'development'
       };
 
-      // Always return 200 for basic health check (service is running)
-      // Database issues are reflected in the status field
-      reply.code(200);
+      // Return appropriate status code
+      const statusCode = overallStatus === 'ok' ? 200 : overallStatus === 'degraded' ? 503 : 500;
+      reply.code(statusCode);
       return health;
     } catch (error) {
+      fastify.log.error({ error }, 'Health check failed');
       reply.code(500);
       return { 
         status: 'error', 

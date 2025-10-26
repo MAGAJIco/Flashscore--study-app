@@ -108,16 +108,156 @@ class SecurityUtils {
     return token === storedToken && token.length === 64;
   }
 
-  // Data encryption for sensitive storage
-  static encryptData(data: string, key: string): string {
-    // WARNING: This is NOT secure encryption - use Web Crypto API in production
-    console.warn('SecurityUtils.encryptData: Using insecure encryption method');
-    throw new Error('Use Web Crypto API (crypto.subtle) for actual encryption in production');
+  // Data encryption for sensitive storage using AES-256-GCM
+  static async encryptData(data: string, masterKey: string): Promise<string> {
+    try {
+      // Use Web Crypto API for browser, crypto module for Node.js
+      if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle) {
+        // Browser implementation
+        const encoder = new TextEncoder();
+        const dataBuffer = encoder.encode(data);
+        
+        // Derive key from master key using PBKDF2
+        const keyMaterial = await window.crypto.subtle.importKey(
+          'raw',
+          encoder.encode(masterKey),
+          { name: 'PBKDF2' },
+          false,
+          ['deriveBits', 'deriveKey']
+        );
+        
+        const salt = window.crypto.getRandomValues(new Uint8Array(16));
+        const key = await window.crypto.subtle.deriveKey(
+          {
+            name: 'PBKDF2',
+            salt: salt,
+            iterations: 100000,
+            hash: 'SHA-256'
+          },
+          keyMaterial,
+          { name: 'AES-GCM', length: 256 },
+          false,
+          ['encrypt']
+        );
+        
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
+        const encryptedBuffer = await window.crypto.subtle.encrypt(
+          { name: 'AES-GCM', iv: iv },
+          key,
+          dataBuffer
+        );
+        
+        // Combine salt + iv + encrypted data
+        const combined = new Uint8Array(salt.length + iv.length + encryptedBuffer.byteLength);
+        combined.set(salt, 0);
+        combined.set(iv, salt.length);
+        combined.set(new Uint8Array(encryptedBuffer), salt.length + iv.length);
+        
+        // Return as base64
+        return btoa(String.fromCharCode(...combined));
+      } else {
+        // Server-side: require crypto module dynamically
+        const crypto = require('crypto');
+        const salt = crypto.randomBytes(16);
+        const iv = crypto.randomBytes(12);
+        
+        // Derive key using PBKDF2
+        const key = crypto.pbkdf2Sync(masterKey, salt, 100000, 32, 'sha256');
+        
+        // Encrypt using AES-256-GCM
+        const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+        let encrypted = cipher.update(data, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+        const authTag = cipher.getAuthTag().toString('hex');
+        
+        // Combine salt + iv + authTag + encrypted data
+        const combined = salt.toString('hex') + ':' + iv.toString('hex') + ':' + authTag + ':' + encrypted;
+        return Buffer.from(combined).toString('base64');
+      }
+    } catch (error) {
+      console.error('Encryption failed:', error);
+      throw new Error('Failed to encrypt data securely');
+    }
   }
 
-  static decryptData(encryptedData: string, key: string): string {
-    console.warn('SecurityUtils.decryptData: Using insecure decryption method');
-    throw new Error('Use Web Crypto API (crypto.subtle) for actual decryption in production');
+  static async decryptData(encryptedData: string, masterKey: string): Promise<string> {
+    try {
+      if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle) {
+        // Browser implementation
+        const encoder = new TextEncoder();
+        const decoder = new TextDecoder();
+        
+        // Decode from base64
+        const combined = new Uint8Array(
+          atob(encryptedData).split('').map(c => c.charCodeAt(0))
+        );
+        
+        // Extract salt, iv, and encrypted data
+        const salt = combined.slice(0, 16);
+        const iv = combined.slice(16, 28);
+        const encryptedBuffer = combined.slice(28);
+        
+        // Derive key
+        const keyMaterial = await window.crypto.subtle.importKey(
+          'raw',
+          encoder.encode(masterKey),
+          { name: 'PBKDF2' },
+          false,
+          ['deriveBits', 'deriveKey']
+        );
+        
+        const key = await window.crypto.subtle.deriveKey(
+          {
+            name: 'PBKDF2',
+            salt: salt,
+            iterations: 100000,
+            hash: 'SHA-256'
+          },
+          keyMaterial,
+          { name: 'AES-GCM', length: 256 },
+          false,
+          ['decrypt']
+        );
+        
+        // Decrypt
+        const decryptedBuffer = await window.crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: iv },
+          key,
+          encryptedBuffer
+        );
+        
+        return decoder.decode(decryptedBuffer);
+      } else {
+        // Server-side decryption
+        const crypto = require('crypto');
+        const decoded = Buffer.from(encryptedData, 'base64').toString('utf8');
+        const parts = decoded.split(':');
+        
+        if (parts.length !== 4) {
+          throw new Error('Invalid encrypted data format');
+        }
+        
+        const salt = Buffer.from(parts[0], 'hex');
+        const iv = Buffer.from(parts[1], 'hex');
+        const authTag = Buffer.from(parts[2], 'hex');
+        const encrypted = parts[3];
+        
+        // Derive key
+        const key = crypto.pbkdf2Sync(masterKey, salt, 100000, 32, 'sha256');
+        
+        // Decrypt
+        const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+        decipher.setAuthTag(authTag);
+        
+        let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        
+        return decrypted;
+      }
+    } catch (error) {
+      console.error('Decryption failed:', error);
+      throw new Error('Failed to decrypt data');
+    }
   }
 
   // Token validation with expiration
