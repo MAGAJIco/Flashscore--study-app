@@ -1,62 +1,21 @@
-
 "use client";
 
 import React from "react";
-import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
-import { LoadingSkeleton } from "@/app/components";
-import { SessionProvider, UserPreferencesProvider } from "@/app/providers";
+import { SessionProvider } from "next-auth/react";
+import { UserPreferencesProvider } from "@/app/components/UserPreferencesProvider";
+import { NavBar } from "@/app/components/NavBar";
+import { BottomNavigation } from "@/app/components/BottomNavigation";
 
-const NavBar = dynamic(() => import("@/app/components").then(mod => ({ default: mod.NavBar })), {
-  loading: () => <LoadingSkeleton />,
-  ssr: false,
-});
-
-const BottomNavigation = dynamic(() => import("@/app/components").then(mod => ({ default: mod.BottomNavigation })), {
-  loading: () => <LoadingSkeleton />,
-  ssr: false,
-});
-
-const MobileOptimizationWrapper = dynamic(
-  () => import("@/app/components").then(mod => ({ default: mod.MobileOptimizationWrapper })),
-  {
-    loading: () => <LoadingSkeleton />,
-    ssr: false,
-  },
-);
-
-interface DIYFProps {
-  children: React.ReactNode;
-}
-
-export function DIYF({ children }: DIYFProps) {
-  const pathname = usePathname();
-  const isAuthPage = pathname?.includes("/auth/");
-
-  if (isAuthPage) {
-    return (
-      <MobileOptimizationWrapper>
-        <SessionProvider>
-          <UserPreferencesProvider>{children}</UserPreferencesProvider>
-        </SessionProvider>
-      </MobileOptimizationWrapper>
-    );
-  }
-
+export function DIYF({ children }: { children: React.ReactNode }) {
   return (
-    <MobileOptimizationWrapper>
-      <SessionProvider>
-        <UserPreferencesProvider>
+    <SessionProvider>
+      <UserPreferencesProvider>
+        <div className="flex flex-col min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
           <NavBar />
-          <div
-            className="pt-16 pb-20 md:pb-0"
-            style={{ minHeight: "calc(var(--vh, 1vh) * 100)" }}
-          >
-            {children}
-          </div>
+          <main className="flex-grow container mx-auto px-4 py-6">{children}</main>
           <BottomNavigation />
-        </UserPreferencesProvider>
-      </SessionProvider>
-    </MobileOptimizationWrapper>
+        </div>
+      </UserPreferencesProvider>
+    </SessionProvider>
   );
 }
