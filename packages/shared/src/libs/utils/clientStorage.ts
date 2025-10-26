@@ -1,80 +1,51 @@
-/**
- * Client-side storage utilities with SSR safety
- */
-
+// Client-side storage utilities
 export class ClientStorage {
-  static isClient(): boolean {
-    return typeof window !== 'undefined';
-  }
-
-  static setItem<T>(key: string, value: T): void {
-    if (!this.isClient()) return;
-
+  private static isAvailable(): boolean {
+    if (typeof window === 'undefined') return false;
     try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.warn(`Failed to set localStorage item (${key}):`, error);
+      const test = '__storage_test__';
+      localStorage.setItem(test, test);
+      localStorage.removeItem(test);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 
   static getItem<T>(key: string, defaultValue: T): T {
-    if (!this.isClient()) return defaultValue;
+    if (!this.isAvailable()) {
+      return defaultValue;
+    }
 
     try {
       const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : defaultValue;
-    } catch (error) {
-      console.warn(`Failed to get localStorage item (${key}):`, error);
+      if (!item) {
+        return defaultValue;
+      }
+      const parsed = JSON.parse(item);
+      // Return default if parsed is null or undefined
+      return parsed ?? defaultValue;
+    } catch (e) {
+      console.warn(`Failed to read ${key} from storage:`, e);
       return defaultValue;
     }
   }
 
-  static removeItem(key: string): void {
-    if (!this.isClient()) return;
+  static setItem(key: string, value: any): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+  }
 
-    try {
+  static removeItem(key: string): void {
+    if (typeof window !== 'undefined') {
       localStorage.removeItem(key);
-    } catch (error) {
-      console.warn(`Failed to remove localStorage item (${key}):`, error);
     }
   }
 
   static clear(): void {
-    if (!this.isClient()) return;
-
-    try {
+    if (typeof window !== 'undefined') {
       localStorage.clear();
-    } catch (error) {
-      console.warn('Failed to clear localStorage:', error);
     }
   }
-}
-
-/**
- * React hook for localStorage with SSR safety
- */
-import { useState, useEffect } from 'react';
-
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
-  const [storedValue, setStoredValue] = useState<T>(initialValue);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-    const value = ClientStorage.getItem(key, initialValue);
-    setStoredValue(value);
-  }, [key, initialValue]);
-
-  const setValue = (value: T) => {
-    try {
-      setStoredValue(value);
-      if (isClient) {
-        ClientStorage.setItem(key, value);
-      }
-    } catch (error) {
-      console.warn(`Failed to update localStorage (${key}):`, error);
-    }
-  };
-
-  return [storedValue, setValue];
 }
