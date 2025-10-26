@@ -476,8 +476,49 @@ export const ComprehensiveSportsHub: React.FC = () => {
     }
   ];
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <div className="sports" style={{ minHeight: '100vh' }}>
+    <div className="sports" style={{ minHeight: '100vh', position: 'relative' }}>
+      {/* Scroll to Top Button */}
+      <button
+        onClick={scrollToTop}
+        style={{
+          position: 'fixed',
+          bottom: isMobile ? '80px' : '24px',
+          right: '20px',
+          width: '56px',
+          height: '56px',
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, #00ff88, #00a2ff)',
+          border: 'none',
+          color: '#000',
+          fontSize: '24px',
+          cursor: 'pointer',
+          boxShadow: '0 4px 20px rgba(0, 255, 136, 0.4)',
+          zIndex: 999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'all 0.3s ease',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'scale(1)' : 'scale(0.8)'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 255, 136, 0.6)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 255, 136, 0.4)';
+        }}
+        aria-label="Scroll to top"
+      >
+        ⬆️
+      </button>
+
       {/* Feature Navigation */}
       <div style={{ 
         padding: '16px', 
