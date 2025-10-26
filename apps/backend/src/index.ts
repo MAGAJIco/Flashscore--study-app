@@ -34,7 +34,7 @@ const startServer = async () => {
     // Register core routes
     await fastify.register(healthRoutes);
     await fastify.register(authRoutes, { prefix: "/api/auth" });
-    
+
     // Register feature modules
     await fastify.register(async (instance) => {
       await instance.register(predictionsRoutes, { prefix: "/predictions" });
@@ -42,7 +42,7 @@ const startServer = async () => {
       await instance.register(newsRoutes, { prefix: "/news" });
       await instance.register(newsAuthorsRoutes, { prefix: "/news-authors" });
     }, { prefix: "/api" });
-    
+
     // Register foundation & payments
     await fastify.register(foundationRoutes, { prefix: "/api" });
     await fastify.register(errorsRoutes, { prefix: "/api" });

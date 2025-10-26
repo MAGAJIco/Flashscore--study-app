@@ -487,6 +487,55 @@ args = "echo \"✅ Step 5/5: Build complete!\""
 task = "shell.exec"
 args = "ls -lh apps/frontend/.next"
 
+[[workflows.workflow]]
+name = "Build Frontend for Production"
+author = 49038672
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🧹 Clearing cache...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "rm -rf apps/frontend/.next"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = ""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"📦 Building shared package...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build --workspace=packages/shared"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = ""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔨 Building frontend...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/frontend && NODE_OPTIONS='--max-old-space-size=4096' npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = ""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Production build complete!\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "ls -lh apps/frontend/.next"
+
 [deployment]
 build = ["sh", "-c", "npm ci && npm run build --workspace=packages/shared && npm run build --workspace=apps/backend"]
 run = ["sh", "-c", "node apps/backend/dist/src/index.js"]
@@ -516,6 +565,10 @@ externalPort = 80
 [[ports]]
 localPort = 8000
 externalPort = 8000
+
+[[ports]]
+localPort = 34693
+externalPort = 8081
 
 [[ports]]
 localPort = 35757

@@ -1,4 +1,3 @@
-
 {
   "home": {
     "welcome": "Bienvenido a MajajiCo",
@@ -21,7 +20,14 @@
     "confirm": "Confirmar",
     "save": "Guardar",
     "delete": "Eliminar",
-    "edit": "Editar"
+    "edit": "Editar",
+    "matches": "Partidos",
+    "news": "Noticias",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión",
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "success": "Éxito"
   },
   "header": {
     "title": "SPORTS CENTRAL",
@@ -63,5 +69,53 @@
     "notifications": "Notificaciones",
     "privacy": "Privacidad",
     "selectLanguage": "Seleccionar Idioma"
+  },
+  "profile": {
+    "title": "Perfil",
+    "username": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "piCoins": "Monedas Pi",
+    "level": "Nivel",
+    "memberSince": "Miembro desde",
+    "lastActive": "Última actividad",
+    "ageVerified": "Edad verificada",
+    "editProfile": "Editar perfil",
+    "saveChanges": "Guardar cambios",
+    "theme": "Tema",
+    "notifications": "Notificaciones",
+    "accountRestrictions": "Restricciones de cuenta",
+    "bettingRestricted": "Las apuestas están restringidas",
+    "paymentsRestricted": "Los pagos están restringidos",
+    "limitedContent": "Acceso limitado al contenido"
+  },
+  "social": {
+    "feed": "Feed",
+    "following": "Siguiendo",
+    "followers": "Seguidores",
+    "posts": "Publicaciones",
+    "comments": "Comentarios",
+    "likes": "Me gusta",
+    "share": "Compartir",
+    "follow": "Seguir",
+    "unfollow": "Dejar de seguir",
+    "post": "Publicar",
+    "community": "Comunidad",
+    "challenges": "Desafíos",
+    "leaderboard": "Tabla de clasificación"
+  },
+  "admin": {
+    "dashboard": "Panel de administración",
+    "users": "Usuarios",
+    "content": "Gestión de contenido",
+    "analytics": "Analíticas",
+    "predictions": "Predicciones",
+    "payments": "Pagos",
+    "settings": "Configuración",
+    "notifications": "Notificaciones",
+    "sync": "Gestión de sincronización",
+    "totalUsers": "Usuarios totales",
+    "activeUsers": "Usuarios activos",
+    "revenue": "Ingresos",
+    "systemHealth": "Salud del sistema"
   }
 }
