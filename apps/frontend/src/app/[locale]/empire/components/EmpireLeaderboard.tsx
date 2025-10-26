@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { sportsIntegration, GrowthScore, EMPIRE_LEVELS } from '@magajico/shared/services';
+import { sportsIntegration, GrowthScore, EMPIRE_LEVELS } from '@magajico/shared/libs/services';
 
 interface LeaderboardEntry extends GrowthScore {
   rank: number;

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import timeZoneService from '../services/timeZoneService';
+import timeZoneService from '@/app/[locale]/services/timeZoneService';
 
 export function TimeZoneSettings() {
   const [timezone, setTimezone] = useState('');

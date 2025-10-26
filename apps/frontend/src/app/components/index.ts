@@ -1,6 +1,6 @@
 // Error Monitoring & Boundaries
-export { ErrorMonitor } from './ErrorMonitor';
-export { ProductionErrorBoundary as ErrorBoundary } from './ErrorBoundary/ErrorBoundaryWithPerformance';
+// export { ErrorMonitor } from './ErrorMonitor'; // Moved to recyclebin
+// export { ProductionErrorBoundary as ErrorBoundary } from './ErrorBoundary/ErrorBoundaryWithPerformance'; // Moved to recyclebin
 export { BackendHealthMonitor } from './BackendHealthMonitor';
 export { BackendStatusIndicator } from './BackendStatusIndicator';
 export { EnhancedErrorBoundary } from './EnhancedErrorBoundary';
@@ -24,7 +24,7 @@ export { LoadingSpinner } from './LoadingSpinner';
 export { SmartLoadingState } from './SmartLoadingState';
 
 // Performance Monitoring
-export { AmazonStylePerformanceMonitor } from './AmazonStylePerformanceMonitor';
+// export { AmazonStylePerformanceMonitor } from './AmazonStylePerformanceMonitor'; // Moved to recyclebin
 
 // Live Features
 export { LiveMatchTracker } from './LiveMatchTracker';
@@ -93,7 +93,7 @@ export { AchievementSystem } from './AchievementSystem';
 export type { Achievement } from './AchievementCelebration';
 
 // Main app export
-export { default as App } from './App';
+// export { default as App } from './App'; // Moved to recyclebin
 
 // Hub component (default export)
-export { default as ComprehensiveSportsHub } from './ComprehensiveSportsHub';
+// export { default as ComprehensiveSportsHub } from './ComprehensiveSportsHub'; // Moved to recyclebin

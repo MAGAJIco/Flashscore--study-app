@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { NewsAuthorService } from '@services/newsAuthorService';
-import { NewsService } from '@services/newsService';
+import { NewsAuthorService } from '@/app/[locale]/services/newsAuthorService';
+import { NewsService } from '@/app/[locale]/services/newsService';
 
 export default function TestNewsAuthorPage() {
   const [result, setResult] = useState<string>('');

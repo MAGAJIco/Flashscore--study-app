@@ -1,7 +1,7 @@
 import React from 'react';
 import SimpleHeader from './components/SimpleHeader';
 import SimpleFooter from './components/SimpleFooter';
-import '@styles/globals.css';
+import '@/app/[locale]/styles/globals.css';
 
 export default function SimpleLayout({
   children,

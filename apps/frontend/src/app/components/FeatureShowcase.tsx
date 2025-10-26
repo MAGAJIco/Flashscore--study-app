@@ -2,19 +2,19 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FEATURE_REGISTRY, getFeaturesByCategory, type FeatureMetadata } from '@/app/[locale]/features/registry';
+// import { FEATURE_REGISTRY, getFeaturesByCategory, type FeatureMetadata } from '@/app/[locale]/features/registry';
 
 export function FeatureShowcase() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
   // Convert registry to array format
-  const features: FeatureMetadata[] = Object.values(FEATURE_REGISTRY).map(feature => ({
-    ...feature,
-    title: feature.name
-  }));
+  // const features: FeatureMetadata[] = Object.values(FEATURE_REGISTRY).map(feature => ({
+  //   ...feature,
+  //   title: feature.name
+  // }));
 
   // Legacy features array kept for backwards compatibility
-  const legacyFeatures = [
+  const features = [
     {
       id: 'mobile-performance',
       title: 'Mobile Performance',

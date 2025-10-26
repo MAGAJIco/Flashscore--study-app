@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useKidsMode } from '@hooks/useKidsMode';
+import { useKidsMode } from '@/hooks/useKidsMode';
 import { ProtectedContent } from '@/app/components/ProtectedContent';
 import { KidsModeDashboard } from '@/app/components/KidsModeDashboard';
 import { AgeRestrictionGuard } from '@/app/components/AgeRestrictionGuard';
