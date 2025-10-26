@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -10,19 +9,17 @@ import { PortalCommandCenter } from '@/app/components/PortalCommandCenter';
 import { HorizontalCarousel } from '@/app/components/HorizontalCarousel';
 
 export default function HomePage() {
-  const t = useTranslations('home');
-  const tc = useTranslations('common');
+  const t = useTranslations("home");
+  const tc = useTranslations("common");
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 pt-8 pb-6">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-            {t('welcome')}
-          </h1>
-          <p className="text-lg md:text-xl" style={{ color: 'var(--text-secondary)' }}>
-            {t('tagline')}
+    <DIYF>
+      <div className="space-y-10">
+        {/* Hero Section */}
+        <section className="text-center space-y-3">
+          <h1 className="text-4xl md:text-5xl font-bold">{t("welcome")}</h1>
+          <p className="text-lg md:text-xl text-[var(--text-secondary)]">
+            {t("tagline")}
           </p>
         </div>
       </div>
@@ -37,18 +34,9 @@ export default function HomePage() {
         <PortalWidgetSystem />
       </div>
 
-      {/* FlashScore Match Tracker */}
-      <div className="mb-8">
         <FlashScoreMatchTracker />
+        <UnifiedSportsHub initialTab="overview" showPortalView />
       </div>
-
-      {/* Unified Sports Hub */}
-      <div className="max-w-7xl mx-auto px-4 pb-20">
-        <UnifiedSportsHub initialTab="overview" showPortalView={true} />
-      </div>
-
-      {/* Portal Command Center (floating button) */}
-      <PortalCommandCenter />
-    </div>
+    </DIYF>
   );
 }

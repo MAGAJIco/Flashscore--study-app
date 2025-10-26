@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -47,6 +46,7 @@ export function DIYF({ children }: DIYFProps) {
     );
   }
 
+export function DIYF({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <MobileOptimizationWrapper>
