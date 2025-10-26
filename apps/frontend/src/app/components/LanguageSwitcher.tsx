@@ -9,12 +9,21 @@ import { useUserPreferences } from '@/app/providers/UserPreferencesProvider';
 
 export function LanguageSwitcher() {
   const t = useTranslations('settings');
-  const locale = useLocale() as Locale;
+  const localeFromHook = useLocale() as Locale;
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const { updatePreferences } = useUserPreferences();
   const menuRef = useRef<HTMLDivElement>(null);
+  
+  // Extract locale from pathname as source of truth
+  const currentLocale = React.useMemo(() => {
+    const pathParts = pathname.split('/').filter(Boolean);
+    const pathLocale = pathParts[0] as Locale;
+    return locales.includes(pathLocale) ? pathLocale : localeFromHook;
+  }, [pathname, localeFromHook]);
+  
+  const locale = currentLocale;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,6 +48,11 @@ export function LanguageSwitcher() {
       document.removeEventListener('keydown', handleEscape);
     };
   }, [isOpen]);
+  
+  // Close dropdown when pathname changes (locale changed)
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   const handleLanguageChange = async (newLocale: Locale) => {
     setIsOpen(false);
