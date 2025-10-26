@@ -24,7 +24,7 @@ export { LoadingSpinner } from './LoadingSpinner';
 export { SmartLoadingState } from './SmartLoadingState';
 
 // Performance Monitoring
-// export { AmazonStylePerformanceMonitor } from './AmazonStylePerformanceMonitor'; // Moved to recyclebin
+export { AmazonStylePerformanceMonitor } from './AmazonStylePerformanceMonitor'; // Moved to recyclebin
 
 // Live Features
 export { LiveMatchTracker } from './LiveMatchTracker';
@@ -43,6 +43,7 @@ export { ConfidenceCalibration } from './ConfidenceCalibration';
 export { PortalDashboard } from './PortalDashboard';
 export { PortalCommandCenter } from './PortalCommandCenter';
 export { UnifiedSportsHub } from './UnifiedSportsHub';
+export { PortalWidgetSystem } from './PortalWidgetSystem';
 
 // News & Social
 export { SmartNewsFeed } from './SmartNewsFeed';

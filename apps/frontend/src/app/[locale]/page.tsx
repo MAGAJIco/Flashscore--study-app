@@ -5,6 +5,8 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { FlashScoreMatchTracker } from '@/app/components/FlashScoreMatchTracker';
 import { UnifiedSportsHub } from '@/app/components/UnifiedSportsHub';
+import { PortalWidgetSystem } from '@/app/components/PortalWidgetSystem';
+import { PortalCommandCenter } from '@/app/components/PortalCommandCenter';
 
 export default function HomePage() {
   const t = useTranslations('home');
@@ -83,6 +85,11 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Portal Widget System */}
+      <div className="max-w-7xl mx-auto px-4 mb-8">
+        <PortalWidgetSystem />
+      </div>
+
       {/* FlashScore Match Tracker */}
       <div className="mb-8">
         <FlashScoreMatchTracker />
@@ -92,6 +99,9 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto px-4 pb-20">
         <UnifiedSportsHub initialTab="overview" showPortalView={true} />
       </div>
+
+      {/* Portal Command Center (floating button) */}
+      <PortalCommandCenter />
     </div>
   );
 }
