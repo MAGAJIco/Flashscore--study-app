@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { 
-  ComprehensiveSportsHub, 
+  UnifiedSportsHub, 
   PortalWidgetSystem, 
   PortalCommandCenter 
 } from '@/app/components';
@@ -14,7 +14,7 @@ export default function HomePage() {
       <div style={{ marginBottom: '40px' }}>
         <PortalWidgetSystem />
       </div>
-      <ComprehensiveSportsHub />
+      <UnifiedSportsHub initialTab="overview" showPortalView={true} />
       <PortalCommandCenter />
     </>
   );

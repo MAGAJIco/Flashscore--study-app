@@ -7,7 +7,6 @@ export { EnhancedErrorBoundary } from './EnhancedErrorBoundary';
 export { GlobalErrorHandler } from './GlobalErrorHandler';
 
 // Core Layout Components
-export { AppWrapper } from './AppWrapper';
 export { DIYF } from './diyf';
 export { MobileLayout } from './MobileLayout';
 export { MobileOptimizationWrapper } from './MobileOptimizationWrapper';
@@ -42,7 +41,6 @@ export { ConfidenceCalibration } from './ConfidenceCalibration';
 
 // Portal & Dashboard
 export { PortalDashboard } from './PortalDashboard';
-export { PortalWidgetSystem } from './PortalWidgetSystem';
 export { PortalCommandCenter } from './PortalCommandCenter';
 export { UnifiedSportsHub } from './UnifiedSportsHub';
 
