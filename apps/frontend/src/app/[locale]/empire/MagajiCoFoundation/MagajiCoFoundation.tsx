@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PhaseCard from "./PhaseCard";
 import PowerDisplay from "./PowerDisplay";
 import { foundationApi, type Phase } from "@/lib/api/foundation";
@@ -7,15 +7,15 @@ import { foundationApi, type Phase } from "@/lib/api/foundation";
 export default function MagajiCoFoundation() {
   const [userId] = useState(() => {
     // Get or create user ID from localStorage
-    if (typeof window !== 'undefined') {
-      let id = localStorage.getItem('magajico-user-id');
+    if (typeof window !== "undefined") {
+      let id = localStorage.getItem("magajico-user-id");
       if (!id) {
         id = `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        localStorage.setItem('magajico-user-id', id);
+        localStorage.setItem("magajico-user-id", id);
       }
       return id;
     }
-    return 'guest';
+    return "guest";
   });
 
   const [totalPower, setTotalPower] = useState(0);
@@ -37,10 +37,10 @@ export default function MagajiCoFoundation() {
         setTotalPower(data.totalPower);
         setError(null);
       } catch (err) {
-        console.error('Failed to load foundation progress:', err);
-        setError('Failed to load progress. Using offline mode.');
+        console.error("Failed to load foundation progress:", err);
+        setError("Failed to load progress. Using offline mode.");
         // Fallback to local state if API fails
-        const buildingPhases = await import('./phasesData');
+        const buildingPhases = await import("./phasesData");
         setPhases(buildingPhases.default);
       } finally {
         setLoading(false);
@@ -50,6 +50,45 @@ export default function MagajiCoFoundation() {
     loadProgress();
   }, [userId]);
 
+  // Memoize completeCurrentPhase to avoid recreating on every render
+  const completeCurrentPhase = useCallback(async () => {
+    try {
+      // Complete phase on backend
+      const { data } = await foundationApi.completePhase(userId, currentPhase);
+      setPhases(data.phases);
+      setTotalPower(data.totalPower);
+      setError(null);
+    } catch (err) {
+      console.error("Failed to complete phase:", err);
+      setError("Failed to complete phase. Please try again.");
+
+      // Fallback to local state
+      setPhases((prev) =>
+        prev.map((p) => {
+          if (p.id === currentPhase) {
+            const installedComponents =
+              p.components?.map((c) => ({
+                ...c,
+                installed: true,
+              })) || [];
+            const phaseBoost = installedComponents.reduce(
+              (sum, c) => sum + c.powerBoost,
+              0,
+            );
+            setTotalPower((prev) => prev + phaseBoost);
+            return {
+              ...p,
+              building: false,
+              completed: true,
+              components: installedComponents,
+            };
+          }
+          return p;
+        }),
+      );
+    }
+  }, [userId, currentPhase]);
+
   // ⏳ Simulate building progress
   useEffect(() => {
     if (isBuilding) {
@@ -57,6 +96,7 @@ export default function MagajiCoFoundation() {
         setBuildingProgress((prev) => {
           if (prev >= 100) {
             setIsBuilding(false);
+            // Call async function properly
             completeCurrentPhase();
             return 0;
           }
@@ -65,12 +105,17 @@ export default function MagajiCoFoundation() {
       }, 100);
       return () => clearInterval(interval);
     }
-  }, [isBuilding]);
+  }, [isBuilding, completeCurrentPhase]);
 
   // ⚡ Check for newly unlocked phases
   useEffect(() => {
     phases.forEach((phase) => {
-      if (phase.requiredPower !== undefined && totalPower >= phase.requiredPower && !phase.unlocked && !phase.completed) {
+      if (
+        phase.requiredPower !== undefined &&
+        totalPower >= phase.requiredPower &&
+        !phase.unlocked &&
+        !phase.completed
+      ) {
         setNewlyUnlocked(phase.id);
         setTimeout(() => setNewlyUnlocked(null), 1500);
       }
@@ -88,50 +133,13 @@ export default function MagajiCoFoundation() {
       setPhases(data.phases);
       setTotalPower(data.totalPower);
     } catch (err) {
-      console.error('Failed to start building:', err);
-      setError('Failed to start building. Please try again.');
+      console.error("Failed to start building:", err);
+      setError("Failed to start building. Please try again.");
       setIsBuilding(false);
-      
-      // Fallback to local state
-      setPhases((prev) =>
-        prev.map((p) => (p.id === phaseId ? { ...p, building: true } : p))
-      );
-    }
-  };
 
-  const completeCurrentPhase = async () => {
-    try {
-      // Complete phase on backend
-      const { data, powerBoost } = await foundationApi.completePhase(userId, currentPhase);
-      setPhases(data.phases);
-      setTotalPower(data.totalPower);
-      setError(null);
-    } catch (err) {
-      console.error('Failed to complete phase:', err);
-      setError('Failed to complete phase. Please try again.');
-      
       // Fallback to local state
       setPhases((prev) =>
-        prev.map((p) => {
-          if (p.id === currentPhase) {
-            const installedComponents = p.components?.map((c) => ({
-              ...c,
-              installed: true,
-            })) || [];
-            const phaseBoost = installedComponents.reduce(
-              (sum, c) => sum + c.powerBoost,
-              0
-            );
-            setTotalPower((prev) => prev + phaseBoost);
-            return {
-              ...p,
-              building: false,
-              completed: true,
-              components: installedComponents,
-            };
-          }
-          return p;
-        })
+        prev.map((p) => (p.id === phaseId ? { ...p, building: true } : p)),
       );
     }
   };
@@ -178,11 +186,13 @@ export default function MagajiCoFoundation() {
           <div
             key={phase.id}
             className={`transition-all duration-700 ${
-              newlyUnlocked === phase.id ? "animate-pulse ring-4 ring-yellow-400 rounded-2xl" : ""
+              newlyUnlocked === phase.id
+                ? "animate-pulse ring-4 ring-yellow-400 rounded-2xl"
+                : ""
             }`}
           >
             <PhaseCard
-              phase={phase as any}
+              phase={phase}
               currentPhase={currentPhase}
               isBuilding={isBuilding}
               startBuilding={startBuilding}
