@@ -5,7 +5,6 @@ export * from './libs/models';
 
 // Services
 export * from './libs/services';
-export * from './libs/services/contentModeration';
 export * from './libs/services/educationalAnalytics';
 
 // Utils - Export everything from utils
