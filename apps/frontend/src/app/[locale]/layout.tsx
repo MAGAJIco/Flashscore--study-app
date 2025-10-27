@@ -1,3 +1,4 @@
+
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { Inter, Roboto } from 'next/font/google';
@@ -6,12 +7,6 @@ import './styles/mobile-optimizations.css';
 import './styles/responsive-layout.css';
 import './fonts.css';
 import '../themes/theme-base.css';
-import {
-  AppWrapper,
-  MobileOptimizationWrapper,
-  HydrationSafeWrapper,
-  GlobalErrorHandler,
-} from '@/app/components';
 
 import { locales } from '@/i18n';
 import type { Metadata, Viewport } from 'next';
@@ -123,14 +118,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     <html lang={locale} className={`${inter.variable} ${roboto.variable}`} suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <MobileOptimizationWrapper>
-            <AppWrapper>
-              <HydrationSafeWrapper>
-                {children}
-              </HydrationSafeWrapper>
-            </AppWrapper>
-          </MobileOptimizationWrapper>
-          <GlobalErrorHandler />
+          {children}
         </NextIntlClientProvider>
       </body>
     </html>
