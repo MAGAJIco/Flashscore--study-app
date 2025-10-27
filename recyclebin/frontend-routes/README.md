@@ -1,4 +1,5 @@
 
+
 # Recycled Frontend Routes
 
 This directory contains frontend routes that have been moved from the main application for archival purposes.
@@ -27,12 +28,16 @@ This directory contains frontend routes that have been moved from the main appli
   - Architecture documentation
   - API reference
   - Migration guide
+- `docs-route-group/` - Full (docs) route group with dedicated layout (moved 2025-01-XX)
+  - Standalone documentation route that was at /docs
+  - Now consolidated into InteractiveDocsComponent used in main page.tsx
 
-## Why These Were Moved
+## Documentation Consolidation (January 2025)
 
-1. **Route Groups Migration**: Routes moved to feature-based route groups for better organization
-2. **Testing Routes**: Experimental routes no longer needed in production
-3. **Embedded Docs**: Docs content was embedded in main page.tsx, now extracted to dedicated component for cleaner separation
+All documentation features have been consolidated into:
+- **Component**: `apps/frontend/src/app/components/InteractiveDocsComponent.tsx`
+- **Usage**: Main portal page (`apps/frontend/src/app/[locale]/page.tsx`) now uses this component
+- **Archived HTML docs**: `recyclebin/UnifiedSportsHub_docs.html` and `recyclebin/DIYF_docs.html`
 
 ## Recovery
 
