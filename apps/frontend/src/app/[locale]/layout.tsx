@@ -8,7 +8,6 @@ import './fonts.css';
 import '../themes/theme-base.css';
 import {
   AppWrapper,
-  MobileLayout,
   MobileOptimizationWrapper,
   HydrationSafeWrapper,
   GlobalErrorHandler,
@@ -125,14 +124,12 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
       <body className={inter.className} suppressHydrationWarning>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <MobileOptimizationWrapper>
-            <MobileLayout>
-              <AppWrapper>
-                <Header />
-                <HydrationSafeWrapper>
-                  {children}
-                </HydrationSafeWrapper>
-              </AppWrapper>
-            </MobileLayout>
+            <AppWrapper>
+              <Header />
+              <HydrationSafeWrapper>
+                {children}
+              </HydrationSafeWrapper>
+            </AppWrapper>
           </MobileOptimizationWrapper>
           <GlobalErrorHandler />
         </NextIntlClientProvider>
