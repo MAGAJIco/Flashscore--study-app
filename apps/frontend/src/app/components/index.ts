@@ -49,8 +49,7 @@ export { ConfidenceCalibration } from "./ConfidenceCalibration";
 // News & Social
 export { SmartNewsFeed } from "./SmartNewsFeed";
 export { ConnectedNewsFeed } from "./ConnectedNewsFeed";
-// export { FeatureShowcase } from "./FeatureShowcase"; // Moved to recyclebin
-// export { FeatureHub } from './FeatureHub'; // TODO: Restore with proper shared utils integration for production
+export { default as InteractiveDocsComponent } from "./InteractiveDocsComponent";
 
 // User Interaction
 export { PullToRefreshWrapper } from "./PullToRefreshWrapper";
