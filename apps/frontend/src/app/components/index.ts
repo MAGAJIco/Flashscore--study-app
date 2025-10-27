@@ -21,6 +21,8 @@ export { AppDrawer } from './AppDrawer';
 export { DIFY } from './DIFY';
 export { AdvancedAnalytics } from './AdvancedAnalytics';
 export { MagajiCoUnifiedDashboard } from './MagajiCoUnifiedDashboard';
+export { MagajiCoAppLauncher } from './MagajiCoAppLauncher';
+export { MagajiCoCommandCenter } from './MagajiCoCommandCenter';
 
 // Loading States
 export { LoadingSkeleton } from "./LoadingSkeleton";
