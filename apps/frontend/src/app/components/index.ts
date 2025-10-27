@@ -1,13 +1,7 @@
-// Core Layout Components
-export { Header } from './Header';
-export { SidebarNav } from './SidebarNav';
-export { MainLayoutWrapper } from './MainLayoutWrapper';
+
+// Essential wrapper components only
 export { AppWrapper } from './AppWrapper';
 export { MobileOptimizationWrapper } from './MobileOptimizationWrapper';
-
-// Error Handling & Loading
-export { GlobalErrorHandler } from './GlobalErrorHandler';
 export { HydrationSafeWrapper } from './HydrationSafeWrapper';
-
-// Welcome Component
+export { GlobalErrorHandler } from './GlobalErrorHandler';
 export { Welcome } from './Welcome';
