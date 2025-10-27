@@ -33,6 +33,8 @@
       "@/config/*": ["./src/config/*"],
       "@/middleware": ["./src/middleware/index.ts"],
       "@/middleware/*": ["./src/middleware/*"],
+      "@/modules": ["./src/modules/index.ts"],
+      "@/modules/*": ["./src/modules/*"],
       "@shared/*": ["../../packages/shared/src/*"],
       "@shared/types": ["../../packages/shared/src/libs/types/index.ts"],
       "@shared/utils": ["../../packages/shared/src/libs/utils/index.ts"],
