@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -53,6 +52,9 @@ export const NavBar: React.FC = () => {
         </Link>
         <Link href="/predictions" style={{ padding: '8px 16px', textDecoration: 'none', color: '#5f6368' }}>
           Predictions
+        </Link>
+        <Link href="/docs" style={{ padding: '8px 16px', textDecoration: 'none', color: '#5f6368' }}>
+          📚 Docs
         </Link>
       </div>
     </nav>
