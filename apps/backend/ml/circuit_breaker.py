@@ -1,4 +1,3 @@
-
 import time
 from enum import Enum
 from typing import Callable, Any
@@ -18,7 +17,7 @@ class CircuitBreaker:
         self.failure_count = 0
         self.last_failure_time = None
         self.state = CircuitState.CLOSED
-    
+
     def call(self, func: Callable, *args, **kwargs) -> Any:
         if self.state == CircuitState.OPEN:
             if time.time() - self.last_failure_time > self.timeout:
@@ -26,7 +25,7 @@ class CircuitBreaker:
                 logger.info("Circuit breaker entering HALF_OPEN state")
             else:
                 raise Exception("Circuit breaker is OPEN")
-        
+
         try:
             result = func(*args, **kwargs)
             if self.state == CircuitState.HALF_OPEN:
@@ -35,13 +34,13 @@ class CircuitBreaker:
         except Exception as e:
             self.failure_count += 1
             self.last_failure_time = time.time()
-            
+
             if self.failure_count >= self.failure_threshold:
                 self.state = CircuitState.OPEN
                 logger.error(f"Circuit breaker opened after {self.failure_count} failures")
-            
+
             raise e
-    
+
     def reset(self):
         self.failure_count = 0
         self.state = CircuitState.CLOSED

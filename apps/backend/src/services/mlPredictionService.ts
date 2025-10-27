@@ -1,6 +1,8 @@
 import { AbortController } from 'node-abort-controller';
 
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://0.0.0.0:8000';
+const ML_TIMEOUT = parseInt(process.env.ML_TIMEOUT || '10000');
+const ML_RETRIES = parseInt(process.env.ML_RETRIES || '2');
 
 // ==== Interfaces ====
 export interface PredictionRequest {
@@ -20,8 +22,8 @@ export interface PredictionResponse {
 async function safeFetch(
   url: string,
   options: RequestInit,
-  retries = 2,
-  timeout = 10000
+  retries = ML_RETRIES,
+  timeout = ML_TIMEOUT
 ): Promise<any> {
   let lastError: any;
   for (let i = 0; i < retries; i++) {
