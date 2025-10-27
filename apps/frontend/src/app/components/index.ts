@@ -19,6 +19,8 @@ export { Header } from './Header';
 export { GoogleStyleMenu } from './GoogleStyleMenu';
 export { AppDrawer } from './AppDrawer';
 export { DIFY } from './DIFY';
+export { AdvancedAnalytics } from './AdvancedAnalytics';
+export { MagajiCoUnifiedDashboard } from './MagajiCoUnifiedDashboard';
 
 // Loading States
 export { LoadingSkeleton } from "./LoadingSkeleton";
