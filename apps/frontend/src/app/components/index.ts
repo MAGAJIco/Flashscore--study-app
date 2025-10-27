@@ -8,7 +8,7 @@ export { GlobalErrorHandler } from './GlobalErrorHandler';
 
 // Core Layout Components
 export { AppWrapper } from './AppWrapper';
-export { DIYF } from './diyf';
+export { DIYF } from './DIYF';
 export { MobileLayout } from './MobileLayout';
 export { MobileOptimizationWrapper } from './MobileOptimizationWrapper';
 export { HydrationSafeWrapper } from './HydrationSafeWrapper';
