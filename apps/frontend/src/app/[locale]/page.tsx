@@ -1,8 +1,9 @@
+
 "use client";
 
 import React from 'react';
-import InteractiveDocsComponent from '@/app/components/InteractiveDocsComponent';
+import { Welcome } from '@/app/components/Welcome';
 
 export default function HomePage() {
-  return <InteractiveDocsComponent />;
+  return <Welcome />;
 }

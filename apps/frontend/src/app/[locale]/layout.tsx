@@ -11,11 +11,8 @@ import {
   MobileOptimizationWrapper,
   HydrationSafeWrapper,
   GlobalErrorHandler,
-  Header,
-  SidebarNav,
-  MainLayoutWrapper,
 } from '@/app/components';
-import { SidebarProvider } from '@/contexts/SidebarContext';
+
 import { locales } from '@/i18n';
 import type { Metadata, Viewport } from 'next';
 
@@ -128,17 +125,9 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
         <NextIntlClientProvider locale={locale} messages={messages}>
           <MobileOptimizationWrapper>
             <AppWrapper>
-              <SidebarProvider>
-                <SidebarNav />
-                <MainLayoutWrapper>
-                  <Header />
-                  <main className="p-4">
-                    <HydrationSafeWrapper>
-                      {children}
-                    </HydrationSafeWrapper>
-                  </main>
-                </MainLayoutWrapper>
-              </SidebarProvider>
+              <HydrationSafeWrapper>
+                {children}
+              </HydrationSafeWrapper>
             </AppWrapper>
           </MobileOptimizationWrapper>
           <GlobalErrorHandler />
