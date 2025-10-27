@@ -6,6 +6,9 @@ import { useParams } from 'next/navigation';
 import { Shield, Star, Book, Trophy } from 'lucide-react';
 
 export default function KidsModePage() {
+  const params = useParams();
+  const locale = params?.locale || 'en';
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 p-4">
       <div className="max-w-6xl mx-auto">
@@ -61,7 +64,7 @@ export default function KidsModePage() {
 
           <div className="mt-12 text-center">
             <Link
-              href="/en"
+              href={`/${locale}`}
               className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold text-lg hover:shadow-xl transform hover:scale-105 transition-all"
             >
               Return to Main Dashboard
