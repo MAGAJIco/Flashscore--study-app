@@ -11,3 +11,14 @@ export const OptimizedDashboard: React.FC = () => {
     </div>
   );
 };
+'use client';
+
+import React from 'react';
+
+export const OptimizedDashboard: React.FC = () => {
+  return (
+    <div className="optimized-dashboard">
+      <h1>Dashboard</h1>
+    </div>
+  );
+};
