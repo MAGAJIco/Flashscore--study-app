@@ -1,18 +1,18 @@
 
 import { FastifyInstance } from "fastify";
-import { matchRoutes } from "@/routes/matches";
 import * as matchController from "./controllers/matchController";
 import { validateMatchData } from "./middleware/matchValidation";
 
 export async function matchModuleRoutes(fastify: FastifyInstance) {
-  // Legacy route support
-  await fastify.register(matchRoutes);
+  // All routes in modular system
+  fastify.get("/", matchController.getMatches);
+  fastify.get("/live", matchController.getLiveMatches);
+  fastify.get("/upcoming", matchController.getUpcomingMatches);
+  fastify.get("/today", matchController.getTodayMatches);
   
-  // New modular routes
-  fastify.get("/matches", matchController.getMatches);
-  fastify.get("/matches/live", matchController.getLiveMatches);
-  
-  fastify.post("/matches", {
+  fastify.post("/", {
     preHandler: validateMatchData
   }, matchController.createMatch);
+  
+  fastify.get("/:id", matchController.getMatchById);
 }

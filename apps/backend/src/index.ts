@@ -37,36 +37,28 @@ const startServer = async () => {
     // Connect to MongoDB (optional if REQUIRE_DB=false)
     await connectDB();
 
-    // Register core routes
+    // Register core services
     await fastify.register(healthRoutes);
-    await fastify.register(authRoutes, { prefix: "/api/auth" });
-
-    // Register feature modules under /api
+    
+    // Register all feature modules under /api
     await fastify.register(async (instance) => {
-      // Predictions module
+      // Authentication
+      await instance.register(authRoutes, { prefix: "/auth" });
+      
+      // Feature modules
       await instance.register(predictionModuleRoutes, { prefix: "/predictions" });
-      
-      // Matches module
       await instance.register(matchModuleRoutes, { prefix: "/matches" });
-      
-      // News module
       await instance.register(newsModuleRoutes);
-      
-      // Social module
       await instance.register(socialModuleRoutes, { prefix: "/social" });
-      
-      // Rewards module
       await instance.register(rewardsModuleRoutes, { prefix: "/rewards" });
-      
-      // Kids module
       await instance.register(kidsModuleRoutes, { prefix: "/kids" });
+      
+      // Core services
+      await instance.register(foundationRoutes);
+      await instance.register(errorsRoutes);
+      await instance.register(stripeRoutes, { prefix: "/stripe" });
+      await instance.register(paymentsRoutes, { prefix: "/payments" });
     }, { prefix: "/api" });
-
-    // Register foundation & payments
-    await fastify.register(foundationRoutes, { prefix: "/api" });
-    await fastify.register(errorsRoutes, { prefix: "/api" });
-    await fastify.register(stripeRoutes, { prefix: "/api/stripe" });
-    await fastify.register(paymentsRoutes, { prefix: "/api/payments" });
 
     // Global error handler
     fastify.setErrorHandler((error, request, reply) => {
