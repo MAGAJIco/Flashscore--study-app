@@ -1,14 +1,13 @@
-
 "use client";
 import React from 'react';
-import { navItems } from '@config/navItems';
-import { useMobile } from '@hooks/useMobile';
+import { useMobile } from '../hooks/useMobile';
+import { appMenuItems } from '@/lib/navigation/navigation-items';
 
 interface SidebarNavProps {
-  items: typeof navItems;
+  items?: typeof appMenuItems;
 }
 
-const SidebarNav: React.FC<SidebarNavProps> = ({ items }) => {
+const SidebarNav: React.FC<SidebarNavProps> = ({ items = appMenuItems }) => {
   const isMobile = useMobile();
 
   // Hide on mobile and small screens
@@ -21,7 +20,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ items }) => {
           <h2 className="text-lg font-bold text-white mb-2">🏆 Sports Central</h2>
           <div className="w-full h-px bg-gradient-to-r from-cyan-400 to-blue-500"></div>
         </div>
-        
+
         {items.map((item) => (
           <a
             key={item.id}
@@ -36,7 +35,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ items }) => {
             </span>
           </a>
         ))}
-        
+
         <div className="mt-auto pt-4 border-t border-gray-700/50">
           <div className="text-xs text-gray-500 text-center">
             Sports Central v2.0
