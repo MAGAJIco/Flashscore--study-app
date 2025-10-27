@@ -1,18 +1,24 @@
+
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { BackendErrorBoundary } from './middleware';
 import { connectDB } from "@/config/db";
-import { matchRoutes } from "@/routes/matches";
-import { newsRoutes } from "@/routes/news";
-import { predictionsRoutes } from "@/routes/prediction";
+
+// Import feature modules
+import { predictionModuleRoutes } from "@/modules/predictions/routes";
+import { matchModuleRoutes } from "@/modules/matches/routes";
+import { socialModuleRoutes } from "@/modules/social/routes";
+import { rewardsModuleRoutes } from "@/modules/rewards/routes";
+import { kidsModuleRoutes } from "@/modules/kids/routes";
+import { newsModuleRoutes } from "@/modules/news/routes";
+
+// Import core routes
 import { healthRoutes } from "@/routes/health";
 import { authRoutes } from "@/routes/auth";
 import { stripeRoutes } from "@/routes/stripe";
 import { paymentsRoutes } from "@/routes/payment";
 import { foundationRoutes } from "@/routes/foundation";
 import { errorsRoutes } from "@/routes/errors";
-import { newsAuthorsRoutes } from "@/routes/newsAuthors";
-import { authorsRoutes } from "@/routes/authors";
 
 const fastify = Fastify({ logger: true });
 
@@ -35,12 +41,25 @@ const startServer = async () => {
     await fastify.register(healthRoutes);
     await fastify.register(authRoutes, { prefix: "/api/auth" });
 
-    // Register feature modules
+    // Register feature modules under /api
     await fastify.register(async (instance) => {
-      await instance.register(predictionsRoutes, { prefix: "/predictions" });
-      await instance.register(matchRoutes);
-      await instance.register(newsRoutes, { prefix: "/news" });
-      await instance.register(newsAuthorsRoutes, { prefix: "/news-authors" });
+      // Predictions module
+      await instance.register(predictionModuleRoutes, { prefix: "/predictions" });
+      
+      // Matches module
+      await instance.register(matchModuleRoutes, { prefix: "/matches" });
+      
+      // News module
+      await instance.register(newsModuleRoutes);
+      
+      // Social module
+      await instance.register(socialModuleRoutes, { prefix: "/social" });
+      
+      // Rewards module
+      await instance.register(rewardsModuleRoutes, { prefix: "/rewards" });
+      
+      // Kids module
+      await instance.register(kidsModuleRoutes, { prefix: "/kids" });
     }, { prefix: "/api" });
 
     // Register foundation & payments
@@ -49,26 +68,28 @@ const startServer = async () => {
     await fastify.register(stripeRoutes, { prefix: "/api/stripe" });
     await fastify.register(paymentsRoutes, { prefix: "/api/payments" });
 
-    // Global error handler - keeps MagajiCo running even on errors
+    // Global error handler
     fastify.setErrorHandler((error, request, reply) => {
       BackendErrorBoundary.handle(error, request, reply);
     });
 
     const PORT = Number(process.env.PORT) || 3001;
     await fastify.listen({ port: PORT, host: "0.0.0.0" });
-    fastify.log.info(`✅ Backend running at http://0.0.0.0:${PORT}`);
-    fastify.log.info(`📍 Core Routes Connected:`);
-    fastify.log.info(`   ✓ Health & Monitoring: /health, /health/metrics`);
-    fastify.log.info(`   ✓ Predictions: /api/predictions/* (ML-powered)`);
-    fastify.log.info(`   ✓ Matches: /api/matches/* (MongoDB)`);
-    fastify.log.info(`   ✓ News: /api/news/* (MongoDB)`);
-    fastify.log.info(`   ✓ Authors: /api/news-authors/* (Service Layer)`);
-    fastify.log.info(`   ✓ Foundation: /api/foundation/:userId (MongoDB)`);
-    fastify.log.info(`   ✓ Errors: /api/errors/* (MongoDB)`);
-    fastify.log.info(`   ✓ Authentication: /api/auth/* (JWT)`);
-    fastify.log.info(`   ✓ Stripe Payments: /api/stripe/* (Stripe)`);
-    fastify.log.info(`   ✓ Payments: /api/payments/* (General)`);
-    fastify.log.info(`📊 Models: Match, News, NewsAuthor, Prediction, User, Foundation, ErrorLog, Payment`);
+    
+    fastify.log.info(`✅ MagajiCo Backend running at http://0.0.0.0:${PORT}`);
+    fastify.log.info(`📦 Feature Modules Loaded:`);
+    fastify.log.info(`   ✓ Predictions Module: /api/predictions/*`);
+    fastify.log.info(`   ✓ Matches Module: /api/matches/*`);
+    fastify.log.info(`   ✓ News Module: /api/news/*, /api/news-authors/*`);
+    fastify.log.info(`   ✓ Social Module: /api/social/*`);
+    fastify.log.info(`   ✓ Rewards Module: /api/rewards/*`);
+    fastify.log.info(`   ✓ Kids Module: /api/kids/*`);
+    fastify.log.info(`📍 Core Services:`);
+    fastify.log.info(`   ✓ Health Monitoring: /health, /health/metrics`);
+    fastify.log.info(`   ✓ Authentication: /api/auth/*`);
+    fastify.log.info(`   ✓ Payments: /api/stripe/*, /api/payments/*`);
+    fastify.log.info(`   ✓ Foundation: /api/foundation/*`);
+    fastify.log.info(`   ✓ Error Logs: /api/errors/*`);
   } catch (err: unknown) {
     if (err instanceof Error) fastify.log.error(`❌ Server error: ${err.message}`);
     else fastify.log.error(`❌ Server error: ${err}`);

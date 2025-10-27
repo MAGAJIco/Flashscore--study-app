@@ -2,22 +2,45 @@
 import { Match } from "@/models";
 
 export const matchService = {
-  async getAllMatches() {
-    return await Match.find().sort({ date: -1 });
+  async getAllMatches(limit: number = 20, status?: string, competition?: string) {
+    const query: any = {};
+    if (status) query.status = status;
+    if (competition) query.competition = new RegExp(competition, 'i');
+
+    return await Match.find(query)
+      .sort({ date: -1 })
+      .limit(limit)
+      .populate('predictions');
   },
 
   async createMatch(data: any) {
-    const match = new Match(data);
+    const match = new Match({
+      ...data,
+      scrapedAt: new Date()
+    });
     await match.save();
     return match;
   },
 
   async getMatchById(id: string) {
-    return await Match.findById(id);
+    return await Match.findById(id).populate('predictions');
   },
 
   async getLiveMatches() {
-    return await Match.find({ status: "live" }).sort({ date: -1 });
+    return await Match.find({ 
+      status: { $in: ["live", "in_progress", "1H", "2H"] } 
+    })
+      .sort({ date: -1 })
+      .limit(50);
+  },
+
+  async getUpcomingMatches(limit: number = 10) {
+    return await Match.find({
+      date: { $gte: new Date() },
+      status: { $in: ["scheduled", "live"] }
+    })
+      .sort({ date: 1 })
+      .limit(limit);
   },
 
   async updateMatch(id: string, data: any) {
