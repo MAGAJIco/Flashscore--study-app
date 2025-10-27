@@ -12,6 +12,7 @@ import {
   MobileOptimizationWrapper,
   HydrationSafeWrapper,
   GlobalErrorHandler,
+  Header,
 } from '@/app/components';
 import { locales } from '@/i18n';
 import type { Metadata, Viewport } from 'next';
@@ -126,6 +127,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
           <MobileOptimizationWrapper>
             <MobileLayout>
               <AppWrapper>
+                <Header />
                 <HydrationSafeWrapper>
                   {children}
                 </HydrationSafeWrapper>

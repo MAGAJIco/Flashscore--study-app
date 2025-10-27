@@ -2,7 +2,6 @@
 "use client";
 import React from "react";
 import { usePathname } from 'next/navigation';
-import { DIYF } from '@/app/components/DIYF';
 
 // Simplified Error Boundary
 class ResilientErrorBoundary extends React.Component<
@@ -45,9 +44,7 @@ class ResilientErrorBoundary extends React.Component<
 export function AppWrapper({ children }: { children: React.ReactNode }) {
   return (
     <ResilientErrorBoundary>
-      <DIYF>
-        {children}
-      </DIYF>
+      {children}
     </ResilientErrorBoundary>
   );
 }
