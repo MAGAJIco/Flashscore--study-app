@@ -20,7 +20,7 @@ export { Header } from './Header';
 export { SidebarNav } from './SidebarNav';
 // export { GoogleStyleMenu } from './GoogleStyleMenu'; // Removed
 // export { AppDrawer } from './AppDrawer'; // Removed
-export { DIFY } from './DIFY';
+
 export { MobileLayout } from './MobileLayout';
 export { OptimizedDashboard } from './OptimizedDashboard';
 export { AdvancedAnalytics } from './AdvancedAnalytics';
