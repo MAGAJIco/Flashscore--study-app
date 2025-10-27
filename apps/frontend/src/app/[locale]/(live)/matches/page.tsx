@@ -95,3 +95,15 @@ export default function MatchesPage() {
     </SwipeNavigationWrapper>
   );
 }
+"use client";
+
+import React from 'react';
+import { LiveMatchTracker } from '../components/LiveMatchTracker';
+
+export default function LiveMatchesPage() {
+  return (
+    <div className="live-matches-page">
+      <LiveMatchTracker />
+    </div>
+  );
+}
