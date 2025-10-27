@@ -1,106 +1,64 @@
-// Error Monitoring & Boundaries
-// export { ErrorMonitor } from './ErrorMonitor'; // Moved to recyclebin
-// export { ProductionErrorBoundary as ErrorBoundary } from './ErrorBoundary/ErrorBoundaryWithPerformance'; // Moved to recyclebin
-export { BackendHealthMonitor } from "./BackendHealthMonitor";
-export { BackendStatusIndicator } from "./BackendStatusIndicator";
-export { EnhancedErrorBoundary } from "./EnhancedErrorBoundary";
-export { GlobalErrorHandler } from "./GlobalErrorHandler";
-
 // Core Layout Components
-export { AppWrapper } from "./AppWrapper";
-// export { MobileLayout } from './MobileLayout'; // Removed
-export { MobileOptimizationWrapper } from "./MobileOptimizationWrapper";
-export { HydrationSafeWrapper } from "./HydrationSafeWrapper";
-export { MainLayoutWrapper } from "./MainLayoutWrapper";
-
-// Navigation
-export { BottomNavigation } from "./BottomNavigation";
-export { NavBar } from "./NavBar";
 export { Header } from './Header';
 export { SidebarNav } from './SidebarNav';
-// export { GoogleStyleMenu } from './GoogleStyleMenu'; // Removed
-// export { AppDrawer } from './AppDrawer'; // Removed
+export { MainLayoutWrapper } from './MainLayoutWrapper';
+export { BottomNavigation } from './BottomNavigation';
+export { AppWrapper } from './AppWrapper';
+export { MobileOptimizationWrapper } from './MobileOptimizationWrapper';
 
-export { MobileLayout } from './MobileLayout';
-export { OptimizedDashboard } from './OptimizedDashboard';
+// Error Handling & Loading
+export { GlobalErrorHandler } from './GlobalErrorHandler';
+export { EnhancedErrorBoundary } from './EnhancedErrorBoundary';
+export { LoadingSpinner } from './LoadingSpinner';
+export { LoadingSkeleton } from './LoadingSkeleton';
+export { HydrationSafeWrapper } from './HydrationSafeWrapper';
+
+// Feature Components - Predictions
+export { PredictionCard } from './PredictionCard';
+export { MLPredictionInterface } from './MLPredictionInterface';
+export { MLModelDashboard } from './MLModelDashboard';
+export { ConfidenceSlider } from './ConfidenceSlider';
+
+// Feature Components - Live Tracking
+export { LiveMatchTracker } from './LiveMatchTracker';
+export { LiveScoreCard } from './LiveScoreCard';
+export { EnhancedLiveTracker } from './EnhancedLiveTracker';
+
+// Feature Components - News
+export { LatestNews } from './LatestNews';
+export { AuthorCard } from './AuthorCard';
+export { AuthorNewsDisplay } from './AuthorNewsDisplay';
+
+// Feature Components - Social
+export { SocialFeed } from './SocialFeed';
+export { ChallengeSystem } from './ChallengeSystem';
+export { Forum } from './Forum';
+export { Leaderboard } from './Leaderboard';
+
+// Feature Components - Rewards
+export { AchievementSystem } from './AchievementSystem';
+export { RewardsDashboard } from './RewardsDashboard';
+export { ProgressTracker } from './ProgressTracker';
+
+// Kids Mode
+export { KidsModeDashboard } from './KidsModeDashboard';
+export { AgeRestrictionGuard } from './AgeRestrictionGuard';
+
+// Analytics & Monitoring
 export { AdvancedAnalytics } from './AdvancedAnalytics';
-export { MagajiCoUnifiedDashboard } from './MagajiCoUnifiedDashboard';
-export { MagajiCoAppLauncher } from './MagajiCoAppLauncher';
-export { MagajiCoCommandCenter } from './MagajiCoCommandCenter';
+export { BackendHealthMonitor } from './BackendHealthMonitor';
+export { PerformanceMonitor } from './PerformanceMonitor';
 
-// Loading States
-export { LoadingSkeleton } from "./LoadingSkeleton";
-export { LoadingSpinner } from "./LoadingSpinner";
-export { SmartLoadingState } from "./SmartLoadingState";
-
-// Live Features
-export { LiveMatchTracker } from "./LiveMatchTracker";
-export { LiveOddsUpdater } from "./LiveOddsUpdater";
-export { EnhancedLiveTracker } from "./EnhancedLiveTracker";
-
-// Prediction Features
-export { MLPredictionInterface } from "./MLPredictionInterface";
-export { PredictionInterface } from "./PredictionInterface";
-export { ConfidenceSlider } from "./ConfidenceSlider";
-export { PredictionHub } from "./PredictionHub";
-export { PredictionPreview } from "./PredictionPreview";
-export { ConfidenceCalibration } from "./ConfidenceCalibration";
-
-// News & Social
-export { SmartNewsFeed } from "./SmartNewsFeed";
-export { ConnectedNewsFeed } from "./ConnectedNewsFeed";
-export { default as InteractiveDocsComponent } from "./InteractiveDocsComponent";
-
-// Documentation Components
-export {
-  GoogleStyleNav,
-  DocsAppDrawer,
-  DocsCarousel,
-  DocsCarouselCard,
-  DocsArchitecture,
-  DocsOverview,
-  DocsHeader,
-  DocsFooter,
-} from './docs';
-
-// User Interaction
-export { PullToRefreshWrapper } from "./PullToRefreshWrapper";
-export { EnhancedMicroInteractions } from "./EnhancedMicroInteractions";
-export { HapticManager, haptic, useHapticFeedback } from "./HapticFeedback";
-
-// PWA
-export { InstallPrompt } from "./InstallPrompt";
-export { PWAServiceWorker } from "./PWAServiceWorker";
-
-// Additional Components
-export { AuthorCard } from "./AuthorCard";
-export { AuthorNewsDisplay } from "./AuthorNewsDisplay";
-export { AuthorsLeaderboard } from "./AuthorsLeaderboard";
-export { AuthorsSidebar } from "./AuthorsSidebar";
-export { Breadcrumbs } from "./Breadcrumbs";
-export { DateSelector } from "./DateSelector";
-export { LatestNews } from "./LatestNews";
-export { LiveScoreCard } from "./LiveScoreCard";
-export { LoginModal } from "./LoginModal";
-export { ThemeToggle } from "./ThemeToggle";
-export { Welcome } from "./Welcome";
-export { LanguageSwitcher } from "./LanguageSwitcher";
-
-// Alerts & Notifications
-export { FloatingAlert, triggerFloatingAlert } from "./FloatingAlert";
-
-// Payment & Security
-export { SecurePaymentHandler } from "./SecurePaymentHandler";
+// UI Components
+export { LanguageSwitcher } from './LanguageSwitcher';
+export { ThemeToggle } from './ThemeToggle';
+export { SearchBar } from './SearchBar';
+export { NotificationCenter } from './NotificationCenter';
 
 // Platform Features
-export { PlatformShowcase } from "./PlatformShowcase";
+export { MobileInstallPrompter } from './MobileInstallPrompter';
+export { PWAInstaller } from './PWAInstaller';
+export { OfflineIndicator } from './OfflineIndicator';
 
-// iOS Components
-export { IOSInterface } from "./iOSInterface";
-export { IOSStyleFeatures } from "./IOSStyleFeatures";
-
-// Achievements
-export { AchievementSystem } from "./AchievementSystem";
-
-// Type exports
-export type { Achievement } from "./AchievementCelebration";
+// Documentation
+export * from './docs';
