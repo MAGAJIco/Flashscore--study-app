@@ -1,34 +1,81 @@
-'use client';
+"use client";
 
 import React from 'react';
-import { KidsModeDashboard } from '@/app/components/KidsModeDashboard';
-import { useKidsModeContext } from '../../context/KidsModeContext';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { Shield, Star, Book, Trophy } from 'lucide-react';
 
 export default function KidsModePage() {
-  const { kidsMode, setKidsMode } = useKidsModeContext();
-
   return (
-    <div className="min-h-screen">
-      {kidsMode ? (
-        <KidsModeDashboard />
-      ) : (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center p-6">
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 max-w-md text-center border border-white/20">
-            <div className="text-6xl mb-4">🛡️</div>
-            <h1 className="text-3xl font-bold text-white mb-4">Kids Mode Required</h1>
-            <p className="text-white/80 mb-6">
-              This page is designed for young sports fans. Enable Kids Mode to access safe, educational content!
+    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 p-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8">
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <Shield className="w-12 h-12 text-purple-600" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Kids Mode
+            </h1>
+            <Shield className="w-12 h-12 text-purple-600" />
+          </div>
+
+          <div className="text-center mb-12">
+            <p className="text-xl text-gray-700 mb-4">
+              A safe and fun way for kids to learn about sports!
             </p>
-            <button
-              onClick={() => setKidsMode(true)}
-              className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
+            <p className="text-gray-600">
+              Age-appropriate content with parental controls
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-4">
+                <Book className="w-8 h-8 text-purple-600" />
+                <h3 className="text-xl font-bold text-purple-900">Learn Sports</h3>
+              </div>
+              <p className="text-purple-800">
+                Discover fun facts and rules about different sports in a kid-friendly way!
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-pink-100 to-pink-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-4">
+                <Star className="w-8 h-8 text-pink-600" />
+                <h3 className="text-xl font-bold text-pink-900">Fun Quizzes</h3>
+              </div>
+              <p className="text-pink-800">
+                Test your sports knowledge with interactive quizzes and games!
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-4">
+                <Trophy className="w-8 h-8 text-blue-600" />
+                <h3 className="text-xl font-bold text-blue-900">Earn Badges</h3>
+              </div>
+              <p className="text-blue-800">
+                Complete challenges and earn special badges for your achievements!
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/en"
+              className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold text-lg hover:shadow-xl transform hover:scale-105 transition-all"
             >
-              Enable Kids Mode 🌈
-            </button>
+              Return to Main Dashboard
+            </Link>
           </div>
         </div>
-      )}
+
+        <div className="bg-white/90 rounded-2xl p-6 text-center">
+          <p className="text-gray-600">
+            <Shield className="w-5 h-5 inline-block mr-2" />
+            Parents: This mode provides age-appropriate content and parental controls.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
-

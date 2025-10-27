@@ -11,6 +11,7 @@ export { AppWrapper } from "./AppWrapper";
 // export { MobileLayout } from './MobileLayout'; // Removed
 export { MobileOptimizationWrapper } from "./MobileOptimizationWrapper";
 export { HydrationSafeWrapper } from "./HydrationSafeWrapper";
+export { MainLayoutWrapper } from "./MainLayoutWrapper";
 
 // Navigation
 export { BottomNavigation } from "./BottomNavigation";

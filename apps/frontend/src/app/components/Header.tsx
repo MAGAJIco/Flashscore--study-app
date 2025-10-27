@@ -52,7 +52,7 @@ export function Header({
         <div className="flex justify-between items-center flex-wrap gap-4">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-white via-cyan-400 to-blue-500 bg-clip-text text-transparent animate-fade-scale">
+              <h1 className="text-xl md:text-2xl font-extrabold bg-gradient-to-r from-white via-cyan-400 to-blue-500 bg-clip-text text-transparent animate-fade-scale">
                 🏆 SPORTS CENTRAL
               </h1>
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg blur opacity-20 animate-pulse-glow"></div>
