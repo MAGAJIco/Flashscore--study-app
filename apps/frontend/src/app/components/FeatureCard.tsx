@@ -1,5 +1,5 @@
 
-'use client';
+"use client";
 
 import React from 'react';
 
@@ -7,25 +7,31 @@ interface FeatureCardProps {
   icon: string;
   title: string;
   description: string;
-  gradient?: string;
-  children?: React.ReactNode;
+  items: string[];
+  onClick?: () => void;
 }
 
-export function FeatureCard({
-  icon,
-  title,
-  description,
-  gradient = 'from-gray-50 to-gray-100',
-  children,
-}: FeatureCardProps) {
+export function FeatureCard({ icon, title, description, items, onClick }: FeatureCardProps) {
   return (
-    <div
-      className={`bg-gradient-to-br ${gradient} rounded-xl p-6 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-transparent hover:border-violet-600`}
+    <div 
+      onClick={onClick}
+      className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer"
     >
-      <div className="text-4xl mb-4">{icon}</div>
-      <h3 className="text-xl font-bold text-gray-800 mb-3">{title}</h3>
-      <p className="text-gray-600 leading-relaxed mb-4">{description}</p>
-      {children}
+      <h3 className="text-2xl font-bold text-indigo-600 mb-3 flex items-center gap-2">
+        <span className="text-3xl">{icon}</span>
+        {title}
+      </h3>
+      <p className="text-sm text-gray-600 mb-4">{description}</p>
+      <ul className="space-y-2">
+        {items.map((item, i) => (
+          <li 
+            key={i}
+            className="text-sm text-gray-700 py-2 border-b border-gray-300 last:border-0 transition-all hover:pl-2 hover:text-indigo-600"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
