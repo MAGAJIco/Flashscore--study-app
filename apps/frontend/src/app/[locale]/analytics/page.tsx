@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import DIYF from "@/app/components/DIYF"; // adjust import path if needed
+import DIYF from "@/app/components/diyf"; // adjust import path if needed
 import { AdvancedAnalytics } from "@/app/components/AdvancedAnalytics";
 import { OptimizedDashboard } from "@/app/components/OptimizedDashboard";
 
