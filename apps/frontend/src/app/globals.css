@@ -1,10 +1,23 @@
+FILE: app/globals.css
+// PATH: apps/frontend/src/app/globals.css
+// ============================================
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbar Hide */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-@keyframes slideUp {
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth Animations */
+@keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -15,11 +28,44 @@
   }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.2s ease-out;
+.animate-fade-in {
+  animation: fadeIn 0.8s ease forwards;
 }
 
-.animate-slideUp {
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* Custom Gradient Background */
+.gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+// ============================================
+// FILE: app/(portal)/layout.tsx
+// PATH: apps/frontend/src/app/(portal)/layout.tsx
+// ============================================
+
+export default function PortalLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="portal-layout">
+      {children}
+    </div>
+  );
+}
+
+export const metadata = {
+  title: 'Sports Central - Portal',
+  description: 'Feature-Based Architecture Documentation',
+};
