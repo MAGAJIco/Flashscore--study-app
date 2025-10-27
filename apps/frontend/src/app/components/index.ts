@@ -8,7 +8,7 @@ export { GlobalErrorHandler } from "./GlobalErrorHandler";
 
 // Core Layout Components
 export { AppWrapper } from "./AppWrapper";
-export { MobileLayout } from "./MobileLayout";
+// export { MobileLayout } from './MobileLayout'; // Removed
 export { MobileOptimizationWrapper } from "./MobileOptimizationWrapper";
 export { HydrationSafeWrapper } from "./HydrationSafeWrapper";
 
@@ -16,8 +16,8 @@ export { HydrationSafeWrapper } from "./HydrationSafeWrapper";
 export { BottomNavigation } from "./BottomNavigation";
 export { NavBar } from "./NavBar";
 export { Header } from './Header';
-export { GoogleStyleMenu } from './GoogleStyleMenu';
-export { AppDrawer } from './AppDrawer';
+// export { GoogleStyleMenu } from './GoogleStyleMenu'; // Removed
+// export { AppDrawer } from './AppDrawer'; // Removed
 export { DIFY } from './DIFY';
 export { AdvancedAnalytics } from './AdvancedAnalytics';
 export { MagajiCoUnifiedDashboard } from './MagajiCoUnifiedDashboard';
