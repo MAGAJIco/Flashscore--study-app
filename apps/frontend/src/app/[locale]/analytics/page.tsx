@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import DIYF from "@/app/components/diyf"; // adjust import path if needed
+import { DIFY } from '@/app/components/DIFY'; // adjust import path if needed
 import { AdvancedAnalytics } from "@/app/components/AdvancedAnalytics";
 import { OptimizedDashboard } from "@/app/components/OptimizedDashboard";
 
 export default function PersonalAnalyticsPage() {
   return (
-    <DIYF>
+    <DIFY title="Analytics Dashboard">
       <div
         style={{
           minHeight: "100vh",
@@ -53,6 +53,6 @@ export default function PersonalAnalyticsPage() {
           <OptimizedDashboard />
         </div>
       </div>
-    </DIYF>
+    </DIFY>
   );
 }
