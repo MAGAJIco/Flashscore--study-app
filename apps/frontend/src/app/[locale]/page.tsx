@@ -6,7 +6,6 @@ import { DIYF } from '@/app/components/diyf';
 import { FlashScoreMatchTracker } from '@/app/components/FlashScoreMatchTracker';
 import { UnifiedSportsHub } from '@/app/components/UnifiedSportsHub';
 import { PortalWidgetSystem } from '@/app/components/PortalWidgetSystem';
-import { PortalCommandCenter } from '@/app/components/PortalCommandCenter';
 import { HorizontalCarousel } from '@/app/components/HorizontalCarousel';
 
 export default function HomePage() {
@@ -22,18 +21,17 @@ export default function HomePage() {
           <p className="text-lg md:text-xl text-[var(--text-secondary)]">
             {t("tagline")}
           </p>
+        </section>
+
+        {/* Horizontal Carousel - Interactive Cards */}
+        <div className="max-w-7xl mx-auto mb-8">
+          <HorizontalCarousel />
         </div>
-      </div>
 
-      {/* Horizontal Carousel - Interactive Cards */}
-      <div className="max-w-7xl mx-auto mb-8">
-        <HorizontalCarousel />
-      </div>
-
-      {/* Portal Widget System */}
-      <div className="max-w-7xl mx-auto px-4 mb-8">
-        <PortalWidgetSystem />
-      </div>
+        {/* Portal Widget System */}
+        <div className="max-w-7xl mx-auto px-4 mb-8">
+          <PortalWidgetSystem />
+        </div>
 
         <FlashScoreMatchTracker />
         <UnifiedSportsHub initialTab="overview" showPortalView />
