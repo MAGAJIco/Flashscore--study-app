@@ -7,8 +7,9 @@ import { AppDrawer } from '@/app/components/layout/AppDrawer';
 import { FoundationFeature } from "./features/foundation/FoundationFeature";
 import { LeaderboardFeature } from "./features/leaderboard/LeaderboardFeature";
 import { AchievementsFeature } from "./features/achievements/AchievementsFeature";
+import { DocsFeature } from "./features/docs/DocsFeature";
 
-type TabType = 'foundation' | 'leaderboard' | 'achievements';
+type TabType = 'foundation' | 'leaderboard' | 'achievements' | 'docs';
 
 export default function EmpirePage() {
   const [userId] = useState(() => {
@@ -57,6 +58,7 @@ export default function EmpirePage() {
     { id: 'foundation' as TabType, label: 'Foundation', icon: '🏗️' },
     { id: 'leaderboard' as TabType, label: 'Leaderboard', icon: '🏆' },
     { id: 'achievements' as TabType, label: 'Achievements', icon: '⭐' },
+    { id: 'docs' as TabType, label: 'Documentation', icon: '📚' },
   ];
 
   // Load foundation progress from backend
@@ -450,6 +452,10 @@ export default function EmpirePage() {
 
           {activeTab === 'leaderboard' && (
             <LeaderboardFeature />
+          )}
+
+          {activeTab === 'docs' && (
+            <DocsFeature />
           )}
         </div>
 

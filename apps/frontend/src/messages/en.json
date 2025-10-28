@@ -100,7 +100,11 @@
     "viewGrowth": "View Growth",
     "foundation": "Foundation",
     "growth": "Growth",
-    "rooftop": "Rooftop"
+    "rooftop": "Rooftop",
+    "documentation": "Documentation",
+    "architecture": "Architecture",
+    "overview": "Overview",
+    "features": "Features"
   },
   "settings": {
     "language": "Language",
