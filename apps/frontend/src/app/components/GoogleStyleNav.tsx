@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Search } from 'lucide-react';
 
 interface NavApp {
   id: string;
@@ -45,7 +46,7 @@ export function GoogleStyleNav({ apps = [] }: GoogleStyleNavProps) {
             {/* Right side */}
             <div className="flex items-center gap-2">
               <button className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors text-white">
-                🔍
+                <Search className="w-5 h-5" />
               </button>
               <button className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors text-white">
                 ❓
