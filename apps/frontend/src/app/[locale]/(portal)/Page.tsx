@@ -19,13 +19,31 @@ export default function PortalPage() {
       
       <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
         {/* Header */}
-        <header className="text-center py-12 animate-fade-in">
+        <header className="text-center py-12 animate-fade-in relative">
           <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
             🏗️ Sports Central
           </h1>
           <p className="text-xl text-white/90">
             Feature-Based Architecture Documentation
           </p>
+          
+          {/* Settings Icons */}
+          <div className="absolute top-4 right-4 flex gap-3">
+            <a
+              href="/settings"
+              className="bg-white/10 backdrop-blur-md p-3 rounded-full hover:bg-white/20 transition-all duration-300 shadow-lg"
+              title="User Settings"
+            >
+              <span className="text-2xl">⚙️</span>
+            </a>
+            <a
+              href="/management"
+              className="bg-white/10 backdrop-blur-md p-3 rounded-full hover:bg-white/20 transition-all duration-300 shadow-lg"
+              title="Management Dashboard"
+            >
+              <span className="text-2xl">🎛️</span>
+            </a>
+          </div>
         </header>
 
         {/* Live Matches Carousel */}

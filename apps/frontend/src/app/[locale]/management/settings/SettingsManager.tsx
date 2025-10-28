@@ -60,13 +60,27 @@ export default function SettingsManager() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">System Settings</h1>
-        <button 
-          onClick={handleSave}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        >
-          Save Changes
-        </button>
+        <div>
+          <h1 className="text-3xl font-bold text-white">System Settings</h1>
+          <p className="text-gray-400 text-sm mt-1">
+            Configure global system preferences
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <a
+            href="/settings"
+            className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center gap-2"
+          >
+            <span>👤</span>
+            <span>User Settings</span>
+          </a>
+          <button 
+            onClick={handleSave}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
+            Save Changes
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
