@@ -1,6 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Breadcrumbs } from '@/app/components/Breadcrumbs';
+import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
+import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
+import { AppDrawer } from '@/app/components/layout/AppDrawer';
 import { FoundationFeature } from "./features/foundation/FoundationFeature";
 import { LeaderboardFeature } from "./features/leaderboard/LeaderboardFeature";
 import { AchievementsFeature } from "./features/achievements/AchievementsFeature";
@@ -22,6 +25,7 @@ export default function EmpirePage() {
 
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('foundation');
+  const [appDrawerOpen, setAppDrawerOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [phases, setPhases] = useState<any[]>([]);
@@ -386,6 +390,26 @@ export default function EmpirePage() {
         </div>
       </div>
 
+      {/* App Drawer Toggle */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setAppDrawerOpen(true)}
+          className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-white font-semibold transition-all"
+        >
+          🏗️ Apps
+        </button>
+      </div>
+
+      {/* Live Matches Carousel */}
+      <div className="mb-6">
+        <LiveCarousel />
+      </div>
+
+      {/* Latest News Carousel */}
+      <div className="mb-6">
+        <NewsCarousel />
+      </div>
+
       {/* Tab Navigation */}
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         {tabs.map(tab => (
@@ -403,6 +427,9 @@ export default function EmpirePage() {
           </button>
         ))}
       </div>
+
+      {/* App Drawer */}
+      <AppDrawer isOpen={appDrawerOpen} onClose={() => setAppDrawerOpen(false)} />
 
       {/* Feature Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
