@@ -12,7 +12,7 @@ import { DataFlow } from '@/app/components/sections/DataFlow';
 import { ImplementationStatus } from '@/app/components/sections/ImplementationStatus';
 import { NextSteps } from '@/app/components/sections/NextSteps';
 
-export default function PortalPage() {
+export default function EmpireHubPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
       <GoogleNavBar />
@@ -21,10 +21,10 @@ export default function PortalPage() {
         {/* Header */}
         <header className="text-center py-12 animate-fade-in relative">
           <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            🏗️ Sports Central
+            👑 Empire Hub
           </h1>
           <p className="text-xl text-white/90">
-            Feature-Based Architecture Documentation
+            Your Command Center for Sports Prediction Empire
           </p>
           
           {/* Settings Icons */}
@@ -72,7 +72,7 @@ export default function PortalPage() {
 
         {/* Footer */}
         <footer className="text-center text-white/90 py-8 text-sm">
-          <p className="font-semibold">Sports Central Architecture v2.0.0</p>
+          <p className="font-semibold">MagajiCo Empire Hub v2.0.0</p>
           <p>Last Updated: January 2025</p>
         </footer>
       </div>
