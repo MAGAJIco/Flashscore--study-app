@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from 'react';
-import { CarouselCard } from '@/app/components/cards/CarouselCard';
+import { CarouselCard } from '../cards/CarouselCard';
 import { ScrollButton } from '@/components/ui/ScrollButton';
 import { NEWS_ITEMS } from '@/lib/constant/mockData';
 

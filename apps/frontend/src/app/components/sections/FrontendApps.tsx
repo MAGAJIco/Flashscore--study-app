@@ -1,6 +1,6 @@
 "use client";
 
-import { FeatureCard } from '@/app/components/cards/FeatureCard';
+import { FeatureCard } from '../cards/FeatureCard';
 import { FEATURE_APPS } from '@/lib/constant/features';
 
 export function FrontendApps() {

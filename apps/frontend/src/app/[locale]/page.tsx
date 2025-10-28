@@ -2,15 +2,15 @@
 "use client";
 
 import React from 'react';
-import { GoogleNavBar } from '@/app/components/layout/GoogleNavBar';
-import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
-import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
-import { ArchitectureOverview } from '@/app/components/sections/ArchitectureOverview';
-import { FrontendApps } from '@/app/components/sections/FrontendApps';
-import { KeyBenefits } from '@/app/components/sections/KeyBenefits';
-import { DataFlow } from '@/app/components/sections/DataFlow';
-import { ImplementationStatus } from '@/app/components/sections/ImplementationStatus';
-import { NextSteps } from '@/app/components/sections/NextSteps';
+import { GoogleNavBar } from '../components/layout/GoogleNavBar';
+import { LiveCarousel } from '../components/carousels/LiveCarousel';
+import { NewsCarousel } from '../components/carousels/NewsCarousel';
+import { ArchitectureOverview } from '../components/sections/ArchitectureOverview';
+import { FrontendApps } from '../components/sections/FrontendApps';
+import { KeyBenefits } from '../components/sections/KeyBenefits';
+import { DataFlow } from '../components/sections/DataFlow';
+import { ImplementationStatus } from '../components/sections/ImplementationStatus';
+import { NextSteps } from '../components/sections/NextSteps';
 
 export default function HomePage() {
   return (
