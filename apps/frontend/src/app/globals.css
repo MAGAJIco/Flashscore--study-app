@@ -50,3 +50,60 @@
   display: flex;
   flex-direction: column;
 }
+
+/* iOS Dark Theme Styles */
+.dark .empire-layout {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark .glass-card {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .ios-card {
+  background: rgba(30, 30, 46, 0.8);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .ios-button {
+  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
+}
+
+.dark .ios-button:hover {
+  box-shadow: 0 12px 32px rgba(0, 212, 255, 0.4);
+}
+
+/* iOS Pull to Refresh Animation */
+@keyframes ios-refresh {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.ios-refresh-icon {
+  animation: ios-refresh 1s linear infinite;
+}
+
+/* iOS Haptic Feedback */
+.ios-haptic-light {
+  transition: transform 0.1s ease;
+}
+
+.ios-haptic-light:active {
+  transform: scale(0.97);
+}
+
+.ios-haptic-medium:active {
+  transform: scale(0.95);
+}
+
+.ios-haptic-heavy:active {
+  transform: scale(0.93);
+}

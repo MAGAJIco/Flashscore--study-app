@@ -47,6 +47,12 @@ describe('Empire Architecture Components', () => {
     expect(NextSteps).toBeDefined();
   });
 
+  test('iOS features component should be importable', async () => {
+    const { IOSStyleFeatures } = await import('@/app/components/IOSStyleFeatures');
+    
+    expect(IOSStyleFeatures).toBeDefined();
+  });
+
   test('UI components should be importable', async () => {
     const { StatusBadge } = await import('@/components/ui/StatusBadge');
     const { ScrollButton } = await import('@/components/ui/ScrollButton');
@@ -57,8 +63,12 @@ describe('Empire Architecture Components', () => {
 
   test('Custom hooks should be importable', async () => {
     const { useCarousel } = await import('@/app/hooks/useCarousel');
+    const { useTheme } = await import('@/app/hooks/useTheme');
+    const { useEmpireVisibility } = await import('@/app/hooks');
     
     expect(useCarousel).toBeDefined();
+    expect(useTheme).toBeDefined();
+    expect(useEmpireVisibility).toBeDefined();
   });
 
   test('Constants should be importable', async () => {
@@ -96,5 +106,20 @@ describe('Empire Feature Components', () => {
     const { default: AchievementsFeature } = await import('@/app/[locale]/(empire)/features/achievements/AchievementsFeature');
     
     expect(AchievementsFeature).toBeDefined();
+  });
+});
+
+describe('Theme and iOS Features', () => {
+  test('Theme manager should be importable', async () => {
+    const { ThemeProvider, useThemeManager } = await import('@/app/themes/ThemeManager');
+    
+    expect(ThemeProvider).toBeDefined();
+    expect(useThemeManager).toBeDefined();
+  });
+
+  test('iOS interface should be importable', async () => {
+    const { IOSInterface } = await import('@/app/components/iOSInterface');
+    
+    expect(IOSInterface).toBeDefined();
   });
 });

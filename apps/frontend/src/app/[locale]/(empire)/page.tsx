@@ -4,13 +4,14 @@ import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
 import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
 import { GoogleStyleNav } from '@/app/components/GoogleStyleNav';
 import { AppDrawer } from '@/app/components/layout/AppDrawer';
+import { IOSStyleFeatures } from '@/app/components/IOSStyleFeatures';
 import FoundationFeature from "./features/foundation/FoundationFeature";
 import LeaderboardFeature from "./features/leaderboard/LeaderboardFeature";
 import AchievementsFeature from "./features/achievements/AchievementsFeature";
 import { useEmpireVisibility } from '@/app/hooks';
 import Link from 'next/link';
 
-type TabType = 'foundation' | 'leaderboard' | 'achievements';
+type TabType = 'foundation' | 'leaderboard' | 'achievements' | 'analytics' | 'community';
 
 const navigationApps = [
   { id: 'portal', name: 'Portal', icon: '🏠', route: '/en/MagajiCoFoundation' },
@@ -145,15 +146,7 @@ export default function EmpirePage() {
 
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('foundation');
-  const [appDrawerOpen, setAppDrawerOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [phases, setPhases] = useState<any[]>([]);
-  const [totalPower, setTotalPower] = useState(0);
-  const [currentPhase, setCurrentPhase] = useState<string | null>(null);
-  const [isBuilding, setIsBuilding] = useState(false);
-  const [buildingProgress, setBuildingProgress] = useState(0);
-  const [newlyUnlocked, setNewlyUnlocked] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -166,6 +159,7 @@ export default function EmpirePage() {
 
   const showNotification = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
     setNotification({ message, type });
+    setTimeout(() => setNotification(null), 3000);
   };
 
   const handleAchievementUnlocked = (achievement: any) => {
@@ -176,609 +170,297 @@ export default function EmpirePage() {
     { id: 'foundation' as TabType, label: 'Foundation', icon: '🏗️' },
     { id: 'leaderboard' as TabType, label: 'Leaderboard', icon: '🏆' },
     { id: 'achievements' as TabType, label: 'Achievements', icon: '⭐' },
+    { id: 'analytics' as TabType, label: 'Analytics', icon: '📊' },
+    { id: 'community' as TabType, label: 'Community', icon: '👥' },
   ];
 
-  useEffect(() => {
-    const loadProgress = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`/api/backend/foundation/${userId}`);
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch foundation data');
-        }
-
-        const result = await response.json();
-
-        if (result.success && result.data) {
-          setPhases(result.data.phases);
-          setTotalPower(result.data.totalPower);
-        } else {
-          const defaultPhases = [
-            {
-              id: "foundation",
-              name: "Foundation Stage",
-              description: "Laying the groundwork of the MagajiCo Empire.",
-              requiredPower: 0,
-              unlocked: true,
-              building: false,
-              completed: false,
-              components: [
-                { name: "Vision Blueprint", type: "ai" as const, powerBoost: 10, installed: false },
-                { name: "Faith Reinforcement", type: "community" as const, powerBoost: 5, installed: false },
-              ],
-            },
-            {
-              id: "structure",
-              name: "Structural Stage",
-              description: "Building the pillars of leadership and strength.",
-              requiredPower: 15,
-              unlocked: false,
-              building: false,
-              completed: false,
-              components: [
-                { name: "Discipline Beam", type: "security" as const, powerBoost: 10, installed: false },
-                { name: "Growth Column", type: "prediction" as const, powerBoost: 10, installed: false },
-              ],
-            },
-            {
-              id: "finishing",
-              name: "Finishing Touch",
-              description: "Refining excellence for visibility and influence.",
-              requiredPower: 30,
-              unlocked: false,
-              building: false,
-              completed: false,
-              components: [
-                { name: "Brand Polish", type: "crypto" as const, powerBoost: 15, installed: false },
-                { name: "Strategic Reach", type: "ai" as const, powerBoost: 20, installed: false },
-              ],
-            },
-            {
-              id: "rooftop",
-              name: "Legendary Rooftop",
-              description: "Your empire now shines across generations.",
-              requiredPower: 60,
-              unlocked: false,
-              building: false,
-              completed: false,
-              components: [
-                { name: "Legacy Seal", type: "community" as const, powerBoost: 25, installed: false },
-                { name: "Cultural Impact", type: "security" as const, powerBoost: 30, installed: false },
-              ],
-            },
-          ];
-          setPhases(defaultPhases as any);
-        }
-      } catch (err) {
-        console.error('Failed to load foundation progress:', err);
-        showNotification('Failed to load progress. Using offline mode.', 'error');
-        const defaultPhases = [
-          {
-            id: "foundation",
-            name: "Foundation Stage",
-            description: "Laying the groundwork of the MagajiCo Empire.",
-            requiredPower: 0,
-            unlocked: true,
-            building: false,
-            completed: false,
-            components: [
-              { name: "Vision Blueprint", type: "ai" as const, powerBoost: 10, installed: false },
-              { name: "Faith Reinforcement", type: "community" as const, powerBoost: 5, installed: false },
-            ],
-          },
-          {
-            id: "structure",
-            name: "Structural Stage",
-            description: "Building the pillars of leadership and strength.",
-            requiredPower: 15,
-            unlocked: false,
-            building: false,
-            completed: false,
-            components: [
-              { name: "Discipline Beam", type: "security" as const, powerBoost: 10, installed: false },
-              { name: "Growth Column", type: "prediction" as const, powerBoost: 10, installed: false },
-            ],
-          },
-          {
-            id: "finishing",
-            name: "Finishing Touch",
-            description: "Refining excellence for visibility and influence.",
-            requiredPower: 30,
-            unlocked: false,
-            building: false,
-            completed: false,
-            components: [
-              { name: "Brand Polish", type: "crypto" as const, powerBoost: 15, installed: false },
-              { name: "Strategic Reach", type: "ai" as const, powerBoost: 20, installed: false },
-            ],
-          },
-          {
-            id: "rooftop",
-            name: "Legendary Rooftop",
-            description: "Your empire now shines across generations.",
-            requiredPower: 60,
-            unlocked: false,
-            building: false,
-            completed: false,
-            components: [
-              { name: "Legacy Seal", type: "community" as const, powerBoost: 25, installed: false },
-              { name: "Cultural Impact", type: "security" as const, powerBoost: 30, installed: false },
-            ],
-          },
-        ];
-        setPhases(defaultPhases as any);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProgress();
-  }, [userId]);
-
-  useEffect(() => {
-    if (isBuilding) {
-      const interval = setInterval(() => {
-        setBuildingProgress((prev) => {
-          if (prev >= 100) {
-            setIsBuilding(false);
-            completeCurrentPhase();
-            return 0;
-          }
-          return prev + 2;
-        });
-      }, 100);
-      return () => clearInterval(interval);
-    }
-  }, [isBuilding]);
-
-  useEffect(() => {
-    phases.forEach((phase) => {
-      if (phase.requiredPower !== undefined && totalPower >= phase.requiredPower && !phase.unlocked && !phase.completed) {
-        setNewlyUnlocked(phase.id);
-        showNotification(`🎉 ${phase.name} unlocked!`, 'success');
-        setTimeout(() => setNewlyUnlocked(null), 1500);
-      }
-    });
-  }, [totalPower, phases]);
-
-  const startBuilding = async (phaseId: string) => {
-    const phase = phases.find(p => p.id === phaseId);
-    if (!phase) return;
-
-    try {
-      setCurrentPhase(phaseId);
-      setIsBuilding(true);
-      setBuildingProgress(0);
-
-      setPhases((prev) =>
-        prev.map((p) => (p.id === phaseId ? { ...p, building: true } : p))
-      );
-
-      const response = await fetch(`/api/backend/foundation/${userId}/start-building`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phaseId })
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.data) {
-          setPhases(result.data.phases);
-          setTotalPower(result.data.totalPower);
-        }
-      }
-
-      showNotification(`Building ${phase.name}...`, 'info');
-    } catch (err) {
-      console.error('Failed to start building:', err);
-      showNotification('Building in offline mode...', 'info');
-    }
-  };
-
-  const completeCurrentPhase = async () => {
-    const phase = phases.find(p => p.id === currentPhase);
-
-    try {
-      const response = await fetch(`/api/backend/foundation/${userId}/complete-phase`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phaseId: currentPhase })
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.data) {
-          setPhases(result.data.phases);
-          setTotalPower(result.data.totalPower);
-          showNotification(`✨ ${phase?.name} completed! +${result.powerBoost} power!`, 'success');
-          return;
-        }
-      }
-
-      throw new Error('Failed to complete phase');
-    } catch (err) {
-      console.error('Failed to complete phase:', err);
-
-      setPhases((prev) =>
-        prev.map((p) => {
-          if (p.id === currentPhase) {
-            const installedComponents = p.components.map((c) => ({
-              ...c,
-              installed: true,
-            }));
-            const phaseBoost = installedComponents.reduce(
-              (sum, c) => sum + c.powerBoost,
-              0
-            );
-            setTotalPower((prev) => prev + phaseBoost);
-            showNotification(`✨ ${phase?.name} completed! +${phaseBoost} power!`, 'success');
-            return {
-              ...p,
-              building: false,
-              completed: true,
-              components: installedComponents,
-            };
-          }
-          return p;
-        })
-      );
-    }
-  };
-
-  const handleReset = async () => {
-    if (!confirm('Are you sure you want to reset your progress? This cannot be undone.')) {
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/backend/foundation/${userId}/reset`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.data) {
-          setPhases(result.data.phases);
-          setTotalPower(result.data.totalPower);
-          showNotification('Progress reset successfully', 'info');
-        }
-      } else {
-        throw new Error('Failed to reset');
-      }
-    } catch (err) {
-      console.error('Failed to reset:', err);
-      showNotification('Failed to reset progress', 'error');
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6 text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-yellow-400 mx-auto mb-4"></div>
-          <p className="text-xl">Loading your empire...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
-      <GoogleStyleNav apps={navigationApps} />
+    <IOSStyleFeatures>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
+        <GoogleStyleNav apps={navigationApps} />
 
-      {notification && (
-        <div className="fixed top-20 right-4 z-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-slideInRight">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">
-              {notification.type === 'success' ? '✅' : notification.type === 'error' ? '❌' : 'ℹ️'}
-            </span>
-            <p>{notification.message}</p>
-            <button
-              onClick={() => setNotification(null)}
-              className="ml-4 text-white hover:text-gray-200"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className="max-w-7xl mx-auto p-6">
-        <header className="text-center text-white mb-10 animate-fadeInDown">
-          <h1 className="text-5xl md:text-6xl font-bold mb-3 drop-shadow-lg">
-            🏗️ Sports Central
-          </h1>
-          <p className="text-xl md:text-2xl opacity-95">
-            Feature-Based Architecture Documentation
-          </p>
-        </header>
-
-        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-          <h2 className="text-3xl font-bold text-indigo-600 mb-4 flex items-center gap-3">
-            📖 Overview
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            Sports Central is a production-ready monorepo sports prediction and community platform built with Next.js (Frontend), 
-            Fastify (Backend), and FastAPI (ML Service). It features AI-powered predictions, live scores, interactive experiences, 
-            and community rewards. The platform provides a comprehensive multi-sport experience inspired by FlashScore, incorporating 
-            real-time data, personalized content, and engaging user interfaces.
-          </p>
-        </div>
-
-        <div className="mb-8">
-          <LiveCarousel />
-        </div>
-
-        <div className="mb-8">
-          <NewsCarousel />
-        </div>
-
-        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
-          <h2 className="text-3xl font-bold text-indigo-600 mb-6 flex items-center gap-3">
-            🎯 Feature Apps
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featureApps.map((app, index) => (
-              <div
-                key={app.id}
-                className="bg-gradient-to-br from-gray-50 to-indigo-50 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-400 cursor-pointer"
-                style={{ animationDelay: `${0.1 * index}s` }}
+        {notification && (
+          <div className="fixed top-20 right-4 z-50 glass-card px-6 py-4 rounded-2xl shadow-2xl animate-slideInRight ios-haptic-light">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">
+                {notification.type === 'success' ? '✅' : notification.type === 'error' ? '❌' : 'ℹ️'}
+              </span>
+              <p className="text-white dark:text-gray-100">{notification.message}</p>
+              <button
+                onClick={() => setNotification(null)}
+                className="ml-4 text-white hover:text-gray-200 ios-haptic-light"
               >
-                <h3 className="text-2xl font-bold text-indigo-600 mb-3 flex items-center gap-2">
-                  <span className="text-3xl">{app.icon}</span>
-                  {app.name}
-                </h3>
-                <p className="text-gray-600 mb-4">{app.description}</p>
-                <ul className="space-y-2">
-                  {app.routes.map((route, idx) => (
-                    <li
-                      key={idx}
-                      className="text-gray-500 text-sm py-2 border-b border-gray-200 last:border-0 hover:text-indigo-600 hover:pl-2 transition-all"
-                    >
-                      {route}
-                    </li>
-                  ))}
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="max-w-7xl mx-auto p-6">
+          <header className="text-center text-white mb-10 animate-fadeInDown">
+            <h1 className="text-5xl md:text-6xl font-bold mb-3 drop-shadow-lg">
+              🏗️ Sports Central Empire
+            </h1>
+            <p className="text-xl md:text-2xl opacity-95">
+              Feature-Based Architecture & Command Center
+            </p>
+          </header>
+
+          <div className="mb-8 ios-card rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-4 flex items-center gap-3">
+              📖 Overview
+            </h2>
+            <p className="text-gray-100 dark:text-gray-300 leading-relaxed">
+              Sports Central is a production-ready monorepo sports prediction and community platform built with Next.js (Frontend), 
+              Fastify (Backend), and FastAPI (ML Service). It features AI-powered predictions, live scores, interactive experiences, 
+              and community rewards with iOS-style interactions and dark theme support.
+            </p>
+          </div>
+
+          <div className="mb-8">
+            <LiveCarousel />
+          </div>
+
+          <div className="mb-8">
+            <NewsCarousel />
+          </div>
+
+          <div className="mb-8 ios-card rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
+            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-6 flex items-center gap-3">
+              🎯 Feature Apps
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featureApps.map((app, index) => (
+                <div
+                  key={app.id}
+                  className="ios-card rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-cyan-400 cursor-pointer ios-haptic-light"
+                  style={{ animationDelay: `${0.1 * index}s` }}
+                >
+                  <h3 className="text-2xl font-bold text-cyan-400 dark:text-cyan-300 mb-3 flex items-center gap-2">
+                    <span className="text-3xl">{app.icon}</span>
+                    {app.name}
+                  </h3>
+                  <p className="text-gray-200 dark:text-gray-400 mb-4">{app.description}</p>
+                  <ul className="space-y-2">
+                    {app.routes.map((route, idx) => (
+                      <li
+                        key={idx}
+                        className="text-gray-300 dark:text-gray-500 text-sm py-2 border-b border-gray-700 dark:border-gray-600 last:border-0 hover:text-cyan-400 hover:pl-2 transition-all"
+                      >
+                        {route}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 ios-card rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
+            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-6">
+              🚀 Key Benefits
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {benefits.map((benefit, index) => (
+                <div
+                  key={index}
+                  className="ios-card p-5 rounded-xl font-semibold text-gray-100 dark:text-gray-300 transition-transform duration-300 hover:scale-105 hover:shadow-lg ios-haptic-light"
+                >
+                  ✅ {benefit}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-6 py-3 rounded-2xl font-semibold whitespace-nowrap transition-all ios-haptic-medium ${
+                  activeTab === tab.id
+                    ? 'ios-card bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg scale-105'
+                    : 'ios-card text-gray-200 dark:text-gray-400 hover:scale-105 hover:shadow-md'
+                }`}
+              >
+                <span className="mr-2">{tab.icon}</span>
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div className={activeTab === 'foundation' ? 'lg:col-span-2' : 'lg:col-span-3'}>
+              {activeTab === 'foundation' && (
+                <FoundationFeature 
+                  userId={userId} 
+                  onNotification={showNotification}
+                />
+              )}
+
+              {activeTab === 'achievements' && (
+                <AchievementsFeature 
+                  currentUser={currentUser}
+                  onAchievementUnlocked={handleAchievementUnlocked}
+                />
+              )}
+
+              {activeTab === 'leaderboard' && (
+                <LeaderboardFeature />
+              )}
+
+              {activeTab === 'analytics' && (
+                <div className="ios-card rounded-2xl p-8">
+                  <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-6">
+                    📊 Analytics Dashboard
+                  </h2>
+                  <p className="text-gray-200 dark:text-gray-400 mb-4">Advanced analytics coming soon...</p>
+                </div>
+              )}
+
+              {activeTab === 'community' && (
+                <div className="ios-card rounded-2xl p-8">
+                  <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-6">
+                    👥 Community Features
+                  </h2>
+                  <p className="text-gray-200 dark:text-gray-400 mb-4">Community features coming soon...</p>
+                </div>
+              )}
+            </div>
+
+            {activeTab === 'foundation' && (
+              <div className="lg:col-span-1">
+                <LeaderboardFeature />
+              </div>
+            )}
+          </div>
+
+          <footer className="ios-card rounded-2xl p-8 mt-10 border border-white/20">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+              <div>
+                <h3 className="text-lg font-bold text-white mb-4">About Sports Central</h3>
+                <p className="text-gray-300 text-sm">
+                  AI-powered sports prediction and community platform with real-time analytics.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-white mb-4">Quick Links</h3>
+                <ul className="space-y-2 text-sm">
+                  <li><Link href="/en" className="text-gray-300 hover:text-cyan-400 transition-colors">Home</Link></li>
+                  <li><Link href="/en/ai-predictions" className="text-gray-300 hover:text-cyan-400 transition-colors">Predictions</Link></li>
+                  <li><Link href="/en/matches" className="text-gray-300 hover:text-cyan-400 transition-colors">Live Matches</Link></li>
+                  <li><Link href="/en/news" className="text-gray-300 hover:text-cyan-400 transition-colors">News</Link></li>
                 </ul>
               </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
-          <h2 className="text-3xl font-bold text-indigo-600 mb-6">
-            🚀 Key Benefits
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {benefits.map((benefit, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-br from-orange-100 to-pink-100 p-5 rounded-xl font-semibold text-gray-800 transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                ✅ {benefit}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-4">Legal</h3>
+                <ul className="space-y-2 text-sm">
+                  <li><Link href="/en/privacy" className="text-gray-300 hover:text-cyan-400 transition-colors">Privacy Policy</Link></li>
+                  <li><Link href="/en/terms" className="text-gray-300 hover:text-cyan-400 transition-colors">Terms of Service</Link></li>
+                  <li><Link href="/en/partnerships" className="text-gray-300 hover:text-cyan-400 transition-colors">Partnerships</Link></li>
+                </ul>
               </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.6s' }}>
-          <h2 className="text-3xl font-bold text-indigo-600 mb-6">
-            🔄 Data Flow Architecture
-          </h2>
-          <div className="bg-gray-900 text-gray-200 p-6 rounded-xl overflow-x-auto font-mono text-sm md:text-base">
-            Frontend Apps → Backend Modules → Database<br />
-            ↓<br />
-            ML Service → Predictions
-          </div>
-          <p className="mt-4 text-gray-600">
-            Clean separation of concerns with each layer handling specific responsibilities. 
-            The ML service operates independently, providing predictions to the backend modules.
-          </p>
-        </div>
-
-        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
-          <h2 className="text-3xl font-bold text-indigo-600 mb-6">
-            📊 Implementation Status
-          </h2>
-          <div className="space-y-6 pl-8 border-l-4 border-indigo-600">
-            {implementationStatus.map((item, index) => (
-              <div
-                key={index}
-                className="relative bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
-              >
-                <div className="absolute -left-10 top-6 w-4 h-4 rounded-full bg-white border-4 border-indigo-600"></div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center gap-3">
-                  {item.title}
-                  <span
-                    className={`text-sm px-4 py-1 rounded-full font-semibold ${
-                      item.status === 'complete'
-                        ? 'bg-green-500 text-white'
-                        : item.status === 'progress'
-                        ? 'bg-orange-500 text-white'
-                        : 'bg-gray-400 text-white'
-                    }`}
-                  >
-                    {item.status === 'complete' ? '✅ Complete' : item.status === 'progress' ? '🔄 In Progress' : '⏳ Pending'}
-                  </span>
-                </h3>
-                <p className="text-gray-600">{item.description}</p>
+              <div>
+                <h3 className="text-lg font-bold text-white mb-4">Connect</h3>
+                <ul className="space-y-2 text-sm">
+                  <li><Link href="/en/feed" className="text-gray-300 hover:text-cyan-400 transition-colors">Community</Link></li>
+                  <li><Link href="/en/author" className="text-gray-300 hover:text-cyan-400 transition-colors">Authors</Link></li>
+                  <li><a href="mailto:support@sportscentral.com" className="text-gray-300 hover:text-cyan-400 transition-colors">Contact Us</a></li>
+                </ul>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.8s' }}>
-          <h2 className="text-3xl font-bold text-indigo-600 mb-6">
-            🚀 Next Steps - 4 Upcoming Priorities
-          </h2>
-          <div className="bg-gray-50 rounded-xl p-6 space-y-3">
-            {nextSteps.map((step, index) => (
-              <div
-                key={index}
-                className="bg-white p-4 rounded-lg border-l-4 border-indigo-600 hover:pl-6 hover:shadow-md transition-all group"
-              >
-                <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                    {index + 1}
-                  </span>
-                  <div className="flex-1">
-                    <p className="text-gray-800 font-medium group-hover:text-indigo-600 transition-colors">
-                      {step}
-                    </p>
-                  </div>
-                </div>
+            <div className="pt-6 border-t border-white/20">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <p className="text-gray-300 text-sm">
+                  © 2025 Sports Central. All rights reserved.
+                </p>
+                <p className="text-gray-400 text-xs">
+                  Sports Central Architecture v2.0.0 | Last Updated: {new Date().toLocaleDateString()}
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          </footer>
         </div>
 
-        <div className="mb-8 flex gap-2 overflow-x-auto pb-2">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${
-                activeTab === tab.id
-                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
-                  : 'bg-white/90 text-indigo-600 hover:bg-white hover:shadow-md'
-              }`}
-            >
-              <span className="mr-2">{tab.icon}</span>
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <style jsx>{`
+          @keyframes fadeInDown {
+            from {
+              opacity: 0;
+              transform: translateY(-30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className={activeTab === 'foundation' ? 'lg:col-span-2' : 'lg:col-span-3'}>
-            {activeTab === 'foundation' && (
-              <FoundationFeature 
-                userId={userId} 
-                onNotification={showNotification}
-              />
-            )}
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
 
-            {activeTab === 'achievements' && (
-              <AchievementsFeature 
-                currentUser={currentUser}
-                onAchievementUnlocked={handleAchievementUnlocked}
-              />
-            )}
+          @keyframes slideInRight {
+            from {
+              opacity: 0;
+              transform: translateX(50px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
 
-            {activeTab === 'leaderboard' && (
-              <LeaderboardFeature />
-            )}
-          </div>
+          .animate-fadeInDown {
+            animation: fadeInDown 0.8s ease;
+          }
 
-          {activeTab === 'foundation' && (
-            <div className="lg:col-span-1">
-              <LeaderboardFeature />
-            </div>
-          )}
-        </div>
+          .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease backwards;
+          }
 
-        <footer className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mt-10 border border-white/20">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            {/* About Section */}
-            <div>
-              <h3 className="text-lg font-bold text-white mb-4">About Sports Central</h3>
-              <p className="text-gray-300 text-sm">
-                AI-powered sports prediction and community platform with real-time analytics.
-              </p>
-            </div>
+          .animate-slideInRight {
+            animation: slideInRight 0.3s ease;
+          }
 
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-lg font-bold text-white mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="/en" className="text-gray-300 hover:text-white transition-colors">Home</Link></li>
-                <li><Link href="/en/ai-predictions" className="text-gray-300 hover:text-white transition-colors">Predictions</Link></li>
-                <li><Link href="/en/matches" className="text-gray-300 hover:text-white transition-colors">Live Matches</Link></li>
-                <li><Link href="/en/news" className="text-gray-300 hover:text-white transition-colors">News</Link></li>
-              </ul>
-            </div>
+          .ios-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
 
-            {/* Legal */}
-            <div>
-              <h3 className="text-lg font-bold text-white mb-4">Legal</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="/en/privacy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/en/terms" className="text-gray-300 hover:text-white transition-colors">Terms of Service</Link></li>
-                <li><Link href="/en/partnerships" className="text-gray-300 hover:text-white transition-colors">Partnerships</Link></li>
-              </ul>
-            </div>
+          .ios-haptic-light {
+            cursor: pointer;
+          }
+          .ios-haptic-medium {
+            cursor: pointer;
+          }
 
-            {/* Connect */}
-            <div>
-              <h3 className="text-lg font-bold text-white mb-4">Connect</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="/en/feed" className="text-gray-300 hover:text-white transition-colors">Community</Link></li>
-                <li><Link href="/en/author" className="text-gray-300 hover:text-white transition-colors">Authors</Link></li>
-                <li><a href="mailto:support@sportscentral.com" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
-              </ul>
-            </div>
-          </div>
+          .glass-card {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+          }
 
-          <div className="pt-6 border-t border-white/20">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-gray-300 text-sm">
-                © 2025 Sports Central. All rights reserved.
-              </p>
-              <p className="text-gray-400 text-xs">
-                Sports Central Architecture v2.0.0 | Last Updated: {new Date().toLocaleDateString()}
-              </p>
-            </div>
-          </div>
-        </footer>
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(50px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        .animate-fadeInDown {
-          animation: fadeInDown 0.8s ease;
-        }
-
-        .animate-fadeInUp {
-          animation: fadeInUp 0.8s ease backwards;
-        }
-
-        .animate-slideInRight {
-          animation: slideInRight 0.3s ease;
-        }
-      `}</style>
-    </div>
+    </IOSStyleFeatures>
   );
 }
