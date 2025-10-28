@@ -9,7 +9,7 @@ interface AchievementsFeatureProps {
   onAchievementUnlocked?: (achievement: any) => void;
 }
 
-export default function AchievementsFeature({ currentUser, onAchievementUnlocked }: AchievementsFeatureProps) {
+export function AchievementsFeature({ currentUser, onAchievementUnlocked }: AchievementsFeatureProps) {
   return (
     <div className="space-y-6">
       <AchievementSystem 
@@ -19,3 +19,5 @@ export default function AchievementsFeature({ currentUser, onAchievementUnlocked
     </div>
   );
 }
+
+export default AchievementsFeature;
