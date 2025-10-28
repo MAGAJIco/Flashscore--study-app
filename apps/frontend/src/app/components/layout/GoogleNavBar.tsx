@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { AppDrawer } from "./AppDrawer";
 
 export function GoogleNavBar() {
@@ -24,9 +25,9 @@ export function GoogleNavBar() {
           <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
             ❓
           </button>
-          <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
+          <Link href="/en/settings" className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
             ⚙️
-          </button>
+          </Link>
           <button
             className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
             onClick={() => setIsDrawerOpen(!isDrawerOpen)}
