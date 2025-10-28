@@ -8,10 +8,10 @@ import { BackendErrorBoundary } from "./middleware/globalErrorHandler";
 // Core modules
 // Core routes
 import { healthRoutes } from "./routes/health";
-import { authRoutes } from "./routes/auth";
 import { errorsRoutes } from "./routes/errors";
 
 // Feature modules (modular architecture)
+import { authModuleRoutes } from "./modules/auth/routes";
 import { predictionModuleRoutes } from "./modules/predictions/routes";
 import { matchModuleRoutes } from "./modules/matches/routes";
 import { newsModuleRoutes } from "./modules/news/routes";
@@ -60,8 +60,8 @@ const startServer = async () => {
 
     // All API routes under /api prefix
     await fastify.register(async (instance) => {
-      // Authentication
-      await instance.register(authRoutes, { prefix: "/auth" });
+      // Authentication module
+      await instance.register(authModuleRoutes, { prefix: "/auth" });
 
       // Feature modules (organized by domain)
       await instance.register(predictionModuleRoutes, { prefix: "/predictions" });
