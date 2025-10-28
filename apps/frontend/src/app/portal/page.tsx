@@ -1,4 +1,9 @@
 
-import PortalPage from '../[portal]/Page';
+"use client";
 
-export default PortalPage;
+import React from 'react';
+import { Welcome } from '@/app/components/Welcome';
+
+export default function PortalPage() {
+  return <Welcome />;
+}

@@ -2,14 +2,22 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sports Central - Portal',
-  description: 'Feature-Based Architecture Documentation',
+  title: 'MagajiCo - Your Sports Prediction Platform',
+  description: 'AI-powered sports predictions and live scores',
 };
 
-export default function Layout({
+export default function PortalLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <html lang="en">
+      <body>
+        <div className="portal-layout">
+          {children}
+        </div>
+      </body>
+    </html>
+  );
 }

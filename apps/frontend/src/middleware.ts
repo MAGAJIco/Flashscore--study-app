@@ -1,3 +1,4 @@
+
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
 
@@ -9,10 +10,16 @@ const handleI18nRouting = createMiddleware({
 });
 
 export default function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  
+  // Skip i18n for portal routes
+  if (pathname.startsWith('/portal')) {
+    return;
+  }
+  
   const response = handleI18nRouting(request);
   
   // Extract locale from pathname
-  const pathname = request.nextUrl.pathname;
   const pathLocale = pathname.split('/')[1];
   
   if (['en', 'es', 'fr', 'de', 'pt'].includes(pathLocale)) {
