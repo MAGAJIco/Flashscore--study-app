@@ -6,7 +6,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="portal-layout">
+        <div className="empire-layout">
           {children}
         </div>
       </body>

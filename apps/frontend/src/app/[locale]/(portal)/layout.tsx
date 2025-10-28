@@ -2,17 +2,17 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sports Central - Portal',
-  description: 'Feature-Based Architecture Documentation',
+  title: 'Sports Central - Empire',
+  description: 'MagajiCo Empire Central - Feature-Based Architecture',
 };
 
-export default function PortalLayout({
+export default function EmpireLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="portal-layout">
+    <div className="empire-layout">
       {children}
     </div>
   );

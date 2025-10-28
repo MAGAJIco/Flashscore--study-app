@@ -4,12 +4,13 @@ import { FeatureApp } from "../types";
 
 export const FEATURE_APPS: FeatureApp[] = [
   {
-    icon: "🏠",
-    title: "Portal",
-    description: "Main dashboard & navigation hub",
+    icon: "👑",
+    title: "Empire",
+    description: "Command center & navigation hub",
     items: [
-      "page.tsx - Landing with feature cards",
-      "layout.tsx - Portal-specific layout",
+      "page.tsx - Empire Central dashboard",
+      "layout.tsx - Empire-specific layout",
+      "features/ - Foundation, Leaderboard, Achievements"
     ],
     route: "/",
   },

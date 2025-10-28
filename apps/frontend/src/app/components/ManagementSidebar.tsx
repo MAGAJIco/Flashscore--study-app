@@ -15,6 +15,7 @@ export function ManagementSidebar() {
     { href: '/management/notifications', label: 'Notifications', icon: '🔔' },
     { href: '/management/settings', label: 'Settings', icon: '⚙️' },
     { href: '/settings', label: 'User Settings', icon: '👤' },
+    { href: '/empire', label: 'Empire Central', icon: '👑' },
   ];
 
   return (

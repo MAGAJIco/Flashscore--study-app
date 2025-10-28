@@ -43,7 +43,7 @@ export default function SettingsPage() {
               Manage your account preferences and cross-platform sync
             </p>
           </div>
-          
+
           {/* Quick Links */}
           <div style={{
             display: 'flex',
@@ -51,7 +51,7 @@ export default function SettingsPage() {
             alignItems: 'center'
           }}>
             <a
-              href="/"
+              href="/en"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 padding: '10px 20px',
@@ -73,8 +73,8 @@ export default function SettingsPage() {
                 e.currentTarget.style.color = '#9ca3af';
               }}
             >
-              <span>🏠</span>
-              <span>Portal</span>
+              <span>👑</span>
+              <span>Empire</span>
             </a>
             <a
               href="/management"
@@ -175,4 +175,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-

@@ -12,7 +12,7 @@ import { DataFlow } from '@/app/components/sections/DataFlow';
 import { ImplementationStatus } from '@/app/components/sections/ImplementationStatus';
 import { NextSteps } from '@/app/components/sections/NextSteps';
 
-export default function EmpireHubPage() {
+export default function EmpireCentralPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
       <GoogleNavBar />
@@ -21,10 +21,10 @@ export default function EmpireHubPage() {
         {/* Header */}
         <header className="text-center py-12 animate-fade-in relative">
           <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            👑 Empire Hub
+            👑 Empire Central
           </h1>
           <p className="text-xl text-white/90">
-            Your Command Center for Sports Prediction Empire
+            Your Command Center for the MagajiCo Sports Empire
           </p>
           
           {/* Settings Icons */}

@@ -6,8 +6,8 @@ export function ArchitectureOverview() {
       <h2 className="text-3xl font-bold text-indigo-600 mb-6">🏗️ Architecture Overview</h2>
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl">
         <p className="text-gray-700 text-lg mb-4">
-          Sports Central uses a modern feature-based architecture that separates concerns
-          and enables independent development and deployment of features.
+          MagajiCo Empire uses a modern feature-based architecture that separates concerns
+          and enables independent development and deployment of features across the sports prediction platform.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white p-4 rounded-lg shadow-sm">
