@@ -8,7 +8,7 @@ import { BackendErrorBoundary } from "./middleware/globalErrorHandler";
 // Core modules
 // Core routes
 import { healthRoutes } from "./routes/health";
-import { errorsRoutes } from "./routes/errors";
+// import { errorsRoutes } from "./routes/errors";
 
 // Feature modules (modular architecture)
 import { authModuleRoutes } from "./modules/auth/routes";
@@ -23,9 +23,9 @@ import { scraperModuleRoutes } from "./modules/scraper/routes";
 
 
 // Payment & foundation
-import { stripeRoutes } from "./routes/stripe";
-import { paymentsRoutes } from "./routes/payment";
-import { foundationRoutes } from "./routes/foundation";
+// import { stripeRoutes } from "./routes/stripe";
+// import { paymentsRoutes } from "./routes/payment";
+// import { foundationRoutes } from "./routes/foundation";
 
 const fastify = Fastify({
   logger: true,
@@ -73,14 +73,13 @@ const startServer = async () => {
       // Register the scraper module routes
       await instance.register(scraperModuleRoutes, { prefix: "/scraper" });
 
+      // Payment services (commented out - routes don't exist yet)
+      // await instance.register(stripeRoutes, { prefix: "/stripe" });
+      // await instance.register(paymentsRoutes, { prefix: "/payments" });
 
-      // Payment services
-      await instance.register(stripeRoutes, { prefix: "/stripe" });
-      await instance.register(paymentsRoutes, { prefix: "/payments" });
-
-      // Foundation & utilities
-      await instance.register(foundationRoutes, { prefix: "/foundation" });
-      await instance.register(errorsRoutes, { prefix: "/errors" });
+      // Foundation & utilities (commented out - routes don't exist yet)
+      // await instance.register(foundationRoutes, { prefix: "/foundation" });
+      // await instance.register(errorsRoutes, { prefix: "/errors" });
     }, { prefix: "/api" });
 
     // Global error handler
