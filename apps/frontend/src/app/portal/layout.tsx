@@ -6,14 +6,10 @@ export const metadata: Metadata = {
   description: 'Feature-Based Architecture Documentation',
 };
 
-export default function PortalLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="portal-layout">
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }
