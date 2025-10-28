@@ -536,6 +536,19 @@ args = "echo \"✅ Production build complete!\""
 task = "shell.exec"
 args = "ls -lh apps/frontend/.next"
 
+[[workflows.workflow]]
+name = "Verify Empire Build"
+author = 49108721
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "chmod +x scripts/verify-empire-build.sh"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash scripts/verify-empire-build.sh"
+
 [deployment]
 build = ["sh", "-c", "npm ci && npm run build --workspace=packages/shared && npm run build --workspace=apps/backend"]
 run = ["sh", "-c", "node apps/backend/dist/src/index.js"]

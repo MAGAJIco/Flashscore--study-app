@@ -43,6 +43,8 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Empire layout styles - TypeScript code removed */
+/* Empire layout styles */
 .empire-layout {
   min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
