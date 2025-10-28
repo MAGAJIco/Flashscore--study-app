@@ -43,26 +43,3 @@
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
-
-
-// ============================================
-// FILE: app/(empire)/layout.tsx
-// PATH: apps/frontend/src/app/(empire)/layout.tsx
-// ============================================
-
-export default function EmpireLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="empire-layout">
-      {children}
-    </div>
-  );
-}
-
-export const metadata = {
-  title: 'MagajiCo Empire - Central',
-  description: 'Feature-Based Architecture for Sports Prediction Empire',
-};
