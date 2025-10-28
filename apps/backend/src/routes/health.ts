@@ -120,31 +120,4 @@ export async function healthRoutes(fastify: FastifyInstance) {
     return { status: 'ready' };
   });
 
-  // Health check for ML service
-  fastify.get("/ml-status", async (request, reply) => {
-    try {
-      // Check if ML service is actually reachable
-      const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://0.0.0.0:8000';
-      const mlResponse = await fetch(`${ML_SERVICE_URL}/health`, {
-        signal: AbortSignal.timeout(3000)
-      }).catch(() => null);
-
-      const isHealthy = mlResponse?.ok ?? false;
-      const statusCode = isHealthy ? 200 : 503;
-
-      return reply.status(statusCode).send({
-        status: isHealthy ? "operational" : "degraded",
-        version: "MagajiCo-ML-v2.0",
-        ceo_dashboard: isHealthy ? "active" : "unavailable",
-        strategic_intelligence: isHealthy ? "online" : "offline",
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      return reply.status(503).send({
-        status: "error",
-        message: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
-      });
-    }
-  });
 }

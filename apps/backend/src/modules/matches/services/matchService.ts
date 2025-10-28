@@ -43,6 +43,21 @@ export const matchService = {
       .limit(limit);
   },
 
+  async getTodayMatches(limit: number = 20) {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+    
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    return await Match.find({
+      date: { $gte: startOfDay, $lte: endOfDay }
+    })
+      .sort({ date: 1 })
+      .limit(limit)
+      .populate('predictions');
+  },
+
   async updateMatch(id: string, data: any) {
     return await Match.findByIdAndUpdate(id, data, { new: true });
   },

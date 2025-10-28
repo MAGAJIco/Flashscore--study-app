@@ -1,16 +1,20 @@
-export default function PortalLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="portal-layout">
-      {children}
-    </div>
+    <html lang="en">
+      <body>
+        <div className="portal-layout">
+          {children}
+        </div>
+      </body>
+    </html>
   );
 }
 
 export const metadata = {
-  title: 'Sports Central - Portal',
-  description: 'Feature-Based Architecture Documentation',
+  title: 'MagajiCo - Your Sports Prediction Platform',
+  description: 'AI-powered sports predictions and live scores',
 };

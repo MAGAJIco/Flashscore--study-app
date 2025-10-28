@@ -75,3 +75,16 @@ export const getUpcomingMatches = async (
     reply.status(500).send({ error: "Failed to fetch upcoming matches" });
   }
 };
+
+export const getTodayMatches = async (
+  request: FastifyRequest<{ Querystring: { limit?: string } }>,
+  reply: FastifyReply
+) => {
+  try {
+    const { limit = "20" } = request.query;
+    const matches = await matchService.getTodayMatches(parseInt(limit));
+    return reply.send({ success: true, data: matches, count: matches.length });
+  } catch (err) {
+    reply.status(500).send({ error: "Failed to fetch today's matches" });
+  }
+};

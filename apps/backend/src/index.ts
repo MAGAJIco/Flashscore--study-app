@@ -3,7 +3,7 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
 import { connectDB } from "./config/db";
-import { validateEnv } from "./utils/validateEnv";
+import { validateProductionEnv, logEnvironmentStatus } from "./utils/validateEnv";
 import { BackendErrorBoundary } from "./middleware/globalErrorHandler";
 
 // Core modules
@@ -46,7 +46,8 @@ fastify.register(rateLimit, {
 const startServer = async () => {
   try {
     // Validate environment
-    validateEnv();
+    logEnvironmentStatus();
+    validateProductionEnv();
 
     // Connect to MongoDB
     await connectDB();
