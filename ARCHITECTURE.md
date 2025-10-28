@@ -62,7 +62,7 @@ modules/[feature]/
 ### Structure
 ```
 apps/frontend/src/app/[locale]/
-├── (portal)/        # Main dashboard
+├── empire/          # Empire Central (main dashboard & command center)
 ├── (predictions)/   # AI predictions
 ├── (live)/         # Live tracking
 ├── (social)/       # Social hub
@@ -71,9 +71,16 @@ apps/frontend/src/app/[locale]/
 └── components/     # Shared components (45 active)
 ```
 
+### Empire Central
+Empire is the unified command center that replaced the legacy Portal:
+- **Foundation System**: Build your empire through progressive stages
+- **Leaderboard**: Global rankings and competition
+- **Achievements**: Track progress and unlock rewards
+- **Power System**: Gamified progression mechanics
+
 ### Component Organization
 - **Core**: Layout, navigation, error handling
-- **Features**: Predictions, live, news, social, rewards
+- **Features**: Empire, predictions, live, news, social, rewards
 - **Platform**: PWA, analytics, monitoring
 - **Docs**: Interactive documentation components
 
@@ -95,4 +102,5 @@ apps/frontend/src/app/[locale]/
 2. **Scalable**: Easy to add new features
 3. **Testable**: Clear boundaries for testing
 4. **Maintainable**: Code is organized by domain
-5. **No Legacy**: Removed all deprecated routes/components
+5. **No Legacy**: All deprecated routes/components removed
+6. **Unified**: Empire Central provides cohesive user experience

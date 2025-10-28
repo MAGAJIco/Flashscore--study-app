@@ -6,8 +6,11 @@ This directory contains frontend routes that have been moved from the main appli
 
 ## Moved Routes
 
+### Deprecated Routes (Replaced by Empire)
+- `portal/` - Replaced by `/empire` (2025-01-XX)
+- `(portal)/` - Legacy route group, now redirects to Empire
+
 ### Feature Routes (Moved to Route Groups)
-- `portal/` - Moved to `(portal)` route group
 - `predictions/` - Moved to `(predictions)` route group
 - `live/` - Moved to `(live)` route group
 - `social/feed/` - Moved to `(social)/feed` route group

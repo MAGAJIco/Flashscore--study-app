@@ -213,13 +213,13 @@ export default function DocsPage() {
               <h3 className="text-xl font-bold text-white mb-3">Frontend Structure</h3>
               <pre className="bg-black/30 rounded-xl p-4 overflow-x-auto">
                 <code className="text-green-300 text-sm">{`apps/frontend/src/app/[locale]/
-├── (portal)/           # Main dashboard
-├── (predictions)/      # AI Predictions
-├── (live)/            # Live tracking
-├── (social)/          # Social features
-├── (kids)/            # Kids mode
-├── (rewards)/         # Achievements
-└── (docs)/            # Documentation`}</code>
+├── empire/            # Empire Central (Command Center)
+├── (predictions)/     # AI Predictions
+├── (live)/           # Live tracking
+├── (social)/         # Social features
+├── (kids)/           # Kids mode
+├── (rewards)/        # Achievements
+└── (docs)/           # Documentation`}</code>
               </pre>
             </div>
             <div>
