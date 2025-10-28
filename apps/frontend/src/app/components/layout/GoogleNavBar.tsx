@@ -9,27 +9,34 @@ export function GoogleNavBar() {
 
   return (
     <>
-      <nav className="bg-white shadow-md sticky top-0 z-50 px-5 h-16 flex items-center justify-between">
-        {/* Left Side */}
-        <div className="flex items-center gap-5">
-          <div className="text-2xl font-semibold text-indigo-600 flex items-center gap-2">
-            ⚽ Sports Central
+      <nav className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-lg sticky top-0 z-50 px-5 h-16 flex items-center justify-between">
+        {/* Left Side - Hamburger Menu */}
+        <div className="flex items-center gap-3">
+          <button className="w-10 h-10 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors">
+            <div className="flex flex-col gap-1">
+              <span className="w-5 h-0.5 bg-white rounded-full" />
+              <span className="w-5 h-0.5 bg-white rounded-full" />
+              <span className="w-5 h-0.5 bg-white rounded-full" />
+            </div>
+          </button>
+          <div className="text-xl font-semibold text-white flex items-center gap-2">
+            🏆 Sports Central
           </div>
         </div>
 
         {/* Right Side */}
-        <div className="flex items-center gap-2">
-          <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
+        <div className="flex items-center gap-1">
+          <button className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors text-white text-xl">
             🔍
           </button>
-          <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
+          <button className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors text-white text-xl">
             ❓
           </button>
-          <Link href="/en/settings" className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
+          <Link href="/en/settings" className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors text-white text-xl">
             ⚙️
           </Link>
           <button
-            className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
+            className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors text-white"
             onClick={() => setIsDrawerOpen(!isDrawerOpen)}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -44,7 +51,7 @@ export function GoogleNavBar() {
               <circle cx="20" cy="20" r="2" />
             </svg>
           </button>
-          <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
+          <div className="w-10 h-10 rounded-full bg-indigo-700 text-white flex items-center justify-center font-bold text-sm border-2 border-white/20">
             SC
           </div>
         </div>
