@@ -1,13 +1,16 @@
+
 "use client";
-export default function PortalLayout({
+
+import React from "react";
+
+export default function EmpireLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="portal-layout">{children}</div>;
+  return (
+    <div className="empire-layout min-h-screen">
+      {children}
+    </div>
+  );
 }
-
-export const metadata = {
-  title: "Sports Central - Portal",
-  description: "Feature-Based Architecture Documentation",
-};
