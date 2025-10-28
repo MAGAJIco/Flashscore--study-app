@@ -46,23 +46,23 @@
 
 
 // ============================================
-// FILE: app/(portal)/layout.tsx
-// PATH: apps/frontend/src/app/(portal)/layout.tsx
+// FILE: app/(empire)/layout.tsx
+// PATH: apps/frontend/src/app/(empire)/layout.tsx
 // ============================================
 
-export default function PortalLayout({
+export default function EmpireLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="portal-layout">
+    <div className="empire-layout">
       {children}
     </div>
   );
 }
 
 export const metadata = {
-  title: 'Sports Central - Portal',
-  description: 'Feature-Based Architecture Documentation',
+  title: 'MagajiCo Empire - Central',
+  description: 'Feature-Based Architecture for Sports Prediction Empire',
 };

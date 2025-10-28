@@ -12,8 +12,8 @@ const handleI18nRouting = createMiddleware({
 export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
-  // Skip i18n for portal routes
-  if (pathname.startsWith('/portal')) {
+  // Skip i18n for empire routes (handled by locale structure)
+  if (pathname.startsWith('/empire')) {
     return;
   }
   

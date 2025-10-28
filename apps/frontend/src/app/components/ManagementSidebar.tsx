@@ -12,7 +12,10 @@ export function ManagementSidebar() {
     { href: '/management/users', label: 'Users', icon: '👥' },
     { href: '/management/content', label: 'Content', icon: '📝' },
     { href: '/management/analytics', label: 'Analytics', icon: '📈' },
+    { href: '/management/notifications', label: 'Notifications', icon: '🔔' },
     { href: '/management/settings', label: 'Settings', icon: '⚙️' },
+    { href: '/settings', label: 'User Settings', icon: '👤' },
+    { href: '/empire', label: 'Empire Central', icon: '👑' },
   ];
 
   return (

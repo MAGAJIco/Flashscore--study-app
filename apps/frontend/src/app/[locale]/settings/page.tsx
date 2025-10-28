@@ -18,23 +18,92 @@ export default function SettingsPage() {
         maxWidth: '1200px',
         margin: '0 auto'
       }}>
-        <h1 style={{
-          color: '#fff',
-          fontSize: '2.5rem',
-          marginBottom: '10px',
-          background: 'linear-gradient(135deg, #3b82f6, #a855f7)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
+        {/* Navigation Header */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '20px'
         }}>
-          Settings
-        </h1>
-        <p style={{
-          color: '#9ca3af',
-          fontSize: '1.1rem',
-          marginBottom: '30px'
-        }}>
-          Manage your account preferences and cross-platform sync
-        </p>
+          <div>
+            <h1 style={{
+              color: '#fff',
+              fontSize: '2.5rem',
+              marginBottom: '10px',
+              background: 'linear-gradient(135deg, #3b82f6, #a855f7)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              Settings
+            </h1>
+            <p style={{
+              color: '#9ca3af',
+              fontSize: '1.1rem',
+            }}>
+              Manage your account preferences and cross-platform sync
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div style={{
+            display: 'flex',
+            gap: '12px',
+            alignItems: 'center'
+          }}>
+            <a
+              href="/empire"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                padding: '10px 20px',
+                borderRadius: '12px',
+                color: '#9ca3af',
+                textDecoration: 'none',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                transition: 'all 0.3s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.color = '#fff';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.color = '#9ca3af';
+              }}
+            >
+              <span>👑</span>
+              <span>Empire</span>
+            </a>
+            <a
+              href="/management"
+              style={{
+                background: 'rgba(59, 130, 246, 0.1)',
+                padding: '10px 20px',
+                borderRadius: '12px',
+                color: '#3b82f6',
+                textDecoration: 'none',
+                border: '1px solid rgba(59, 130, 246, 0.3)',
+                transition: 'all 0.3s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
+                e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.5)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
+                e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
+              }}
+            >
+              <span>🎛️</span>
+              <span>Management</span>
+            </a>
+          </div>
+        </div>
 
         {/* Language Settings Section */}
         <div style={{ marginBottom: '24px' }}>
@@ -106,4 +175,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-

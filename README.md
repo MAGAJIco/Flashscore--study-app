@@ -103,6 +103,7 @@ A premium **monorepo** built with cutting-edge technology, delivering **AI-power
 ├── 🎨 apps/
 │   ├── 📱 frontend/                    # Next.js Premium Frontend
 │   │   ├── 🔧 src/app/
+│   │   │   ├── 👑 empire/             # Empire Central - Command Center
 │   │   │   ├── 🧩 components/         # @components/* - UI Components
 │   │   │   ├── 🎣 hooks/              # @hooks/* - Custom React Hooks
 │   │   │   ├── 🎮 controllers/        # @controllers/* - Business Logic

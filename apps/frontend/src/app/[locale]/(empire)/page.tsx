@@ -1,13 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PhaseCard from "./MagajiCoFoundation/PhaseCard";
-import PowerDisplay from "./MagajiCoFoundation/PowerDisplay";
-import Notification from "./MagajiCoFoundation/Notification";
-import Leaderboard from "./MagajiCoFoundation/Leaderboard";
-import { foundationApi, type Phase } from "@/lib/api/foundation";
 import { Breadcrumbs } from '@/app/components/Breadcrumbs';
+import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
+import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
+import { AppDrawer } from '@/app/components/layout/AppDrawer';
+import { FoundationFeature } from "./features/foundation/FoundationFeature";
+import { LeaderboardFeature } from "./features/leaderboard/LeaderboardFeature";
+import { AchievementsFeature } from "./features/achievements/AchievementsFeature";
 
-export default function MagajiCoFoundation() {
+type TabType = 'foundation' | 'leaderboard' | 'achievements';
+
+export default function EmpirePage() {
   const [userId] = useState(() => {
     if (typeof window !== 'undefined') {
       let id = localStorage.getItem('magajico-user-id');
@@ -20,19 +23,41 @@ export default function MagajiCoFoundation() {
     return 'guest';
   });
 
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [activeTab, setActiveTab] = useState<TabType>('foundation');
+  const [appDrawerOpen, setAppDrawerOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [phases, setPhases] = useState<any[]>([]);
   const [totalPower, setTotalPower] = useState(0);
+  const [currentPhase, setCurrentPhase] = useState<string | null>(null);
   const [isBuilding, setIsBuilding] = useState(false);
   const [buildingProgress, setBuildingProgress] = useState(0);
-  const [currentPhase, setCurrentPhase] = useState<string>("foundation");
-  const [phases, setPhases] = useState<Phase[]>([]);
   const [newlyUnlocked, setNewlyUnlocked] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
+
+  useEffect(() => {
+    // Load current user data
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('current_user');
+      if (userData) {
+        setCurrentUser(JSON.parse(userData));
+      }
+    }
+  }, []);
 
   const showNotification = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
     setNotification({ message, type });
   };
+
+  const handleAchievementUnlocked = (achievement: any) => {
+    showNotification(`🏆 Achievement Unlocked: ${achievement.title}`, 'success');
+  };
+
+  const tabs = [
+    { id: 'foundation' as TabType, label: 'Foundation', icon: '🏗️' },
+    { id: 'leaderboard' as TabType, label: 'Leaderboard', icon: '🏆' },
+    { id: 'achievements' as TabType, label: 'Achievements', icon: '⭐' },
+  ];
 
   // Load foundation progress from backend
   useEffect(() => {
@@ -333,78 +358,104 @@ export default function MagajiCoFoundation() {
       <Breadcrumbs 
         items={[
           { label: "Empire", href: "/empire" },
-          { label: "Foundation" }
+          { label: tabs.find(t => t.id === activeTab)?.label || "Dashboard" }
         ]}
       />
 
       {notification && (
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification(null)}
-        />
+        <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-slideInRight">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">
+              {notification.type === 'success' ? '✅' : notification.type === 'error' ? '❌' : 'ℹ️'}
+            </span>
+            <p>{notification.message}</p>
+            <button
+              onClick={() => setNotification(null)}
+              className="ml-4 text-white hover:text-gray-200"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
       )}
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
           <h1 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent mb-2">
-            🏗️ MagajiCo Empire Builder
+            👑 MagajiCo Empire
           </h1>
           <p className="text-xl text-gray-300">
-            Building from Foundation to Legendary Rooftop
+            Build Your Legacy from Foundation to Legendary Status
           </p>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={() => setShowLeaderboard(!showLeaderboard)}
-            className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors flex items-center gap-2"
-          >
-            🏆 {showLeaderboard ? 'Hide' : 'Show'} Leaderboard
-          </button>
-          <button
-            onClick={handleReset}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
-          >
-            🔄 Reset
-          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <PowerDisplay totalPower={totalPower} />
+      {/* App Drawer Toggle */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setAppDrawerOpen(true)}
+          className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-white font-semibold transition-all"
+        >
+          🏗️ Apps
+        </button>
+      </div>
 
-          {isBuilding && (
-            <div className="w-full bg-gray-700 rounded-full h-4 mt-6 mb-6 overflow-hidden">
-              <div
-                className="bg-gradient-to-r from-yellow-400 to-pink-500 h-4 transition-all duration-100"
-                style={{ width: `${buildingProgress}%` }}
-              />
-            </div>
+      {/* Live Matches Carousel */}
+      <div className="mb-6">
+        <LiveCarousel />
+      </div>
+
+      {/* Latest News Carousel */}
+      <div className="mb-6">
+        <NewsCarousel />
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${
+              activeTab === tab.id
+                ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900'
+                : 'bg-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            <span className="mr-2">{tab.icon}</span>
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* App Drawer */}
+      <AppDrawer isOpen={appDrawerOpen} onClose={() => setAppDrawerOpen(false)} />
+
+      {/* Feature Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className={activeTab === 'foundation' ? 'lg:col-span-2' : 'lg:col-span-3'}>
+          {activeTab === 'foundation' && (
+            <FoundationFeature 
+              userId={userId} 
+              onNotification={showNotification}
+            />
+          )}
+          
+          {activeTab === 'achievements' && (
+            <AchievementsFeature 
+              currentUser={currentUser}
+              onAchievementUnlocked={handleAchievementUnlocked}
+            />
           )}
 
-          <div className="grid grid-cols-1 gap-6 mt-6">
-            {phases.map((phase) => (
-              <div
-                key={phase.id}
-                className={`transition-all duration-700 ${
-                  newlyUnlocked === phase.id ? "animate-pulse ring-4 ring-yellow-400 rounded-2xl" : ""
-                }`}
-              >
-                <PhaseCard
-                  phase={phase}
-                  currentPhase={currentPhase}
-                  isBuilding={isBuilding}
-                  startBuilding={startBuilding}
-                />
-              </div>
-            ))}
-          </div>
+          {activeTab === 'leaderboard' && (
+            <LeaderboardFeature />
+          )}
         </div>
 
-        {showLeaderboard && (
+        {activeTab === 'foundation' && (
           <div className="lg:col-span-1">
-            <Leaderboard />
+            <LeaderboardFeature />
           </div>
         )}
       </div>
