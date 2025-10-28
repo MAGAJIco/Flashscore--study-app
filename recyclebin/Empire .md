@@ -109,7 +109,7 @@ apps/backend/ml/
 
 ## 🔗 Feature App Routes
 
-### Empire (Main Hub)
+### Portal (Main Hub)
 - `/` - Main dashboard with feature cards
 - `/about` - About the platform
 - `/help` - Help & documentation
@@ -252,7 +252,6 @@ Each feature app has:
 3. Add module-specific middleware
 4. Implement feature-specific testing
 
----
 
-**Last Updated:** October 26, 2025  
-**Version:** 2.0.0
+Put a googlestyle menu and put a Google style app drawar
+Add a horizontal carousel for live and  news.
