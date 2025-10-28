@@ -1,19 +1,14 @@
 
-export * from './api';
-export * from './authors';
+// Core routes
 export * from './auth';
-export * from './confidence-evolution';
-export * from './data-rights';
-export * from './enhanced-predictions';
-export * from './errors';
-export * from './foundation';
 export * from './health';
-export * from './market-intelligence';
-export * from './marketplace';
-export * from './matches';
-export * from './newsAuthors';
-export * from './news';
-export * from './payment';
-export * from './prediction';
-export * from './scraper';
+export * from './errors';
+
+// Payment routes
 export * from './stripe';
+export * from './payment';
+
+// Foundation
+export * from './foundation';
+
+// Legacy routes removed - now using modular structure in /modules

@@ -7,10 +7,12 @@ import { validateProductionEnv, logEnvironmentStatus } from "./utils/validateEnv
 import { BackendErrorBoundary } from "./middleware/globalErrorHandler";
 
 // Core modules
+// Core routes
 import { healthRoutes } from "./routes/health";
 import { authRoutes } from "./routes/auth";
+import { errorsRoutes } from "./routes/errors";
 
-// Feature modules
+// Feature modules (modular architecture)
 import { predictionModuleRoutes } from "./modules/predictions/routes";
 import { matchModuleRoutes } from "./modules/matches/routes";
 import { newsModuleRoutes } from "./modules/news/routes";
@@ -22,7 +24,6 @@ import { kidsModuleRoutes } from "./modules/kids/routes";
 import { stripeRoutes } from "./routes/stripe";
 import { paymentsRoutes } from "./routes/payment";
 import { foundationRoutes } from "./routes/foundation";
-import { errorsRoutes } from "./routes/errors";
 
 const fastify = Fastify({ 
   logger: true,

@@ -1,17 +1,10 @@
 // Service Layer Exports
-export * from './aiEnhancementService';
-export * from './autoTrainingService';
-export * from './collaborationService';
-export * from './confidenceEvolutionService';
-export * from './dynamicPricingService';
-export * from './edgePredictionService';
-export * from './enhancedSportsService';
-export * from './inMemoryPredictionService';
+// Modern modular services
 export * from './mlPredictionService';
 export * from './newsAuthorService';
-export * from './predictionCacheService';
-export * from './scraperServices';
-export * from './statAreaService';
+export * from './enhancedSportsService';
+
+// Legacy services removed - functionality moved to modules
 
 // Named exports for convenience
 export { aiEnhancementService } from './aiEnhancementService';
