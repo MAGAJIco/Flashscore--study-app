@@ -11,7 +11,7 @@ interface FoundationFeatureProps {
   onNotification: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
-export function FoundationFeature({ userId, onNotification }: FoundationFeatureProps) {
+export default function FoundationFeature({ userId, onNotification }: FoundationFeatureProps) {
   const [totalPower, setTotalPower] = useState(0);
   const [isBuilding, setIsBuilding] = useState(false);
   const [buildingProgress, setBuildingProgress] = useState(0);

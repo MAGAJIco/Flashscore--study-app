@@ -11,7 +11,7 @@ interface LeaderboardEntry {
   avatar?: string;
 }
 
-export function LeaderboardFeature() {
+export default function LeaderboardFeature() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
 

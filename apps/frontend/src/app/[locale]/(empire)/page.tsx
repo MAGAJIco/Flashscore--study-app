@@ -4,9 +4,9 @@ import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
 import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
 import { GoogleStyleNav } from '@/app/components/GoogleStyleNav';
 import { AppDrawer } from '@/app/components/layout/AppDrawer';
-import { FoundationFeature } from "./features/foundation/FoundationFeature";
-import { LeaderboardFeature } from "./features/leaderboard/LeaderboardFeature";
-import { AchievementsFeature } from "./features/achievements/AchievementsFeature";
+import FoundationFeature from "./features/foundation/FoundationFeature";
+import LeaderboardFeature from "./features/leaderboard/LeaderboardFeature";
+import AchievementsFeature from "./features/achievements/AchievementsFeature";
 import { useEmpireVisibility } from '@/app/hooks';
 import Link from 'next/link';
 
@@ -610,15 +610,24 @@ export default function EmpirePage() {
 
         <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.8s' }}>
           <h2 className="text-3xl font-bold text-indigo-600 mb-6">
-            🎯 Next Steps
+            🚀 Next Steps - 4 Upcoming Priorities
           </h2>
           <div className="bg-gray-50 rounded-xl p-6 space-y-3">
             {nextSteps.map((step, index) => (
               <div
                 key={index}
-                className="bg-white p-4 rounded-lg border-l-4 border-indigo-600 hover:pl-6 hover:shadow-md transition-all"
+                className="bg-white p-4 rounded-lg border-l-4 border-indigo-600 hover:pl-6 hover:shadow-md transition-all group"
               >
-                {index + 1}. {step}
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {index + 1}
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-gray-800 font-medium group-hover:text-indigo-600 transition-colors">
+                      {step}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -669,9 +678,58 @@ export default function EmpirePage() {
           )}
         </div>
 
-        <footer className="text-center text-white py-10 mt-10 opacity-90">
-          <p className="text-lg font-semibold">Sports Central Architecture v2.0.0</p>
-          <p className="text-sm mt-2">Last Updated: October 28, 2025</p>
+        <footer className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mt-10 border border-white/20">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            {/* About Section */}
+            <div>
+              <h3 className="text-lg font-bold text-white mb-4">About Sports Central</h3>
+              <p className="text-gray-300 text-sm">
+                AI-powered sports prediction and community platform with real-time analytics.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-bold text-white mb-4">Quick Links</h3>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/en" className="text-gray-300 hover:text-white transition-colors">Home</Link></li>
+                <li><Link href="/en/ai-predictions" className="text-gray-300 hover:text-white transition-colors">Predictions</Link></li>
+                <li><Link href="/en/matches" className="text-gray-300 hover:text-white transition-colors">Live Matches</Link></li>
+                <li><Link href="/en/news" className="text-gray-300 hover:text-white transition-colors">News</Link></li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3 className="text-lg font-bold text-white mb-4">Legal</h3>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/en/privacy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/en/terms" className="text-gray-300 hover:text-white transition-colors">Terms of Service</Link></li>
+                <li><Link href="/en/partnerships" className="text-gray-300 hover:text-white transition-colors">Partnerships</Link></li>
+              </ul>
+            </div>
+
+            {/* Connect */}
+            <div>
+              <h3 className="text-lg font-bold text-white mb-4">Connect</h3>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/en/feed" className="text-gray-300 hover:text-white transition-colors">Community</Link></li>
+                <li><Link href="/en/author" className="text-gray-300 hover:text-white transition-colors">Authors</Link></li>
+                <li><a href="mailto:support@sportscentral.com" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-white/20">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-gray-300 text-sm">
+                © 2025 Sports Central. All rights reserved.
+              </p>
+              <p className="text-gray-400 text-xs">
+                Sports Central Architecture v2.0.0 | Last Updated: {new Date().toLocaleDateString()}
+              </p>
+            </div>
+          </div>
         </footer>
       </div>
 
