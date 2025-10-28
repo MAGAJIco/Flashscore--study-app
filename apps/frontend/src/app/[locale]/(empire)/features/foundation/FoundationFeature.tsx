@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -11,7 +10,7 @@ interface FoundationFeatureProps {
   onNotification: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
-export function FoundationFeature({ userId, onNotification }: FoundationFeatureProps) {
+function FoundationFeature({ userId, onNotification }: FoundationFeatureProps) {
   const [totalPower, setTotalPower] = useState(0);
   const [isBuilding, setIsBuilding] = useState(false);
   const [buildingProgress, setBuildingProgress] = useState(0);
@@ -261,3 +260,5 @@ export function FoundationFeature({ userId, onNotification }: FoundationFeatureP
     </div>
   );
 }
+
+export default FoundationFeature;

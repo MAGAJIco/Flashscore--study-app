@@ -1,6 +1,18 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
+export async function GET(request: NextRequest) {
+  return NextResponse.json({
+    success: true,
+    message: 'Developer Portal API',
+    endpoints: {
+      health: '/api/health',
+      predictions: '/api/predictions',
+      matches: '/api/matches',
+    }
+  });
+}
+
 interface DeveloperApplication {
   id: string;
   name: string;

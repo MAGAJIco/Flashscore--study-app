@@ -1,5 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { category: string } }
+) {
+  const { category } = params;
+  
+  return NextResponse.json({
+    success: true,
+    category,
+    questions: []
+  });
+}
+
 interface Question {
   id: number;
   question: string;

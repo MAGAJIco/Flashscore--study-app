@@ -101,3 +101,5 @@ export function LeaderboardFeature() {
     </div>
   );
 }
+
+export default LeaderboardFeature;

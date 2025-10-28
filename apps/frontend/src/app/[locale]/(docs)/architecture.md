@@ -1,9 +1,9 @@
 
-SYSTEM ARCHITECTURE
-==================
+# SYSTEM ARCHITECTURE
 
-Frontend Structure
-------------------
+## Frontend Structure
+
+```
 apps/frontend/src/app/[locale]/
 ├── (empire)/            # Empire Central (Command Center)
 ├── (predictions)/       # AI Predictions
@@ -12,18 +12,22 @@ apps/frontend/src/app/[locale]/
 ├── (kids)/             # Kids mode
 ├── (rewards)/          # Achievements
 └── (docs)/             # Documentation
+```
 
-Backend Modules
----------------
+## Backend Modules
+
+```
 apps/backend/src/modules/
 ├── predictions/         # Prediction service
 ├── matches/            # Live match service
 ├── social/             # Social features
 ├── rewards/            # Rewards system
 └── kids/               # Kids mode enforcement
+```
 
-Shared Packages
----------------
+## Shared Packages
+
+```
 packages/shared/
 ├── libs/
 │   ├── api/            # API client
@@ -31,20 +35,21 @@ packages/shared/
 │   ├── services/       # Common services
 │   ├── types/          # TypeScript types
 │   └── utils/          # Utility functions
+```
 
-Technology Stack
-----------------
-- Frontend: Next.js 14.2, React 18, TypeScript
-- Backend: Node.js, Fastify, TypeScript
-- Database: MongoDB Atlas
-- ML Service: Python, FastAPI, PyTorch
-- Styling: Tailwind CSS, CSS Modules
-- State: React Context, Local Storage
-- API: REST + Real-time updates
+## Technology Stack
 
-Deployment
-----------
-- Frontend: Vercel/Replit
-- Backend: Replit
-- ML Service: Replit
-- Database: MongoDB Atlas (Cloud)
+- **Frontend**: Next.js 14.2, React 18, TypeScript
+- **Backend**: Node.js, Fastify, TypeScript
+- **Database**: MongoDB Atlas
+- **ML Service**: Python, FastAPI, PyTorch
+- **Styling**: Tailwind CSS, CSS Modules
+- **State**: React Context, Local Storage
+- **API**: REST + Real-time updates
+
+## Deployment
+
+- **Frontend**: Vercel/Replit
+- **Backend**: Replit
+- **ML Service**: Replit
+- **Database**: MongoDB Atlas (Cloud)

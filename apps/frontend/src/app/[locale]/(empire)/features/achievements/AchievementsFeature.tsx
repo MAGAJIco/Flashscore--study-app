@@ -19,3 +19,5 @@ export function AchievementsFeature({ currentUser, onAchievementUnlocked }: Achi
     </div>
   );
 }
+
+export default AchievementsFeature;
