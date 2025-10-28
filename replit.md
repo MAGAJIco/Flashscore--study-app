@@ -24,9 +24,10 @@ The project is organized as a monorepo with the following key directories:
 - **Deployment**: Replit.
 
 **UI/UX Decisions:**
-- Comprehensive documentation page at `/docs` with Google-style UI.
-- Interactive app launcher showing 9 feature apps: Portal, Predictions, Live, Social, Kids Mode, Rewards, Analytics, Chat, Challenges.
-- Simplified homepage that imports and renders a `Welcome` component, with feature navigation consolidated into a `ComprehensiveSportsHub` component.
+- Google-style navigation bar with app drawer launcher showing 9 feature apps: Portal, Predictions, Live, Social, Kids Mode, Rewards, Analytics, Chat, Documentation.
+- Homepage features horizontal carousels for Live Matches and Latest News with auto-scrolling functionality.
+- Feature app cards with gradient backgrounds and hover effects for intuitive navigation.
+- All navigation is locale-aware using Next.js `[locale]` routing structure (e.g., `/en/matches`, `/en/empire`).
 - Feature-based organization with dedicated route groups (e.g., `(predictions)`, `(social)`, `(rewards)`).
 
 **Technical Implementations:**
@@ -34,6 +35,9 @@ The project is organized as a monorepo with the following key directories:
 - Real-time data processing for live scores.
 - AI-powered prediction models.
 - Modular architecture with feature-based apps for maintainability.
+- Locale-aware routing throughout the application using Next.js App Router with `[locale]` parameter.
+- Client-side React hooks (useState, useParams) properly implemented with "use client" directives.
+- Shared UI components: GoogleNavBar, AppDrawer, LiveCarousel, NewsCarousel.
 - Environment variables are strictly configured for different services and environments.
 
 ## External Dependencies
