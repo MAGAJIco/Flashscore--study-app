@@ -106,12 +106,13 @@ export const predict = async (
       return reply.status(400).send({ error: 'Missing required fields' });
     }
 
-    const result = await predictionService.predictWithML(features);
+    const result = await predictionService.predictWithML(features, homeTeam, awayTeam);
     
     return reply.send({
       success: true,
       data: result,
-      enhanced: enableAI || false
+      enhanced: enableAI || false,
+      source: result.source || 'ml'
     });
   } catch (err) {
     reply.status(500).send({ error: "Prediction failed" });
