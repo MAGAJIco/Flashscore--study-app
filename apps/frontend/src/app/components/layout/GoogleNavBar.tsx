@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { AppDrawer } from "@/app/[locale]/(docs)/components/AppDrawer";
+import { AppDrawer } from "./AppDrawer";
 
 export function GoogleNavBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
