@@ -1,4 +1,26 @@
 // ============================================
+// FILE: app/(empire)/layout.tsx
+// PATH: apps/frontend/src/app/(empire)/layout.tsx
+// ============================================
+
+export default function EmpireLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="empire-layout">
+      {children}
+    </div>
+  );
+}
+
+export const metadata = {
+  title: 'Sports Central - Empire',
+  description: 'Feature-Based Architecture Documentation',
+};
+
+// ============================================
 // FILE: app/(empire)/page.tsx
 // PATH: apps/frontend/src/app/(portal)/page.tsx
 // ============================================
@@ -16,7 +38,7 @@ import { DataFlow } from '@/components/sections/DataFlow';
 import { ImplementationStatus } from '@/components/sections/ImplementationStatus';
 import { NextSteps } from '@/components/sections/NextSteps';
 
-export default function PortalPage() {
+export default function EmpirePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
       <GoogleNavBar />
@@ -154,7 +176,7 @@ interface AppDrawerProps {
 }
 
 const apps = [
-  { icon: '🏠', name: 'Portal' },
+  { icon: '🏠', name: 'Empire' },
   { icon: '🤖', name: 'Predictions' },
   { icon: '⚡', name: 'Live' },
   { icon: '👥', name: 'Social' },
@@ -442,11 +464,6 @@ export function NewsCarousel() {
 
 
 // ============================================
-// Continue in next message for remaining components...
-// ============================================
-
-
-// ============================================
 // FILE: components/sections/ArchitectureOverview.tsx
 // PATH: apps/frontend/src/components/sections/ArchitectureOverview.tsx
 // ============================================
@@ -473,9 +490,9 @@ export function ArchitectureOverview() {
 const apps = [
   {
     icon: '🏠',
-    title: 'Portal',
+    title: 'Empire',
     description: 'Main dashboard & navigation hub',
-    items: ['page.tsx - Landing with feature cards', 'layout.tsx - Portal-specific layout']
+    items: ['page.tsx - Landing with feature cards', 'layout.tsx - Empire-specific layout']
   },
   {
     icon: '🤖',

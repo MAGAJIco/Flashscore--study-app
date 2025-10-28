@@ -8,9 +8,11 @@ export const FEATURE_APPS: FeatureApp[] = [
     title: "Empire",
     description: "Command center & navigation hub",
     items: [
-      "page.tsx - Empire Central dashboard",
-      "layout.tsx - Empire-specific layout",
-      "features/ - Foundation, Leaderboard, Achievements"
+      "page.tsx - Empire Central dashboard with AI CEO",
+      "layout.tsx - Empire-specific layout with breadcrumbs",
+      "features/ - Foundation, Leaderboard, Achievements",
+      "ai-ceo/ - MagajiCo AI CEO chat interface",
+      "growth/ - Empire growth tracking"
     ],
     route: "/empire",
   },

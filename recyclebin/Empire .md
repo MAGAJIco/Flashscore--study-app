@@ -11,9 +11,9 @@ Sports Central is organized into feature-based apps within a monorepo structure.
 
 ```
 apps/frontend/src/app/
-├── (portal)/              # Main dashboard & navigation hub
+├── (empire)/              # Main dashboard & navigation hub
 │   ├── page.tsx          # Landing page with feature cards
-│   └── layout.tsx        # Portal-specific layout
+│   └── layout.tsx        # Empire-specific layout
 │
 ├── (predictions)/        # AI Predictions & ML Features
 │   ├── ai-predictions/   # ML prediction interface
@@ -109,7 +109,7 @@ apps/backend/ml/
 
 ## 🔗 Feature App Routes
 
-### Portal (Main Hub)
+### Empire (Main Hub)
 - `/` - Main dashboard with feature cards
 - `/about` - About the platform
 - `/help` - Help & documentation
