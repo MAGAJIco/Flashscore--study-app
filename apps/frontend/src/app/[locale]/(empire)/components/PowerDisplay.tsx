@@ -5,7 +5,7 @@ interface PowerDisplayProps {
   totalPower: number;
 }
 
-export default function PowerDisplay({ totalPower }: PowerDisplayProps) {
+export function PowerDisplay({ totalPower }: PowerDisplayProps) {
   return (
     <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-2xl p-6 mb-6">
       <div className="flex items-center justify-between">

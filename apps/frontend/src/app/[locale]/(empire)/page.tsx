@@ -13,8 +13,8 @@ import Link from 'next/link';
 type TabType = 'foundation' | 'leaderboard' | 'achievements';
 
 const navigationApps = [
-  { id: 'portal', name: 'Portal', icon: '🏠', route: '/en' },
-  { id: 'empire', name: 'Empire', icon: '👑', route: '/en/empire' },
+  { id: 'portal', name: 'Portal', icon: '🏠', route: '/en/MagajiCoFoundation' },
+  { id: 'empire', name: 'Empire', icon: '👑', route: '/en' },
   { id: 'predictions', name: 'Predictions', icon: '🤖', route: '/en/ai-predictions' },
   { id: 'live', name: 'Live', icon: '⚡', route: '/en/matches' },
   { id: 'social', name: 'Social', icon: '👥', route: '/en/feed' },
@@ -22,6 +22,111 @@ const navigationApps = [
   { id: 'news', name: 'News', icon: '📰', route: '/en/news' },
   { id: 'rewards', name: 'Rewards', icon: '🏆', route: '/en/achievements' },
   { id: 'analytics', name: 'Analytics', icon: '📊', route: '/en/analytics' },
+];
+
+const featureApps = [
+  {
+    id: 'portal',
+    name: 'Portal',
+    icon: '🏠',
+    description: 'Central hub & navigation',
+    routes: ['dashboard/', 'welcome/', 'quick-access/'],
+  },
+  {
+    id: 'predictions',
+    name: 'Predictions',
+    icon: '🤖',
+    description: 'AI-powered forecasting',
+    routes: ['matches/', 'confidence/', 'history/'],
+  },
+  {
+    id: 'live',
+    name: 'Live',
+    icon: '⚡',
+    description: 'Real-time match tracking',
+    routes: ['scorecard/', 'commentary/', 'highlights/'],
+  },
+  {
+    id: 'social',
+    name: 'Social',
+    icon: '👥',
+    description: 'Community & engagement',
+    routes: ['feed/', 'challenges/', 'chat/', 'forum/'],
+  },
+  {
+    id: 'kids',
+    name: 'Kids Mode',
+    icon: '🎮',
+    description: 'Safe environment for children',
+    routes: ['dashboard/', 'quizzes/', 'learning/'],
+  },
+  {
+    id: 'rewards',
+    name: 'Rewards',
+    icon: '🏆',
+    description: 'Achievements & gamification',
+    routes: ['achievements/', 'leaderboard/', 'coins/'],
+  },
+  {
+    id: 'analytics',
+    name: 'Analytics',
+    icon: '📊',
+    description: 'Performance insights',
+    routes: ['stats/', 'trends/', 'reports/'],
+  },
+  {
+    id: 'chat',
+    name: 'Chat',
+    icon: '💬',
+    description: 'Live discussions',
+    routes: ['rooms/', 'messages/', 'notifications/'],
+  },
+  {
+    id: 'challenges',
+    name: 'Challenges',
+    icon: '🎯',
+    description: 'Competitive tasks',
+    routes: ['daily/', 'tournaments/', 'prizes/'],
+  },
+];
+
+const benefits = [
+  'Better Organization',
+  'Easier Maintenance',
+  'Improved Performance',
+  'Team Scalability',
+  'Independent Testing',
+  'Flexible Deployment',
+];
+
+const implementationStatus = [
+  {
+    title: 'Frontend Route Groups',
+    status: 'complete',
+    description: 'All feature route groups created with proper layouts and navigation updated',
+  },
+  {
+    title: 'Backend Modules',
+    status: 'complete',
+    description: 'Module structure created and routes reorganized with feature grouping',
+  },
+  {
+    title: 'Service Layer',
+    status: 'progress',
+    description: 'Currently refactoring service layers for each module',
+  },
+  {
+    title: 'Testing & Deployment',
+    status: 'pending',
+    description: 'Feature-specific testing and deployment pipeline setup',
+  },
+];
+
+const nextSteps = [
+  'Move remaining components into feature directories',
+  'Create service layers for each module',
+  'Add module-specific middleware',
+  'Implement feature-specific testing',
 ];
 
 export default function EmpirePage() {
@@ -51,7 +156,6 @@ export default function EmpirePage() {
   const [newlyUnlocked, setNewlyUnlocked] = useState<string | null>(null);
 
   useEffect(() => {
-    // Load current user data
     if (typeof window !== 'undefined') {
       const userData = localStorage.getItem('current_user');
       if (userData) {
@@ -74,7 +178,6 @@ export default function EmpirePage() {
     { id: 'achievements' as TabType, label: 'Achievements', icon: '⭐' },
   ];
 
-  // Load foundation progress from backend
   useEffect(() => {
     const loadProgress = async () => {
       try {
@@ -91,7 +194,6 @@ export default function EmpirePage() {
           setPhases(result.data.phases);
           setTotalPower(result.data.totalPower);
         } else {
-          // Use default phases
           const defaultPhases = [
             {
               id: "foundation",
@@ -151,7 +253,6 @@ export default function EmpirePage() {
       } catch (err) {
         console.error('Failed to load foundation progress:', err);
         showNotification('Failed to load progress. Using offline mode.', 'error');
-        // Use default phases on error
         const defaultPhases = [
           {
             id: "foundation",
@@ -215,7 +316,6 @@ export default function EmpirePage() {
     loadProgress();
   }, [userId]);
 
-  // Simulate building progress
   useEffect(() => {
     if (isBuilding) {
       const interval = setInterval(() => {
@@ -232,7 +332,6 @@ export default function EmpirePage() {
     }
   }, [isBuilding]);
 
-  // Check for newly unlocked phases - FIXED LINE 198
   useEffect(() => {
     phases.forEach((phase) => {
       if (phase.requiredPower !== undefined && totalPower >= phase.requiredPower && !phase.unlocked && !phase.completed) {
@@ -252,12 +351,10 @@ export default function EmpirePage() {
       setIsBuilding(true);
       setBuildingProgress(0);
 
-      // Optimistic update
       setPhases((prev) =>
         prev.map((p) => (p.id === phaseId ? { ...p, building: true } : p))
       );
 
-      // Update backend
       const response = await fetch(`/api/backend/foundation/${userId}/start-building`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -303,7 +400,6 @@ export default function EmpirePage() {
     } catch (err) {
       console.error('Failed to complete phase:', err);
 
-      // Fallback to local state
       setPhases((prev) =>
         prev.map((p) => {
           if (p.id === currentPhase) {
@@ -369,8 +465,7 @@ export default function EmpirePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-      {/* Google-Style Navigation */}
+    <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
       <GoogleStyleNav apps={navigationApps} />
 
       {notification && (
@@ -390,56 +485,154 @@ export default function EmpirePage() {
         </div>
       )}
 
-      <div className="p-6 text-white">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent mb-2">
-              👑 MagajiCo Empire
-            </h1>
-            <p className="text-xl text-gray-300">
-              Build Your Legacy from Foundation to Legendary Status
-            </p>
-          </div>
+      <div className="max-w-7xl mx-auto p-6">
+        <header className="text-center text-white mb-10 animate-fadeInDown">
+          <h1 className="text-5xl md:text-6xl font-bold mb-3 drop-shadow-lg">
+            🏗️ Sports Central
+          </h1>
+          <p className="text-xl md:text-2xl opacity-95">
+            Feature-Based Architecture Documentation
+          </p>
+        </header>
+
+        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+          <h2 className="text-3xl font-bold text-indigo-600 mb-4 flex items-center gap-3">
+            📖 Overview
+          </h2>
+          <p className="text-gray-700 leading-relaxed">
+            Sports Central is a production-ready monorepo sports prediction and community platform built with Next.js (Frontend), 
+            Fastify (Backend), and FastAPI (ML Service). It features AI-powered predictions, live scores, interactive experiences, 
+            and community rewards. The platform provides a comprehensive multi-sport experience inspired by FlashScore, incorporating 
+            real-time data, personalized content, and engaging user interfaces.
+          </p>
         </div>
 
-        {/* Quick Links */}
-        <div className="mb-6 flex gap-4 flex-wrap">
-          <Link
-            href="/en/author"
-            className="px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all bg-white/10 text-white hover:bg-white/20"
-          >
-            <span className="mr-2">✍️</span>
-            Authors & News
-          </Link>
-          <Link
-            href="/en/news"
-            className="px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all bg-white/10 text-white hover:bg-white/20"
-          >
-            <span className="mr-2">📰</span>
-            Latest News
-          </Link>
-        </div>
-
-      {/* Live Matches Carousel */}
-        <div className="mb-6">
+        <div className="mb-8">
           <LiveCarousel />
         </div>
 
-        {/* Latest News Carousel */}
-        <div className="mb-6">
+        <div className="mb-8">
           <NewsCarousel />
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
+          <h2 className="text-3xl font-bold text-indigo-600 mb-6 flex items-center gap-3">
+            🎯 Feature Apps
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featureApps.map((app, index) => (
+              <div
+                key={app.id}
+                className="bg-gradient-to-br from-gray-50 to-indigo-50 rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-400 cursor-pointer"
+                style={{ animationDelay: `${0.1 * index}s` }}
+              >
+                <h3 className="text-2xl font-bold text-indigo-600 mb-3 flex items-center gap-2">
+                  <span className="text-3xl">{app.icon}</span>
+                  {app.name}
+                </h3>
+                <p className="text-gray-600 mb-4">{app.description}</p>
+                <ul className="space-y-2">
+                  {app.routes.map((route, idx) => (
+                    <li
+                      key={idx}
+                      className="text-gray-500 text-sm py-2 border-b border-gray-200 last:border-0 hover:text-indigo-600 hover:pl-2 transition-all"
+                    >
+                      {route}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
+          <h2 className="text-3xl font-bold text-indigo-600 mb-6">
+            🚀 Key Benefits
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {benefits.map((benefit, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-br from-orange-100 to-pink-100 p-5 rounded-xl font-semibold text-gray-800 transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                ✅ {benefit}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.6s' }}>
+          <h2 className="text-3xl font-bold text-indigo-600 mb-6">
+            🔄 Data Flow Architecture
+          </h2>
+          <div className="bg-gray-900 text-gray-200 p-6 rounded-xl overflow-x-auto font-mono text-sm md:text-base">
+            Frontend Apps → Backend Modules → Database<br />
+            ↓<br />
+            ML Service → Predictions
+          </div>
+          <p className="mt-4 text-gray-600">
+            Clean separation of concerns with each layer handling specific responsibilities. 
+            The ML service operates independently, providing predictions to the backend modules.
+          </p>
+        </div>
+
+        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
+          <h2 className="text-3xl font-bold text-indigo-600 mb-6">
+            📊 Implementation Status
+          </h2>
+          <div className="space-y-6 pl-8 border-l-4 border-indigo-600">
+            {implementationStatus.map((item, index) => (
+              <div
+                key={index}
+                className="relative bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
+              >
+                <div className="absolute -left-10 top-6 w-4 h-4 rounded-full bg-white border-4 border-indigo-600"></div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+                  {item.title}
+                  <span
+                    className={`text-sm px-4 py-1 rounded-full font-semibold ${
+                      item.status === 'complete'
+                        ? 'bg-green-500 text-white'
+                        : item.status === 'progress'
+                        ? 'bg-orange-500 text-white'
+                        : 'bg-gray-400 text-white'
+                    }`}
+                  >
+                    {item.status === 'complete' ? '✅ Complete' : item.status === 'progress' ? '🔄 In Progress' : '⏳ Pending'}
+                  </span>
+                </h3>
+                <p className="text-gray-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-8 bg-white rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.8s' }}>
+          <h2 className="text-3xl font-bold text-indigo-600 mb-6">
+            🎯 Next Steps
+          </h2>
+          <div className="bg-gray-50 rounded-xl p-6 space-y-3">
+            {nextSteps.map((step, index) => (
+              <div
+                key={index}
+                className="bg-white p-4 rounded-lg border-l-4 border-indigo-600 hover:pl-6 hover:shadow-md transition-all"
+              >
+                {index + 1}. {step}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-8 flex gap-2 overflow-x-auto pb-2">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${
                 activeTab === tab.id
-                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900'
-                  : 'bg-white/10 text-white hover:bg-white/20'
+                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 shadow-lg'
+                  : 'bg-white/90 text-indigo-600 hover:bg-white hover:shadow-md'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -448,8 +641,7 @@ export default function EmpirePage() {
           ))}
         </div>
 
-        {/* Feature Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className={activeTab === 'foundation' ? 'lg:col-span-2' : 'lg:col-span-3'}>
             {activeTab === 'foundation' && (
               <FoundationFeature 
@@ -476,7 +668,59 @@ export default function EmpirePage() {
             </div>
           )}
         </div>
+
+        <footer className="text-center text-white py-10 mt-10 opacity-90">
+          <p className="text-lg font-semibold">Sports Central Architecture v2.0.0</p>
+          <p className="text-sm mt-2">Last Updated: October 28, 2025</p>
+        </footer>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .animate-fadeInDown {
+          animation: fadeInDown 0.8s ease;
+        }
+
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease backwards;
+        }
+
+        .animate-slideInRight {
+          animation: slideInRight 0.3s ease;
+        }
+      `}</style>
     </div>
   );
 }

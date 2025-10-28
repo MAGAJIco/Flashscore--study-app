@@ -9,7 +9,7 @@ interface PhaseCardProps {
   startBuilding: (phaseId: string) => void;
 }
 
-export default function PhaseCard({ phase, currentPhase, isBuilding, startBuilding }: PhaseCardProps) {
+export function PhaseCard({ phase, currentPhase, isBuilding, startBuilding }: PhaseCardProps) {
   return (
     <div className={`bg-white/10 backdrop-blur-lg rounded-2xl p-6 border ${
       phase.unlocked ? 'border-yellow-400/50' : 'border-white/20'
