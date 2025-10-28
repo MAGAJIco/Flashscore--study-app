@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
 import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
-import { GoogleStyleNav } from '@/app/components/GoogleStyleNav';
-import { AppDrawer } from '@/app/components/layout/AppDrawer';
+import { GoogleNavBar } from '@/app/components/layout/GoogleNavBar';
 import { IOSStyleFeatures } from '@/app/components/IOSStyleFeatures';
 import FoundationFeature from "./features/foundation/FoundationFeature";
 import LeaderboardFeature from "./features/leaderboard/LeaderboardFeature";
@@ -177,7 +176,7 @@ export default function EmpirePage() {
   return (
     <IOSStyleFeatures>
       <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
-        <GoogleStyleNav apps={navigationApps} />
+        <GoogleNavBar />
 
         {notification && (
           <div className="fixed top-20 right-4 z-50 glass-card px-6 py-4 rounded-2xl shadow-2xl animate-slideInRight ios-haptic-light">
