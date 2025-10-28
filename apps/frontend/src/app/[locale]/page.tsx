@@ -2,32 +2,61 @@
 "use client";
 
 import React from 'react';
+import { GoogleNavBar } from '@components/layout/GoogleNavBar';
+import { LiveCarousel } from '@components/carousels/LiveCarousel';
+import { NewsCarousel } from '@components/carousels/NewsCarousel';
+import { ArchitectureOverview } from '@components/sections/ArchitectureOverview';
+import { FrontendApps } from '@components/sections/FrontendApps';
+import { KeyBenefits } from '@components/sections/KeyBenefits';
+import { DataFlow } from '@components/sections/DataFlow';
+import { ImplementationStatus } from '@components/sections/ImplementationStatus';
+import { NextSteps } from '@components/sections/NextSteps';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-pink-600 flex items-center justify-center">
-      <div className="text-center px-6">
-        {/* App Icon */}
-        <div className="mb-8">
-          <div className="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl mx-auto flex items-center justify-center border border-white/30">
-            <span className="text-4xl">⚽</span>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+      <GoogleNavBar />
+      
+      <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+        {/* Header */}
+        <header className="text-center py-12 animate-fade-in">
+          <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
+            🏗️ Sports Central
+          </h1>
+          <p className="text-xl text-white/90">
+            Feature-Based Architecture Documentation
+          </p>
+        </header>
 
-        {/* Title */}
-        <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
-          MagajiCo
-        </h1>
+        {/* Live Matches Carousel */}
+        <LiveCarousel />
 
-        {/* Subtitle */}
-        <p className="text-xl text-white/90 mb-12 max-w-md mx-auto">
-          Your Sports Prediction Platform
-        </p>
+        {/* News Carousel */}
+        <NewsCarousel />
 
-        {/* CTA Button */}
-        <button className="px-10 py-4 bg-white text-purple-600 rounded-2xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 active:scale-95 transition-all duration-200">
-          Get Started
-        </button>
+        {/* Overview Section */}
+        <ArchitectureOverview />
+
+        {/* Frontend Apps Structure */}
+        <FrontendApps />
+
+        {/* Key Benefits */}
+        <KeyBenefits />
+
+        {/* Data Flow */}
+        <DataFlow />
+
+        {/* Implementation Status */}
+        <ImplementationStatus />
+
+        {/* Next Steps */}
+        <NextSteps />
+
+        {/* Footer */}
+        <footer className="text-center text-white/90 py-8 text-sm">
+          <p className="font-semibold">Sports Central Architecture v2.0.0</p>
+          <p>Last Updated: January 2025</p>
+        </footer>
       </div>
     </div>
   );
