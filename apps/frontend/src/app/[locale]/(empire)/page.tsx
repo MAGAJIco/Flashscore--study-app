@@ -457,7 +457,7 @@ export default function EmpirePage() {
                 onNotification={showNotification}
               />
             )}
-            
+
             {activeTab === 'achievements' && (
               <AchievementsFeature 
                 currentUser={currentUser}

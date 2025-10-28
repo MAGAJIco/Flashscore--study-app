@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { CarouselCard } from '../cards/CarouselCard';
 import { ScrollButton } from '@/components/ui/ScrollButton';
 import { NEWS_ITEMS } from '@/lib/constant/mockData';
@@ -13,6 +13,24 @@ export function NewsCarousel() {
       carouselRef.current.scrollBy({ left: direction * 340, behavior: 'smooth' });
     }
   };
+
+  // Auto-scroll every 5 seconds with offset timing
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+        
+        // If at the end, scroll back to start
+        if (scrollLeft >= scrollWidth - clientWidth - 10) {
+          carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          carouselRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+        }
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-xl">
