@@ -11,18 +11,8 @@ export function GoogleNavBar() {
       <nav className="bg-white shadow-md sticky top-0 z-50 px-5 h-16 flex items-center justify-between">
         {/* Left Side */}
         <div className="flex items-center gap-5">
-          <button
-            className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
-            onClick={() => alert("Menu clicked")}
-          >
-            <div className="flex flex-col gap-1">
-              <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-              <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-              <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-            </div>
-          </button>
           <div className="text-2xl font-semibold text-indigo-600 flex items-center gap-2">
-            👑 MagajiCo Empire Central
+            ⚽ Sports Central
           </div>
         </div>
 

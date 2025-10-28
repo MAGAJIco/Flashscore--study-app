@@ -3,25 +3,29 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 interface AppDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const apps = [
-  { id: 'portal', name: 'Portal', icon: '🏠', href: '/en', description: 'Main dashboard' },
-  { id: 'predictions', name: 'Predictions', icon: '🤖', href: '/en/ai-predictions', description: 'AI predictions' },
-  { id: 'live', name: 'Live', icon: '⚡', href: '/en/live', description: 'Live tracking' },
-  { id: 'social', name: 'Social', icon: '👥', href: '/en/feed', description: 'Social hub' },
-  { id: 'rewards', name: 'Rewards', icon: '🏆', href: '/en/achievements', description: 'Achievements' },
-  { id: 'docs', name: 'Docs', icon: '📚', href: '/en/docs', description: 'Documentation' },
-  { id: 'kids', name: 'Kids Mode', icon: '🎮', href: '/en/kids', description: 'Safe environment' },
-  { id: 'analytics', name: 'Analytics', icon: '📊', href: '/en/analytics', description: 'Performance analytics' },
-  { id: 'chat', name: 'Chat', icon: '💬', href: '/en/chat', description: 'Live chat' }
-];
-
 export function AppDrawer({ isOpen, onClose }: AppDrawerProps) {
+  const params = useParams();
+  const locale = (params.locale as string) || 'en';
+
+  const apps = [
+    { id: 'portal', name: 'Portal', icon: '🏠', href: `/${locale}`, description: 'Main dashboard' },
+    { id: 'predictions', name: 'Predictions', icon: '🤖', href: `/${locale}/ai-predictions`, description: 'AI predictions' },
+    { id: 'live', name: 'Live', icon: '⚡', href: `/${locale}/matches`, description: 'Live tracking' },
+    { id: 'social', name: 'Social', icon: '👥', href: `/${locale}/feed`, description: 'Social hub' },
+    { id: 'rewards', name: 'Rewards', icon: '🏆', href: `/${locale}/achievements`, description: 'Achievements' },
+    { id: 'docs', name: 'Docs', icon: '📚', href: `/${locale}/docs`, description: 'Documentation' },
+    { id: 'kids', name: 'Kids Mode', icon: '🎮', href: `/${locale}/kids`, description: 'Safe environment' },
+    { id: 'analytics', name: 'Analytics', icon: '📊', href: `/${locale}/analytics`, description: 'Performance analytics' },
+    { id: 'chat', name: 'Chat', icon: '💬', href: `/${locale}/chat`, description: 'Live chat' }
+  ];
+
   if (!isOpen) return null;
 
   return (
