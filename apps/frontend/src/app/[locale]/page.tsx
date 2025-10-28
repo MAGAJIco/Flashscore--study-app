@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react';
-import { GoogleNavBar } from '@components/layout/AppDrawer';
+import { GoogleNavBar } from '@components/layout/GoogleNavBar';
 import { LiveCarousel } from '@components/carousels/LiveCarousel';
 import { NewsCarousel } from '@components/carousels/NewsCarousel';
 import { ArchitectureOverview } from '@components/sections/ArchitectureOverview';
