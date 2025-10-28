@@ -1,1 +1,0 @@
-export { authRoutes } from '../../auth';
