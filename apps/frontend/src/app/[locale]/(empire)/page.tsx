@@ -426,6 +426,13 @@ export default function EmpirePage() {
             {tab.label}
           </button>
         ))}
+        <a
+          href="/empire/docs"
+          className="px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all bg-white/10 text-white hover:bg-white/20"
+        >
+          <span className="mr-2">📚</span>
+          Docs
+        </a>
       </div>
 
       {/* App Drawer */}

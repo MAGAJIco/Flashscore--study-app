@@ -62,7 +62,101 @@
     "viewGrowth": "Ver Crecimiento",
     "foundation": "Fundación",
     "growth": "Crecimiento",
-    "rooftop": "Azotea"
+    "rooftop": "Azotea",
+    "docs": {
+      "breadcrumb": {
+        "empire": "Imperio",
+        "docs": "Documentación"
+      },
+      "header": {
+        "title": "🏗️ Arquitectura Sports Central",
+        "subtitle": "Estructura de Aplicación Basada en Características"
+      },
+      "buttons": {
+        "apps": "Aplicaciones"
+      },
+      "overview": {
+        "title": "🎯 Resumen",
+        "description": "Sports Central está construido sobre una arquitectura modular basada en características. Cada aplicación es independiente con sus propias rutas, componentes y lógica.",
+        "feature1": {
+          "icon": "⚡",
+          "title": "Diseño Modular",
+          "description": "Aplicaciones de características independientes que se pueden desarrollar por separado"
+        },
+        "feature2": {
+          "icon": "🔄",
+          "title": "Componentes Reutilizables",
+          "description": "Componentes compartidos en todas las aplicaciones"
+        },
+        "feature3": {
+          "icon": "🚀",
+          "title": "Rendimiento Primero",
+          "description": "Optimizado para velocidad y experiencia de usuario"
+        }
+      },
+      "carousel": {
+        "live": {
+          "title": "Partidos en Vivo"
+        },
+        "news": {
+          "title": "Últimas Noticias"
+        }
+      },
+      "apps": {
+        "title": "🚀 Aplicaciones de Características",
+        "route": "Ruta",
+        "portal": {
+          "name": "Portal",
+          "description": "Centro de control principal con navegación unificada"
+        },
+        "predictions": {
+          "name": "Predicciones IA",
+          "description": "Pronósticos de partidos con ML y puntuaciones de confianza"
+        },
+        "live": {
+          "name": "Seguimiento en Vivo",
+          "description": "Puntuaciones de partidos en tiempo real y estadísticas"
+        },
+        "social": {
+          "name": "Centro Social",
+          "description": "Compromiso comunitario e interacciones entre amigos"
+        },
+        "kids": {
+          "name": "Modo Niños",
+          "description": "Contenido deportivo seguro y apropiado para la edad"
+        },
+        "rewards": {
+          "name": "Recompensas",
+          "description": "Sistema de logros y gamificación"
+        },
+        "analytics": {
+          "name": "Análisis",
+          "description": "Perspectivas de rendimiento y estadísticas"
+        },
+        "news": {
+          "name": "Noticias",
+          "description": "Últimas noticias deportivas y actualizaciones"
+        },
+        "empire": {
+          "name": "Constructor de Imperio",
+          "description": "Gestión deportiva estratégica y construcción de equipos"
+        }
+      },
+      "news": {
+        "item1": {
+          "title": "Mbappe Firma Acuerdo Histórico",
+          "description": "Real Madrid anuncia transferencia récord"
+        },
+        "item2": {
+          "title": "LeBron Alcanza 40K Puntos",
+          "description": "El Rey James hace historia con un hito sin precedentes"
+        },
+        "item3": {
+          "title": "Serena Regresa a la Cancha",
+          "description": "La leyenda del tenis anuncia torneo de regreso"
+        }
+      }
+    }
   },
   "settings": {
     "language": "Idioma",

@@ -100,7 +100,101 @@
     "viewGrowth": "View Growth",
     "foundation": "Foundation",
     "growth": "Growth",
-    "rooftop": "Rooftop"
+    "rooftop": "Rooftop",
+    "docs": {
+      "breadcrumb": {
+        "empire": "Empire",
+        "docs": "Documentation"
+      },
+      "header": {
+        "title": "🏗️ Sports Central Architecture",
+        "subtitle": "Feature-Based Application Structure"
+      },
+      "buttons": {
+        "apps": "Apps"
+      },
+      "overview": {
+        "title": "🎯 Overview",
+        "description": "Sports Central is built on a modular, feature-based architecture. Each app is self-contained with its own routes, components, and logic.",
+        "feature1": {
+          "icon": "⚡",
+          "title": "Modular Design",
+          "description": "Independent feature apps that can be developed separately"
+        },
+        "feature2": {
+          "icon": "🔄",
+          "title": "Reusable Components",
+          "description": "Shared components across all applications"
+        },
+        "feature3": {
+          "icon": "🚀",
+          "title": "Performance First",
+          "description": "Optimized for speed and user experience"
+        }
+      },
+      "carousel": {
+        "live": {
+          "title": "Live Matches"
+        },
+        "news": {
+          "title": "Latest News"
+        }
+      },
+      "apps": {
+        "title": "🚀 Feature Applications",
+        "route": "Route",
+        "portal": {
+          "name": "Portal",
+          "description": "Main dashboard hub with unified navigation"
+        },
+        "predictions": {
+          "name": "AI Predictions",
+          "description": "ML-powered match forecasts with confidence scores"
+        },
+        "live": {
+          "name": "Live Tracking",
+          "description": "Real-time match scores and statistics"
+        },
+        "social": {
+          "name": "Social Hub",
+          "description": "Community engagement and friend interactions"
+        },
+        "kids": {
+          "name": "Kids Mode",
+          "description": "Safe, age-appropriate sports content"
+        },
+        "rewards": {
+          "name": "Rewards",
+          "description": "Achievement system and gamification"
+        },
+        "analytics": {
+          "name": "Analytics",
+          "description": "Performance insights and statistics"
+        },
+        "news": {
+          "name": "News",
+          "description": "Latest sports news and updates"
+        },
+        "empire": {
+          "name": "Empire Builder",
+          "description": "Strategic sports management and team building"
+        }
+      },
+      "news": {
+        "item1": {
+          "title": "Mbappe Signs Historic Deal",
+          "description": "Real Madrid announces record-breaking transfer"
+        },
+        "item2": {
+          "title": "LeBron Reaches 40K Points",
+          "description": "King James makes history with unprecedented milestone"
+        },
+        "item3": {
+          "title": "Serena Returns to Court",
+          "description": "Tennis legend announces comeback tournament"
+        }
+      }
+    }
   },
   "settings": {
     "language": "Language",
