@@ -2,8 +2,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sports Central - Empire',
-  description: 'MagajiCo Empire Central - Feature-Based Architecture',
+  title: 'MagajiCo Empire Central',
+  description: 'MagajiCo Empire Central - Your Command Center',
 };
 
 export default function EmpireLayout({

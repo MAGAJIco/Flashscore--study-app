@@ -12,7 +12,7 @@ export const FEATURE_APPS: FeatureApp[] = [
       "layout.tsx - Empire-specific layout",
       "features/ - Foundation, Leaderboard, Achievements"
     ],
-    route: "/",
+    route: "/empire",
   },
   {
     icon: "🤖",

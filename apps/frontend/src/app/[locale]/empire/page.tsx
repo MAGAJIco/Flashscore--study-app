@@ -23,6 +23,13 @@ export default function EmpirePage() {
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('foundation');
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [phases, setPhases] = useState<any[]>([]);
+  const [totalPower, setTotalPower] = useState(0);
+  const [currentPhase, setCurrentPhase] = useState<string | null>(null);
+  const [isBuilding, setIsBuilding] = useState(false);
+  const [buildingProgress, setBuildingProgress] = useState(0);
+  const [newlyUnlocked, setNewlyUnlocked] = useState<string | null>(null);
 
   useEffect(() => {
     // Load current user data

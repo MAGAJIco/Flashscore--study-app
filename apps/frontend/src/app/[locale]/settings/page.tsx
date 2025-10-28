@@ -51,7 +51,7 @@ export default function SettingsPage() {
             alignItems: 'center'
           }}>
             <a
-              href="/en"
+              href="/empire"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 padding: '10px 20px',

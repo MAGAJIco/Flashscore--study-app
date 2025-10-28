@@ -22,7 +22,7 @@ export function GoogleNavBar() {
             </div>
           </button>
           <div className="text-2xl font-semibold text-indigo-600 flex items-center gap-2">
-            👑 MagajiCo Empire
+            👑 MagajiCo Empire Central
           </div>
         </div>
 
