@@ -1,16 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Breadcrumbs } from '@/app/components/Breadcrumbs';
 import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
 import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
 import { AppDrawer } from '@/app/components/layout/AppDrawer';
 import { FoundationFeature } from "./features/foundation/FoundationFeature";
 import { LeaderboardFeature } from "./features/leaderboard/LeaderboardFeature";
 import { AchievementsFeature } from "./features/achievements/AchievementsFeature";
+import { useEmpireVisibility } from '@/app/hooks';
 
 type TabType = 'foundation' | 'leaderboard' | 'achievements';
 
 export default function EmpirePage() {
+  const { isVisible } = useEmpireVisibility();
   const [userId] = useState(() => {
     if (typeof window !== 'undefined') {
       let id = localStorage.getItem('magajico-user-id');
@@ -354,14 +355,7 @@ export default function EmpirePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6 text-white transition-all duration-300">
-      <Breadcrumbs 
-        items={[
-          { label: "Empire", href: "/empire" },
-          { label: tabs.find(t => t.id === activeTab)?.label || "Dashboard" }
-        ]}
-      />
-
+    <div className="min-h-screen p-6 text-white transition-all duration-300">
       {notification && (
         <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-slideInRight">
           <div className="flex items-center gap-3">
@@ -426,13 +420,6 @@ export default function EmpirePage() {
             {tab.label}
           </button>
         ))}
-        <a
-          href="/empire/docs"
-          className="px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all bg-white/10 text-white hover:bg-white/20"
-        >
-          <span className="mr-2">📚</span>
-          Docs
-        </a>
       </div>
 
       {/* App Drawer */}

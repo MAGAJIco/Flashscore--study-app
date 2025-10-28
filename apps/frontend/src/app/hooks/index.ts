@@ -19,3 +19,6 @@ export { useHydrationSafe } from './useHydrationSafe';
 
 // ML & AI
 export { useAIAnalysis } from './useAiAnalysis';
+
+// Empire
+export { useEmpireVisibility } from './useEmpireVisibility';
