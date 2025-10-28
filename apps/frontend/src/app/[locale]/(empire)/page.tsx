@@ -2,13 +2,27 @@
 import React, { useState, useEffect } from "react";
 import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
 import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
+import { GoogleStyleNav } from '@/app/components/GoogleStyleNav';
 import { AppDrawer } from '@/app/components/layout/AppDrawer';
 import { FoundationFeature } from "./features/foundation/FoundationFeature";
 import { LeaderboardFeature } from "./features/leaderboard/LeaderboardFeature";
 import { AchievementsFeature } from "./features/achievements/AchievementsFeature";
 import { useEmpireVisibility } from '@/app/hooks';
+import Link from 'next/link';
 
 type TabType = 'foundation' | 'leaderboard' | 'achievements';
+
+const navigationApps = [
+  { id: 'portal', name: 'Portal', icon: '🏠', route: '/en' },
+  { id: 'empire', name: 'Empire', icon: '👑', route: '/en/empire' },
+  { id: 'predictions', name: 'Predictions', icon: '🤖', route: '/en/ai-predictions' },
+  { id: 'live', name: 'Live', icon: '⚡', route: '/en/matches' },
+  { id: 'social', name: 'Social', icon: '👥', route: '/en/feed' },
+  { id: 'authors', name: 'Authors', icon: '✍️', route: '/en/author' },
+  { id: 'news', name: 'News', icon: '📰', route: '/en/news' },
+  { id: 'rewards', name: 'Rewards', icon: '🏆', route: '/en/achievements' },
+  { id: 'analytics', name: 'Analytics', icon: '📊', route: '/en/analytics' },
+];
 
 export default function EmpirePage() {
   const { isVisible } = useEmpireVisibility();
@@ -355,9 +369,12 @@ export default function EmpirePage() {
   }
 
   return (
-    <div className="min-h-screen p-6 text-white transition-all duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+      {/* Google-Style Navigation */}
+      <GoogleStyleNav apps={navigationApps} />
+
       {notification && (
-        <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-slideInRight">
+        <div className="fixed top-20 right-4 z-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-slideInRight">
           <div className="flex items-center gap-3">
             <span className="text-2xl">
               {notification.type === 'success' ? '✅' : notification.type === 'error' ? '❌' : 'ℹ️'}
@@ -373,85 +390,92 @@ export default function EmpirePage() {
         </div>
       )}
 
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent mb-2">
-            👑 MagajiCo Empire
-          </h1>
-          <p className="text-xl text-gray-300">
-            Build Your Legacy from Foundation to Legendary Status
-          </p>
+      <div className="p-6 text-white">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+          <div>
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent mb-2">
+              👑 MagajiCo Empire
+            </h1>
+            <p className="text-xl text-gray-300">
+              Build Your Legacy from Foundation to Legendary Status
+            </p>
+          </div>
         </div>
-      </div>
 
-      {/* App Drawer Toggle */}
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={() => setAppDrawerOpen(true)}
-          className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-white font-semibold transition-all"
-        >
-          🏗️ Apps
-        </button>
-      </div>
+        {/* Quick Links */}
+        <div className="mb-6 flex gap-4 flex-wrap">
+          <Link
+            href="/en/author"
+            className="px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all bg-white/10 text-white hover:bg-white/20"
+          >
+            <span className="mr-2">✍️</span>
+            Authors & News
+          </Link>
+          <Link
+            href="/en/news"
+            className="px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all bg-white/10 text-white hover:bg-white/20"
+          >
+            <span className="mr-2">📰</span>
+            Latest News
+          </Link>
+        </div>
 
       {/* Live Matches Carousel */}
-      <div className="mb-6">
-        <LiveCarousel />
-      </div>
-
-      {/* Latest News Carousel */}
-      <div className="mb-6">
-        <NewsCarousel />
-      </div>
-
-      {/* Tab Navigation */}
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${
-              activeTab === tab.id
-                ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900'
-                : 'bg-white/10 text-white hover:bg-white/20'
-            }`}
-          >
-            <span className="mr-2">{tab.icon}</span>
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* App Drawer */}
-      <AppDrawer isOpen={appDrawerOpen} onClose={() => setAppDrawerOpen(false)} />
-
-      {/* Feature Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className={activeTab === 'foundation' ? 'lg:col-span-2' : 'lg:col-span-3'}>
-          {activeTab === 'foundation' && (
-            <FoundationFeature 
-              userId={userId} 
-              onNotification={showNotification}
-            />
-          )}
-          
-          {activeTab === 'achievements' && (
-            <AchievementsFeature 
-              currentUser={currentUser}
-              onAchievementUnlocked={handleAchievementUnlocked}
-            />
-          )}
-
-          {activeTab === 'leaderboard' && (
-            <LeaderboardFeature />
-          )}
+        <div className="mb-6">
+          <LiveCarousel />
         </div>
 
-        {activeTab === 'foundation' && (
-          <div className="lg:col-span-1">
-            <LeaderboardFeature />
+        {/* Latest News Carousel */}
+        <div className="mb-6">
+          <NewsCarousel />
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all ${
+                activeTab === tab.id
+                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900'
+                  : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <span className="mr-2">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Feature Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className={activeTab === 'foundation' ? 'lg:col-span-2' : 'lg:col-span-3'}>
+            {activeTab === 'foundation' && (
+              <FoundationFeature 
+                userId={userId} 
+                onNotification={showNotification}
+              />
+            )}
+            
+            {activeTab === 'achievements' && (
+              <AchievementsFeature 
+                currentUser={currentUser}
+                onAchievementUnlocked={handleAchievementUnlocked}
+              />
+            )}
+
+            {activeTab === 'leaderboard' && (
+              <LeaderboardFeature />
+            )}
           </div>
-        )}
+
+          {activeTab === 'foundation' && (
+            <div className="lg:col-span-1">
+              <LeaderboardFeature />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
