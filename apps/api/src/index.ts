@@ -32,8 +32,8 @@ async function connectDB() {
     await mongoose.connect(MONGODB_URI);
     console.log('✅ MongoDB connected successfully');
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error);
-    process.exit(1);
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn('⚠️  MongoDB connection failed - API will run in limited mode:', message);
   }
 }
 
