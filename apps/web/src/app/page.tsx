@@ -222,7 +222,7 @@ export default function HomePage() {
             {APP_DRAWER_ITEMS.map((app, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer"
+                className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer overflow-hidden"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-4xl mb-4 shadow-lg">
                   {app.icon}
@@ -233,17 +233,37 @@ export default function HomePage() {
                 <p className="text-sm text-gray-600 mb-4">
                   Feature-based architecture module
                 </p>
-                <ul className="space-y-2">
-                  <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
-                    View {app.name} Dashboard
-                  </li>
-                  <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
-                    Manage Settings
-                  </li>
-                  <li className="text-sm text-gray-700 py-2 transition-all hover:pl-2 hover:text-indigo-600">
-                    View Analytics
-                  </li>
-                </ul>
+                
+                {index === 0 ? (
+                  <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
+                    <div className="flex gap-3 pb-2">
+                      {['Dashboard', 'Settings', 'Analytics', 'Reports', 'Users'].map((item, i) => (
+                        <div
+                          key={i}
+                          className="min-w-[140px] bg-white rounded-lg p-3 shadow-sm border border-gray-200 hover:border-indigo-400 transition-all flex-shrink-0"
+                        >
+                          <div className="text-2xl mb-1">
+                            {i === 0 ? '📊' : i === 1 ? '⚙️' : i === 2 ? '📈' : i === 3 ? '📋' : '👥'}
+                          </div>
+                          <div className="text-sm font-semibold text-gray-800">{item}</div>
+                          <div className="text-xs text-gray-500 mt-1">View {item}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <ul className="space-y-2">
+                    <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
+                      View {app.name} Dashboard
+                    </li>
+                    <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
+                      Manage Settings
+                    </li>
+                    <li className="text-sm text-gray-700 py-2 transition-all hover:pl-2 hover:text-indigo-600">
+                      View Analytics
+                    </li>
+                  </ul>
+                )}
               </div>
             ))}
           </div>
