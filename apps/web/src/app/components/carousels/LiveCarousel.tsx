@@ -68,14 +68,14 @@ export function LiveCarousel() {
         <div className="flex gap-2">
           <button
             onClick={() => scroll(-1)}
-            className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg active:scale-95 text-xl"
+            className="w-10 h-10 rounded-full bg-white/20 hover:bg-red-500 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-red-500/50 active:scale-95 active:bg-red-600 text-xl font-bold"
             aria-label="Scroll left"
           >
             ←
           </button>
           <button
             onClick={() => scroll(1)}
-            className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg active:scale-95 text-xl"
+            className="w-10 h-10 rounded-full bg-white/20 hover:bg-red-500 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-red-500/50 active:scale-95 active:bg-red-600 text-xl font-bold"
             aria-label="Scroll right"
           >
             →
@@ -91,11 +91,16 @@ export function LiveCarousel() {
         {LIVE_MATCHES.map((match, index) => (
           <div 
             key={index}
-            className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-transparent hover:border-red-500 relative group overflow-hidden"
+            className="min-w-[320px] max-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-transparent hover:border-red-500 relative group overflow-hidden"
             style={{ animationDelay: `${index * 100}ms` }}
           >
+            {/* Gradient border effect on hover */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-red-500 via-orange-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" style={{ padding: '2px' }}>
+              <div className="absolute inset-[2px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl"></div>
+            </div>
+            
             {/* Shimmer effect on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 
             {/* LIVE Badge with enhanced pulse */}
             <span className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse-badge shadow-lg">
