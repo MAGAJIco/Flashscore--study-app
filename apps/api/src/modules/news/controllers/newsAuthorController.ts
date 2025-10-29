@@ -201,4 +201,57 @@ export class NewsAuthorController {
       });
     }
   }
+
+  static async getAuthorProfile(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      const { id } = request.params;
+      const author = await NewsAuthorService.getAuthorById(id);
+
+      if (!author) {
+        return reply.code(404).send({
+          success: false,
+          message: "Author not found",
+        });
+      }
+
+      // Get author's news articles
+      const News = require('../../../models/News').News;
+      const authorNews = await News.find({ 'author.id': id, isActive: true })
+        .sort({ createdAt: -1 })
+        .limit(10);
+
+      const profile = {
+        author: {
+          id: author.id,
+          name: author.name,
+          icon: author.icon,
+          bio: author.bio,
+          expertise: author.expertise,
+          collaborationCount: author.collaborationCount,
+          lastCollaboration: author.lastCollaboration,
+          isActive: author.isActive,
+        },
+        recentNews: authorNews,
+        stats: {
+          totalArticles: authorNews.length,
+          totalViews: authorNews.reduce((sum: number, news: any) => sum + (news.viewCount || 0), 0),
+        }
+      };
+
+      reply.code(200).send({
+        success: true,
+        data: profile,
+        message: "Author profile fetched successfully",
+      });
+    } catch (error) {
+      reply.code(500).send({
+        success: false,
+        message: "Failed to fetch author profile",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  }
 }

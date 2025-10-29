@@ -3,7 +3,7 @@ import createMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
 
 const handleI18nRouting = createMiddleware({
-  locales: ['en', 'es', 'fr', 'de', 'pt'],
+  locales: ['en'],
   defaultLocale: 'en',
   localePrefix: 'always',
   localeDetection: true
@@ -22,7 +22,7 @@ export default function middleware(request: NextRequest) {
   // Extract locale from pathname
   const pathLocale = pathname.split('/')[1];
   
-  if (['en', 'es', 'fr', 'de', 'pt'].includes(pathLocale)) {
+  if (['en'].includes(pathLocale)) {
     // Set cookie to match URL locale
     response.cookies.set('NEXT_LOCALE', pathLocale, {
       path: '/',

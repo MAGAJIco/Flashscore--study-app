@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -8,44 +9,50 @@ interface AppDrawerProps {
   onClose: () => void;
 }
 
+const apps = [
+  { icon: '👑', name: 'Empire', route: '/en' },
+  { icon: '🤖', name: 'Predictions', route: '/en/predictions' },
+  { icon: '⚡', name: 'Live', route: '/en/matches' },
+  { icon: '👥', name: 'Social', route: '/en/feed' },
+  { icon: '🎮', name: 'Kids Mode', route: '/en/kids' },
+  { icon: '🏆', name: 'Rewards', route: '/en/achievements' },
+  { icon: '📊', name: 'Analytics', route: '/en/analytics' },
+  { icon: '💬', name: 'Chat', route: '/en/social/chat' },
+  { icon: '🎯', name: 'Challenges', route: '/en/challenges' },
+];
+
 export function AppDrawer({ isOpen, onClose }: AppDrawerProps) {
-  const apps = [
-    { id: 'portal', name: 'Portal', icon: '🏠', href: `/`, description: 'Main dashboard' },
-    { id: 'predictions', name: 'Predictions', icon: '🤖', href: `/ai-predictions`, description: 'AI predictions' },
-    { id: 'live', name: 'Live', icon: '⚡', href: `/matches`, description: 'Live tracking' },
-    { id: 'social', name: 'Social', icon: '👥', href: `/feed`, description: 'Social hub' },
-    { id: 'kids', name: 'Kids Mode', icon: '🎮', href: `/kids`, description: 'Safe environment' },
-    { id: 'rewards', name: 'Rewards', icon: '🏆', href: `/achievements`, description: 'Achievements' },
-    { id: 'analytics', name: 'Analytics', icon: '📊', href: `/analytics`, description: 'Performance analytics' },
-    { id: 'chat', name: 'Chat', icon: '💬', href: `/chat`, description: 'Live chat' },
-    { id: 'challenges', name: 'Challenges', icon: '🎯', href: `/challenges`, description: 'Daily challenges' }
-  ];
-
-  if (!isOpen) return null;
-
   return (
     <>
       <div 
-        className="fixed inset-0 bg-black/50 z-40 animate-fadeIn"
+        className={`fixed inset-0 bg-black/50 transition-opacity z-40 ${
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
         onClick={onClose}
       />
-      <div className="fixed top-20 right-5 bg-white rounded-2xl shadow-2xl p-6 w-[420px] z-50 animate-slideDown">
-        <div className="mb-5">
-          <h2 className="text-lg font-bold text-gray-800">Sports Central Apps</h2>
+
+      <div 
+        className={`fixed top-20 right-5 bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 w-96 max-h-[480px] overflow-y-auto z-50 transition-all border border-gray-200 dark:border-gray-700 ${
+          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5 pointer-events-none'
+        }`}
+      >
+        <div className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-5 pb-4 border-b border-gray-200 dark:border-gray-700">
+          Sports Central Apps
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {apps.map((app) => (
+          {apps.map((app, index) => (
             <Link
-              key={app.id}
-              href={app.href}
+              key={index}
+              href={app.route}
               onClick={onClose}
-              className="group flex flex-col items-center p-3 rounded-xl hover:bg-gray-50 transition-all"
-              title={app.description}
+              className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer group"
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-3xl mb-2 shadow-md group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-2 text-white shadow-lg group-hover:scale-110 transition-transform">
                 {app.icon}
               </div>
-              <span className="text-xs font-medium text-gray-700 text-center leading-tight">{app.name}</span>
+              <div className="text-sm font-medium text-gray-700 dark:text-gray-200 text-center">
+                {app.name}
+              </div>
             </Link>
           ))}
         </div>

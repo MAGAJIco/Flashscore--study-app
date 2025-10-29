@@ -14,6 +14,7 @@ export async function newsModuleRoutes(fastify: FastifyInstance) {
   // Authors routes
   fastify.get("/authors", NewsAuthorController.getAllAuthors);
   fastify.get("/authors/:id", NewsAuthorController.getAuthorById);
+  fastify.get("/authors/:id/profile", NewsAuthorController.getAuthorProfile);
   fastify.post("/authors", NewsAuthorController.createOrUpdateAuthor);
   fastify.post("/authors/:id/collaborate", NewsAuthorController.createCollaborationNews);
   fastify.post("/authors/auto-news", NewsAuthorController.generateAutoNews);
