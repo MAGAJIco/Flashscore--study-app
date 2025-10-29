@@ -1,4 +1,3 @@
-
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:3001';
 
 export interface LiveMatch {
@@ -25,7 +24,13 @@ export interface NewsItem {
   comments: string;
   author?: string;
   viewCount?: number;
+  preview?: string;
+  fullContent?: string;
+  tags?: string[];
+  createdAt?: string;
 }
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://0.0.0.0:3001';
 
 export const liveDataApi = {
   async fetchLiveMatches(): Promise<LiveMatch[]> {
@@ -38,11 +43,11 @@ export const liveDataApi = {
       if (!response.ok) throw new Error('Failed to fetch live matches');
 
       const data = await response.json();
-      
+
       return (data.matches || data || []).map((match: any) => ({
         id: match.id || match._id,
-        icon: match.sport === 'football' ? '⚽' : 
-              match.sport === 'basketball' ? '🏀' : 
+        icon: match.sport === 'football' ? '⚽' :
+              match.sport === 'basketball' ? '🏀' :
               match.sport === 'tennis' ? '🎾' : '⚽',
         title: `${match.homeTeam?.name || match.homeTeam} vs ${match.awayTeam?.name || match.awayTeam}`,
         description: `${match.competition || match.league || 'Live Match'}`,
@@ -62,28 +67,27 @@ export const liveDataApi = {
 
   async fetchLatestNews(): Promise<NewsItem[]> {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/news`, {
-        cache: 'no-store',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (!response.ok) throw new Error('Failed to fetch news');
-
+      const response = await fetch(`${API_BASE_URL}/api/news`);
       const data = await response.json();
-      
-      return (data.news || data || []).slice(0, 5).map((item: any, index: number) => ({
-        id: item.id || item._id,
-        icon: item.tags?.[0] === 'football' ? '⚽' : 
-              item.tags?.[0] === 'basketball' ? '🏀' : 
-              item.tags?.[0] === 'tennis' ? '🎾' : '📰',
-        badge: index < 2 ? 'BREAKING' : 'NEWS',
-        title: item.title,
-        description: item.preview || item.fullContent?.substring(0, 100) + '...',
-        time: this.formatTimeAgo(item.createdAt),
-        comments: `${item.viewCount || Math.floor(Math.random() * 3000)}`,
-        author: item.author?.name,
-        viewCount: item.viewCount
-      }));
+
+      if (data.success && Array.isArray(data.data)) {
+        return data.data.map((item: any) => ({
+          id: item.id?.toString() || item._id,
+          icon: typeof item.author === 'object' ? item.author.icon : '📰',
+          badge: item.collaborationType === 'prediction' ? 'BREAKING' : 'NEWS',
+          title: item.title,
+          description: item.preview,
+          time: item.createdAt ? new Date(item.createdAt).toLocaleString() : 'Recently',
+          comments: item.viewCount ? `${item.viewCount}` : '0',
+          author: typeof item.author === 'object' ? item.author.name : item.author,
+          viewCount: item.viewCount || 0,
+          preview: item.preview,
+          fullContent: item.fullContent,
+          tags: item.tags || [],
+          createdAt: item.createdAt
+        }));
+      }
+      return [];
     } catch (error) {
       console.error('Error fetching news:', error);
       return [];

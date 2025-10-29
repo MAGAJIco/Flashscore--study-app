@@ -1,6 +1,7 @@
-
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import mongoose from 'mongoose';
+import { newsModuleRoutes } from './modules/news/routes';
 
 const fastify = Fastify({
   logger: true,
@@ -11,6 +12,12 @@ fastify.register(cors, {
   origin: true,
   credentials: true,
 });
+
+// Connect to MongoDB
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/magajico';
+mongoose.connect(MONGODB_URI)
+  .then(() => fastify.log.info('✅ Connected to MongoDB'))
+  .catch((err) => fastify.log.error('❌ MongoDB connection error:', err));
 
 // Health check
 fastify.get('/health', async () => {
@@ -27,6 +34,9 @@ fastify.get('/api/ml/health', async () => {
     return { ml_service: null, status: 'disconnected', error: String(error) };
   }
 });
+
+// Register routes
+fastify.register(newsModuleRoutes, { prefix: '/api/news' });
 
 // Start server
 const start = async () => {
