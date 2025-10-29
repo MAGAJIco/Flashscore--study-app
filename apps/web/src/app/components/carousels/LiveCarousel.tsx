@@ -11,6 +11,8 @@ const LIVE_MATCHES = [
     time: "67'",
     score: '2-1',
     watching: '73K watching',
+    venue: 'Old Trafford',
+    competition: 'Premier League'
   },
   {
     icon: '🏀',
@@ -19,6 +21,8 @@ const LIVE_MATCHES = [
     time: "Q3 5:32",
     score: '89-92',
     watching: '125K watching',
+    venue: 'Chase Center',
+    competition: 'NBA'
   },
   {
     icon: '🎾',
@@ -27,6 +31,8 @@ const LIVE_MATCHES = [
     time: 'Set 2',
     score: '6-4, 3-3',
     watching: '45K watching',
+    venue: 'Pala Alpitour',
+    competition: 'ATP Finals'
   },
   {
     icon: '🏈',
@@ -35,6 +41,8 @@ const LIVE_MATCHES = [
     time: "Q2 7:15",
     score: '14-10',
     watching: '210K watching',
+    venue: 'Arrowhead Stadium',
+    competition: 'NFL'
   },
 ];
 
@@ -55,18 +63,19 @@ export function LiveCarousel() {
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-3xl font-bold text-white flex items-center gap-3 animate-fadeIn">
           ⚡ Live Matches
+          <span className="text-sm font-normal text-gray-300">({LIVE_MATCHES.length})</span>
         </h2>
         <div className="flex gap-2">
           <button
             onClick={() => scroll(-1)}
-            className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 text-xl hover:shadow-lg"
+            className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg active:scale-95 text-xl"
             aria-label="Scroll left"
           >
             ←
           </button>
           <button
             onClick={() => scroll(1)}
-            className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 text-xl hover:shadow-lg"
+            className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg active:scale-95 text-xl"
             aria-label="Scroll right"
           >
             →
@@ -82,27 +91,47 @@ export function LiveCarousel() {
         {LIVE_MATCHES.map((match, index) => (
           <div 
             key={index}
-            className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-500/40 border-2 border-transparent hover:border-red-500 relative group"
+            className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-transparent hover:border-red-500 relative group overflow-hidden"
             style={{ animationDelay: `${index * 100}ms` }}
           >
+            {/* Shimmer effect on hover */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            
-            <span className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold animate-pulse-badge shadow-lg">
+
+            {/* LIVE Badge with enhanced pulse */}
+            <span className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse-badge shadow-lg">
               🔴 LIVE
             </span>
-            <div className="w-[50px] h-[50px] bg-white rounded-lg flex items-center justify-center text-2xl mb-4 shadow-lg transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+
+            {/* Icon with white background and hover effect */}
+            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-2xl mb-4 shadow-md transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
               {match.icon}
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+
+            {/* Title with hover color change */}
+            <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-red-600 transition-colors duration-300">
               {match.title}
             </h3>
-            <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+
+            {/* Description */}
+            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
               {match.description}
             </p>
-            <div className="flex items-center gap-4 text-sm text-gray-500 flex-wrap">
-              <span className="flex items-center gap-1 hover:scale-110 transition-transform">⏱️ {match.time}</span>
-              <span className="flex items-center gap-1 hover:scale-110 transition-transform">📊 {match.score}</span>
-              <span className="flex items-center gap-1 hover:scale-110 transition-transform">👥 {match.watching}</span>
+
+            {/* Metadata - Enhanced */}
+            <div className="space-y-2 mb-3">
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <span className="flex items-center gap-1 hover:scale-110 transition-transform">⏱️ {match.time}</span>
+                <span className="flex items-center gap-1 font-bold text-gray-900 hover:scale-110 transition-transform">📊 {match.score}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <span className="flex items-center gap-1 hover:scale-110 transition-transform">📍 {match.venue}</span>
+                <span className="flex items-center gap-1 hover:scale-110 transition-transform">👥 {match.watching}</span>
+              </div>
+            </div>
+
+            {/* Competition badge */}
+            <div className="absolute bottom-4 left-4 bg-gradient-to-r from-red-500 to-orange-500 text-white px-2 py-1 rounded text-xs font-semibold shadow-md">
+              {match.competition}
             </div>
           </div>
         ))}

@@ -33,18 +33,33 @@ export function NewsCarousel() {
       icon: '⚽',
       badge: 'BREAKING',
       title: 'Mbappe Signs Historic Deal',
-      description: 'Real Madrid announces record-breaking transfer for French superstar',
+      description: 'Real Madrid announces record-breaking transfer for French superstar with unprecedented contract terms',
       time: '2 hours ago',
       comments: '1.2K',
+      author: 'Sports Desk',
+      viewCount: '45.3K'
     },
     {
       id: '2',
       icon: '🏀',
       badge: 'NEWS',
       title: 'LeBron Reaches 40K Points',
-      description: 'King James makes history with unprecedented milestone achievement',
+      description: 'King James makes history with unprecedented milestone achievement in Lakers victory',
       time: '5 hours ago',
       comments: '892',
+      author: 'NBA Central',
+      viewCount: '32.1K'
+    },
+    {
+      id: '3',
+      icon: '🎾',
+      badge: 'NEWS',
+      title: 'Serena Returns to Court',
+      description: 'Tennis legend announces comeback tournament in Miami next month',
+      time: '8 hours ago',
+      comments: '645',
+      author: 'Tennis Weekly',
+      viewCount: '28.7K'
     }
   ];
 
@@ -123,52 +138,68 @@ export function NewsCarousel() {
 
         <div 
           ref={carouselRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth py-2"
+          className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth py-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {news.map((item, index) => (
             <div 
               key={item.id}
               onClick={() => handleNewsClick(item)}
-              className="min-w-[320px] bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl p-5 border-2 border-blue-500/30 hover:border-blue-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/40 transition-all duration-300 cursor-pointer relative group"
+              className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 border-2 border-transparent hover:border-blue-500 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 cursor-pointer relative group overflow-hidden"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              {/* Shimmer effect on hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 
-              <div className="flex items-start justify-between mb-3">
-                <div className="w-[50px] h-[50px] bg-white rounded-lg flex items-center justify-center text-3xl shadow-lg transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
-                  {item.icon}
-                </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
-                  item.badge === 'BREAKING' 
-                    ? 'bg-red-500 text-white animate-pulse' 
-                    : 'bg-blue-500 text-white'
-                }`}>
-                  {item.badge === 'BREAKING' ? '🔥 BREAKING' : '📰 NEWS'}
-                </span>
+              {/* Enhanced Badge with different styles for BREAKING vs NEWS */}
+              <span className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
+                item.badge === 'BREAKING' 
+                  ? 'bg-red-500 text-white animate-pulse-badge' 
+                  : 'bg-blue-500 text-white'
+              }`}>
+                {item.badge === 'BREAKING' ? '🔥 BREAKING' : '📰 NEWS'}
+              </span>
+
+              {/* Icon with white background */}
+              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-2xl mb-4 shadow-md transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                {item.icon}
               </div>
 
-              <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-300 transition-colors">
+              {/* Title with hover effect */}
+              <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
                 {item.title}
               </h3>
-              <p className="text-sm text-gray-300 mb-4 line-clamp-2">{item.description}</p>
 
-              <div className="flex items-center justify-between text-sm text-gray-300">
-                <div className="flex items-center gap-4">
+              {/* Description */}
+              <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                {item.description}
+              </p>
+
+              {/* Enhanced Metadata */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs text-gray-500">
                   <span className="flex items-center gap-1 hover:scale-110 transition-transform">🕐 {item.time}</span>
                   <span className="flex items-center gap-1 hover:scale-110 transition-transform">💬 {item.comments}</span>
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleShare(item);
-                  }}
-                  className="hover:text-blue-400 hover:scale-125 transition-all"
-                  title="Share"
-                >
-                  🔗
-                </button>
+                {(item.author || item.viewCount) && (
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    {item.author && <span className="flex items-center gap-1 hover:scale-110 transition-transform">✍️ {item.author}</span>}
+                    {item.viewCount && <span className="flex items-center gap-1 hover:scale-110 transition-transform">👁️ {item.viewCount}</span>}
+                  </div>
+                )}
               </div>
+
+              {/* Share button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleShare(item);
+                }}
+                className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 hover:scale-110 active:scale-95 transition-all duration-300 shadow-md"
+                title="Share"
+              >
+                🔗
+              </button>
             </div>
           ))}
         </div>

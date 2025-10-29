@@ -127,7 +127,7 @@
   animation: fadeIn 0.8s ease forwards;
 }
 
-/* Pulse Animation for Live Badges */
+/* Pulse Animation for Live Badges - Enhanced */
 @keyframes pulse {
   0%, 100% {
     transform: scale(1);
@@ -137,8 +137,23 @@
   }
 }
 
+@keyframes pulse-badge {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
+
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-badge {
+  animation: pulse-badge 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Custom Gradient Background */
