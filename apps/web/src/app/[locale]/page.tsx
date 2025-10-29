@@ -8,6 +8,10 @@ import { GoogleNavBar } from '@/app/components/layout/GoogleNavBar';
 import { IOSStyleFeatures } from '@/app/components/IOSStyleFeatures';
 import Link from 'next/link';
 
+// Enable static generation for faster loads
+export const dynamic = 'force-static';
+export const revalidate = 300; // Revalidate every 5 minutes
+
 const featureApps = [
   {
     id: 'predictions',
