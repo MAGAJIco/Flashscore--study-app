@@ -351,7 +351,7 @@ export default function HomePage() {
             </span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {APP_DRAWER_ITEMS.slice(0, 6).map((app, index) => (
+            {APP_DRAWER_ITEMS.map((app, index) => (
               <div
                 key={index}
                 className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer"
