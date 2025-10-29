@@ -312,8 +312,7 @@ export const piCoinController = {
       req.log.error(error);
       res.status(500).send({ success: false, error: 'Failed to purchase coins' });
     }
-  }
-};
+  },
 
   async getTransactions(req: FastifyRequest<{ Params: { userId: string }; Querystring: { limit?: string; offset?: string } }>, res: FastifyReply) {
     try {
