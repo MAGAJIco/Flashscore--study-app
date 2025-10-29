@@ -15,6 +15,9 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "mongoose": "^8.19.2"
+    "@capacitor/cli": "^7.4.4",
+    "@playwright/test": "^1.56.1",
+    "mongoose": "^8.19.2",
+    "react": "^19.2.0"
   }
 }
