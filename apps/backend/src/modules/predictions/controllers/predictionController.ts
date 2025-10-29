@@ -142,3 +142,28 @@ export const batchPredict = async (
     reply.status(500).send({ error: "Batch prediction failed" });
   }
 };
+
+export const getMultiSourcePredictions = async (
+  request: FastifyRequest<{ Querystring: { limit?: string } }>,
+  reply: FastifyReply
+) => {
+  try {
+    const { multiSourcePredictionService } = await import('../services/multiSourcePredictionService');
+    const limit = parseInt(request.query.limit || '50');
+    
+    const predictions = await multiSourcePredictionService.aggregatePredictions(limit);
+    
+    return reply.send({
+      success: true,
+      data: predictions,
+      meta: {
+        total: predictions.length,
+        sources: ['ml', 'scraper', 'database'],
+        timestamp: new Date().toISOString()
+      }
+    });
+  } catch (err) {
+    console.error('Multi-source predictions error:', err);
+    reply.status(500).send({ error: "Failed to aggregate predictions" });
+  }
+};

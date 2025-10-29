@@ -37,13 +37,13 @@ export default function PredictionsPage() {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}/api/scraper/predictions`);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch predictions');
       }
-      
+
       const data = await response.json();
       setPredictions(data.data || []);
     } catch (err) {
