@@ -28,7 +28,7 @@ export function GoogleNavBar() {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center transition-all"
+                className="w-10 h-10 rounded-full hover:bg-white/20 active:scale-95 flex items-center justify-center transition-all duration-200"
               >
                 <div className="flex flex-col gap-1">
                   <span className="w-5 h-0.5 bg-white rounded"></span>
@@ -79,7 +79,7 @@ export function GoogleNavBar() {
                 <Link
                   key={index}
                   href={app.href}
-                  className="flex flex-col items-center p-3 rounded-lg hover:bg-gray-100 transition-all"
+                  className="flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 active:scale-95 transition-all duration-200"
                   onClick={() => setAppDrawerOpen(false)}
                 >
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-2">

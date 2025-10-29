@@ -80,11 +80,15 @@ export function LiveCarousel() {
         {LIVE_MATCHES.map((match, index) => (
           <div 
             key={index}
-            className="min-w-[300px] bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-xl p-5 border border-red-500/30 hover:border-red-500 transition-all cursor-pointer"
+            className="min-w-[320px] bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-xl p-5 border-2 border-red-500/30 hover:border-red-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-red-500/40 transition-all duration-300 cursor-pointer relative overflow-hidden"
           >
             <div className="flex items-start justify-between mb-3">
-              <span className="text-3xl">{match.icon}</span>
-              <span className="px-2 py-1 rounded-full text-xs font-semibold bg-red-500 text-white animate-pulse">
+              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-3xl shadow-lg">
+                {match.icon}
+              </div>
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-500 text-white shadow-lg" style={{
+                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+              }}>
                 🔴 LIVE
               </span>
             </div>
