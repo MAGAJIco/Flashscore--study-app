@@ -62,13 +62,13 @@ export const MobileAppLauncher: React.FC = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
             {apps.map((app) => (
               <Link
                 key={app.id}
                 href={app.href}
                 onClick={() => setIsOpen(false)}
-                className="flex flex-col items-center group"
+                className="flex flex-col items-center group min-w-[80px] snap-start"
               >
                 <div className={`w-16 h-16 bg-gradient-to-br ${app.color} rounded-2xl shadow-lg flex items-center justify-center text-3xl mb-2 group-hover:scale-110 transition-transform`}>
                   {app.icon}
