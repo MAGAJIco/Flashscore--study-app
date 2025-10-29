@@ -1,24 +1,27 @@
 
 export interface NewsArticle {
-  id: string;
+  _id?: string;
+  id: number | string;
   title: string;
-  content: string;
-  summary?: string;
-  image?: string;
-  author: NewsAuthor;
-  publishedAt: Date | string;
-  updatedAt?: Date | string;
-  tags?: string[];
-  category?: string;
-  views?: number;
-  likes?: number;
+  preview: string;
+  fullContent: string;
+  author: string | NewsAuthor;
+  collaborationType?: 'prediction' | 'analysis' | 'community' | 'update';
+  tags: string[];
+  imageUrl?: string;
+  isActive: boolean;
+  viewCount: number;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
 
 export interface NewsAuthor {
   id: string;
   name: string;
-  avatar?: string;
+  icon: string;
   bio?: string;
-  verified?: boolean;
-  articlesCount?: number;
+  expertise?: string[];
+  collaborationCount?: number;
+  isActive?: boolean;
+  lastCollaboration?: Date | string;
 }

@@ -7,23 +7,33 @@ export interface Team {
 }
 
 export interface Match {
-  id: string;
-  homeTeam: Team;
-  awayTeam: Team;
-  league: string;
-  startTime: Date | string;
-  status: 'scheduled' | 'live' | 'finished' | 'postponed';
+  _id?: string;
+  id?: string;
+  homeTeam: string;
+  awayTeam: string;
+  date: Date | string;
+  competition: string;
+  status: 'scheduled' | 'live' | 'completed' | 'postponed' | '1H' | '2H';
   score?: {
     home: number;
     away: number;
   };
-  liveMinute?: number;
+  odds?: Array<{
+    home: number;
+    draw: number;
+    away: number;
+    source?: string;
+    timestamp?: Date | string;
+  }>;
   venue?: string;
+  scrapedAt?: Date | string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 }
 
 export interface LiveMatch extends Match {
-  status: 'live';
-  liveMinute: number;
+  status: 'live' | '1H' | '2H';
+  liveMinute?: number;
   events?: MatchEvent[];
 }
 

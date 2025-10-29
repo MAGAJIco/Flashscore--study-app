@@ -12,7 +12,9 @@ export type {
   NewsAuthor,
   Prediction,
   MLPrediction,
-  PredictionFactor
+  PredictionFactor,
+  APIResponse,
+  HealthCheckResponse
 } from '@magajico/shared';
 
 // Frontend-specific types

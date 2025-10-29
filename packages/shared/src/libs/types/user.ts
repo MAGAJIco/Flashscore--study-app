@@ -1,11 +1,15 @@
 
 export interface User {
-  id: string;
+  _id?: string;
+  id?: string;
   email: string;
   username: string;
+  password?: string;
+  role?: string;
   displayName?: string;
   avatar?: string;
-  createdAt: Date | string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   preferences?: UserPreferences;
   kidsMode?: boolean;
   coppaConsent?: ICoppaConsent;
