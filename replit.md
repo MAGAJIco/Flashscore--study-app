@@ -24,7 +24,7 @@ The project is organized as a monorepo with the following key directories:
 - **Deployment**: Replit.
 
 **UI/UX Decisions:**
-- Google-style navigation bar with app drawer launcher showing 9 feature apps: Portal, Predictions, Live, Social, Kids Mode, Rewards, Analytics, Chat, Documentation.
+- Google-style navigation bar with Magajico app drawer launcher showing 9 feature apps: Portal, Predictions, Live, Social, Kids Mode, Rewards, Analytics, Chat, Challenges.
 - Homepage features horizontal carousels for Live Matches and Latest News with auto-scrolling functionality.
 - Feature app cards with gradient backgrounds and hover effects for intuitive navigation.
 - All navigation is locale-aware using Next.js `[locale]` routing structure (e.g., `/en/matches`, `/en/empire`).
@@ -37,7 +37,8 @@ The project is organized as a monorepo with the following key directories:
 - Modular architecture with feature-based apps for maintainability.
 - Locale-aware routing throughout the application using Next.js App Router with `[locale]` parameter.
 - Client-side React hooks (useState, useParams) properly implemented with "use client" directives.
-- Shared UI components: GoogleNavBar, AppDrawer, LiveCarousel, NewsCarousel.
+- Shared UI components: GoogleNavBar, Magajico AppDrawer, EnhancedLiveCarousel, SearchBar, HelpCenter, SettingsPanel, UserProfileDropdown.
+- Advanced CSS animations including shimmer effects, scale-in transitions, pulsing badges, and hover effects.
 - Environment variables are strictly configured for different services and environments.
 
 ## External Dependencies

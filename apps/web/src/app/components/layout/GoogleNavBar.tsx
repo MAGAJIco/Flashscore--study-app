@@ -7,6 +7,7 @@ import { SearchBar } from '../enhanced/SearchBar';
 import { HelpCenter } from '../modals/HelpCenter';
 import { SettingsPanel } from '../modals/SettingsPanel';
 import { UserProfileDropdown } from '../dropdowns/UserProfileDropdown';
+import { AppDrawer } from './AppDrawer';
 
 export function GoogleNavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,18 +15,6 @@ export function GoogleNavBar() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-
-  const apps = [
-    { icon: '👑', name: 'Empire', href: '/en' },
-    { icon: '🤖', name: 'Predictions', href: '/en/predictions' },
-    { icon: '⚡', name: 'Live', href: '/en/matches' },
-    { icon: '👥', name: 'Social', href: '/en/feed' },
-    { icon: '🎮', name: 'Kids Mode', href: '/en/kids' },
-    { icon: '🏆', name: 'Rewards', href: '/en/rewards/achievements' },
-    { icon: '📊', name: 'Analytics', href: '/en/analytics' },
-    { icon: '💬', name: 'Chat', href: '/en/social/feed' },
-    { icon: '🎯', name: 'Challenges', href: '/en/predictions' },
-  ];
 
   return (
     <>
@@ -95,34 +84,7 @@ export function GoogleNavBar() {
         </div>
       </nav>
 
-      {/* App Drawer Overlay */}
-      {appDrawerOpen && (
-        <>
-          <div 
-            className="fixed inset-0 bg-black/50 z-40"
-            onClick={() => setAppDrawerOpen(false)}
-          />
-          <div className="fixed top-20 right-4 bg-white rounded-2xl shadow-2xl p-6 w-96 z-50">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Sports Central Apps</h3>
-            <div className="grid grid-cols-3 gap-4">
-              {apps.map((app, index) => (
-                <Link
-                  key={index}
-                  href={app.href}
-                  className="flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 active:scale-95 transition-all duration-200"
-                  onClick={() => setAppDrawerOpen(false)}
-                >
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-2">
-                    {app.icon}
-                  </div>
-                  <span className="text-xs text-gray-700 text-center">{app.name}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-      
+      <AppDrawer isOpen={appDrawerOpen} onClose={() => setAppDrawerOpen(false)} />
       <HelpCenter isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
       <SettingsPanel isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </>
