@@ -32,6 +32,14 @@ const APP_DRAWER_ITEMS: AppItem[] = [
   { id: 'portal', name: 'Portal', icon: '🌐', href: '/portal', category: 'tools', color: 'from-cyan-500 to-teal-600', description: 'Quick access' },
 ];
 
+const LABELS = {
+  MAIN: '🧩 Main',
+  FEATURE: '✅ Feature',
+  HEADER: 'S❤️ Header',
+  NAVIGATION: '🧭 Navigation',
+  STYLING: '💥 Styling'
+};
+
 
 export function GoogleNavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -56,9 +64,10 @@ export function GoogleNavBar() {
               </button>
               <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                 <div className="text-xl font-semibold text-white flex items-center gap-2">
-                  🏆 Sports Central
+                  <span className="text-2xl">🧩</span>
+                  <span>S❤️ Sports Central</span>
                 </div>
-                <span className="text-sm text-white/80 font-medium">Home</span>
+                <span className="text-sm text-white/80 font-medium">🧩 Home</span>
               </a>
             </div>
 
@@ -71,7 +80,7 @@ export function GoogleNavBar() {
               >
                 ❓
                 <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  Help
+                  🧭 Help
                 </span>
               </button>
 
@@ -81,7 +90,7 @@ export function GoogleNavBar() {
               >
                 ⚙️
                 <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  Settings
+                  💥 Settings
                 </span>
               </button>
 
@@ -91,7 +100,7 @@ export function GoogleNavBar() {
               >
                 ⋮⋮⋮
                 <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  Apps
+                  ✅ Apps
                 </span>
               </button>
 

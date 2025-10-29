@@ -136,14 +136,14 @@ export default function HomePage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-5 py-8">
         {/* Header */}
-        <header className="text-center text-white mb-12 animate-fade-in">
-          <h1 className="text-5xl font-bold mb-3 drop-shadow-lg">
-            🏗️ Sports Central
+        <div className="text-center mb-12 animate-fade-scale">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+            🧩 S❤️ Sports Central
           </h1>
-          <p className="text-xl opacity-95">
-            Feature-Based Architecture Documentation
+          <p className="text-xl text-white/80">
+            ✅ Feature-Based Architecture Documentation
           </p>
-        </header>
+        </div>
 
         {/* Live Matches Carousel - Enhanced */}
         <div className="mb-8">
@@ -213,7 +213,7 @@ export default function HomePage() {
         {/* Feature Apps Grid */}
         <div className="bg-white rounded-2xl p-6 shadow-2xl">
           <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
-            <span>📱</span>
+            <span>💥</span>
             <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               Feature Apps
             </span>
@@ -233,7 +233,7 @@ export default function HomePage() {
                 <p className="text-sm text-gray-600 mb-4">
                   Feature-based architecture module
                 </p>
-                
+
                 {index === 0 ? (
                   <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
                     <div className="flex gap-3 pb-2">
