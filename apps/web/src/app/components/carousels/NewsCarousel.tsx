@@ -136,7 +136,7 @@ export function NewsCarousel() {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 
               <div className="flex items-start justify-between mb-3">
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-3xl shadow-lg transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                <div className="w-[50px] h-[50px] bg-white rounded-lg flex items-center justify-center text-3xl shadow-lg transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
                   {item.icon}
                 </div>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
