@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { EnhancedLiveCarousel } from './components/enhanced/EnhancedLiveCarousel';
 import { GoogleNavBar } from './components/layout/GoogleNavBar';
+import { AppLauncher } from './components/AppLauncher';
 
 interface AppItem {
   icon: string;
@@ -130,6 +131,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
       <GoogleNavBar />
+      <AppLauncher />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-5 py-8">
