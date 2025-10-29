@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -135,7 +134,7 @@ export function NewsCarousel() {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              
+
               <div className="flex items-start justify-between mb-3">
                 <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-3xl shadow-lg transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
                   {item.icon}
@@ -148,12 +147,12 @@ export function NewsCarousel() {
                   {item.badge === 'BREAKING' ? '🔥 BREAKING' : '📰 NEWS'}
                 </span>
               </div>
-              
+
               <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-300 transition-colors">
                 {item.title}
               </h3>
               <p className="text-sm text-gray-300 mb-4 line-clamp-2">{item.description}</p>
-              
+
               <div className="flex items-center justify-between text-sm text-gray-300">
                 <div className="flex items-center gap-4">
                   <span className="flex items-center gap-1 hover:scale-110 transition-transform">🕐 {item.time}</span>
@@ -203,7 +202,7 @@ export function NewsCarousel() {
                 ✕
               </button>
             </div>
-            
+
             <div className="text-gray-300 text-lg leading-relaxed mb-6">
               {selectedNews.description}
             </div>
