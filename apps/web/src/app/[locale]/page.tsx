@@ -2,15 +2,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { LiveCarousel } from '@/app/components/carousels/LiveCarousel';
+import { EnhancedLiveCarousel } from '@/app/components/enhanced/EnhancedLiveCarousel';
 import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
 import { GoogleNavBar } from '@/app/components/layout/GoogleNavBar';
 import { IOSStyleFeatures } from '@/app/components/IOSStyleFeatures';
 import Link from 'next/link';
 
 // Enable static generation for faster loads
-export const dynamic = 'force-static';
-export const revalidate = 300; // Revalidate every 5 minutes
+// export const dynamic = 'force-static';
+// export const revalidate = 300; // Revalidate every 5 minutes
 
 const featureApps = [
   {
@@ -226,7 +226,7 @@ export default function HomePage() {
 
           {/* Live Matches Carousel */}
           <div className="mb-8 animate-slideUp" style={{ animationDelay: '0.3s' }}>
-            <LiveCarousel />
+            <EnhancedLiveCarousel />
           </div>
 
           {/* Latest News Carousel */}
