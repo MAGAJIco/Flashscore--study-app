@@ -5,10 +5,12 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/node": "^20",
     "typescript": "^5.0.0"
   }
 }
