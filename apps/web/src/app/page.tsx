@@ -224,8 +224,10 @@ export default function HomePage() {
                 key={index}
                 className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer"
               >
-                <h3 className="text-2xl font-bold text-indigo-600 mb-3 flex items-center gap-2">
-                  <span className="text-3xl">{app.icon}</span>
+                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-4xl mb-4 shadow-lg">
+                  {app.icon}
+                </div>
+                <h3 className="text-xl font-bold text-indigo-600 mb-2">
                   {app.name}
                 </h3>
                 <p className="text-sm text-gray-600 mb-4">
