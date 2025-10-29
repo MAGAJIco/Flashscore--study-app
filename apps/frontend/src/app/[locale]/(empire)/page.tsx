@@ -203,6 +203,11 @@ export default function EmpirePage() {
             <p className="text-xl md:text-2xl opacity-95">
               Feature-Based Architecture & Command Center
             </p>
+            <Link href="/en/docs" className="mt-4 inline-block">
+              <button className="bg-white/20 backdrop-blur-lg hover:bg-white/30 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl">
+                📖 View Architecture Documentation
+              </button>
+            </Link>
           </header>
 
           <div className="mb-8 ios-card rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
