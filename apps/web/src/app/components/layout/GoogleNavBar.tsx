@@ -55,12 +55,8 @@ export function GoogleNavBar() {
           <div className="flex items-center justify-between h-16">
             {/* Left Side - Hamburger Menu */}
             <div className="flex items-center gap-3">
-              <button className="w-10 h-10 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors">
-                <div className="flex flex-col gap-1">
-                  <span className="w-5 h-0.5 bg-white rounded-full" />
-                  <span className="w-5 h-0.5 bg-white rounded-full" />
-                  <span className="w-5 h-0.5 bg-white rounded-full" />
-                </div>
+              <button className="w-10 h-10 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors text-2xl">
+                🎯
               </button>
               <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                 <div className="text-xl font-semibold text-white flex items-center gap-2">
@@ -72,13 +68,20 @@ export function GoogleNavBar() {
             </div>
 
             <div className="flex items-center gap-2">
-              <SearchBar />
+              <button 
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white text-xl transition-all relative group"
+              >
+                ☄️
+                <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Search
+                </span>
+              </button>
 
               <button 
                 onClick={() => setIsHelpOpen(true)}
-                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white text-xl transition-all relative group"
               >
-                ❓
+                👍
                 <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                   🧭 Help
                 </span>
@@ -86,9 +89,9 @@ export function GoogleNavBar() {
 
               <button 
                 onClick={() => setIsSettingsOpen(true)}
-                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white text-xl transition-all relative group"
               >
-                ⚙️
+                🦾
                 <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                   💥 Settings
                 </span>
@@ -96,9 +99,9 @@ export function GoogleNavBar() {
 
               <button
                 onClick={() => setAppDrawerOpen(!appDrawerOpen)}
-                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white text-xl transition-all relative group"
               >
-                ⋮⋮⋮
+                🪺
                 <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                   ✅ Apps
                 </span>
@@ -107,9 +110,9 @@ export function GoogleNavBar() {
               <div className="relative">
                 <button 
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold hover:shadow-lg transition-all hover:scale-110 active:scale-95"
+                  className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xl hover:shadow-lg transition-all hover:scale-110 active:scale-95"
                 >
-                  SC
+                  🌝
                 </button>
                 {isProfileOpen && <UserProfileDropdown onClose={() => setIsProfileOpen(false)} />}
               </div>
