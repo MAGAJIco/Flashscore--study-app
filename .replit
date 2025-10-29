@@ -8,7 +8,7 @@ channel = "stable-25_05"
 packages = ["gir-rs", "glibcLocales", "libxcrypt", "libyaml", "speech-tools"]
 
 [workflows]
-runButton = "Project"
+runButton = "Fresh Start - All Services"
 
 [[workflows.workflow]]
 name = "Start All Services"
@@ -548,6 +548,49 @@ args = "chmod +x scripts/verify-empire-build.sh"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "bash scripts/verify-empire-build.sh"
+
+[[workflows.workflow]]
+name = "Fresh Start - All Services"
+author = 49118356
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/api && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/backend/ml && uv run uvicorn api:app --host 0.0.0.0 --port 8000"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/web && npm run dev"
+
+[[workflows.workflow]]
+name = "New Frontend"
+author = 49118356
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/web && npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/web && npm run dev"
+
+[[workflows.workflow]]
+name = "New API"
+author = 49118356
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/api && npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/api && npm run dev"
 
 [deployment]
 build = ["sh", "-c", "npm ci && npm run build --workspace=packages/shared && npm run build --workspace=apps/backend"]
