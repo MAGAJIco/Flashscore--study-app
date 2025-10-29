@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
+import { EnhancedLiveCarousel } from './components/enhanced/EnhancedLiveCarousel';
+import { GoogleNavBar } from './components/layout/GoogleNavBar';
+import { AppLauncher } from './components/AppLauncher';
 
 interface AppItem {
   icon: string;
@@ -117,8 +120,6 @@ const NEWS_ITEMS: CarouselItem[] = [
 ];
 
 export default function HomePage() {
-  const [appDrawerOpen, setAppDrawerOpen] = useState(false);
-  const liveCarouselRef = useRef<HTMLDivElement>(null);
   const newsCarouselRef = useRef<HTMLDivElement>(null);
 
   const scrollCarousel = (ref: React.RefObject<HTMLDivElement>, direction: number) => {
@@ -129,157 +130,24 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
-      {/* Google-style Navigation Bar */}
-      <nav className="bg-white shadow-md sticky top-0 z-50">
-        <div className="flex items-center justify-between px-5 h-16">
-          <div className="flex items-center gap-5">
-            <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors">
-              <div className="flex flex-col gap-1">
-                <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-                <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-                <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-              </div>
-            </button>
-            <div className="flex items-center gap-2 text-2xl font-bold">
-              <span>👑</span>
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Sports Central
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-xl transition-colors">
-              🔍
-            </button>
-            <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-xl transition-colors">
-              ❓
-            </button>
-            <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-xl transition-colors">
-              ⚙️
-            </button>
-            <button 
-              onClick={() => setAppDrawerOpen(!appDrawerOpen)}
-              className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors relative"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"></div>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="relative z-10">
-                <circle cx="4" cy="4" r="2" />
-                <circle cx="12" cy="4" r="2" />
-                <circle cx="20" cy="4" r="2" />
-                <circle cx="4" cy="12" r="2" />
-                <circle cx="12" cy="12" r="2" />
-                <circle cx="20" cy="12" r="2" />
-                <circle cx="4" cy="20" r="2" />
-                <circle cx="12" cy="20" r="2" />
-                <circle cx="20" cy="20" r="2" />
-              </svg>
-            </button>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold">
-              SC
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* App Drawer Overlay */}
-      {appDrawerOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40"
-          onClick={() => setAppDrawerOpen(false)}
-        />
-      )}
-
-      {/* Google-style App Drawer */}
-      <div className={`fixed top-20 right-5 bg-white rounded-xl shadow-2xl p-5 w-96 max-h-[480px] overflow-y-auto z-50 transition-all duration-300 ${appDrawerOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5 pointer-events-none'}`}>
-        <div className="text-lg font-semibold text-gray-700 mb-5 pb-4 border-b border-gray-200">
-          Sports Central Apps
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          {APP_DRAWER_ITEMS.map((app, index) => (
-            <button
-              key={index}
-              className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-2 text-white">
-                {app.icon}
-              </div>
-              <div className="text-sm font-medium text-gray-700 text-center">
-                {app.name}
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
+      <GoogleNavBar />
+      <AppLauncher />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-5 py-8">
         {/* Header */}
-        <header className="text-center text-white mb-12 animate-fade-in">
-          <h1 className="text-5xl font-bold mb-3 drop-shadow-lg">
-            🏗️ Sports Central
+        <div className="text-center mb-12 animate-fade-scale">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+            🧩 S❤️ Sports Central
           </h1>
-          <p className="text-xl opacity-95">
-            Feature-Based Architecture Documentation
+          <p className="text-xl text-white/80">
+            ✅ Feature-Based Architecture Documentation
           </p>
-        </header>
+        </div>
 
-        {/* Live Matches Carousel */}
-        <div className="bg-white rounded-2xl p-6 mb-8 shadow-2xl">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-3 text-3xl font-bold">
-              <span>⚡</span>
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Live Matches
-              </span>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => scrollCarousel(liveCarouselRef, -1)}
-                className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-xl transition-all hover:scale-110"
-              >
-                ←
-              </button>
-              <button
-                onClick={() => scrollCarousel(liveCarouselRef, 1)}
-                className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-xl transition-all hover:scale-110"
-              >
-                →
-              </button>
-            </div>
-          </div>
-          <div 
-            ref={liveCarouselRef}
-            className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth pb-2"
-          >
-            {LIVE_MATCHES.map((match, index) => (
-              <div
-                key={index}
-                className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 relative"
-              >
-                {match.badge && (
-                  <span className={`absolute top-4 right-4 ${match.badgeColor} text-white px-3 py-1 rounded-full text-xs font-semibold animate-pulse`}>
-                    {match.badge}
-                  </span>
-                )}
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-2xl mb-4">
-                  {match.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {match.title}
-                </h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  {match.description}
-                </p>
-                <div className="flex items-center gap-4 text-sm text-gray-500 flex-wrap">
-                  {match.meta.map((item, idx) => (
-                    <span key={idx} className="flex items-center gap-1">
-                      {item.icon} {item.text}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Live Matches Carousel - Enhanced */}
+        <div className="mb-8">
+          <EnhancedLiveCarousel />
         </div>
 
         {/* Latest News Carousel */}
@@ -345,7 +213,7 @@ export default function HomePage() {
         {/* Feature Apps Grid */}
         <div className="bg-white rounded-2xl p-6 shadow-2xl">
           <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
-            <span>📱</span>
+            <span>💥</span>
             <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               Feature Apps
             </span>
@@ -354,26 +222,48 @@ export default function HomePage() {
             {APP_DRAWER_ITEMS.map((app, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer"
+                className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer overflow-hidden"
               >
-                <h3 className="text-2xl font-bold text-indigo-600 mb-3 flex items-center gap-2">
-                  <span className="text-3xl">{app.icon}</span>
+                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-4xl mb-4 shadow-lg">
+                  {app.icon}
+                </div>
+                <h3 className="text-xl font-bold text-indigo-600 mb-2">
                   {app.name}
                 </h3>
                 <p className="text-sm text-gray-600 mb-4">
                   Feature-based architecture module
                 </p>
-                <ul className="space-y-2">
-                  <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
-                    View {app.name} Dashboard
-                  </li>
-                  <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
-                    Manage Settings
-                  </li>
-                  <li className="text-sm text-gray-700 py-2 transition-all hover:pl-2 hover:text-indigo-600">
-                    View Analytics
-                  </li>
-                </ul>
+
+                {index === 0 ? (
+                  <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
+                    <div className="flex gap-3 pb-2">
+                      {['Dashboard', 'Settings', 'Analytics', 'Reports', 'Users'].map((item, i) => (
+                        <div
+                          key={i}
+                          className="min-w-[140px] bg-white rounded-lg p-3 shadow-sm border border-gray-200 hover:border-indigo-400 transition-all flex-shrink-0"
+                        >
+                          <div className="text-2xl mb-1">
+                            {i === 0 ? '📊' : i === 1 ? '⚙️' : i === 2 ? '📈' : i === 3 ? '📋' : '👥'}
+                          </div>
+                          <div className="text-sm font-semibold text-gray-800">{item}</div>
+                          <div className="text-xs text-gray-500 mt-1">View {item}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <ul className="space-y-2">
+                    <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
+                      View {app.name} Dashboard
+                    </li>
+                    <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
+                      Manage Settings
+                    </li>
+                    <li className="text-sm text-gray-700 py-2 transition-all hover:pl-2 hover:text-indigo-600">
+                      View Analytics
+                    </li>
+                  </ul>
+                )}
               </div>
             ))}
           </div>
