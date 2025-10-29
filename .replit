@@ -262,27 +262,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Backend"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
 args = "Frontend"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
 args = "ML Service"
 
-[[workflows.workflow]]
-name = "Backend"
-author = "agent"
-
-[workflows.workflow.metadata]
-outputType = "console"
-
 [[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/backend && npm run dev"
-waitForPort = 3001
+task = "workflow.run"
+args = "Backend"
 
 [[workflows.workflow]]
 name = "Frontend"
@@ -591,6 +579,18 @@ args = "cd apps/api && npm install"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd apps/api && npm run dev"
+
+[[workflows.workflow]]
+name = "Backend"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/api && npm run dev"
+waitForPort = 3001
+
+[workflows.workflow.metadata]
+outputType = "console"
 
 [deployment]
 build = ["sh", "-c", "npm ci && npm run build --workspace=packages/shared && npm run build --workspace=apps/backend"]
