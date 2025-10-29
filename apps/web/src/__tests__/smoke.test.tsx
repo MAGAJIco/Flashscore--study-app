@@ -39,12 +39,36 @@ describe('Frontend Smoke Tests', () => {
   });
 
   describe('Configuration', () => {
-    it('should have valid environment configuration', () => {
-      const requiredEnvVars = ['NEXT_PUBLIC_API_URL', 'REPLIT_DEV_DOMAIN'];
+    it('should have valid API URL configuration', () => {
+      const allowDefaults = process.env.ALLOW_TEST_DEFAULTS === 'true';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       
-      requiredEnvVars.forEach(envVar => {
-        expect(typeof envVar).toBe('string');
-      });
+      if (!allowDefaults && !apiUrl) {
+        fail('NEXT_PUBLIC_API_URL is not set. Set ALLOW_TEST_DEFAULTS=true for development testing.');
+      }
+      
+      const finalUrl = apiUrl || 'http://0.0.0.0:3001';
+      
+      expect(finalUrl).toBeTruthy();
+      expect(typeof finalUrl).toBe('string');
+      expect(finalUrl).toMatch(/^https?:\/\//);
+      
+      try {
+        new URL(finalUrl);
+      } catch (error) {
+        fail(`Invalid API URL: ${finalUrl}`);
+      }
+    });
+
+    it('should have valid Replit domain when in Replit environment', () => {
+      const replitDomain = process.env.REPLIT_DEV_DOMAIN;
+      
+      if (replitDomain) {
+        expect(typeof replitDomain).toBe('string');
+        expect(replitDomain).toMatch(/replit\.dev$/);
+      } else {
+        expect(true).toBe(true);
+      }
     });
   });
 });

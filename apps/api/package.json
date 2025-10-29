@@ -8,7 +8,8 @@
     "start": "node dist/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:dev": "ALLOW_LIMITED_MODE=true jest"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",

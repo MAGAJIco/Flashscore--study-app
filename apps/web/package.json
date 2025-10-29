@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:dev": "ALLOW_TEST_DEFAULTS=true jest"
   },
   "dependencies": {
     "next": "^16.0.1",
