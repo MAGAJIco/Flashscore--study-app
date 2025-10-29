@@ -1,8 +1,9 @@
 
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { usePiCoin } from '../../hooks/usePiCoin';
+import { PiCoinStore } from '../../components/PiCoinStore';
 
 interface PiCoinWalletProps {
   userId: string;
@@ -10,6 +11,8 @@ interface PiCoinWalletProps {
 
 export const PiCoinWallet: React.FC<PiCoinWalletProps> = ({ userId }) => {
   const { wallet, loading, error, earnCoins, spendCoins } = usePiCoin(userId);
+  const [showStore, setShowStore] = useState(false);
+  const [showTransactions, setShowTransactions] = useState(false);
 
   if (loading) {
     return (
@@ -34,55 +37,84 @@ export const PiCoinWallet: React.FC<PiCoinWalletProps> = ({ userId }) => {
     return null;
   }
 
+  const transactions = wallet.transactions || [];
+
   return (
-    <div className="bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-700">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-2xl">
-            🪙
-          </div>
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-              Pi Coin Wallet
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Level {wallet.level}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Balance</p>
-          <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
-            {wallet.balance.toLocaleString()}
-          </p>
-        </div>
+    <div className="p-5">
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 shadow-xl border border-yellow-500/20">
+        <h2 className="text-2xl font-bold text-yellow-400 mb-4">🪙 Your Pi Coin Wallet</h2>
         
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Earned</p>
-          <p className="text-2xl font-bold text-green-600 dark:text-green-400">
-            {wallet.totalEarned.toLocaleString()}
-          </p>
-        </div>
-      </div>
-
-      {wallet.achievements.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Achievements</p>
-          <div className="flex flex-wrap gap-2">
-            {wallet.achievements.map((achievement, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium"
-              >
-                {achievement}
-              </span>
-            ))}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="bg-slate-800/50 rounded-lg p-4">
+            <div className="text-sm text-gray-400">Balance</div>
+            <div className="text-3xl font-bold text-yellow-400">{wallet.balance}</div>
+          </div>
+          <div className="bg-slate-800/50 rounded-lg p-4">
+            <div className="text-sm text-gray-400">Level</div>
+            <div className="text-3xl font-bold text-green-400">{wallet.level}</div>
+          </div>
+          <div className="bg-slate-800/50 rounded-lg p-4">
+            <div className="text-sm text-gray-400">Total Earned</div>
+            <div className="text-xl font-bold text-blue-400">{wallet.totalEarned}</div>
+          </div>
+          <div className="bg-slate-800/50 rounded-lg p-4">
+            <div className="text-sm text-gray-400">Total Spent</div>
+            <div className="text-xl font-bold text-red-400">{wallet.totalSpent}</div>
           </div>
         </div>
-      )}
+
+        <div className="flex gap-3 mb-4">
+          <button
+            onClick={() => setShowStore(true)}
+            className="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white font-bold py-3 px-4 rounded-lg hover:from-green-700 hover:to-green-600 transition-all"
+          >
+            Buy Coins
+          </button>
+          <button
+            onClick={() => setShowTransactions(!showTransactions)}
+            className="flex-1 bg-slate-700 text-white font-bold py-3 px-4 rounded-lg hover:bg-slate-600 transition-all border border-slate-600"
+          >
+            {showTransactions ? 'Hide' : 'View'} History
+          </button>
+        </div>
+
+        {showTransactions && (
+          <div className="bg-slate-800/30 rounded-lg p-4 max-h-96 overflow-y-auto">
+            <h3 className="text-lg font-bold text-yellow-400 mb-3">Transaction History</h3>
+            {transactions.length === 0 ? (
+              <p className="text-gray-400">No transactions yet</p>
+            ) : (
+              <div className="space-y-2">
+                {transactions.slice(0, 10).map((tx: any) => (
+                  <div
+                    key={tx.id}
+                    className="bg-slate-700/50 rounded-lg p-3 flex justify-between items-center"
+                  >
+                    <div>
+                      <div className="font-semibold text-white">{tx.description}</div>
+                      <div className="text-xs text-gray-400">
+                        {new Date(tx.timestamp).toLocaleDateString()}
+                      </div>
+                    </div>
+                    <div className={`font-bold ${tx.type === 'earn' ? 'text-green-400' : 'text-red-400'}`}>
+                      {tx.type === 'earn' ? '+' : '-'}{tx.amount}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <PiCoinStore
+        isOpen={showStore}
+        onClose={() => setShowStore(false)}
+        userId={userId}
+        onPurchaseComplete={() => {
+          setShowStore(false);
+        }}
+      />
     </div>
   );
 };

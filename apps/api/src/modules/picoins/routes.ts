@@ -23,4 +23,7 @@ export async function piCoinModuleRoutes(fastify: FastifyInstance) {
   
   // Add achievement
   fastify.post('/achievement', piCoinController.addAchievement);
+  
+  // Purchase coins
+  fastify.post('/purchase', piCoinController.purchaseCoins);
 }

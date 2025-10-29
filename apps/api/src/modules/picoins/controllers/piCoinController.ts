@@ -261,6 +261,60 @@ export const piCoinController = {
     }
   },
 
+
+
+  async purchaseCoins(req: FastifyRequest<{ Body: { userId: string; amount: number; paymentMethod: string; paymentId?: string; metadata?: any } }>, res: FastifyReply) {
+    try {
+      const { userId, amount, paymentMethod, paymentId, metadata } = req.body;
+      
+      if (!userId || !amount || !paymentMethod) {
+        return res.status(400).send({ 
+          success: false, 
+          error: 'userId, amount, and paymentMethod are required' 
+        });
+      }
+
+      if (amount <= 0) {
+        return res.status(400).send({ success: false, error: 'Amount must be positive' });
+      }
+
+      let wallet = await PiWallet.findOne({ userId });
+      if (!wallet) {
+        wallet = new PiWallet({ userId });
+      }
+
+      const transaction = {
+        id: generateTransactionId(),
+        amount,
+        type: 'earn' as const,
+        description: `Purchased ${amount} Pi Coins via ${paymentMethod}`,
+        timestamp: new Date(),
+        status: 'completed' as const,
+        metadata: {
+          paymentMethod,
+          paymentId,
+          ...metadata
+        }
+      };
+
+      wallet.balance += amount;
+      wallet.totalEarned += amount;
+      wallet.transactions.push(transaction);
+
+      await wallet.save();
+
+      res.send({
+        success: true,
+        data: wallet,
+        transaction
+      });
+    } catch (error) {
+      req.log.error(error);
+      res.status(500).send({ success: false, error: 'Failed to purchase coins' });
+    }
+  }
+};
+
   async getTransactions(req: FastifyRequest<{ Params: { userId: string }; Querystring: { limit?: string; offset?: string } }>, res: FastifyReply) {
     try {
       const { userId } = req.params;
