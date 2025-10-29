@@ -19,7 +19,7 @@ interface AppItem {
   badge?: string;
 }
 
-const apps: AppItem[] = [
+const APP_DRAWER_ITEMS: AppItem[] = [
   { id: 'predictions', name: 'AI Predictions', icon: '🤖', href: '/predictions', category: 'sports', color: 'from-purple-500 to-indigo-600', description: '87% accurate ML predictions', badge: 'AI' },
   { id: 'live', name: 'Live Matches', icon: '⚡', href: '/matches', category: 'sports', color: 'from-emerald-500 to-teal-600', description: 'Real-time tracking', badge: 'LIVE' },
   { id: 'news', name: 'Sports News', icon: '📰', href: '/news', category: 'sports', color: 'from-blue-500 to-cyan-600', description: 'Breaking news worldwide', badge: 'NEW' },

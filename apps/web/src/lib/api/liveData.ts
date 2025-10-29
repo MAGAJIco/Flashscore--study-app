@@ -104,3 +104,27 @@ export const liveDataApi = {
     return `${Math.floor(diff / 86400)} days ago`;
   }
 };
+
+export async function fetchNews() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const response = await fetch(`${apiUrl}/api/news`);
+    if (!response.ok) throw new Error('Failed to fetch news');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching news:', error);
+    return [];
+  }
+}
+
+export async function fetchNewsAuthors() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const response = await fetch(`${apiUrl}/api/news/authors`);
+    if (!response.ok) throw new Error('Failed to fetch news authors');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching news authors:', error);
+    return [];
+  }
+}
