@@ -45,20 +45,21 @@ export function GoogleNavBar() {
       <nav className="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="w-10 h-10 rounded-full hover:bg-white/20 active:scale-95 flex items-center justify-center transition-all duration-200"
-              >
+            {/* Left Side - Hamburger Menu */}
+            <div className="flex items-center gap-3">
+              <button className="w-10 h-10 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors">
                 <div className="flex flex-col gap-1">
-                  <span className="w-5 h-0.5 bg-white rounded"></span>
-                  <span className="w-5 h-0.5 bg-white rounded"></span>
-                  <span className="w-5 h-0.5 bg-white rounded"></span>
+                  <span className="w-5 h-0.5 bg-white rounded-full" />
+                  <span className="w-5 h-0.5 bg-white rounded-full" />
+                  <span className="w-5 h-0.5 bg-white rounded-full" />
                 </div>
               </button>
-              <Link href="/en" className="text-xl font-bold text-white flex items-center gap-2">
-                👑 Empire Central
-              </Link>
+              <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <div className="text-xl font-semibold text-white flex items-center gap-2">
+                  🏆 Sports Central
+                </div>
+                <span className="text-sm text-white/80 font-medium">Home</span>
+              </a>
             </div>
 
             <div className="flex items-center gap-2">
