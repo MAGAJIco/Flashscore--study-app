@@ -19,7 +19,7 @@ const apps: MicroApp[] = [
     id: 'predictions',
     name: 'AI Predictions',
     icon: '🤖',
-    href: '/en/ai-predictions',
+    href: '/en/predictions',
     category: 'sports',
     color: 'from-purple-500 to-indigo-600',
     description: '87% accurate ML predictions',
