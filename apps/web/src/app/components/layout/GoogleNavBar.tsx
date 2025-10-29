@@ -28,9 +28,12 @@ export function GoogleNavBar() {
               <span className="w-5 h-0.5 bg-gray-600 dark:bg-gray-300 rounded transition-all"></span>
             </div>
           </button>
-          <Link href="/en" className="text-2xl font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <button 
+            onClick={() => setIsDrawerOpen(true)}
+            className="text-2xl font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
+          >
             🏗️ Sports Central
-          </Link>
+          </button>
         </div>
 
         <div className="flex items-center gap-2">

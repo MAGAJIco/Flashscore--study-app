@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import { Brain, TrendingUp, Target, Zap, AlertCircle } from 'lucide-react';
+import PredictionsAutoLoader from '../components/PredictionsAutoLoader';
 
 interface PredictionResult {
   prediction: string;
@@ -74,6 +75,11 @@ export default function PredictionsPage() {
             <h2 className="text-2xl font-bold text-white">ML Prediction Engine</h2>
             <p className="text-gray-400">87% accuracy • Powered by AI</p>
           </div>
+        </div>
+
+        {/* Auto-loaded Predictions */}
+        <div className="mb-6">
+          <PredictionsAutoLoader />
         </div>
 
         {error && (
