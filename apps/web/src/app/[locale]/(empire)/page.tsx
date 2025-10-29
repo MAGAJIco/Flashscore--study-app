@@ -117,18 +117,8 @@ export default function EmpirePage() {
             </div>
           </header>
 
-          {/* Live Matches Carousel */}
-          <div className="mb-8 animate-slideUp" style={{ animationDelay: '0.1s' }}>
-            <LiveCarousel />
-          </div>
-
-          {/* Latest News Carousel */}
-          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.2s' }}>
-            <NewsCarousel />
-          </div>
-
           {/* Feature Apps Grid */}
-          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.3s' }}>
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.1s' }}>
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
@@ -178,6 +168,16 @@ export default function EmpirePage() {
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Live Matches Carousel */}
+          <div className="mb-8 animate-slideUp" style={{ animationDelay: '0.2s' }}>
+            <LiveCarousel />
+          </div>
+
+          {/* Latest News Carousel */}
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.3s' }}>
+            <NewsCarousel />
           </div>
 
           {/* Architecture Overview */}
