@@ -1,29 +1,11 @@
-
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { LiveCarousel } from '../components/carousels/LiveCarousel';
 import { NewsCarousel } from '../components/carousels/NewsCarousel';
 import { GoogleNavBar } from '../components/layout/GoogleNavBar';
 import { IOSStyleFeatures } from '../components/IOSStyleFeatures';
-import FoundationFeature from "./(empire)/features/foundation/FoundationFeature";
-import LeaderboardFeature from "./(empire)/features/leaderboard/LeaderboardFeature";
-import AchievementsFeature from "./(empire)/features/achievements/AchievementsFeature";
-import { useEmpireVisibility } from '../hooks';
 import Link from 'next/link';
-
-type TabType = 'foundation' | 'leaderboard' | 'achievements' | 'analytics' | 'community';
-
-const navigationApps = [
-  { id: 'portal', name: 'Portal', icon: '🏠', route: '/en/MagajiCoFoundation' },
-  { id: 'empire', name: 'Empire', icon: '👑', route: '/en' },
-  { id: 'predictions', name: 'Predictions', icon: '🤖', route: '/en/ai-predictions' },
-  { id: 'live', name: 'Live', icon: '⚡', route: '/en/matches' },
-  { id: 'social', name: 'Social', icon: '👥', route: '/en/feed' },
-  { id: 'authors', name: 'Authors', icon: '✍️', route: '/en/author' },
-  { id: 'news', name: 'News', icon: '📰', route: '/en/news' },
-  { id: 'rewards', name: 'Rewards', icon: '🏆', route: '/en/achievements' },
-  { id: 'analytics', name: 'Analytics', icon: '📊', route: '/en/analytics' },
-];
 
 const featureApps = [
   {
@@ -31,360 +13,321 @@ const featureApps = [
     name: 'Portal',
     icon: '🏠',
     description: 'Central hub & navigation',
-    routes: ['dashboard/', 'welcome/', 'quick-access/'],
+    route: '/en',
+    color: 'from-blue-500 to-indigo-600'
   },
   {
     id: 'predictions',
     name: 'Predictions',
     icon: '🤖',
     description: 'AI-powered forecasting',
-    routes: ['matches/', 'confidence/', 'history/'],
+    route: '/en/ai-predictions',
+    color: 'from-purple-500 to-pink-600'
   },
   {
     id: 'live',
     name: 'Live',
     icon: '⚡',
     description: 'Real-time match tracking',
-    routes: ['scorecard/', 'commentary/', 'highlights/'],
+    route: '/en/matches',
+    color: 'from-red-500 to-orange-600'
   },
   {
     id: 'social',
     name: 'Social',
     icon: '👥',
     description: 'Community & engagement',
-    routes: ['feed/', 'challenges/', 'chat/', 'forum/'],
+    route: '/en/feed',
+    color: 'from-green-500 to-teal-600'
   },
   {
     id: 'kids',
     name: 'Kids Mode',
     icon: '🎮',
     description: 'Safe environment for children',
-    routes: ['dashboard/', 'quizzes/', 'learning/'],
+    route: '/en/kids',
+    color: 'from-yellow-500 to-amber-600'
   },
   {
     id: 'rewards',
     name: 'Rewards',
     icon: '🏆',
     description: 'Achievements & gamification',
-    routes: ['achievements/', 'leaderboard/', 'coins/'],
+    route: '/en/achievements',
+    color: 'from-cyan-500 to-blue-600'
   },
   {
     id: 'analytics',
     name: 'Analytics',
     icon: '📊',
     description: 'Performance insights',
-    routes: ['stats/', 'trends/', 'reports/'],
+    route: '/en/analytics',
+    color: 'from-violet-500 to-purple-600'
   },
   {
     id: 'chat',
     name: 'Chat',
     icon: '💬',
     description: 'Live discussions',
-    routes: ['rooms/', 'messages/', 'notifications/'],
+    route: '/en/social/chat',
+    color: 'from-pink-500 to-rose-600'
   },
   {
     id: 'challenges',
     name: 'Challenges',
     icon: '🎯',
     description: 'Competitive tasks',
-    routes: ['daily/', 'tournaments/', 'prizes/'],
+    route: '/en/challenges',
+    color: 'from-indigo-500 to-blue-600'
   },
-];
-
-const benefits = [
-  'Better Organization',
-  'Easier Maintenance',
-  'Improved Performance',
-  'Team Scalability',
-  'Independent Testing',
-  'Flexible Deployment',
-];
-
-const implementationStatus = [
-  {
-    title: 'Frontend Route Groups',
-    status: 'complete',
-    description: 'All feature route groups created with proper layouts and navigation updated',
-  },
-  {
-    title: 'Backend Modules',
-    status: 'complete',
-    description: 'Module structure created and routes reorganized with feature grouping',
-  },
-  {
-    title: 'Service Layer',
-    status: 'progress',
-    description: 'Currently refactoring service layers for each module',
-  },
-  {
-    title: 'Testing & Deployment',
-    status: 'pending',
-    description: 'Feature-specific testing and deployment pipeline setup',
-  },
-];
-
-const nextSteps = [
-  'Move remaining components into feature directories',
-  'Create service layers for each module',
-  'Add module-specific middleware',
-  'Implement feature-specific testing',
 ];
 
 export default function HomePage() {
-  const { isVisible } = useEmpireVisibility();
-  const [userId] = useState(() => {
-    if (typeof window !== 'undefined') {
-      let id = localStorage.getItem('magajico-user-id');
-      if (!id) {
-        id = `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        localStorage.setItem('magajico-user-id', id);
-      }
-      return id;
-    }
-    return 'guest';
-  });
-
-  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
-  const [activeTab, setActiveTab] = useState<TabType>('foundation');
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const userData = localStorage.getItem('current_user');
-      if (userData) {
-        setCurrentUser(JSON.parse(userData));
-      }
-    }
+    setMounted(true);
   }, []);
 
-  const showNotification = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 3000);
-  };
-
-  const handleAchievementUnlocked = (achievement: any) => {
-    showNotification(`🏆 Achievement Unlocked: ${achievement.title}`, 'success');
-  };
-
-  const tabs = [
-    { id: 'foundation' as TabType, label: 'Foundation', icon: '🏗️' },
-    { id: 'leaderboard' as TabType, label: 'Leaderboard', icon: '🏆' },
-    { id: 'achievements' as TabType, label: 'Achievements', icon: '⭐' },
-    { id: 'analytics' as TabType, label: 'Analytics', icon: '📊' },
-    { id: 'community' as TabType, label: 'Community', icon: '👥' },
-  ];
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <IOSStyleFeatures>
-      <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
         <GoogleNavBar />
 
-        {notification && (
-          <div className="fixed top-20 right-4 z-50 glass-card px-6 py-4 rounded-2xl shadow-2xl animate-slideInRight ios-haptic-light">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">
-                {notification.type === 'success' ? '✅' : notification.type === 'error' ? '❌' : 'ℹ️'}
-              </span>
-              <p className="text-white dark:text-gray-100">{notification.message}</p>
-              <button
-                onClick={() => setNotification(null)}
-                className="ml-4 text-white hover:text-gray-200 ios-haptic-light"
-              >
-                ✕
-              </button>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Hero Header */}
+          <header className="text-center mb-12 animate-fadeIn">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                ⚽
+              </div>
+              <div className="text-left">
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
+                  Sports Central
+                </h1>
+                <p className="text-lg text-gray-600 dark:text-gray-300">
+                  Feature-Based Architecture Documentation
+                </p>
+              </div>
             </div>
-          </div>
-        )}
-
-        <div className="max-w-7xl mx-auto p-6">
-          <header className="text-center text-white mb-10 animate-fadeInDown">
-            <h1 className="text-5xl md:text-6xl font-bold mb-3 drop-shadow-lg">
-              🏗️ Sports Central Empire
-            </h1>
-            <p className="text-xl md:text-2xl opacity-95">
-              Feature-Based Architecture & Command Center
-            </p>
-            <Link href="/en/docs" className="mt-4 inline-block">
-              <button className="bg-white/20 backdrop-blur-lg hover:bg-white/30 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl">
-                📖 View Architecture Documentation
-              </button>
-            </Link>
           </header>
 
-          <div className="mb-8 ios-card rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-4 flex items-center gap-3">
-              📖 Overview
-            </h2>
-            <p className="text-gray-100 dark:text-gray-300 leading-relaxed">
-              Sports Central is a production-ready monorepo sports prediction and community platform built with Next.js (Frontend), 
-              Fastify (Backend), and FastAPI (ML Service). It features AI-powered predictions, live scores, interactive experiences, 
-              and community rewards with iOS-style interactions and dark theme support.
-            </p>
-          </div>
-
-          <div className="mb-8">
+          {/* Live Matches Carousel */}
+          <div className="mb-8 animate-slideUp" style={{ animationDelay: '0.1s' }}>
             <LiveCarousel />
           </div>
 
-          <div className="mb-8">
+          {/* Latest News Carousel */}
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.2s' }}>
             <NewsCarousel />
           </div>
 
-          <div className="mb-8 ios-card rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
-            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-6 flex items-center gap-3">
-              🎯 Feature Apps
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featureApps.map((app, index) => (
-                <div
-                  key={app.id}
-                  className="ios-card rounded-xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-cyan-400 cursor-pointer ios-haptic-light"
-                  style={{ animationDelay: `${0.1 * index}s` }}
-                >
-                  <h3 className="text-2xl font-bold text-cyan-400 dark:text-cyan-300 mb-3 flex items-center gap-2">
-                    <span className="text-3xl">{app.icon}</span>
-                    {app.name}
-                  </h3>
-                  <p className="text-gray-200 dark:text-gray-400 mb-4">{app.description}</p>
-                  <ul className="space-y-2">
-                    {app.routes.map((route, idx) => (
-                      <li
-                        key={idx}
-                        className="text-gray-300 dark:text-gray-500 text-sm py-2 border-b border-gray-700 dark:border-gray-600 last:border-0 hover:text-cyan-400 hover:pl-2 transition-all"
-                      >
-                        {route}
-                      </li>
-                    ))}
+          {/* Feature Apps Grid - Exact match to screenshot */}
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.3s' }}>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                  <span className="text-4xl">🎯</span>
+                  Feature Apps
+                </h2>
+                <Link href="/en/docs">
+                  <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors">
+                    📖 View Docs
+                  </button>
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {featureApps.map((app, index) => (
+                  <Link key={app.id} href={app.route}>
+                    <div
+                      className="group relative bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 rounded-xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-200 dark:border-gray-600 cursor-pointer overflow-hidden"
+                      style={{ animationDelay: `${0.05 * index}s` }}
+                    >
+                      {/* Gradient overlay on hover */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${app.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+
+                      {/* Content */}
+                      <div className="relative z-10">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className={`w-14 h-14 bg-gradient-to-br ${app.color} rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                            {app.icon}
+                          </div>
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {app.name}
+                        </h3>
+
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">
+                          {app.description}
+                        </p>
+
+                        {/* Feature indicator */}
+                        <div className="mt-4 flex items-center gap-2">
+                          <div className="h-1 flex-1 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+                            <div className={`h-full bg-gradient-to-r ${app.color} w-3/4 group-hover:w-full transition-all duration-500`} />
+                          </div>
+                          <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Active</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Architecture Overview */}
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.4s' }}>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+                <span className="text-4xl">🏗️</span>
+                Architecture Overview
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-700">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-xl">
+                      🎨
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Frontend</h3>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                    Next.js 14 App Router with feature-based route groups
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> 9 Feature Apps
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> iOS-Style Interactions
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> Dark Mode Support
+                    </li>
                   </ul>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          <div className="mb-8 ios-card rounded-2xl p-8 shadow-2xl animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
-            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-6">
-              🚀 Key Benefits
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {benefits.map((benefit, index) => (
-                <div
-                  key={index}
-                  className="ios-card p-5 rounded-xl font-semibold text-gray-100 dark:text-gray-300 transition-transform duration-300 hover:scale-105 hover:shadow-lg ios-haptic-light"
-                >
-                  ✅ {benefit}
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-700">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center text-xl">
+                      ⚡
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Backend</h3>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                    Fastify REST API with modular architecture
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> Module-based Structure
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> MongoDB Integration
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> JWT Authentication
+                    </li>
+                  </ul>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          <div className="mb-8 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 rounded-2xl font-semibold whitespace-nowrap transition-all ios-haptic-medium ${
-                  activeTab === tab.id
-                    ? 'ios-card bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg scale-105'
-                    : 'ios-card text-gray-200 dark:text-gray-400 hover:scale-105 hover:shadow-md'
-                }`}
-              >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <div className={activeTab === 'foundation' ? 'lg:col-span-2' : 'lg:col-span-3'}>
-              {activeTab === 'foundation' && (
-                <FoundationFeature 
-                  userId={userId} 
-                  onNotification={showNotification}
-                />
-              )}
-
-              {activeTab === 'achievements' && (
-                <AchievementsFeature 
-                  currentUser={currentUser}
-                  onAchievementUnlocked={handleAchievementUnlocked}
-                />
-              )}
-
-              {activeTab === 'leaderboard' && (
-                <LeaderboardFeature />
-              )}
-
-              {activeTab === 'analytics' && (
-                <div className="ios-card rounded-2xl p-8">
-                  <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-6">
-                    📊 Analytics Dashboard
-                  </h2>
-                  <p className="text-gray-200 dark:text-gray-400 mb-4">Advanced analytics coming soon...</p>
+                <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-xl p-6 border border-green-200 dark:border-green-700">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-xl">
+                      🤖
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">ML Service</h3>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                    FastAPI with scikit-learn for predictions
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> AI Predictions
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> Real-time Analysis
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> Model Training
+                    </li>
+                  </ul>
                 </div>
-              )}
 
-              {activeTab === 'community' && (
-                <div className="ios-card rounded-2xl p-8">
-                  <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-6">
-                    👥 Community Features
-                  </h2>
-                  <p className="text-gray-200 dark:text-gray-400 mb-4">Community features coming soon...</p>
+                <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 border border-orange-200 dark:border-orange-700">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-xl">
+                      🗄️
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Database</h3>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                    MongoDB Atlas for data persistence
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> Cloud-hosted
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> Auto-scaling
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span> Backup & Recovery
+                    </li>
+                  </ul>
                 </div>
-              )}
-            </div>
-
-            {activeTab === 'foundation' && (
-              <div className="lg:col-span-1">
-                <LeaderboardFeature />
               </div>
-            )}
+            </div>
           </div>
 
-          <footer className="ios-card rounded-2xl p-8 mt-10 border border-white/20">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          {/* Footer */}
+          <footer className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl animate-slideUp" style={{ animationDelay: '0.5s' }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
               <div>
-                <h3 className="text-lg font-bold text-white mb-4">About Sports Central</h3>
-                <p className="text-gray-300 text-sm">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">About</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
                   AI-powered sports prediction and community platform with real-time analytics.
                 </p>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-white mb-4">Quick Links</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Quick Links</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><Link href="/en" className="text-gray-300 hover:text-cyan-400 transition-colors">Home</Link></li>
-                  <li><Link href="/en/ai-predictions" className="text-gray-300 hover:text-cyan-400 transition-colors">Predictions</Link></li>
-                  <li><Link href="/en/matches" className="text-gray-300 hover:text-cyan-400 transition-colors">Live Matches</Link></li>
-                  <li><Link href="/en/news" className="text-gray-300 hover:text-cyan-400 transition-colors">News</Link></li>
+                  <li><Link href="/en/ai-predictions" className="text-blue-500 hover:text-blue-600">Predictions</Link></li>
+                  <li><Link href="/en/matches" className="text-blue-500 hover:text-blue-600">Live Matches</Link></li>
+                  <li><Link href="/en/news" className="text-blue-500 hover:text-blue-600">News</Link></li>
+                  <li><Link href="/en/docs" className="text-blue-500 hover:text-blue-600">Documentation</Link></li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-white mb-4">Legal</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Connect</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><Link href="/en/privacy" className="text-gray-300 hover:text-cyan-400 transition-colors">Privacy Policy</Link></li>
-                  <li><Link href="/en/terms" className="text-gray-300 hover:text-cyan-400 transition-colors">Terms of Service</Link></li>
-                  <li><Link href="/en/partnerships" className="text-gray-300 hover:text-cyan-400 transition-colors">Partnerships</Link></li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold text-white mb-4">Connect</h3>
-                <ul className="space-y-2 text-sm">
-                  <li><Link href="/en/feed" className="text-gray-300 hover:text-cyan-400 transition-colors">Community</Link></li>
-                  <li><Link href="/en/author" className="text-gray-300 hover:text-cyan-400 transition-colors">Authors</Link></li>
-                  <li><a href="mailto:support@sportscentral.com" className="text-gray-300 hover:text-cyan-400 transition-colors">Contact Us</a></li>
+                  <li><Link href="/en/feed" className="text-blue-500 hover:text-blue-600">Community</Link></li>
+                  <li><Link href="/en/author" className="text-blue-500 hover:text-blue-600">Authors</Link></li>
+                  <li><a href="mailto:support@sportscentral.com" className="text-blue-500 hover:text-blue-600">Contact</a></li>
                 </ul>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-white/20">
+            <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <p className="text-gray-300 text-sm">
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
                   © 2025 Sports Central. All rights reserved.
                 </p>
-                <p className="text-gray-400 text-xs">
-                  Sports Central Architecture v2.0.0 | Last Updated: {new Date().toLocaleDateString()}
+                <p className="text-gray-500 dark:text-gray-500 text-xs">
+                  v2.0.0 | Built with Next.js & Fastify
                 </p>
               </div>
             </div>
@@ -392,10 +335,10 @@ export default function HomePage() {
         </div>
 
         <style jsx>{`
-          @keyframes fadeInDown {
+          @keyframes fadeIn {
             from {
               opacity: 0;
-              transform: translateY(-30px);
+              transform: translateY(-20px);
             }
             to {
               opacity: 1;
@@ -403,7 +346,7 @@ export default function HomePage() {
             }
           }
 
-          @keyframes fadeInUp {
+          @keyframes slideUp {
             from {
               opacity: 0;
               transform: translateY(30px);
@@ -414,55 +357,13 @@ export default function HomePage() {
             }
           }
 
-          @keyframes slideInRight {
-            from {
-              opacity: 0;
-              transform: translateX(50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
+          .animate-fadeIn {
+            animation: fadeIn 0.8s ease forwards;
           }
 
-          .animate-fadeInDown {
-            animation: fadeInDown 0.8s ease;
-          }
-
-          .animate-fadeInUp {
-            animation: fadeInUp 0.8s ease backwards;
-          }
-
-          .animate-slideInRight {
-            animation: slideInRight 0.3s ease;
-          }
-
-          .ios-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          }
-
-          .ios-haptic-light {
-            cursor: pointer;
-          }
-          .ios-haptic-medium {
-            cursor: pointer;
-          }
-
-          .glass-card {
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-          }
-
-          .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          .scrollbar-hide::-webkit-scrollbar {
-            display: none;
+          .animate-slideUp {
+            animation: slideUp 0.8s ease forwards;
+            opacity: 0;
           }
         `}</style>
       </div>
