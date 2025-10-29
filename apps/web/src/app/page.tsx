@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
+import { EnhancedLiveCarousel } from './components/enhanced/EnhancedLiveCarousel';
 
 interface AppItem {
   icon: string;
@@ -223,63 +224,9 @@ export default function HomePage() {
           </p>
         </header>
 
-        {/* Live Matches Carousel */}
-        <div className="bg-white rounded-2xl p-6 mb-8 shadow-2xl">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-3 text-3xl font-bold">
-              <span>⚡</span>
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Live Matches
-              </span>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => scrollCarousel(liveCarouselRef, -1)}
-                className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-xl transition-all hover:scale-110"
-              >
-                ←
-              </button>
-              <button
-                onClick={() => scrollCarousel(liveCarouselRef, 1)}
-                className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-xl transition-all hover:scale-110"
-              >
-                →
-              </button>
-            </div>
-          </div>
-          <div 
-            ref={liveCarouselRef}
-            className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth pb-2"
-          >
-            {LIVE_MATCHES.map((match, index) => (
-              <div
-                key={index}
-                className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 relative"
-              >
-                {match.badge && (
-                  <span className={`absolute top-4 right-4 ${match.badgeColor} text-white px-3 py-1 rounded-full text-xs font-semibold animate-pulse`}>
-                    {match.badge}
-                  </span>
-                )}
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-2xl mb-4">
-                  {match.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {match.title}
-                </h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  {match.description}
-                </p>
-                <div className="flex items-center gap-4 text-sm text-gray-500 flex-wrap">
-                  {match.meta.map((item, idx) => (
-                    <span key={idx} className="flex items-center gap-1">
-                      {item.icon} {item.text}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Live Matches Carousel - Enhanced */}
+        <div className="mb-8">
+          <EnhancedLiveCarousel />
         </div>
 
         {/* Latest News Carousel */}

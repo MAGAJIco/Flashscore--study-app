@@ -3,10 +3,17 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { SearchBar } from '../enhanced/SearchBar';
+import { HelpCenter } from '../modals/HelpCenter';
+import { SettingsPanel } from '../modals/SettingsPanel';
+import { UserProfileDropdown } from '../dropdowns/UserProfileDropdown';
 
 export function GoogleNavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [appDrawerOpen, setAppDrawerOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const apps = [
     { icon: '👑', name: 'Empire', href: '/en' },
@@ -42,23 +49,46 @@ export function GoogleNavBar() {
             </div>
 
             <div className="flex items-center gap-2">
-              <button className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all">
-                🔍
-              </button>
-              <button className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all">
+              <SearchBar />
+              
+              <button 
+                onClick={() => setIsHelpOpen(true)}
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
+              >
                 ❓
+                <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Help
+                </span>
               </button>
-              <button className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all">
+              
+              <button 
+                onClick={() => setIsSettingsOpen(true)}
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
+              >
                 ⚙️
+                <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Settings
+                </span>
               </button>
+              
               <button
                 onClick={() => setAppDrawerOpen(!appDrawerOpen)}
-                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all"
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
               >
                 ⋮⋮⋮
+                <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Apps
+                </span>
               </button>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                SC
+              
+              <div className="relative">
+                <button 
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold hover:shadow-lg transition-all hover:scale-110 active:scale-95"
+                >
+                  SC
+                </button>
+                {isProfileOpen && <UserProfileDropdown onClose={() => setIsProfileOpen(false)} />}
               </div>
             </div>
           </div>
@@ -92,6 +122,9 @@ export function GoogleNavBar() {
           </div>
         </>
       )}
+      
+      <HelpCenter isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      <SettingsPanel isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </>
   );
 }
