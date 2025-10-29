@@ -936,6 +936,7 @@ function SettingsModal({
   const optionBgClass = theme === "dark" ? "bg-gray-700" : "bg-gray-100";
   const selectedOptionBgClass =
     theme === "dark" ? "bg-indigo-500 text-white" : "bg-indigo-600 text-white";
+  const inputClass = theme === "dark" ? "bg-gray-700 text-gray-300 border" : "bg-white text-gray-800 border";
 
   if (!isOpen) return null;
 

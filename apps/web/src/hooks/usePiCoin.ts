@@ -144,6 +144,30 @@ export const usePiCoin = (userId: string) => {
     }
   };
 
+  const purchaseCoins = async (amount: number, paymentMethod: string, paymentId?: string, metadata?: any) => {
+    try {
+      const response = await fetch(`${API_URL}/api/picoins/purchase`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, amount, paymentMethod, paymentId, metadata })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setWallet(result.data);
+        return true;
+      } else {
+        setError(result.error || 'Failed to purchase coins');
+        return false;
+      }
+    } catch (err) {
+      setError('Network error');
+      console.error('Error purchasing coins:', err);
+      return false;
+    }
+  };
+
   return {
     wallet,
     loading,
@@ -152,6 +176,7 @@ export const usePiCoin = (userId: string) => {
     spendCoins,
     transferCoins,
     getLeaderboard,
+    purchaseCoins,
     refreshWallet: fetchWallet
   };
 };

@@ -10,9 +10,11 @@ interface PiCoinWalletProps {
 }
 
 export const PiCoinWallet: React.FC<PiCoinWalletProps> = ({ userId }) => {
-  const { wallet, transactions, loading, error } = usePiCoin(userId);
+  const { wallet, loading, error } = usePiCoin(userId);
   const [showStore, setShowStore] = useState(false);
   const [showTransactions, setShowTransactions] = useState(false);
+  
+  const transactions = wallet?.transactions || [];
 
   if (loading) {
     return <div style={{ padding: '20px', textAlign: 'center' }}>Loading wallet...</div>;
