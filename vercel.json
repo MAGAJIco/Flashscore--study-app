@@ -1,15 +1,16 @@
+
 {
   "version": 2,
   "builds": [
     {
-      "src": "apps/frontend/package.json",
+      "src": "apps/web/package.json",
       "use": "@vercel/next"
     }
   ],
-  "installCommand": "npm install --legacy-peer-deps",
-  "buildCommand": "npm --workspace=@magajico/shared run build && npm --workspace=@magajico/frontend run build",
-  "devCommand": "npm --workspace=@magajico/frontend run dev",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build --workspace=packages/shared && npm run build --workspace=apps/web",
+  "devCommand": "npm run dev --workspace=apps/web",
   "framework": null,
-  "outputDirectory": "apps/frontend/.next",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./apps/frontend ./packages/shared"
+  "outputDirectory": "apps/web/.next",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./apps/web ./packages/shared"
 }

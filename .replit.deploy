@@ -1,0 +1,20 @@
+
+# Replit Deployment Configuration
+# This file configures deployment for Replit's deployment system
+
+[deployment]
+run = ["sh", "-c", "cd apps/web && npm start"]
+build = ["sh", "-c", "npm run build --workspace=packages/shared && npm run build --workspace=apps/web"]
+
+[deployment.environment]
+NODE_ENV = "production"
+PORT = "5000"
+
+# Build configuration
+[build]
+main = "apps/web"
+publishDir = "apps/web/.next"
+
+# Runtime configuration
+[run]
+language = "nodejs-20"
