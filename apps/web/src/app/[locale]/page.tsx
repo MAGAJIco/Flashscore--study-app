@@ -6,6 +6,7 @@ import { EnhancedLiveCarousel } from '@/app/components/enhanced/EnhancedLiveCaro
 import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
 import { GoogleNavBar } from '@/app/components/layout/GoogleNavBar';
 import { IOSStyleFeatures } from '@/app/components/IOSStyleFeatures';
+import { MagajiCoAppLauncher } from '@/app/components/MagajiCoAppLauncher';
 import Link from 'next/link';
 
 // Enable static generation for faster loads
@@ -94,6 +95,7 @@ export default function HomePage() {
     <IOSStyleFeatures>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
         <GoogleNavBar />
+        <MagajiCoAppLauncher />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Hero Header */}

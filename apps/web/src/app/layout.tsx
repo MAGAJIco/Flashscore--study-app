@@ -1,8 +1,8 @@
-
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import './globals.css'
+import { KidsModeProvider } from './context/KidsModeContext';
 
 export const metadata: Metadata = {
   title: 'MagajiCo',
@@ -22,7 +22,9 @@ export default async function RootLayout({
     <html lang={locale || 'en'}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <KidsModeProvider>
+            {children}
+          </KidsModeProvider>
         </NextIntlClientProvider>
       </body>
     </html>
