@@ -170,18 +170,76 @@ export default function EmpirePage() {
             </div>
           </div>
 
-          {/* Live Matches Carousel */}
+          {/* Growth Dashboard */}
           <div className="mb-8 animate-slideUp" style={{ animationDelay: '0.2s' }}>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                  <span className="text-4xl">📈</span>
+                  Empire Growth
+                </h2>
+                <Link href="/en/growth" className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-lg hover:shadow-lg transition-all">
+                  View Full Dashboard
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-700">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center text-2xl">
+                      👑
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400">Empire Rank</h3>
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white">Foundation Builder</p>
+                    </div>
+                  </div>
+                  <div className="mt-4 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-yellow-500 to-orange-600 w-1/3"></div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-xl p-6 border border-green-200 dark:border-green-700">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center text-2xl">
+                      🎯
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400">Win Rate</h3>
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white">0%</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Start making predictions to track your performance</p>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-700">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center text-2xl">
+                      🔥
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400">Current Streak</h3>
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white">0</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Build streaks for bonus rewards</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Live Matches Carousel */}
+          <div className="mb-8 animate-slideUp" style={{ animationDelay: '0.3s' }}>
             <LiveCarousel />
           </div>
 
           {/* Latest News Carousel */}
-          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.3s' }}>
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.4s' }}>
             <NewsCarousel />
           </div>
 
           {/* Architecture Overview */}
-          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.4s' }}>
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.5s' }}>
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                 <span className="text-4xl">🏗️</span>
@@ -239,7 +297,7 @@ export default function EmpirePage() {
           </div>
 
           {/* Footer */}
-          <footer className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl animate-slideUp" style={{ animationDelay: '0.5s' }}>
+          <footer className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl animate-slideUp" style={{ animationDelay: '0.6s' }}>
             <div className="text-center text-gray-600 dark:text-gray-400">
               <p className="text-lg font-semibold mb-2">© 2025 Sports Central - Empire Architecture</p>
               <p className="text-sm">Built with Next.js & Fastify | v2.0.0</p>
