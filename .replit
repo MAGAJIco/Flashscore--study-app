@@ -18,6 +18,10 @@ author = "agent"
 task = "workflow.run"
 args = "Next.js Frontend"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Backend API"
+
 [[workflows.workflow]]
 name = "Next.js Frontend"
 author = "agent"
@@ -30,10 +34,22 @@ waitForPort = 5000
 [workflows.workflow.metadata]
 outputType = "webview"
 
+[[workflows.workflow]]
+name = "Backend API"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd apps/api && PORT=3001 FRONTEND_URL=https://f3133dae-24e8-4a5b-baca-beaedfab7231-00-2dqyz2bu97hib.kirk.replit.dev npm run dev"
+waitForPort = 3001
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 40205
-externalPort = 3000
