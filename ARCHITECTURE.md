@@ -8,10 +8,8 @@ Clean, modular monorepo architecture with feature-based organization.
 ```
 magajico-monorepo/
 ├── apps/
-│   ├── backend/          # Fastify API (Port 3001)
+│   ├── backend/          #  API (Port 8000)
 │   └── frontend/         # Next.js 14 (Port 5000)
-└── packages/
-    └── shared/           # Shared types & utilities
 ```
 
 ## 📡 Backend Architecture (Clean Module-Based)
