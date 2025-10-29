@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -10,6 +9,9 @@ import FoundationFeature from "./features/foundation/FoundationFeature";
 import LeaderboardFeature from "./features/leaderboard/LeaderboardFeature";
 import AchievementsFeature from "./features/achievements/AchievementsFeature";
 import Link from 'next/link';
+import { ImplementationTimeline } from '@/app/components/sections/ImplementationTimeline';
+import { BenefitsGrid } from '@/app/components/sections/BenefitsGrid';
+import { AppRoutesGrid } from '@/app/components/sections/AppRoutesGrid';
 
 type TabType = 'foundation' | 'leaderboard' | 'achievements';
 
@@ -141,6 +143,26 @@ export default function EmpirePage() {
                 <p className="text-gray-300 text-sm">Connect with the community</p>
               </div>
             </Link>
+          </div>
+
+          {/* iOS-Style Features */}
+          <div className="mb-12">
+            <IOSStyleFeatures />
+          </div>
+
+          {/* Implementation Timeline */}
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.4s' }}>
+            <ImplementationTimeline />
+          </div>
+
+          {/* Key Benefits Grid */}
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.5s' }}>
+            <BenefitsGrid />
+          </div>
+
+          {/* App Routes Grid */}
+          <div className="mb-12 animate-slideUp" style={{ animationDelay: '0.6s' }}>
+            <AppRoutesGrid />
           </div>
         </div>
       </div>
