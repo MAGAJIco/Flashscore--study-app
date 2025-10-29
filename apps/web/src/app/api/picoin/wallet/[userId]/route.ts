@@ -5,10 +5,12 @@ const BACKEND_API_URL = process.env.BACKEND_API_URL || 'http://localhost:3001';
 
 export async function GET(
   request: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
+  const { userId } = await params;
+  
   try {
-    const response = await fetch(`${BACKEND_API_URL}/api/picoin/wallet/${params.userId}`, {
+    const response = await fetch(`${BACKEND_API_URL}/api/picoin/wallet/${userId}`, {
       headers: { 'Content-Type': 'application/json' },
     });
 
@@ -25,7 +27,7 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data: {
-        userId: params.userId,
+        userId: userId,
         balance: 50,
         totalEarned: 50,
         totalSpent: 0,
