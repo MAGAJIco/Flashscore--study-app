@@ -41,3 +41,15 @@ export const getPredictionFallback = async (
     reply.status(500).send({ error: "Failed to get prediction fallback" });
   }
 };
+
+export const getAllPredictions = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    const predictions = await scraperService.getAllPredictions();
+    return reply.send({ success: true, data: predictions });
+  } catch (err) {
+    reply.status(500).send({ error: "Failed to fetch predictions" });
+  }
+};

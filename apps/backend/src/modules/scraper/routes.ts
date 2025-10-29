@@ -1,6 +1,6 @@
 
 import { FastifyInstance } from "fastify";
-import { scrapeAndSave, getUpcomingMatches, getPredictionFallback } from "./controllers";
+import { scrapeAndSave, getUpcomingMatches, getPredictionFallback, getAllPredictions } from "./controllers";
 
 export async function scraperModuleRoutes(fastify: FastifyInstance) {
   // Scrape and save matches
@@ -11,4 +11,7 @@ export async function scraperModuleRoutes(fastify: FastifyInstance) {
   
   // Get prediction fallback
   fastify.post('/scraper/predict', getPredictionFallback);
+  
+  // Get all predictions with odds
+  fastify.get('/scraper/predictions', getAllPredictions);
 }

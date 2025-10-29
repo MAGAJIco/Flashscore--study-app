@@ -365,6 +365,7 @@ export const scraperService = {
             awayTeam: pred.awayTeam,
             date: pred.date,
             competition: pred.competition,
+            source: pred.source,
             odds: {
               home: pred.odds || 2.0,
               draw: 3.0,
