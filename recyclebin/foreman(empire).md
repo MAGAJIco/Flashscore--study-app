@@ -1,263 +1,590 @@
-# 🏗️ Sports Central - Feature-Based Architecture with iOS Design System
+// ============================================
+// FILE: app/(portal)/page.tsx
+// PATH: apps/frontend/src/app/(portal)/page.tsx
+// ============================================
 
-## Overview
-Sports Central is organized into feature-based apps within a monorepo structure with iOS-style interactions, dark theme support, and advanced UX patterns.
+"use client";
 
----
+import React from 'react';
+import { GoogleNavBar } from '@/components/layout/GoogleNavBar';
+import { LiveCarousel } from '@/components/carousels/LiveCarousel';
+import { NewsCarousel } from '@/components/carousels/NewsCarousel';
+import { ArchitectureOverview } from '@/components/sections/ArchitectureOverview';
+import { FrontendApps } from '@/components/sections/FrontendApps';
+import { KeyBenefits } from '@/components/sections/KeyBenefits';
+import { DataFlow } from '@/components/sections/DataFlow';
+import { ImplementationStatus } from '@/components/sections/ImplementationStatus';
+import { NextSteps } from '@/components/sections/NextSteps';
 
-## 📱 Frontend Apps Structure
+export default function PortalPage() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+      <GoogleNavBar />
+      
+      <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+        {/* Header */}
+        <header className="text-center py-12 animate-fade-in">
+          <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
+            🏗️ Sports Central
+          </h1>
+          <p className="text-xl text-white/90">
+            Feature-Based Architecture Documentation
+          </p>
+        </header>
 
-```
-apps/frontend/src/app/
-├── (empire)/              # Main dashboard & navigation hub with iOS features
-│   ├── page.tsx          # Landing page with dark theme and iOS interactions
-│   ├── layout.tsx        # Empire-specific layout with pull-to-refresh
-│   └── features/         # Feature modules (foundation, leaderboard, achievements)
-│
-├── (predictions)/        # AI Predictions & ML Features
-│   ├── ai-predictions/   # ML prediction interface with confidence visualization
-│   ├── coach/            # AI coach assistant with haptic feedback
-│   ├── analytics/        # Prediction analytics dashboard
-│   └── layout.tsx        # Predictions app layout with iOS animations
-│
-├── (live)/              # Live Sports Tracking
-│   ├── matches/         # Live match tracker with real-time updates
-│   ├── scores/          # Live scores with iOS-style cards
-│   ├── odds/            # Live odds updates
-│   └── layout.tsx       # Live tracking layout with bottom sheets
-│
-├── (social)/            # Social & Community
-│   ├── feed/            # Social feed with iOS-style interactions
-│   ├── challenges/      # Friend challenges with gamification
-│   ├── chat/            # Live match chat with haptic responses
-│   ├── forum/           # Community forum
-│   ├── experts/         # Follow system
-│   └── layout.tsx       # Social app layout with gesture controls
-│
-├── (kids)/              # Kids Mode
-│   ├── dashboard/       # Kids dashboard with parental controls
-│   ├── quizzes/         # Educational quizzes
-│   ├── learning/        # Learning paths
-│   └── layout.tsx       # Kids-safe layout
-│
-├── (rewards)/           # Rewards & Achievements
-│   ├── achievements/    # Achievement system with celebrations
-│   ├── leaderboard/     # Global leaderboards
-│   ├── coins/           # Pi Coin management
-│   └── layout.tsx       # Rewards layout
-│
-└── shared/              # Shared components
-    ├── components/      # Reusable UI components with iOS design
-    ├── hooks/           # Shared React hooks (useHaptic, useTheme, etc.)
-    └── utils/           # Utility functions
-```
+        {/* Live Matches Carousel */}
+        <LiveCarousel />
 
----
+        {/* News Carousel */}
+        <NewsCarousel />
 
-## 🎨 iOS Design System Features
+        {/* Overview Section */}
+        <ArchitectureOverview />
 
-### Dark Theme Support
-- Auto-detect system theme preference
-- Manual toggle with smooth transitions
-- Persistent theme selection
-- Color-blind friendly modes
+        {/* Frontend Apps Structure */}
+        <FrontendApps />
 
-### Haptic Feedback
-- Light, medium, and heavy haptic responses
-- Touch feedback on interactive elements
-- Confirmation haptics for actions
-- Error/success vibration patterns
+        {/* Key Benefits */}
+        <KeyBenefits />
 
-### Pull-to-Refresh
-- iOS-style pull-to-refresh on all pages
-- Custom refresh indicators
-- Haptic feedback on refresh trigger
-- Smooth animations
+        {/* Data Flow */}
+        <DataFlow />
 
-### Bottom Sheets & Modals
-- iOS-style bottom sheets for actions
-- Gesture-based dismissal
-- Backdrop blur effects
-- Smooth slide animations
+        {/* Implementation Status */}
+        <ImplementationStatus />
 
-### Glass Morphism Cards
-- Translucent card backgrounds
-- Backdrop blur effects
-- Border gradients
-- Hover animations
+        {/* Next Steps */}
+        <NextSteps />
 
----
+        {/* Footer */}
+        <footer className="text-center text-white/90 py-8 text-sm">
+          <p className="font-semibold">Sports Central Architecture v2.0.0</p>
+          <p>Last Updated: October 26, 2025</p>
+        </footer>
+      </div>
+    </div>
+  );
+}
 
-## ⚡ Backend Service Modules
 
-```
-apps/backend/src/
-├── modules/
-│   ├── predictions/     # Prediction service with confidence tracking
-│   │   ├── routes/
-│   │   ├── controllers/
-│   │   ├── services/
-│   │   └── models/
-│   │
-│   ├── matches/         # Live match service with WebSocket support
-│   │   ├── routes/
-│   │   ├── controllers/
-│   │   └── services/
-│   │
-│   ├── social/          # Social features service
-│   │   ├── routes/
-│   │   ├── controllers/
-│   │   └── services/
-│   │
-│   ├── rewards/         # Rewards & achievements
-│   │   ├── routes/
-│   │   ├── controllers/
-│   │   └── services/
-│   │
-│   └── kids/            # Kids mode enforcement
-│       ├── routes/
-│       ├── middleware/
-│       └── services/
-│
-├── shared/              # Shared backend utilities
-│   ├── middleware/
-│   ├── config/
-│   └── utils/
-│
-└── index.ts            # Main server entry
-```
+// ============================================
+// FILE: components/layout/GoogleNavBar.tsx
+// PATH: apps/frontend/src/components/layout/GoogleNavBar.tsx
+// ============================================
 
----
+"use client";
 
-## 🔗 Feature App Routes
+import React, { useState } from 'react';
+import { AppDrawer } from './AppDrawer';
 
-### Empire (Main Hub)
-- `/` - Main dashboard with iOS design
-- `/MagajiCoFoundation` - Foundation feature
-- `/growth` - Growth tracking
-- `/ai-ceo` - AI CEO assistant
+export function GoogleNavBar() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-### Predictions App
-- `/ai-predictions` - ML prediction interface
-- `/coach` - AI coach assistant
-- `/analytics` - Prediction performance
+  return (
+    <>
+      <nav className="bg-white shadow-md sticky top-0 z-50 px-5 h-16 flex items-center justify-between">
+        {/* Left Side */}
+        <div className="flex items-center gap-5">
+          <button 
+            className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
+            onClick={() => alert('Menu clicked')}
+          >
+            <div className="flex flex-col gap-1">
+              <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
+              <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
+              <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
+            </div>
+          </button>
+          <div className="text-2xl font-semibold text-indigo-600 flex items-center gap-2">
+            🏗️ Sports Central
+          </div>
+        </div>
 
-### Live Tracking App
-- `/live/matches` - Live match tracker
-- `/live/scores` - Live scores display
-- `/live/odds` - Live odds updates
+        {/* Right Side */}
+        <div className="flex items-center gap-2">
+          <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
+            🔍
+          </button>
+          <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
+            ❓
+          </button>
+          <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors text-xl">
+            ⚙️
+          </button>
+          <button 
+            className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
+            onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="4" cy="4" r="2"/>
+              <circle cx="12" cy="4" r="2"/>
+              <circle cx="20" cy="4" r="2"/>
+              <circle cx="4" cy="12" r="2"/>
+              <circle cx="12" cy="12" r="2"/>
+              <circle cx="20" cy="12" r="2"/>
+              <circle cx="4" cy="20" r="2"/>
+              <circle cx="12" cy="20" r="2"/>
+              <circle cx="20" cy="20" r="2"/>
+            </svg>
+          </button>
+          <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
+            SC
+          </div>
+        </div>
+      </nav>
 
-### Social App
-- `/social/feed` - Social feed
-- `/social/challenges` - Friend challenges
-- `/social/chat` - Live match chat
-- `/social/forum` - Community discussions
+      <AppDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+    </>
+  );
+}
 
-### Kids App
-- `/kids/dashboard` - Kids-safe dashboard
-- `/kids/quizzes` - Educational quizzes
-- `/kids/learning` - Learning modules
 
-### Rewards App
-- `/rewards/achievements` - Achievement display
-- `/rewards/leaderboard` - Global leaderboards
-- `/rewards/coins` - Pi Coin wallet
+// ============================================
+// FILE: components/layout/AppDrawer.tsx
+// PATH: apps/frontend/src/components/layout/AppDrawer.tsx
+// ============================================
 
----
+"use client";
 
-## 🎨 New Brainstormed Features
+import React from 'react';
 
-### 1. **AI-Powered Personalization**
-- Smart content recommendations
-- Personalized match alerts
-- Custom prediction strategies
-- Adaptive UI based on user behavior
+interface AppDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-### 2. **Advanced Analytics Dashboard**
-- Real-time performance metrics
-- Predictive trend analysis
-- Interactive data visualizations
-- Export and share capabilities
+const apps = [
+  { icon: '🏠', name: 'Portal' },
+  { icon: '🤖', name: 'Predictions' },
+  { icon: '⚡', name: 'Live' },
+  { icon: '👥', name: 'Social' },
+  { icon: '🎮', name: 'Kids Mode' },
+  { icon: '🏆', name: 'Rewards' },
+  { icon: '📊', name: 'Analytics' },
+  { icon: '💬', name: 'Chat' },
+  { icon: '🎯', name: 'Challenges' },
+];
 
-### 3. **Community Features**
-- Expert leaderboards
-- Prediction competitions
-- Social challenges
-- Team formations and groups
+export function AppDrawer({ isOpen, onClose }: AppDrawerProps) {
+  return (
+    <>
+      {/* Overlay */}
+      <div 
+        className={`fixed inset-0 bg-black/50 transition-opacity z-40 ${
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={onClose}
+      />
 
-### 4. **Enhanced iOS Features**
-- 3D Touch support
-- Widget integration
-- Shortcuts support
-- Siri integration
+      {/* Drawer */}
+      <div 
+        className={`fixed top-20 right-5 bg-white rounded-xl shadow-2xl p-5 w-96 max-h-[480px] overflow-y-auto z-50 transition-all ${
+          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5 pointer-events-none'
+        }`}
+      >
+        <div className="text-lg font-semibold text-gray-700 mb-5 pb-4 border-b border-gray-200">
+          Sports Central Apps
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          {apps.map((app, index) => (
+            <button
+              key={index}
+              className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-2 text-white">
+                {app.icon}
+              </div>
+              <div className="text-sm font-medium text-gray-700 text-center">
+                {app.name}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
 
-### 5. **Accessibility Enhancements**
-- Voice navigation
-- Screen reader optimization
-- High contrast modes
-- Font size adjustments
 
----
+// ============================================
+// FILE: components/carousels/LiveCarousel.tsx
+// PATH: apps/frontend/src/components/carousels/LiveCarousel.tsx
+// ============================================
 
-## 🚀 Benefits
+"use client";
 
-✅ **Better Organization** - Clear feature boundaries with iOS design consistency
-✅ **Easier Maintenance** - Find code quickly with modular structure
-✅ **Improved Performance** - Smaller bundles with lazy loading
-✅ **Team Scalability** - Teams can own features independently
-✅ **Independent Testing** - Test features in isolation
-✅ **Flexible Deployment** - Deploy features separately
-✅ **Enhanced UX** - iOS-style interactions and dark theme
-✅ **Accessibility** - Color-blind modes and screen reader support
+import React, { useRef } from 'react';
 
----
+const liveMatches = [
+  {
+    icon: '⚽',
+    title: 'Man United vs Arsenal',
+    description: 'Premier League - Thrilling match at Old Trafford',
+    time: "67'",
+    score: '2-1',
+    viewers: '73K watching'
+  },
+  {
+    icon: '🏀',
+    title: 'Lakers vs Warriors',
+    description: 'NBA - Western Conference showdown',
+    time: 'Q3 5:23',
+    score: '98-95',
+    viewers: '120K watching'
+  },
+  {
+    icon: '🏈',
+    title: 'Patriots vs Chiefs',
+    description: 'NFL - Championship game intensity',
+    time: 'Q2 8:14',
+    score: '14-21',
+    viewers: '250K watching'
+  },
+  {
+    icon: '🎾',
+    title: 'Djokovic vs Alcaraz',
+    description: 'Wimbledon Final - Epic rally battle',
+    time: 'Set 2',
+    score: '6-4, 3-4',
+    viewers: '89K watching'
+  },
+  {
+    icon: '🏏',
+    title: 'India vs Australia',
+    description: 'Test Cricket - Day 4 decisive moments',
+    time: '45.2 overs',
+    score: '234/5',
+    viewers: '156K watching'
+  },
+];
 
-## 📊 Implementation Status
+export function LiveCarousel() {
+  const carouselRef = useRef<HTMLDivElement>(null);
 
-### ✅ Frontend Features (Complete)
-- iOS-style components and interactions
-- Dark theme with auto-detection
-- Pull-to-refresh functionality
-- Haptic feedback system
-- Glass morphism cards
-- Bottom sheets and modals
+  const scroll = (direction: number) => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: direction * 340, behavior: 'smooth' });
+    }
+  };
 
-### 🔄 Backend Modules (In Progress)
-- WebSocket support for live updates
-- Enhanced caching strategies
-- Real-time prediction updates
-- Advanced analytics endpoints
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-xl">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-3xl font-bold text-indigo-600 flex items-center gap-3">
+          ⚡ Live Matches
+        </h2>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => scroll(-1)}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all hover:scale-110"
+          >
+            ←
+          </button>
+          <button 
+            onClick={() => scroll(1)}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all hover:scale-110"
+          >
+            →
+          </button>
+        </div>
+      </div>
+      
+      <div 
+        ref={carouselRef}
+        className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth py-2"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {liveMatches.map((match, index) => (
+          <div 
+            key={index}
+            className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 relative"
+          >
+            <span className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold animate-pulse">
+              🔴 LIVE
+            </span>
+            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-2xl mb-4">
+              {match.icon}
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              {match.title}
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">
+              {match.description}
+            </p>
+            <div className="flex items-center gap-4 text-sm text-gray-500">
+              <span className="flex items-center gap-1">⏱️ {match.time}</span>
+              <span className="flex items-center gap-1">📊 {match.score}</span>
+              <span className="flex items-center gap-1">👥 {match.viewers}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-### ⏳ Next Steps (Pending)
-- Widget integration
-- Shortcuts support
-- Siri integration
-- Advanced voice commands
 
----
+// ============================================
+// FILE: components/carousels/NewsCarousel.tsx
+// PATH: apps/frontend/src/components/carousels/NewsCarousel.tsx
+// ============================================
 
-## 🔐 Security & Access Control
+"use client";
 
-### Kids Mode Enforcement
-- Kids layout prevents access to age-inappropriate content
-- Backend validates kids mode on sensitive endpoints
-- Parental controls across all apps
+import React, { useRef } from 'react';
 
-### Authentication
-- Shared auth state via NextAuth
-- Protected routes in each app
-- Role-based feature access
-- Secure session management
+const newsItems = [
+  {
+    icon: '⚽',
+    title: 'Mbappe Signs Historic Deal',
+    description: 'Real Madrid announces record-breaking transfer for French superstar',
+    time: '2 hours ago',
+    comments: '1.2K comments',
+    badge: 'BREAKING'
+  },
+  {
+    icon: '🏀',
+    title: 'LeBron Reaches 40K Points',
+    description: 'King James makes history with unprecedented milestone achievement',
+    time: '5 hours ago',
+    comments: '892 comments',
+    badge: 'NEWS'
+  },
+  {
+    icon: '🎾',
+    title: 'Serena Returns to Court',
+    description: 'Tennis legend announces comeback tournament in Miami next month',
+    time: '8 hours ago',
+    comments: '645 comments',
+    badge: 'NEWS'
+  },
+  {
+    icon: '⚾',
+    title: 'Yankees Win World Series',
+    description: 'First championship in 15 years with dramatic Game 7 victory',
+    time: '1 day ago',
+    comments: '2.1K comments',
+    badge: 'NEWS'
+  },
+  {
+    icon: '🏁',
+    title: 'Hamilton Breaks Records',
+    description: 'Formula 1 legend secures 8th world championship in Abu Dhabi',
+    time: '2 days ago',
+    comments: '1.5K comments',
+    badge: 'NEWS'
+  },
+];
 
----
+export function NewsCarousel() {
+  const carouselRef = useRef<HTMLDivElement>(null);
 
-## 📋 Testing Checklist
+  const scroll = (direction: number) => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: direction * 340, behavior: 'smooth' });
+    }
+  };
 
-- [ ] iOS features work on all devices
-- [ ] Dark theme applies correctly
-- [ ] Haptic feedback triggers properly
-- [ ] Pull-to-refresh functions smoothly
-- [ ] All components import correctly
-- [ ] No console errors
-- [ ] Accessibility standards met
-- [ ] Performance metrics optimal
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-xl">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-3xl font-bold text-indigo-600 flex items-center gap-3">
+          📰 Latest News
+        </h2>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => scroll(-1)}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all hover:scale-110"
+          >
+            ←
+          </button>
+          <button 
+            onClick={() => scroll(1)}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all hover:scale-110"
+          >
+            →
+          </button>
+        </div>
+      </div>
+      
+      <div 
+        ref={carouselRef}
+        className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth py-2"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {newsItems.map((news, index) => (
+          <div 
+            key={index}
+            className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 relative"
+          >
+            <span className={`absolute top-4 right-4 ${news.badge === 'BREAKING' ? 'bg-blue-500' : 'bg-blue-400'} text-white px-3 py-1 rounded-full text-xs font-semibold`}>
+              {news.badge === 'BREAKING' ? '🔥' : '📰'} {news.badge}
+            </span>
+            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-2xl mb-4">
+              {news.icon}
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              {news.title}
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">
+              {news.description}
+            </p>
+            <div className="flex items-center gap-4 text-sm text-gray-500">
+              <span className="flex items-center gap-1">🕐 {news.time}</span>
+              <span className="flex items-center gap-1">💬 {news.comments}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+// ============================================
+// Continue in next message for remaining components...
+// ============================================
+
+
+// ============================================
+// FILE: components/sections/ArchitectureOverview.tsx
+// PATH: apps/frontend/src/components/sections/ArchitectureOverview.tsx
+// ============================================
+
+export function ArchitectureOverview() {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-xl">
+      <h2 className="text-3xl font-bold text-indigo-600 mb-5">📋 Overview</h2>
+      <p className="text-lg text-gray-700 leading-relaxed">
+        Sports Central is organized into feature-based apps within a monorepo structure. 
+        Each feature app is independent but shares common infrastructure, enabling better 
+        organization, easier maintenance, and improved performance.
+      </p>
+    </div>
+  );
+}
+
+
+// ============================================
+// FILE: components/sections/FrontendApps.tsx
+// PATH: apps/frontend/src/components/sections/FrontendApps.tsx
+// ============================================
+
+const apps = [
+  {
+    icon: '🏠',
+    title: 'Portal',
+    description: 'Main dashboard & navigation hub',
+    items: ['page.tsx - Landing with feature cards', 'layout.tsx - Portal-specific layout']
+  },
+  {
+    icon: '🤖',
+    title: 'Predictions',
+    description: 'AI Predictions & ML Features',
+    items: ['ai-predictions/ - ML interface', 'coach/ - AI coach assistant', 'analytics/ - Prediction analytics']
+  },
+  {
+    icon: '⚡',
+    title: 'Live Tracking',
+    description: 'Real-time sports updates',
+    items: ['matches/ - Live match tracker', 'scores/ - Live scores display', 'odds/ - Live odds updates']
+  },
+  {
+    icon: '👥',
+    title: 'Social',
+    description: 'Community & engagement',
+    items: ['feed/ - Social feed', 'challenges/ - Friend challenges', 'chat/ - Live match chat', 'forum/ - Community discussions']
+  },
+  {
+    icon: '🎮',
+    title: 'Kids Mode',
+    description: 'Safe environment for children',
+    items: ['dashboard/ - Kids dashboard', 'quizzes/ - Educational quizzes', 'learning/ - Learning paths']
+  },
+  {
+    icon: '🏆',
+    title: 'Rewards',
+    description: 'Achievements & gamification',
+    items: ['achievements/ - Achievement system', 'leaderboard/ - Global rankings', 'coins/ - Pi Coin management']
+  },
+];
+
+export function FrontendApps() {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-xl">
+      <h2 className="text-3xl font-bold text-indigo-600 mb-6">📱 Frontend Apps Structure</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {apps.map((app, index) => (
+          <div 
+            key={index}
+            className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer"
+          >
+            <h3 className="text-2xl font-bold text-indigo-600 mb-3 flex items-center gap-2">
+              <span className="text-3xl">{app.icon}</span>
+              {app.title}
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">{app.description}</p>
+            <ul className="space-y-2">
+              {app.items.map((item, i) => (
+                <li 
+                  key={i}
+                  className="text-sm text-gray-700 py-2 border-b border-gray-300 last:border-0 transition-all hover:pl-2 hover:text-indigo-600"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+// ============================================
+// FILE: components/sections/KeyBenefits.tsx
+// PATH: apps/frontend/src/components/sections/KeyBenefits.tsx
+// ============================================
+
+const benefits = [
+  '✅ Better Organization',
+  '✅ Easier Maintenance',
+  '✅ Improved Performance',
+  '✅ Team Scalability',
+  '✅ Independent Testing',
+  '✅ Flexible Deployment',
+];
+
+export function KeyBenefits() {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-xl">
+      <h2 className="text-3xl font-bold text-indigo-600 mb-6">🚀 Key Benefits</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {benefits.map((benefit, index) => (
+          <div 
+            key={index}
+            className="bg-gradient-to-br from-orange-100 to-pink-200 p-5 rounded-xl font-semibold text-gray-900 transition-all hover:scale-105 hover:shadow-lg cursor-pointer"
+          >
+            {benefit}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+// ============================================
+// FILE: components/sections/DataFlow.tsx
+// PATH: apps/frontend/src/components/sections/DataFlow.tsx
+// ============================================
+
+export function DataFlow() {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-xl">
+      <h2 className="text-3xl font-bold text-indigo-600 mb-6">🔄 Data Flow Architecture</h2>
+      <div className="bg-gray-900 text-gray-300 p-6 rounded-lg font-mono text-sm overflow-x-auto">
+        <pre>{`Frontend Apps → Backend Modules → Database
+                     ↓
+                ML Service → Predictions`}</pr

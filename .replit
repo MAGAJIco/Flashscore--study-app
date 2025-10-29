@@ -8,7 +8,7 @@ channel = "stable-25_05"
 packages = ["gir-rs", "glibcLocales", "libxcrypt", "libyaml", "speech-tools"]
 
 [workflows]
-runButton = "Fresh Start - All Services"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Start All Services"
@@ -293,7 +293,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/frontend && npm run dev"
+args = "cd apps/web && npm run dev"
 waitForPort = 5000
 
 [[workflows.workflow]]
@@ -619,10 +619,6 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 8000
-externalPort = 8000
-
-[[ports]]
 localPort = 34693
 externalPort = 8081
 
@@ -649,6 +645,10 @@ externalPort = 3001
 [[ports]]
 localPort = 39249
 externalPort = 8008
+
+[[ports]]
+localPort = 40957
+externalPort = 8000
 
 [[ports]]
 localPort = 42087
