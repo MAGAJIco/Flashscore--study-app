@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { EnhancedLiveCarousel } from '@/app/components/enhanced/EnhancedLiveCarousel';
 import { NewsCarousel } from '@/app/components/carousels/NewsCarousel';
 import { GoogleNavBar } from '@/app/components/layout/GoogleNavBar';
+import { MagajiCoAppLauncher } from '@/app/components/MagajiCoAppLauncher';
 import { IOSStyleFeatures } from '@/app/components/IOSStyleFeatures';
 import { AppErrorBoundary } from '@/app/components/AppErrorBoundary';
 import { PageLoading, CardSkeleton } from '@/app/components/AppLoading';
