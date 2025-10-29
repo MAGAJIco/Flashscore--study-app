@@ -4,11 +4,12 @@ import React, { useState, useRef } from 'react';
 import { EnhancedLiveCarousel } from './components/enhanced/EnhancedLiveCarousel';
 import { GoogleNavBar } from './components/layout/GoogleNavBar';
 import { AppLauncher } from './components/AppLauncher';
+import Link from 'next/link';
 
 interface AppItem {
   icon: string;
   name: string;
-  route?: string;
+  route: string;
 }
 
 interface CarouselItem {
@@ -21,66 +22,15 @@ interface CarouselItem {
 }
 
 const APP_DRAWER_ITEMS: AppItem[] = [
-  { icon: '👑', name: 'Empire', route: '/' },
-  { icon: '🤖', name: 'Predictions', route: '/predictions' },
-  { icon: '⚡', name: 'Live', route: '/live' },
-  { icon: '👥', name: 'Social', route: '/social' },
-  { icon: '🎮', name: 'Kids Mode', route: '/kids' },
-  { icon: '🏆', name: 'Rewards', route: '/rewards' },
-  { icon: '📊', name: 'Analytics', route: '/analytics' },
-  { icon: '💬', name: 'Chat', route: '/chat' },
-  { icon: '🎯', name: 'Challenges', route: '/challenges' },
-];
-
-const LIVE_MATCHES: CarouselItem[] = [
-  {
-    icon: '⚽',
-    title: 'Man United vs Arsenal',
-    description: 'Premier League - Thrilling match at Old Trafford',
-    badge: '🔴 LIVE',
-    badgeColor: 'bg-red-500',
-    meta: [
-      { icon: '⏱️', text: "67'" },
-      { icon: '📊', text: '2-1' },
-      { icon: '👥', text: '73K watching' }
-    ]
-  },
-  {
-    icon: '🏀',
-    title: 'Lakers vs Warriors',
-    description: 'NBA - Western Conference showdown',
-    badge: '🔴 LIVE',
-    badgeColor: 'bg-red-500',
-    meta: [
-      { icon: '⏱️', text: 'Q3 5:23' },
-      { icon: '📊', text: '98-95' },
-      { icon: '👥', text: '120K watching' }
-    ]
-  },
-  {
-    icon: '🏈',
-    title: 'Patriots vs Chiefs',
-    description: 'NFL - Championship game intensity',
-    badge: '🔴 LIVE',
-    badgeColor: 'bg-red-500',
-    meta: [
-      { icon: '⏱️', text: 'Q2 8:14' },
-      { icon: '📊', text: '14-21' },
-      { icon: '👥', text: '250K watching' }
-    ]
-  },
-  {
-    icon: '🎾',
-    title: 'Djokovic vs Alcaraz',
-    description: 'Wimbledon Final - Epic rally battle',
-    badge: '🔴 LIVE',
-    badgeColor: 'bg-red-500',
-    meta: [
-      { icon: '⏱️', text: 'Set 2' },
-      { icon: '📊', text: '6-4, 3-4' },
-      { icon: '👥', text: '89K watching' }
-    ]
-  },
+  { icon: '👑', name: 'Empire', route: '/en' },
+  { icon: '🤖', name: 'Predictions', route: '/en/predictions' },
+  { icon: '⚡', name: 'Live', route: '/en/matches' },
+  { icon: '👥', name: 'Social', route: '/en/feed' },
+  { icon: '🎮', name: 'Kids Mode', route: '/en/kids' },
+  { icon: '🏆', name: 'Rewards', route: '/en/achievements' },
+  { icon: '📊', name: 'Analytics', route: '/en/analytics' },
+  { icon: '💬', name: 'Chat', route: '/en/social/chat' },
+  { icon: '🎯', name: 'Challenges', route: '/en/challenges' },
 ];
 
 const NEWS_ITEMS: CarouselItem[] = [
@@ -136,22 +86,22 @@ export default function HomePage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-5 py-8">
         {/* Header */}
-        <div className="text-center mb-12 animate-fade-scale">
+        <div className="text-center mb-12 animate-fadeIn">
           <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
             🧩 S❤️ Sports Central
           </h1>
           <p className="text-xl text-white/80">
-            ✅ Feature-Based Architecture Documentation
+            ✅ Feature-Based Architecture Platform
           </p>
         </div>
 
         {/* Live Matches Carousel - Enhanced */}
-        <div className="mb-8">
+        <div className="mb-8 animate-slideUp" style={{ animationDelay: '0.1s' }}>
           <EnhancedLiveCarousel />
         </div>
 
         {/* Latest News Carousel */}
-        <div className="bg-white rounded-2xl p-6 mb-8 shadow-2xl">
+        <div className="bg-white rounded-2xl p-6 mb-8 shadow-2xl animate-slideUp" style={{ animationDelay: '0.2s' }}>
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-3 text-3xl font-bold">
               <span>📰</span>
@@ -211,7 +161,7 @@ export default function HomePage() {
         </div>
 
         {/* Feature Apps Grid */}
-        <div className="bg-white rounded-2xl p-6 shadow-2xl">
+        <div className="bg-white rounded-2xl p-6 shadow-2xl animate-slideUp" style={{ animationDelay: '0.3s' }}>
           <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
             <span>💥</span>
             <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -220,59 +170,60 @@ export default function HomePage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {APP_DRAWER_ITEMS.map((app, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer overflow-hidden"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-4xl mb-4 shadow-lg">
-                  {app.icon}
-                </div>
-                <h3 className="text-xl font-bold text-indigo-600 mb-2">
-                  {app.name}
-                </h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  Feature-based architecture module
-                </p>
-
-                {index === 0 ? (
-                  <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
-                    <div className="flex gap-3 pb-2">
-                      {['Dashboard', 'Settings', 'Analytics', 'Reports', 'Users'].map((item, i) => (
-                        <div
-                          key={i}
-                          className="min-w-[140px] bg-white rounded-lg p-3 shadow-sm border border-gray-200 hover:border-indigo-400 transition-all flex-shrink-0"
-                        >
-                          <div className="text-2xl mb-1">
-                            {i === 0 ? '📊' : i === 1 ? '⚙️' : i === 2 ? '📈' : i === 3 ? '📋' : '👥'}
-                          </div>
-                          <div className="text-sm font-semibold text-gray-800">{item}</div>
-                          <div className="text-xs text-gray-500 mt-1">View {item}</div>
-                        </div>
-                      ))}
-                    </div>
+              <Link key={index} href={app.route}>
+                <div
+                  className="bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 cursor-pointer overflow-hidden"
+                >
+                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-4xl mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                    {app.icon}
                   </div>
-                ) : (
-                  <ul className="space-y-2">
-                    <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
-                      View {app.name} Dashboard
-                    </li>
-                    <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
-                      Manage Settings
-                    </li>
-                    <li className="text-sm text-gray-700 py-2 transition-all hover:pl-2 hover:text-indigo-600">
-                      View Analytics
-                    </li>
-                  </ul>
-                )}
-              </div>
+                  <h3 className="text-xl font-bold text-indigo-600 mb-2">
+                    {app.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Feature-based architecture module
+                  </p>
+
+                  {index === 0 ? (
+                    <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
+                      <div className="flex gap-3 pb-2">
+                        {['Dashboard', 'Settings', 'Analytics', 'Reports', 'Users'].map((item, i) => (
+                          <div
+                            key={i}
+                            className="min-w-[140px] bg-white rounded-lg p-3 shadow-sm border border-gray-200 hover:border-indigo-400 transition-all flex-shrink-0"
+                          >
+                            <div className="text-2xl mb-1">
+                              {i === 0 ? '📊' : i === 1 ? '⚙️' : i === 2 ? '📈' : i === 3 ? '📋' : '👥'}
+                            </div>
+                            <div className="text-sm font-semibold text-gray-800">{item}</div>
+                            <div className="text-xs text-gray-500 mt-1">View {item}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <ul className="space-y-2">
+                      <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
+                        View {app.name} Dashboard
+                      </li>
+                      <li className="text-sm text-gray-700 py-2 border-b border-gray-300 transition-all hover:pl-2 hover:text-indigo-600">
+                        Manage Settings
+                      </li>
+                      <li className="text-sm text-gray-700 py-2 transition-all hover:pl-2 hover:text-indigo-600">
+                        View Analytics
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              </Link>
             ))}
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="text-center text-white py-8 mt-12 opacity-90">
+        <footer className="text-center text-white py-8 mt-12 opacity-90 animate-slideUp" style={{ animationDelay: '0.4s' }}>
           <p className="text-sm">
-            © 2024 Sports Central - Feature-Based Architecture Platform
+            © 2025 Sports Central - Feature-Based Architecture Platform
           </p>
         </footer>
       </div>
