@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 
 const BACKEND_API_URL = process.env.BACKEND_API_URL || 'http://localhost:3001';
@@ -19,31 +20,33 @@ export async function GET() {
     
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120'
+        'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=30'
       }
     });
   } catch (error) {
-    console.error('Error proxying to backend API:', error);
+    console.error('Error fetching live matches:', error);
     
+    // Fallback to mock data
     return NextResponse.json({
       success: true,
       data: [
         {
-          id: 1,
-          homeTeam: "Manchester United",
-          awayTeam: "Liverpool",
+          id: '1',
+          homeTeam: 'Arsenal',
+          awayTeam: 'Chelsea',
           homeScore: 2,
           awayScore: 1,
-          status: "Live",
-          time: "67'",
-          venue: "Old Trafford",
-          league: "Premier League"
+          status: 'live',
+          league: 'Premier League',
+          time: '67\'',
+          date: new Date().toISOString()
         }
       ],
-      count: 1
+      count: 1,
+      isOffline: true
     }, {
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120'
+        'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=30'
       }
     });
   }

@@ -46,6 +46,15 @@ waitForPort = 3001
 [workflows.workflow.metadata]
 outputType = "console"
 
+[[workflows.workflow]]
+name = "Install Dependencies"
+author = 49152830
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install"
+
 [[ports]]
 localPort = 3001
 externalPort = 3001

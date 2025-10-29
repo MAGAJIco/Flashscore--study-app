@@ -1,7 +1,7 @@
-
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react';
+import { useApi } from '@/hooks/useApi';
 import { MatchDetailModal } from './MatchDetailModal';
 
 interface LiveMatch {
@@ -66,6 +66,8 @@ export function EnhancedLiveCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<LiveMatch | null>(null);
+  // const { data: liveMatches, error, isLoading } = useApi<LiveMatch[]>('/api/live-matches');
+
 
   // Auto-scroll functionality
   useEffect(() => {
@@ -91,6 +93,9 @@ export function EnhancedLiveCarousel() {
       carouselRef.current.scrollBy({ left: direction * 340, behavior: 'smooth' });
     }
   };
+
+  // if (isLoading) return <p>Loading matches...</p>;
+  // if (error) return <p>Error loading matches: {error.message}</p>;
 
   return (
     <>
