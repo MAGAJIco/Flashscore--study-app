@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -8,6 +7,31 @@ import { HelpCenter } from '../modals/HelpCenter';
 import { SettingsPanel } from '../modals/SettingsPanel';
 import { UserProfileDropdown } from '../dropdowns/UserProfileDropdown';
 import { AppDrawer } from './AppDrawer';
+
+interface AppItem {
+  id: string;
+  name: string;
+  icon: string;
+  href: string;
+  category: 'sports' | 'social' | 'tools' | 'rewards' | 'kids';
+  color: string;
+  description: string;
+  badge?: string;
+}
+
+const apps: AppItem[] = [
+  { id: 'predictions', name: 'AI Predictions', icon: '🤖', href: '/predictions', category: 'sports', color: 'from-purple-500 to-indigo-600', description: '87% accurate ML predictions', badge: 'AI' },
+  { id: 'live', name: 'Live Matches', icon: '⚡', href: '/matches', category: 'sports', color: 'from-emerald-500 to-teal-600', description: 'Real-time tracking', badge: 'LIVE' },
+  { id: 'news', name: 'Sports News', icon: '📰', href: '/news', category: 'sports', color: 'from-blue-500 to-cyan-600', description: 'Breaking news worldwide', badge: 'NEW' },
+  { id: 'analytics', name: 'Analytics', icon: '📊', href: '/analytics', category: 'tools', color: 'from-violet-500 to-purple-600', description: 'Deep insights', badge: '' },
+  { id: 'social', name: 'Social Hub', icon: '👥', href: '/social/feed', category: 'social', color: 'from-pink-500 to-rose-600', description: 'Connect with fans' },
+  { id: 'kids', name: 'Kids Mode', icon: '🎮', href: '/kids-mode', category: 'kids', color: 'from-orange-500 to-amber-600', description: 'Safe learning' },
+  { id: 'rewards', name: 'Rewards', icon: '🏆', href: '/rewards/achievements', category: 'rewards', color: 'from-yellow-500 to-orange-600', description: 'Earn Pi Coins' },
+  { id: 'empire', name: 'Empire', icon: '👑', href: '/empire', category: 'tools', color: 'from-red-500 to-pink-600', description: 'Build your legacy' },
+  { id: 'unified', name: 'Dashboard', icon: '🎯', href: '/unified', category: 'tools', color: 'from-indigo-500 to-blue-600', description: 'Unified view' },
+  { id: 'portal', name: 'Portal', icon: '🌐', href: '/portal', category: 'tools', color: 'from-cyan-500 to-teal-600', description: 'Quick access' },
+];
+
 
 export function GoogleNavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,7 +63,7 @@ export function GoogleNavBar() {
 
             <div className="flex items-center gap-2">
               <SearchBar />
-              
+
               <button 
                 onClick={() => setIsHelpOpen(true)}
                 className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
@@ -49,7 +73,7 @@ export function GoogleNavBar() {
                   Help
                 </span>
               </button>
-              
+
               <button 
                 onClick={() => setIsSettingsOpen(true)}
                 className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
@@ -59,7 +83,7 @@ export function GoogleNavBar() {
                   Settings
                 </span>
               </button>
-              
+
               <button
                 onClick={() => setAppDrawerOpen(!appDrawerOpen)}
                 className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-all relative group"
@@ -69,7 +93,7 @@ export function GoogleNavBar() {
                   Apps
                 </span>
               </button>
-              
+
               <div className="relative">
                 <button 
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
