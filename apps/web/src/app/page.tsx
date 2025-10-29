@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { EnhancedLiveCarousel } from './components/enhanced/EnhancedLiveCarousel';
+import { GoogleNavBar } from './components/layout/GoogleNavBar';
 
 interface AppItem {
   icon: string;
@@ -118,8 +119,6 @@ const NEWS_ITEMS: CarouselItem[] = [
 ];
 
 export default function HomePage() {
-  const [appDrawerOpen, setAppDrawerOpen] = useState(false);
-  const liveCarouselRef = useRef<HTMLDivElement>(null);
   const newsCarouselRef = useRef<HTMLDivElement>(null);
 
   const scrollCarousel = (ref: React.RefObject<HTMLDivElement>, direction: number) => {
@@ -130,87 +129,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
-      {/* Google-style Navigation Bar */}
-      <nav className="bg-white shadow-md sticky top-0 z-50">
-        <div className="flex items-center justify-between px-5 h-16">
-          <div className="flex items-center gap-5">
-            <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors">
-              <div className="flex flex-col gap-1">
-                <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-                <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-                <span className="w-5 h-0.5 bg-gray-600 rounded"></span>
-              </div>
-            </button>
-            <div className="flex items-center gap-2 text-2xl font-bold">
-              <span>👑</span>
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Sports Central
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-xl transition-colors">
-              🔍
-            </button>
-            <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-xl transition-colors">
-              ❓
-            </button>
-            <button className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-xl transition-colors">
-              ⚙️
-            </button>
-            <button 
-              onClick={() => setAppDrawerOpen(!appDrawerOpen)}
-              className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors relative"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"></div>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="relative z-10">
-                <circle cx="4" cy="4" r="2" />
-                <circle cx="12" cy="4" r="2" />
-                <circle cx="20" cy="4" r="2" />
-                <circle cx="4" cy="12" r="2" />
-                <circle cx="12" cy="12" r="2" />
-                <circle cx="20" cy="12" r="2" />
-                <circle cx="4" cy="20" r="2" />
-                <circle cx="12" cy="20" r="2" />
-                <circle cx="20" cy="20" r="2" />
-              </svg>
-            </button>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold">
-              SC
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* App Drawer Overlay */}
-      {appDrawerOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40"
-          onClick={() => setAppDrawerOpen(false)}
-        />
-      )}
-
-      {/* Google-style App Drawer */}
-      <div className={`fixed top-20 right-5 bg-white rounded-xl shadow-2xl p-5 w-96 max-h-[480px] overflow-y-auto z-50 transition-all duration-300 ${appDrawerOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5 pointer-events-none'}`}>
-        <div className="text-lg font-semibold text-gray-700 mb-5 pb-4 border-b border-gray-200">
-          Sports Central Apps
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          {APP_DRAWER_ITEMS.map((app, index) => (
-            <button
-              key={index}
-              className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-2 text-white">
-                {app.icon}
-              </div>
-              <div className="text-sm font-medium text-gray-700 text-center">
-                {app.name}
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
+      <GoogleNavBar />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-5 py-8">
