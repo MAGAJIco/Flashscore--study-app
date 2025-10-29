@@ -123,24 +123,33 @@ export default function EmpirePage() {
           {/* Quick Links */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link href="/ai-predictions">
-              <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30 hover:border-purple-500 transition-all cursor-pointer">
-                <div className="text-4xl mb-3">🤖</div>
-                <h3 className="text-xl font-bold text-white mb-2">AI Predictions</h3>
+              <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30 hover:border-purple-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/40 transition-all duration-300 cursor-pointer group">
+                <div className="text-4xl mb-3 transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">🤖</div>
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">AI Predictions</h3>
                 <p className="text-gray-300 text-sm">Get ML-powered match predictions</p>
+                <div className="mt-4 text-purple-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click to explore →
+                </div>
               </div>
             </Link>
             <Link href="/matches">
-              <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-sm rounded-xl p-6 border border-red-500/30 hover:border-red-500 transition-all cursor-pointer">
-                <div className="text-4xl mb-3">⚡</div>
-                <h3 className="text-xl font-bold text-white mb-2">Live Matches</h3>
+              <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-sm rounded-xl p-6 border border-red-500/30 hover:border-red-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-500/40 transition-all duration-300 cursor-pointer group">
+                <div className="text-4xl mb-3 transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">⚡</div>
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors">Live Matches</h3>
                 <p className="text-gray-300 text-sm">Track real-time match updates</p>
+                <div className="mt-4 text-red-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click to view →
+                </div>
               </div>
             </Link>
             <Link href="/feed">
-              <div className="bg-gradient-to-br from-green-500/20 to-teal-500/20 backdrop-blur-sm rounded-xl p-6 border border-green-500/30 hover:border-green-500 transition-all cursor-pointer">
-                <div className="text-4xl mb-3">👥</div>
-                <h3 className="text-xl font-bold text-white mb-2">Social Feed</h3>
+              <div className="bg-gradient-to-br from-green-500/20 to-teal-500/20 backdrop-blur-sm rounded-xl p-6 border border-green-500/30 hover:border-green-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/40 transition-all duration-300 cursor-pointer group">
+                <div className="text-4xl mb-3 transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">👥</div>
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-green-300 transition-colors">Social Feed</h3>
                 <p className="text-gray-300 text-sm">Connect with the community</p>
+                <div className="mt-4 text-green-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click to join →
+                </div>
               </div>
             </Link>
           </div>
