@@ -1,4 +1,3 @@
-
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import dotenv from 'dotenv';
@@ -9,6 +8,8 @@ import { newsModuleRoutes } from './modules/news/routes';
 import { predictionsModuleRoutes } from './modules/predictions/routes';
 import { rewardsModuleRoutes } from './modules/rewards/routes';
 import { scraperModuleRoutes } from './modules/scraper/routes';
+import { piCoinModuleRoutes } from './modules/picoins/routes';
+
 
 dotenv.config();
 
@@ -49,21 +50,24 @@ fastify.get('/health', async () => {
 async function registerRoutes() {
   // Auth module
   fastify.register(authModuleRoutes, { prefix: '/api/auth' });
-  
+
   // Matches module
   fastify.register(matchesModuleRoutes, { prefix: '/api/matches' });
-  
+
   // News module
   fastify.register(newsModuleRoutes, { prefix: '/api/news' });
-  
+
   // Predictions module
   fastify.register(predictionsModuleRoutes, { prefix: '/api/predictions' });
-  
+
   // Rewards module
   fastify.register(rewardsModuleRoutes, { prefix: '/api/rewards' });
-  
+
   // Scraper module
   fastify.register(scraperModuleRoutes, { prefix: '/api/scraper' });
+
+  // Pi Coin module
+  fastify.register(piCoinModuleRoutes, { prefix: '/api/picoins' });
 }
 
 // Start server
@@ -71,10 +75,10 @@ async function start() {
   try {
     await connectDB();
     await registerRoutes();
-    
+
     const port = parseInt(process.env.PORT || '3001');
     await fastify.listen({ port, host: '0.0.0.0' });
-    
+
     console.log(`✅ API Server running at http://0.0.0.0:${port}`);
   } catch (err) {
     fastify.log.error(err);
