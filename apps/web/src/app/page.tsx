@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useRef } from 'react';
@@ -160,9 +159,10 @@ export default function HomePage() {
             </button>
             <button 
               onClick={() => setAppDrawerOpen(!appDrawerOpen)}
-              className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
+              className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors relative"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"></div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="relative z-10">
                 <circle cx="4" cy="4" r="2" />
                 <circle cx="12" cy="4" r="2" />
                 <circle cx="20" cy="4" r="2" />
@@ -313,7 +313,8 @@ export default function HomePage() {
             {NEWS_ITEMS.map((news, index) => (
               <div
                 key={index}
-                className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 relative"
+                className="min-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-indigo-500 relative flex-shrink-0"
+                style={{ scrollSnapAlign: 'start' }}
               >
                 {news.badge && (
                   <span className={`absolute top-4 right-4 ${news.badgeColor} text-white px-3 py-1 rounded-full text-xs font-semibold`}>
