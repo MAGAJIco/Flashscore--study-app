@@ -37,7 +37,7 @@ export function NewsCarousel() {
       time: '2 hours ago',
       comments: '1.2K',
       author: 'Sports Desk',
-      viewCount: '45.3K'
+      viewCount: 45300
     },
     {
       id: '2',
@@ -48,7 +48,7 @@ export function NewsCarousel() {
       time: '5 hours ago',
       comments: '892',
       author: 'NBA Central',
-      viewCount: '32.1K'
+      viewCount: 32100
     },
     {
       id: '3',
@@ -59,7 +59,7 @@ export function NewsCarousel() {
       time: '8 hours ago',
       comments: '645',
       author: 'Tennis Weekly',
-      viewCount: '28.7K'
+      viewCount: 28700
     }
   ];
 
@@ -157,12 +157,12 @@ export function NewsCarousel() {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 
               {/* Enhanced Badge with different styles for BREAKING vs NEWS */}
-              <span className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
+              <span className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold ${
                 item.badge === 'BREAKING' 
                   ? 'bg-red-500 text-white animate-pulse-badge' 
-                  : 'bg-blue-500 text-white'
+                  : 'bg-blue-500 text-white animate-glow-badge'
               }`}>
-                {item.badge === 'BREAKING' ? '🔥 BREAKING' : '📰 NEWS'}
+                {item.badge === 'BREAKING' ? '🔥 BREAKING' : '✨ NEWS'}
               </span>
 
               {/* Icon with white background */}

@@ -24,17 +24,17 @@ export function AppRoutesGrid() {
             
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-3">
               <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                <strong>Routes:</strong>
+                <strong>Features:</strong>
               </p>
               <ul className="space-y-2">
-                {app.routes.map((route, rIndex) => (
+                {app.items.map((item, rIndex) => (
                   <li 
                     key={rIndex}
                     className="text-gray-700 dark:text-gray-200 py-2 px-3 bg-gray-50 dark:bg-gray-700 border-l-4 border-indigo-500 rounded transition-all duration-200 hover:pl-5 hover:shadow-md"
                   >
-                    <code className="text-sm font-mono text-indigo-600 dark:text-indigo-400">
-                      {route}
-                    </code>
+                    <span className="text-sm">
+                      {item}
+                    </span>
                   </li>
                 ))}
               </ul>
