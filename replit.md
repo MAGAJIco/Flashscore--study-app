@@ -2,6 +2,15 @@
 Sports Central is a production-ready monorepo sports prediction and community platform built with Next.js (Frontend), Fastify (Backend), and FastAPI (ML Service). It features AI-powered predictions, live scores, interactive experiences, and community rewards. The platform provides a comprehensive multi-sport experience inspired by FlashScore, incorporating real-time data, personalized content, and engaging user interfaces. Key capabilities include multi-sport browsing, live scorecards with AI insights, an authentication system with age verification, and Kids Mode for educational sports content. The project aims to offer a robust, engaging, and AI-powered sports hub.
 
 ## Recent Changes
+**October 29, 2025**: Vercel to Replit Migration Complete
+- Successfully migrated Next.js frontend from Vercel to Replit containerized environment
+- Updated package.json scripts to bind to `0.0.0.0:5000` for Replit compatibility (`-H 0.0.0.0` flag)
+- Configured next.config.js with `allowedDevOrigins` to resolve cross-origin warnings in Replit
+- Added cache-control headers (`no-cache, no-store, must-revalidate`) for proper iframe preview behavior
+- Workflow configured and running successfully on port 5000
+- All dependencies installed via npm (detected from package-lock.json lockfile)
+- Migration architect-reviewed and verified with zero errors
+
 **October 29, 2025**: Enhanced Interactive Features Implementation
 - Fully integrated SearchBar, HelpCenter, SettingsPanel, and UserProfileDropdown into GoogleNavBar with proper state management
 - Updated main page to use EnhancedLiveCarousel instead of regular LiveCarousel for auto-scroll and pause-on-hover functionality
@@ -31,6 +40,15 @@ The project is organized as a monorepo with the following key directories:
 - **ML Service**: FastAPI, scikit-learn 1.5.2, Python 3.x.
 - **Database**: MongoDB Atlas.
 - **Deployment**: Replit.
+
+**Replit Runtime Requirements:**
+- **Port**: Frontend must run on port `5000` (only port not firewalled in Replit)
+- **Host Binding**: Must bind to `0.0.0.0` to accept connections in containerized environment
+- **Dev Command**: `next dev -p 5000 -H 0.0.0.0`
+- **Start Command**: `next start -p 5000 -H 0.0.0.0`
+- **Environment Variables**: `REPLIT_DEV_DOMAIN` automatically populated for `allowedDevOrigins`
+- **Cache Control**: Headers configured for iframe preview compatibility
+- **Package Manager**: npm (detected from package-lock.json)
 
 **UI/UX Decisions:**
 - Google-style navigation bar with Magajico app drawer launcher showing 9 feature apps: Portal, Predictions, Live, Social, Kids Mode, Rewards, Analytics, Chat, Challenges.
