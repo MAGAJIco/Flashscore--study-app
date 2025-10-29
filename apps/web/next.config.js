@@ -17,7 +17,14 @@ const nextConfig = {
   },
   allowedDevOrigins: [
     process.env.REPLIT_DEV_DOMAIN,
-  ].filter(Boolean),
+    '127.0.0.1',
+    'localhost',
+  ].filter(Boolean).map(origin => {
+    if (origin && !origin.includes('://')) {
+      return `https://${origin}`;
+    }
+    return origin;
+  }),
   async headers() {
     return [
       {
