@@ -15,6 +15,9 @@ const nextConfig = {
       },
     ],
   },
+  allowedDevOrigins: [
+    process.env.REPLIT_DEV_DOMAIN,
+  ].filter(Boolean),
   async headers() {
     return [
       {
