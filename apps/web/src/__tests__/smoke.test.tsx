@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals';
+import '@testing-library/jest-dom';
 
 describe('Frontend Smoke Tests', () => {
   describe('Critical Routes', () => {
