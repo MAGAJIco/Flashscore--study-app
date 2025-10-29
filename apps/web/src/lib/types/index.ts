@@ -1,21 +1,30 @@
 
-// Re-export shared types for convenient frontend imports
-export type {
-  Match,
-  LiveMatch,
-  Team,
-  MatchEvent,
-  User,
-  UserPreferences,
-  ICoppaConsent,
-  NewsArticle,
-  NewsAuthor,
-  Prediction,
-  MLPrediction,
-  PredictionFactor,
-  APIResponse,
-  HealthCheckResponse
-} from '@magajico/shared';
+// Local types
+export * from './match';
+export * from './user';
+export * from './news';
+export * from './prediction';
+
+// API Response types
+export interface APIResponse<T = any> {
+  success: boolean;
+  data?: T;
+  count?: number;
+  error?: string;
+  message?: string;
+  accessLevel?: 'guest' | 'member';
+  memberBenefits?: {
+    message: string;
+    features: string[];
+  };
+}
+
+export interface HealthCheckResponse {
+  status: string;
+  timestamp: string;
+  database?: string;
+  ml_service?: string;
+}
 
 // Frontend-specific types
 export interface AppRoute {
