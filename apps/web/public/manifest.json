@@ -1,86 +1,72 @@
-
 {
-  "name": "MagajiCo Sports Predictions",
-  "short_name": "MagajiCo",
-  "description": "AI-powered sports predictions and analytics",
+  "name": "Sports Central - MagajiCo",
+  "short_name": "Sports Central",
+  "description": "AI-powered sports predictions and live scores",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "background_color": "#1a1a1a",
+  "background_color": "#1a1f3a",
   "theme_color": "#00ff88",
-  "theme_color_dark": "#1a1a1a",
-  "theme_color_light": "#ffffff",
-  "orientation": "any",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "lang": "en",
-  "dir": "ltr",
-  "categories": ["sports", "entertainment", "news"],
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["sports", "entertainment"],
   "icons": [
-    { "src": "/icons/icon-72x72.png", "sizes": "72x72", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icons/icon-128x128.png", "sizes": "128x128", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icons/icon-144x144.png", "sizes": "144x144", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icons/icon-152x152.png", "sizes": "152x152", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icons/icon-384x384.png", "sizes": "384x384", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "/icons/icon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ],
   "screenshots": [
     {
-      "src": "/icons/screenshot-mobile-1.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "AI Sports Predictions Dashboard"
-    },
-    {
-      "src": "/icons/screenshot-mobile-2.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Live Sports Scores and Updates"
-    },
-    {
-      "src": "/icons/screenshot-desktop-1.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Desktop Dashboard Overview"
-    },
-    {
-      "src": "/icons/screenshot-desktop-2.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Live Scores on Desktop View"
+      "src": "/screenshots/home.png",
+      "sizes": "540x720",
+      "type": "image/png"
     }
   ],
   "shortcuts": [
     {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "Go to main dashboard",
-      "url": "/",
-      "icons": [{ "src": "/icons/dashboard-96x96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Live Scores",
-      "short_name": "Scores",
-      "description": "View live sports scores",
-      "url": "/live-scores",
-      "icons": [{ "src": "/icons/scores-96x96.png", "sizes": "96x96" }]
+      "name": "Live Matches",
+      "short_name": "Live",
+      "description": "View live matches",
+      "url": "/matches",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Predictions",
       "short_name": "Predict",
-      "description": "Make sports predictions",
+      "description": "Make predictions",
       "url": "/predictions",
-      "icons": [{ "src": "/icons/predict-96x96.png", "sizes": "96x96" }]
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ],
-  "prefer_related_applications": false,
-  "related_applications": [],
-  "edge_side_panel": {
-    "preferred_width": 400
-  }
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false
 }
