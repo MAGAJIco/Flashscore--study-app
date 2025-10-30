@@ -21,7 +21,7 @@ export const MobileAppLauncher: React.FC = () => {
     { id: 'live', name: 'Live Matches', icon: '⚽', href: '/live', color: 'from-green-500 to-green-600' },
     { id: 'news', name: 'News', icon: '📰', href: '/news', color: 'from-orange-500 to-orange-600' },
     { id: 'rewards', name: 'Rewards', icon: '🏆', href: '/rewards', color: 'from-yellow-500 to-yellow-600' },
-    { id: 'social', name: 'Social', icon: '👥', href: '/social', color: 'from-pink-500 to-pink-600' },
+    { id: 'social', name: 'Social', icon: '👥', href: '/social/feed', color: 'from-pink-500 to-pink-600' },
     { id: 'wallet', name: 'Wallet', icon: '🪙', href: '/wallet', color: 'from-amber-500 to-amber-600' },
     { id: 'settings', name: 'Settings', icon: '⚙️', href: '/settings', color: 'from-gray-500 to-gray-600' },
   ];
