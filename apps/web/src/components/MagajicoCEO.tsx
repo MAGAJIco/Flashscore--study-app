@@ -1,13 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import OpenAI from "openai";
-
-// the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ 
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true 
-});
 
 interface Message {
   role: "user" | "assistant" | "system";
@@ -52,58 +45,62 @@ export default function MagajicoCEO() {
     setIsLoading(true);
 
     try {
-      const conversationHistory = [
-        {
-          role: "system" as const,
-          content: `You are the Magajico CEO AI manager, a friendly betting assistant. Your job is to:
-1. Help users build their bet slip by asking how many games they want to book
-2. Collect game names one at a time or all at once as the user prefers
-3. Keep track of accumulated games
-4. Be concise, friendly, and supportive
-5. Remind users to gamble responsibly
-6. If they mention Liverpool, be extra encouraging if there's good news
-
-Current games in library: ${gamesLibrary.map(g => g.name).join(", ") || "none yet"}
-
-Keep responses short and conversational.`,
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        ...messages,
-        userMessage,
-      ];
-
-      const response = await openai.chat.completions.create({
-        model: "gpt-5",
-        messages: conversationHistory,
-        max_completion_tokens: 300,
+        body: JSON.stringify({
+          messages: [...messages, userMessage],
+          gamesLibrary: gamesLibrary,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to get response from AI");
+      }
+
+      const data = await response.json();
 
       const assistantMessage: Message = {
         role: "assistant",
-        content: response.choices[0].message.content || "I'm here to help!",
+        content: data.message,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
 
-      // Extract games from conversation (simple pattern matching)
+      // Extract games from user input and AI response
+      const textToAnalyze = input + " " + data.message;
       const gamePatterns = [
-        /(?:Man United|Arsenal|Liverpool|Chelsea|City|Barcelona|Real Madrid|Bayern|PSG|Lakers|Warriors|Dolphins|Bills)/gi,
+        /(?:Man United|Arsenal|Liverpool|Chelsea|Man City|Manchester City|Barcelona|Real Madrid|Bayern|PSG|Lakers|Warriors|Dolphins|Bills)(?:\s+vs?\s+(?:Man United|Arsenal|Liverpool|Chelsea|Man City|Manchester City|Barcelona|Real Madrid|Bayern|PSG|Lakers|Warriors|Dolphins|Bills))?/gi,
       ];
       
       gamePatterns.forEach((pattern) => {
-        const matches = input.match(pattern);
+        const matches = textToAnalyze.match(pattern);
         if (matches) {
           matches.forEach((gameName) => {
-            if (!gamesLibrary.some((g) => g.name === gameName)) {
-              setGamesLibrary((prev) => [
+            // Clean up the game name
+            const cleanName = gameName.trim();
+            
+            // Use state setter callback to check against latest library
+            setGamesLibrary((prev) => {
+              const isDuplicate = prev.some((g) => g.name.toLowerCase() === cleanName.toLowerCase());
+              
+              if (isDuplicate) {
+                return prev;
+              }
+              
+              return [
                 ...prev,
                 {
                   id: Date.now().toString() + Math.random(),
-                  name: gameName,
-                  sport: "Football",
+                  name: cleanName,
+                  sport: cleanName.includes("Lakers") || cleanName.includes("Warriors") ? "Basketball" : 
+                         cleanName.includes("Dolphins") || cleanName.includes("Bills") ? "American Football" : "Football",
                   time: "TBD",
                 },
-              ]);
-            }
+              ];
+            });
           });
         }
       });
