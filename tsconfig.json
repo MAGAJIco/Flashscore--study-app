@@ -1,99 +1,30 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowJs": true,
     "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "outDir": "./dist",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
     "noEmit": true,
     "incremental": true,
     "isolatedModules": true,
     "jsx": "preserve",
-
-    // 👇 baseUrl at root
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      // --- Frontend ---
-      "@components": ["apps/frontend/src/app/components"],
-      "@components/*": ["apps/frontend/src/app/components/*"],
-      "@hooks": ["apps/frontend/src/app/hooks"],
-      "@hooks/*": ["apps/frontend/src/app/hooks/*"],
-      "@controllers/*": ["apps/frontend/src/app/controllers/*"],
-      "@api/*": ["apps/frontend/src/app/api/*"],
-      "@services": ["apps/frontend/src/app/services"],
-      "@services/*": ["apps/frontend/src/app/services/*"],
-      "@styles/*": ["apps/frontend/src/app/styles/*"],
-      "@config/*": ["apps/frontend/src/app/config/*"],
-      "@utils": ["apps/frontend/src/app/utils"],
-      "@utils/*": ["apps/frontend/src/app/utils/*"],
-      "@providers": ["apps/frontend/src/app/providers"],
-      "@providers/*": ["apps/frontend/src/app/providers/*"],
-      "@navigation": ["apps/frontend/src/lib/navigation"],
-      "@navigation/*": ["apps/frontend/src/lib/navigation/*"],
-      "@lib": ["apps/frontend/src/lib"],
-      "@lib/*": ["apps/frontend/src/lib/*"],
-      
-      // --- Backend ---
-      "@": ["apps/backend/src"],
-      "@/*": ["apps/backend/src/*"],
-      "@bcomponents/*": ["apps/backend/src/components/*"],
-      "@btypes/*": ["apps/backend/src/types/*"],
-      "@bcontrollers/*": ["apps/backend/src/controllers/*"],
-      "@broutes/*": ["apps/backend/src/routes/*"],
-      "@bservices/*": ["apps/backend/src/services/*"],
-      "@bstyles/*": ["apps/backend/src/styles/*"],
-      "@bconfig/*": ["apps/backend/src/config/*"],
-      "@middleware/*": ["apps/backend/src/middleware/*"],
-      "@models/*": ["apps/backend/src/models/*"],
-
-      // --- Shared ---
-      "@shared": ["packages/shared/src"],
-      "@shared/*": ["packages/shared/src/*"],
-      "@shared/types": ["packages/shared/src/libs/types"],
-      "@shared/types/*": ["packages/shared/src/libs/types/*"],
-      "@shared/utils": ["packages/shared/src/libs/utils"],
-      "@shared/utils/*": ["packages/shared/src/libs/utils/*"],
-      "@shared/models": ["packages/shared/src/libs/models"],
-      "@shared/models/*": ["packages/shared/src/libs/models/*"],
-      "@shared/services": ["packages/shared/src/libs/services"],
-      "@shared/services/*": ["packages/shared/src/libs/services/*"]"],
-
-      // --- Backend ---
-      "@bcomponents/*": ["apps/backend/src/components/*"],
-      "@btypes/*": ["apps/backend/src/types/*"],
-      "@bakcontrollers/*": ["apps/backend/src/controllers/*"],
-      "@broutes/*": ["apps/backend/src/routes/*"],
-      "@bservices/*": ["apps/backend/src/services/*"],
-      "@bstyles/*": ["apps/backend/src/styles/*"],
-      "@bconfig/*": ["apps/backend/src/config/*"],
-
-      // --- Shared ---
-      "@shared/types/*": ["packages/shared/src/libs/types/*"],
-      "@shared/utils/*": ["packages/shared/src/libs/utils/*"],
-      "@shared/models/*": ["packages/shared/src/libs/models/*"]
+      "@shared/*": ["packages/shared/src/*"]
     }
   },
-  "ts-node": {
-    "esm": true
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": ["node_modules", "dist", ".next"],
-  "files": [],
+  "exclude": ["node_modules", "dist", ".next", "build"],
   "references": [
-    { "path": "apps/backend/src" },
-    { "path": "apps/backend/ml" },
-    { "path": "apps/frontend" },
-    { "path": "packages/shared" }
+    { "path": "./apps/api" },
+    { "path": "./apps/web" },
+    { "path": "./packages/shared" }
   ]
 }
