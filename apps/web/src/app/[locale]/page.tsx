@@ -753,15 +753,6 @@ export default function Page() {
           color: #667eea;
         }
 
-        footer {
-          text-align: center;
-          color: white;
-          padding: 30px;
-          margin-top: 40px;
-          font-size: 0.9rem;
-          opacity: 0.9;
-        }
-
         .footer-nav {
           position: fixed;
           bottom: 0;
