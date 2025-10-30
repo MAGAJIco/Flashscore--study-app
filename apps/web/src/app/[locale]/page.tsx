@@ -1,4 +1,4 @@
-// apps/frontend/src/app/page.tsx
+// apps/web/src/app/[locale]/page.tsx
 "use client";
 
 import React, { useRef, useState } from "react";
