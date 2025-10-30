@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppDrawer } from './AppDrawer';
 import { SearchBar } from '../enhanced/SearchBar';
 import { HelpCenter } from '../modals/HelpCenter';
@@ -14,6 +14,41 @@ export function GoogleNavBar() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [lastChecked, setLastChecked] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const checkNewPredictions = async () => {
+      try {
+        const response = await fetch('http://0.0.0.0:3001/api/predictions');
+        const data = await response.json();
+        
+        if (data.success && Array.isArray(data.data)) {
+          const highConfidencePredictions = data.data.filter((pred: any) => {
+            const predDate = new Date(pred.createdAt);
+            return pred.confidence >= 80 && predDate > lastChecked;
+          });
+          
+          if (highConfidencePredictions.length > 0) {
+            setNotificationCount(prev => prev + highConfidencePredictions.length);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to check predictions:', error);
+      }
+    };
+
+    const interval = setInterval(checkNewPredictions, 30000); // Check every 30 seconds
+    checkNewPredictions(); // Initial check
+    
+    return () => clearInterval(interval);
+  }, [lastChecked]);
+
+  const handleNotificationClick = () => {
+    setNotificationCount(0);
+    setLastChecked(new Date());
+    window.location.href = '/en/predictions';
+  };
 
   return (
     <>
@@ -39,6 +74,21 @@ export function GoogleNavBar() {
 
         <div className="flex items-center gap-2">
           <SearchBar />
+
+          <button 
+            onClick={handleNotificationClick}
+            className="w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center transition-colors text-xl relative group"
+          >
+            🔔
+            {notificationCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold animate-pulse">
+                {notificationCount > 9 ? '9+' : notificationCount}
+              </span>
+            )}
+            <span className="absolute -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+              {notificationCount > 0 ? `${notificationCount} New Predictions` : 'Notifications'}
+            </span>
+          </button>
 
           <button 
             onClick={() => setIsHelpOpen(true)}
