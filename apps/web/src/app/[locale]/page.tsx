@@ -2,6 +2,25 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import MagajicoCEO from "@/components/MagajicoCEO";
+import LiverpoolNotifications from "@/components/LiverpoolNotifications";
+import { Magajico } from "@/app/components/Magajico";
+
+import {
+  PortalIcon,
+  PredictionsIcon,
+  LiveIcon,
+  SocialIcon,
+  KidsIcon,
+  RewardsIcon,
+  AnalyticsIcon,
+  ChatIcon,
+  ChallengesIcon,
+  SearchIcon,
+  HelpIcon,
+  SettingsIcon,
+  AppsIcon,
+} from '@/components/icons/SVGIcons';
 
 export default function Page() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -35,34 +54,24 @@ export default function Page() {
         </div>
 
         <div className="navbar-right">
-          <div className="nav-icon" title="Search">
-            🔍
+          <div className="nav-icon icon-transition" title="Search">
+            <SearchIcon size={20} />
           </div>
-          <div className="nav-icon" title="Help">
-            ❓
+          <div className="nav-icon icon-transition" title="Help">
+            <HelpIcon size={20} />
           </div>
-          <div className="nav-icon" title="Settings">
-            ⚙️
+          <div className="nav-icon icon-transition" title="Settings">
+            <SettingsIcon size={20} />
           </div>
 
           <div
-            className="nav-icon app-drawer-btn"
+            className="nav-icon app-drawer-btn icon-transition"
             onClick={toggleAppDrawer}
             title="Apps"
             role="button"
             aria-expanded={drawerOpen}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <circle cx="4" cy="4" r="2" />
-              <circle cx="12" cy="4" r="2" />
-              <circle cx="20" cy="4" r="2" />
-              <circle cx="4" cy="12" r="2" />
-              <circle cx="12" cy="12" r="2" />
-              <circle cx="20" cy="12" r="2" />
-              <circle cx="4" cy="20" r="2" />
-              <circle cx="12" cy="20" r="2" />
-              <circle cx="20" cy="20" r="2" />
-            </svg>
+            <AppsIcon size={20} />
           </div>
 
           <div
@@ -86,18 +95,20 @@ export default function Page() {
         <div className="app-drawer-header">Sports Central Apps</div>
         <div className="app-grid">
           {[
-            ["🏠", "Portal"],
-            ["🤖", "Predictions"],
-            ["⚡", "Live"],
-            ["👥", "Social"],
-            ["🎮", "Kids Mode"],
-            ["🏆", "Rewards"],
-            ["📊", "Analytics"],
-            ["💬", "Chat"],
-            ["🎯", "Challenges"],
-          ].map(([emoji, name]) => (
-            <div className="app-item" key={String(name)}>
-              <div className="app-icon">{emoji}</div>
+            { icon: PortalIcon, name: "Portal" },
+            { icon: PredictionsIcon, name: "Predictions" },
+            { icon: LiveIcon, name: "Live" },
+            { icon: SocialIcon, name: "Social" },
+            { icon: KidsIcon, name: "Kids Mode" },
+            { icon: RewardsIcon, name: "Rewards" },
+            { icon: AnalyticsIcon, name: "Analytics" },
+            { icon: ChatIcon, name: "Chat" },
+            { icon: ChallengesIcon, name: "Challenges" },
+          ].map(({ icon: Icon, name }) => (
+            <div className="app-item spring-animate" key={name}>
+              <div className="icon-container">
+                <Icon size={24} />
+              </div>
               <div className="app-name">{name}</div>
             </div>
           ))}
@@ -106,9 +117,25 @@ export default function Page() {
 
       <main className="container">
         <header>
-          <h1>🏗️ Sports Central</h1>
-          <p>Feature-Based Architecture Documentation</p>
+          <h1>🎯 Magajico</h1>
+          <p>Your AI-Powered Betting Assistant</p>
         </header>
+
+        {/* Liverpool Notifications */}
+        <LiverpoolNotifications />
+
+        {/* Main Feature: AI CEO Manager */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <h2 className="hero-title">Meet Your Personal AI Manager</h2>
+            <p className="hero-description">
+              Just you and your AI. Tell us which games you want to bet on, and we'll help you build your perfect bet slip.
+              No more missed opportunities while browsing endless live feeds.
+            </p>
+          </div>
+        </section>
+
+        <MagajicoCEO />
 
         <section className="carousel-section" aria-label="Live matches">
           <div className="carousel-header">
@@ -220,7 +247,57 @@ export default function Page() {
           </div>
         </section>
 
-        <footer>© Sports Central — Design & Architecture</footer>
+        <footer className="professional-footer">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h4 className="footer-heading">Sports Central</h4>
+              <p className="footer-description">AI-powered sports predictions and analytics platform</p>
+              <div className="footer-social">
+                <a href="#" className="social-link" aria-label="Twitter">𝕏</a>
+                <a href="#" className="social-link" aria-label="Facebook">f</a>
+                <a href="#" className="social-link" aria-label="Instagram">📷</a>
+                <a href="#" className="social-link" aria-label="LinkedIn">in</a>
+              </div>
+            </div>
+            
+            <div className="footer-section">
+              <h4 className="footer-heading">Features</h4>
+              <ul className="footer-links">
+                <li><a href="/en/predictions">AI Predictions</a></li>
+                <li><a href="/en/matches">Live Matches</a></li>
+                <li><a href="/en/news">Sports News</a></li>
+                <li><a href="/en/analytics">Analytics</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h4 className="footer-heading">Community</h4>
+              <ul className="footer-links">
+                <li><a href="/en/social/feed">Social Feed</a></li>
+                <li><a href="/en/achievements">Rewards</a></li>
+                <li><a href="/en/kids">Kids Mode</a></li>
+                <li><a href="/en/challenges">Challenges</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h4 className="footer-heading">Support</h4>
+              <ul className="footer-links">
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="footer-bottom">
+            <p className="footer-copyright">© 2025 Sports Central. All rights reserved.</p>
+            <p className="footer-tagline">Built with 💜 by the MagajiCo Team</p>
+          </div>
+        </footer>
+
+        <Magajico />
       </main>
 
       {/* Styles (keeps the original CSS; injected globally for this page) */}
@@ -239,8 +316,11 @@ export default function Page() {
         }
 
         .navbar {
-          background: white;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 0 rgba(255, 255, 255, 0.5);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.08);
           padding: 0 20px;
           position: sticky;
           top: 0;
@@ -310,12 +390,18 @@ export default function Page() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           font-size: 1.2rem;
+          color: #5f6368;
         }
 
         .nav-icon:hover {
-          background: #f1f3f4;
+          background: rgba(0, 0, 0, 0.05);
+          transform: scale(1.05);
+        }
+
+        .nav-icon:active {
+          transform: scale(0.95);
         }
 
         .app-drawer-btn {
@@ -344,24 +430,30 @@ export default function Page() {
           position: fixed;
           top: 70px;
           right: 20px;
-          background: white;
-          border-radius: 12px;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-          padding: 20px;
-          width: 380px;
-          max-height: 480px;
+          background: rgba(255, 255, 255, 0.9);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 16px;
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.12),
+            0 2px 8px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+          padding: 24px;
+          width: 400px;
+          max-height: 500px;
           overflow-y: auto;
           opacity: 0;
           visibility: hidden;
-          transform: translateY(-20px);
-          transition: all 0.3s ease;
+          transform: translateY(-10px) scale(0.95);
+          transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 1999;
         }
 
         .app-drawer.active {
           opacity: 1;
           visibility: visible;
-          transform: translateY(0);
+          transform: translateY(0) scale(1);
         }
 
         .app-drawer-header {
@@ -585,6 +677,34 @@ export default function Page() {
           opacity: 0.95;
         }
 
+        .hero-section {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 15px;
+          padding: 40px;
+          margin-bottom: 30px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          animation: fadeInUp 0.8s ease;
+          text-align: center;
+          color: white;
+        }
+
+        .hero-content {
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+          margin-bottom: 16px;
+          font-weight: 700;
+        }
+
+        .hero-description {
+          font-size: 1.1rem;
+          line-height: 1.6;
+          opacity: 0.95;
+        }
+
         .overview {
           background: white;
           border-radius: 15px;
@@ -660,13 +780,118 @@ export default function Page() {
           color: #667eea;
         }
 
-        footer {
-          text-align: center;
+        /* Professional Desktop Footer */
+        .professional-footer {
+          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
           color: white;
-          padding: 30px;
-          margin-top: 40px;
+          padding: 60px 20px 20px;
+          margin-top: 80px;
+        }
+
+        .footer-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 40px;
+          margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-bottom: 16px;
+          color: #667eea;
+        }
+
+        .footer-description {
           font-size: 0.9rem;
-          opacity: 0.9;
+          color: rgba(255, 255, 255, 0.7);
+          line-height: 1.6;
+          margin-bottom: 16px;
+        }
+
+        .footer-social {
+          display: flex;
+          gap: 12px;
+        }
+
+        .social-link {
+          width: 36px;
+          height: 36px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          color: white;
+          font-size: 1.2rem;
+          transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+          background: #667eea;
+          transform: translateY(-3px);
+        }
+
+        .footer-links {
+          list-style: none;
+          padding: 0;
+        }
+
+        .footer-links li {
+          margin-bottom: 12px;
+        }
+
+        .footer-links a {
+          color: rgba(255, 255, 255, 0.7);
+          text-decoration: none;
+          font-size: 0.9rem;
+          transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+          color: #667eea;
+          padding-left: 5px;
+        }
+
+        .footer-bottom {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding-top: 30px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
+        }
+
+        .footer-copyright {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.6);
+          margin-bottom: 8px;
+        }
+
+        .footer-tagline {
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 768px) {
+          .professional-footer {
+            padding: 40px 20px 90px;
+          }
+
+          .footer-content {
+            grid-template-columns: 1fr;
+            gap: 30px;
+          }
+
+          .footer-section {
+            text-align: center;
+          }
+
+          .footer-social {
+            justify-content: center;
+          }
         }
 
         @keyframes fadeInDown {

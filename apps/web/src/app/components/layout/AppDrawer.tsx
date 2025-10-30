@@ -13,7 +13,7 @@ const apps = [
   { icon: '👑', name: 'Empire', route: '/en' },
   { icon: '🤖', name: 'Predictions', route: '/en/predictions' },
   { icon: '⚡', name: 'Live', route: '/en/matches' },
-  { icon: '👥', name: 'Social', route: '/en/feed' },
+  { icon: '👥', name: 'Social', route: '/en/social/feed' },
   { icon: '🎮', name: 'Kids Mode', route: '/en/kids' },
   { icon: '🏆', name: 'Rewards', route: '/en/achievements' },
   { icon: '📊', name: 'Analytics', route: '/en/analytics' },
