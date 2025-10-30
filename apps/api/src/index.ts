@@ -1,4 +1,3 @@
-
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import dotenv from 'dotenv';
@@ -11,7 +10,7 @@ import { rewardsModuleRoutes } from './modules/rewards/routes';
 import { scraperModuleRoutes } from './modules/scraper/routes';
 import { piCoinModuleRoutes } from './modules/picoins/routes';
 
-dotenv.config();
+dotenv.config({ debug: false });
 
 const fastify = Fastify({
   logger: true,
