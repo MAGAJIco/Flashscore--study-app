@@ -4,6 +4,7 @@
 import React, { useRef, useState } from "react";
 import MagajicoCEO from "@/components/MagajicoCEO";
 import LiverpoolNotifications from "@/components/LiverpoolNotifications";
+import { MagajiCoAppLauncher } from "@/app/components/MagajiCoAppLauncher";
 import {
   PortalIcon,
   PredictionsIcon,
@@ -245,7 +246,58 @@ export default function Page() {
           </div>
         </section>
 
-        <footer className="footer-nav">
+        <footer className="professional-footer">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h4 className="footer-heading">Sports Central</h4>
+              <p className="footer-description">AI-powered sports predictions and analytics platform</p>
+              <div className="footer-social">
+                <a href="#" className="social-link" aria-label="Twitter">𝕏</a>
+                <a href="#" className="social-link" aria-label="Facebook">f</a>
+                <a href="#" className="social-link" aria-label="Instagram">📷</a>
+                <a href="#" className="social-link" aria-label="LinkedIn">in</a>
+              </div>
+            </div>
+            
+            <div className="footer-section">
+              <h4 className="footer-heading">Features</h4>
+              <ul className="footer-links">
+                <li><a href="/en/predictions">AI Predictions</a></li>
+                <li><a href="/en/matches">Live Matches</a></li>
+                <li><a href="/en/news">Sports News</a></li>
+                <li><a href="/en/analytics">Analytics</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h4 className="footer-heading">Community</h4>
+              <ul className="footer-links">
+                <li><a href="/en/social/feed">Social Feed</a></li>
+                <li><a href="/en/achievements">Rewards</a></li>
+                <li><a href="/en/kids">Kids Mode</a></li>
+                <li><a href="/en/challenges">Challenges</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h4 className="footer-heading">Support</h4>
+              <ul className="footer-links">
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="footer-bottom">
+            <p className="footer-copyright">© 2025 Sports Central. All rights reserved.</p>
+            <p className="footer-tagline">Built with 💜 by the MagajiCo Team</p>
+          </div>
+        </footer>
+
+        {/* Mobile Bottom Navigation */}
+        <nav className="mobile-bottom-nav">
           <button className="footer-btn" onClick={() => window.location.href = '/en'}>
             <div className="footer-icon">🏠</div>
             <div className="footer-label">Home</div>
@@ -270,8 +322,11 @@ export default function Page() {
             <div className="footer-icon">🏆</div>
             <div className="footer-label">Rewards</div>
           </button>
-        </footer>
+        </nav>
       </main>
+
+      {/* Floating App Launcher (replaces old MobileAppLauncher) */}
+      <MagajiCoAppLauncher />
 
       {/* Styles (keeps the original CSS; injected globally for this page) */}
       <style jsx global>{`
@@ -753,7 +808,103 @@ export default function Page() {
           color: #667eea;
         }
 
-        .footer-nav {
+        /* Professional Desktop Footer */
+        .professional-footer {
+          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+          color: white;
+          padding: 60px 20px 20px;
+          margin-top: 80px;
+        }
+
+        .footer-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 40px;
+          margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-bottom: 16px;
+          color: #667eea;
+        }
+
+        .footer-description {
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.7);
+          line-height: 1.6;
+          margin-bottom: 16px;
+        }
+
+        .footer-social {
+          display: flex;
+          gap: 12px;
+        }
+
+        .social-link {
+          width: 36px;
+          height: 36px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          color: white;
+          font-size: 1.2rem;
+          transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+          background: #667eea;
+          transform: translateY(-3px);
+        }
+
+        .footer-links {
+          list-style: none;
+          padding: 0;
+        }
+
+        .footer-links li {
+          margin-bottom: 12px;
+        }
+
+        .footer-links a {
+          color: rgba(255, 255, 255, 0.7);
+          text-decoration: none;
+          font-size: 0.9rem;
+          transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+          color: #667eea;
+          padding-left: 5px;
+        }
+
+        .footer-bottom {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding-top: 30px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
+        }
+
+        .footer-copyright {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.6);
+          margin-bottom: 8px;
+        }
+
+        .footer-tagline {
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-bottom-nav {
           position: fixed;
           bottom: 0;
           left: 0;
@@ -763,7 +914,7 @@ export default function Page() {
           border-top: 1px solid rgba(0, 0, 0, 0.1);
           display: flex;
           justify-content: space-around;
-          padding: 8px 0;
+          padding: 8px 0 max(8px, env(safe-area-inset-bottom));
           z-index: 100;
           box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
@@ -804,6 +955,32 @@ export default function Page() {
           font-size: 11px;
           font-weight: 600;
           color: inherit;
+        }
+
+        /* Hide mobile nav on desktop, hide desktop footer on mobile */
+        @media (min-width: 769px) {
+          .mobile-bottom-nav {
+            display: none;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .professional-footer {
+            padding: 40px 20px 80px;
+          }
+
+          .footer-content {
+            grid-template-columns: 1fr;
+            gap: 30px;
+          }
+
+          .footer-section {
+            text-align: center;
+          }
+
+          .footer-social {
+            justify-content: center;
+          }
         }
 
         @keyframes fadeInDown {
