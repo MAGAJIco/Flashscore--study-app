@@ -245,7 +245,32 @@ export default function Page() {
           </div>
         </section>
 
-        <footer>© Sports Central — Design & Architecture</footer>
+        <footer className="footer-nav">
+          <button className="footer-btn" onClick={() => window.location.href = '/en'}>
+            <div className="footer-icon">🏠</div>
+            <div className="footer-label">Home</div>
+          </button>
+          
+          <button className="footer-btn" onClick={() => window.location.href = '/en/predictions'}>
+            <div className="footer-icon">🎯</div>
+            <div className="footer-label">Predictions</div>
+          </button>
+          
+          <button className="footer-btn" onClick={() => window.location.href = '/en/matches'}>
+            <div className="footer-icon">⚡</div>
+            <div className="footer-label">Live</div>
+          </button>
+          
+          <button className="footer-btn" onClick={() => window.location.href = '/en/social/feed'}>
+            <div className="footer-icon">👥</div>
+            <div className="footer-label">Social</div>
+          </button>
+          
+          <button className="footer-btn" onClick={() => window.location.href = '/en/achievements'}>
+            <div className="footer-icon">🏆</div>
+            <div className="footer-label">Rewards</div>
+          </button>
+        </footer>
       </main>
 
       {/* Styles (keeps the original CSS; injected globally for this page) */}
@@ -735,6 +760,59 @@ export default function Page() {
           margin-top: 40px;
           font-size: 0.9rem;
           opacity: 0.9;
+        }
+
+        .footer-nav {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(0, 0, 0, 0.1);
+          display: flex;
+          justify-content: space-around;
+          padding: 8px 0;
+          z-index: 100;
+          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-btn {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 8px 12px;
+          border-radius: 12px;
+          transition: all 0.2s ease;
+          color: #666;
+        }
+
+        .footer-btn:hover {
+          background: rgba(102, 126, 234, 0.1);
+          transform: translateY(-2px);
+        }
+
+        .footer-btn:active {
+          transform: translateY(0);
+        }
+
+        .footer-icon {
+          font-size: 24px;
+          transition: transform 0.2s ease;
+        }
+
+        .footer-btn:hover .footer-icon {
+          transform: scale(1.1);
+        }
+
+        .footer-label {
+          font-size: 11px;
+          font-weight: 600;
+          color: inherit;
         }
 
         @keyframes fadeInDown {
