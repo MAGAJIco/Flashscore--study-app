@@ -509,4 +509,58 @@ class SportsAPIService:
                                     away_team = after_vs.strip()
                                 
                                 if home_team and away_team:
-                               
+                                    predictions.append({
+                                        "homeTeam": home_team,
+                                        "awayTeam": away_team,
+                                        "matchTime": game_time,
+                                        "prediction": "Win",
+                                        "confidence": confidence,
+                                        "odds": round(100 / confidence, 2) if confidence > 0 else 0,
+                                        "league": "Soccer",
+                                        "sport": "Soccer",
+                                        "source": "MyBetsToday",
+                                        "url": href
+                                    })
+            
+            return predictions
+            
+        except Exception as e:
+            print(f"Error fetching MyBetsToday predictions: {e}")
+            return []
+
+
+def create_sports_api_service() -> SportsAPIService:
+    """Factory function to create SportsAPIService with environment variables"""
+    import os
+    return SportsAPIService(
+        rapidapi_key=os.getenv("RAPIDAPI_KEY"),
+        odds_api_key=os.getenv("ODDS_API_KEY"),
+        football_data_api_key=os.getenv("FOOTBALL_DATA_API_KEY")
+    )
+
+
+# Additional helper methods for StatArea and FlashScore
+def fetch_statarea_predictions(
+    service: SportsAPIService,
+    min_odds: float = 1.5,
+    max_odds: Optional[float] = None,
+    prediction_type: Optional[str] = None
+) -> List[Dict[str, Any]]:
+    """
+    Fetch StatArea predictions with filtering
+    Note: This is a placeholder - actual implementation requires web scraping
+    """
+    return []
+
+
+def fetch_flashscore_over45(
+    service: SportsAPIService,
+    exclude_african: bool = True,
+    min_odds: float = 1.5,
+    max_odds: Optional[float] = None
+) -> List[Dict[str, Any]]:
+    """
+    Fetch FlashScore Over 4.5 goals predictions
+    Note: This is a placeholder - actual implementation requires web scraping
+    """
+    return []
