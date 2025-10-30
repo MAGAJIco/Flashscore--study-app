@@ -72,7 +72,7 @@ export default function LiverpoolNotifications() {
         </div>
       )}
 
-      {/* Floating Notification Bell */}
+      {/* Floating Notification Bell - Hidden on Mobile */}
       <div
         className="liverpool-bell"
         onClick={() => setShowNotifications(!showNotifications)}
@@ -165,6 +165,12 @@ export default function LiverpoolNotifications() {
           box-shadow: 0 4px 16px rgba(200, 16, 46, 0.4);
           transition: all 0.3s ease;
           z-index: 1500;
+        }
+
+        @media (max-width: 768px) {
+          .liverpool-bell {
+            display: none;
+          }
         }
 
         .liverpool-bell:hover {
