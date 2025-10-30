@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+// Using native fetch (Node 18+)
 
 interface SportsAPIConfig {
 rapidApiKey?: string;

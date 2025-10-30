@@ -132,6 +132,34 @@ export default function Page() {
               Just you and your AI. Tell us which games you want to bet on, and we'll help you build your perfect bet slip.
               No more missed opportunities while browsing endless live feeds.
             </p>
+            {/* Predictions Button */}
+            <div style={{ marginTop: '20px', textAlign: 'center' }}>
+              <a 
+                href="/en/predictions/filtered" 
+                style={{
+                  display: 'inline-block',
+                  padding: '15px 30px',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+                }}
+              >
+                🎯 View AI Predictions & Live Matches
+              </a>
+            </div>
           </div>
         </section>
 
