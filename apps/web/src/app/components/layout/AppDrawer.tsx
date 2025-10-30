@@ -17,7 +17,7 @@ const apps = [
   { icon: '🎮', name: 'Kids Mode', route: '/en/kids' },
   { icon: '🏆', name: 'Rewards', route: '/en/achievements' },
   { icon: '📊', name: 'Analytics', route: '/en/analytics' },
-  { icon: '💬', name: 'Chat', route: '/en/social/chat' },
+  { icon: '💬', name: 'Chat', route: '/en/chats' },
   { icon: '🎯', name: 'Challenges', route: '/en/challenges' },
 ];
 
