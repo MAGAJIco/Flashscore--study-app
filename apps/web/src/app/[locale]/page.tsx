@@ -2,6 +2,8 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import MagajicoCEO from "@/components/MagajicoCEO";
+import LiverpoolNotifications from "@/components/LiverpoolNotifications";
 
 export default function Page() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -106,9 +108,25 @@ export default function Page() {
 
       <main className="container">
         <header>
-          <h1>🏗️ Sports Central</h1>
-          <p>Feature-Based Architecture Documentation</p>
+          <h1>🎯 Magajico</h1>
+          <p>Your AI-Powered Betting Assistant</p>
         </header>
+
+        {/* Liverpool Notifications */}
+        <LiverpoolNotifications />
+
+        {/* Main Feature: AI CEO Manager */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <h2 className="hero-title">Meet Your Personal AI Manager</h2>
+            <p className="hero-description">
+              Just you and your AI. Tell us which games you want to bet on, and we'll help you build your perfect bet slip.
+              No more missed opportunities while browsing endless live feeds.
+            </p>
+          </div>
+        </section>
+
+        <MagajicoCEO />
 
         <section className="carousel-section" aria-label="Live matches">
           <div className="carousel-header">
@@ -582,6 +600,34 @@ export default function Page() {
 
         header p {
           font-size: 1.2rem;
+          opacity: 0.95;
+        }
+
+        .hero-section {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 15px;
+          padding: 40px;
+          margin-bottom: 30px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          animation: fadeInUp 0.8s ease;
+          text-align: center;
+          color: white;
+        }
+
+        .hero-content {
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+          margin-bottom: 16px;
+          font-weight: 700;
+        }
+
+        .hero-description {
+          font-size: 1.1rem;
+          line-height: 1.6;
           opacity: 0.95;
         }
 
