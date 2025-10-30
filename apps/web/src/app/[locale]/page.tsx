@@ -1,3 +1,4 @@
+
 // apps/web/src/app/[locale]/page.tsx
 "use client";
 
@@ -24,6 +25,7 @@ import {
 
 export default function Page() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [showAIChat, setShowAIChat] = useState(false);
   const liveRef = useRef<HTMLDivElement | null>(null);
 
   function toggleAppDrawer() {
@@ -50,7 +52,7 @@ export default function Page() {
               <span />
             </div>
           </div>
-          <div className="logo">🏗️ Sports Central</div>
+          <div className="logo">🎯 Magajico</div>
         </div>
 
         <div className="navbar-right">
@@ -79,7 +81,7 @@ export default function Page() {
             style={{ background: "#667eea", color: "white", fontWeight: "bold" }}
             title="Profile"
           >
-            SC
+            MJ
           </div>
         </div>
       </nav>
@@ -92,25 +94,30 @@ export default function Page() {
 
       {/* App Drawer */}
       <aside className={`app-drawer ${drawerOpen ? "active" : ""}`} aria-hidden={!drawerOpen}>
-        <div className="app-drawer-header">Sports Central Apps</div>
+        <div className="app-drawer-header">Magajico Apps</div>
         <div className="app-grid">
           {[
-            { icon: PortalIcon, name: "Portal" },
-            { icon: PredictionsIcon, name: "Predictions" },
-            { icon: LiveIcon, name: "Live" },
-            { icon: SocialIcon, name: "Social" },
-            { icon: KidsIcon, name: "Kids Mode" },
-            { icon: RewardsIcon, name: "Rewards" },
-            { icon: AnalyticsIcon, name: "Analytics" },
-            { icon: ChatIcon, name: "Chat" },
-            { icon: ChallengesIcon, name: "Challenges" },
-          ].map(({ icon: Icon, name }) => (
-            <div className="app-item spring-animate" key={name}>
+            { icon: PortalIcon, name: "Portal", route: "/en" },
+            { icon: PredictionsIcon, name: "Predictions", route: "/en/predictions" },
+            { icon: LiveIcon, name: "Live", route: "/en/live" },
+            { icon: SocialIcon, name: "Social", route: "/en/social/feed" },
+            { icon: KidsIcon, name: "Kids Mode", route: "/en/kids" },
+            { icon: RewardsIcon, name: "Rewards", route: "/en/achievements" },
+            { icon: AnalyticsIcon, name: "Analytics", route: "/en/analytics" },
+            { icon: ChatIcon, name: "Chat", route: "/en/chats" },
+            { icon: ChallengesIcon, name: "Challenges", route: "/en/challenges" },
+          ].map(({ icon: Icon, name, route }) => (
+            <a 
+              href={route}
+              className="app-item spring-animate" 
+              key={name}
+              onClick={toggleAppDrawer}
+            >
               <div className="icon-container">
                 <Icon size={24} />
               </div>
               <div className="app-name">{name}</div>
-            </div>
+            </a>
           ))}
         </div>
       </aside>
@@ -278,7 +285,7 @@ export default function Page() {
         <footer className="professional-footer">
           <div className="footer-content">
             <div className="footer-section">
-              <h4 className="footer-heading">Sports Central</h4>
+              <h4 className="footer-heading">Magajico</h4>
               <p className="footer-description">AI-powered sports predictions and analytics platform</p>
               <div className="footer-social">
                 <a href="#" className="social-link" aria-label="Twitter">𝕏</a>
@@ -320,10 +327,50 @@ export default function Page() {
           </div>
           
           <div className="footer-bottom">
-            <p className="footer-copyright">© 2025 Sports Central. All rights reserved.</p>
+            <p className="footer-copyright">© 2025 Magajico. All rights reserved.</p>
             <p className="footer-tagline">Built with 💜 by the MagajiCo Team</p>
           </div>
         </footer>
+
+        {/* Mobile Bottom Navigation with AI Chat */}
+        <div className="mobile-bottom-nav">
+          <a href="/en" className="nav-item">
+            <PortalIcon size={24} />
+            <span>Home</span>
+          </a>
+          <a href="/en/predictions" className="nav-item">
+            <PredictionsIcon size={24} />
+            <span>Predictions</span>
+          </a>
+          <button 
+            onClick={() => setShowAIChat(!showAIChat)}
+            className="nav-item ai-chat-btn"
+          >
+            <ChatIcon size={24} />
+            <span>AI Chat</span>
+          </button>
+          <a href="/en/live" className="nav-item">
+            <LiveIcon size={24} />
+            <span>Live</span>
+          </a>
+          <a href="/en/social/feed" className="nav-item">
+            <SocialIcon size={24} />
+            <span>Social</span>
+          </a>
+        </div>
+
+        {/* AI Chat Modal for Mobile */}
+        {showAIChat && (
+          <div className="mobile-ai-chat-modal">
+            <div className="ai-chat-header">
+              <h3>🤖 AI Manager</h3>
+              <button onClick={() => setShowAIChat(false)}>✕</button>
+            </div>
+            <div className="ai-chat-content">
+              <MagajicoCEO />
+            </div>
+          </div>
+        )}
 
         <Magajico />
       </main>
@@ -515,7 +562,7 @@ export default function Page() {
           background: #f1f3f4;
         }
 
-        .app-icon {
+        .app-icon, .icon-container {
           width: 48px;
           height: 48px;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -538,6 +585,113 @@ export default function Page() {
           max-width: 1400px;
           margin: 0 auto;
           padding: 20px;
+          padding-bottom: 100px;
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-bottom-nav {
+          display: none;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(0, 0, 0, 0.1);
+          padding: 8px 0;
+          z-index: 1000;
+          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-bottom-nav .nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          flex: 1;
+          padding: 8px;
+          text-decoration: none;
+          color: #5f6368;
+          font-size: 0.7rem;
+          transition: all 0.2s ease;
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
+
+        .mobile-bottom-nav .nav-item:hover,
+        .mobile-bottom-nav .nav-item:active {
+          color: #667eea;
+          background: rgba(102, 126, 234, 0.1);
+        }
+
+        .mobile-bottom-nav .ai-chat-btn {
+          color: #667eea;
+          font-weight: 600;
+        }
+
+        /* Mobile AI Chat Modal */
+        .mobile-ai-chat-modal {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          top: 20%;
+          background: white;
+          border-radius: 24px 24px 0 0;
+          box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+          z-index: 2000;
+          display: flex;
+          flex-direction: column;
+          animation: slideUp 0.3s ease;
+        }
+
+        .ai-chat-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px;
+          border-bottom: 1px solid #e8eaed;
+        }
+
+        .ai-chat-header h3 {
+          font-size: 1.3rem;
+          color: #333;
+        }
+
+        .ai-chat-header button {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #f1f3f4;
+          border: none;
+          font-size: 1.2rem;
+          cursor: pointer;
+        }
+
+        .ai-chat-content {
+          flex: 1;
+          overflow-y: auto;
+          padding: 20px;
+        }
+
+        @keyframes slideUp {
+          from {
+            transform: translateY(100%);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .mobile-bottom-nav {
+            display: flex;
+          }
+          
+          .container {
+            padding-bottom: 80px;
+          }
         }
 
         .carousel-section {

@@ -12,7 +12,7 @@ interface AppDrawerProps {
 const apps = [
   { icon: '👑', name: 'Empire', route: '/en' },
   { icon: '🤖', name: 'Predictions', route: '/en/predictions' },
-  { icon: '⚡', name: 'Live', route: '/en/matches' },
+  { icon: '⚡', name: 'Live', route: '/en/live' },
   { icon: '👥', name: 'Social', route: '/en/social/feed' },
   { icon: '🎮', name: 'Kids Mode', route: '/en/kids' },
   { icon: '🏆', name: 'Rewards', route: '/en/achievements' },
@@ -37,7 +37,7 @@ export function AppDrawer({ isOpen, onClose }: AppDrawerProps) {
         }`}
       >
         <div className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-5 pb-4 border-b border-gray-200 dark:border-gray-700">
-          Sports Central Apps
+          Magajico Apps
         </div>
         <div className="grid grid-cols-3 gap-4">
           {apps.map((app, index) => (

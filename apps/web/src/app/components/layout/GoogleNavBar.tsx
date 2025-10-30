@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -28,12 +29,12 @@ export function GoogleNavBar() {
               <span className="w-5 h-0.5 bg-gray-600 dark:bg-gray-300 rounded transition-all"></span>
             </div>
           </button>
-          <button 
-            onClick={() => setIsDrawerOpen(true)}
+          <Link
+            href="/en"
             className="text-2xl font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
           >
-            🏗️ Sports Central
-          </button>
+            🎯 Magajico
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">
@@ -62,9 +63,10 @@ export function GoogleNavBar() {
           <div className="relative">
             <button 
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center font-bold hover:shadow-lg transition-all hover:scale-110 active:scale-95"
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center font-bold hover:shadow-lg transition-all hover:scale-110 active:scale-95 ring-2 ring-indigo-400 ring-offset-2"
+              title="Your Profile"
             >
-              SC
+              MJ
             </button>
             {isProfileOpen && <UserProfileDropdown onClose={() => setIsProfileOpen(false)} />}
           </div>
