@@ -1,8 +1,6 @@
 
 # Ignore backend and ML service
-apps/backend/**
-!apps/backend/package.json
-
+apps/api/**
 # Ignore docs and other non-frontend files
 docs/**
 browser-extension/**
