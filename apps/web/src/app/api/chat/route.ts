@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
 
 // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
 
 export async function POST(request: NextRequest) {
   try {
     const { messages, gamesLibrary } = await request.json();
+    
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json(
+        { error: "OpenAI API key not configured" },
+        { status: 503 }
+      );
+    }
+
+    // Dynamic import to avoid build errors when package isn't installed
+    const OpenAI = (await import("openai")).default;
     
     // Initialize OpenAI client only when the route is called
     const openai = new OpenAI({ 
