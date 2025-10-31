@@ -12,7 +12,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const locale = (await requestLocale) || "en";
   const validLocale = locales.includes(locale as Locale) ? locale : "en";
 
-  const messages = (await import(`./shared/libs/messages/${validLocale}.json`))
+  const messages = (await import(`@shared/libs/messages/${validLocale}.json`))
     .default;
 
   return {
