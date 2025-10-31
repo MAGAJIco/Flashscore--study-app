@@ -26,27 +26,16 @@ export async function GET() {
   } catch (error) {
     console.error('Error fetching live matches:', error);
     
-    // Fallback to mock data
+    // Return empty data instead of fallback - no static data
     return NextResponse.json({
-      success: true,
-      data: [
-        {
-          id: '1',
-          homeTeam: 'Arsenal',
-          awayTeam: 'Chelsea',
-          homeScore: 2,
-          awayScore: 1,
-          status: 'live',
-          league: 'Premier League',
-          time: '67\'',
-          date: new Date().toISOString()
-        }
-      ],
-      count: 1,
-      isOffline: true
+      success: false,
+      data: [],
+      count: 0,
+      error: 'Failed to fetch live matches from backend'
     }, {
+      status: 503,
       headers: {
-        'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=30'
+        'Cache-Control': 'no-store'
       }
     });
   }
