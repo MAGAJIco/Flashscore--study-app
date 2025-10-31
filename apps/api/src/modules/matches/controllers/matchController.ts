@@ -56,8 +56,12 @@ export const matchController = {
   async getUpcomingMatches(req: FastifyRequest<{ Querystring: MatchQuery }>, res: FastifyReply) {
     try {
       const limit = parseInt(req.query.limit || '10');
+      const twoHoursFromNow = new Date(Date.now() + 2 * 60 * 60 * 1000);
+      
+      // Upcoming matches are those that are more than 2 hours away
+      // (matches within 2 hours appear in the live section)
       const matches = await Match.find({
-        date: { $gte: new Date() },
+        date: { $gt: twoHoursFromNow },
         status: { $in: ['scheduled', 'upcoming'] }
       }).sort({ date: 1 }).limit(limit);
       

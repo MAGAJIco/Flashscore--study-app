@@ -8,9 +8,9 @@
     }
   ],
   "installCommand": "npm install",
-  "buildCommand": "npm run build --workspace=packages/shared && npm run build --workspace=apps/web",
+  "buildCommand": "cd apps/web && npm run build",
   "devCommand": "npm run dev --workspace=apps/web",
   "framework": null,
   "outputDirectory": "apps/web/.next",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./apps/web ./packages/shared"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./apps/web ./packages/shared ./messages"
 }
