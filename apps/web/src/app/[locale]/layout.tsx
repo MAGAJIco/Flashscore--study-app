@@ -5,7 +5,12 @@ import { notFound } from 'next/navigation';
 import { MobileAppLauncher } from '../components/MobileAppLauncher'; // Added MobileAppLauncher import
 
 export function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'es' }];
+  return [
+    { locale: 'en' }, 
+    { locale: 'es' }, 
+    { locale: 'fr' }, 
+    { locale: 'de' }
+  ];
 }
 
 type LocaleLayoutProps = {

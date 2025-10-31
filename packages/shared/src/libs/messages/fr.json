@@ -1,0 +1,54 @@
+
+{
+  "home": {
+    "welcome": "Bienvenue sur Sports Central",
+    "tagline": "Prédictions et Analyses Sportives avec IA"
+  },
+  "common": {
+    "back": "Retour",
+    "next": "Suivant",
+    "home": "Accueil",
+    "profile": "Profil",
+    "predictions": "Prédictions",
+    "authors": "Auteurs",
+    "social": "Social",
+    "liveStreams": "Diffusions en Direct",
+    "quickBets": "Paris Rapides",
+    "sync": "Synchroniser",
+    "empireBuilder": "Constructeur d'Empire",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "retry": "Réessayer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "create": "Créer",
+    "update": "Mettre à jour",
+    "remove": "Retirer",
+    "details": "Détails",
+    "matches": "Matchs",
+    "news": "Actualités",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "login": "Connexion",
+    "signup": "S'inscrire",
+    "success": "Succès",
+    "empire": "Empire",
+    "account": "Compte",
+    "dashboard": "Tableau de bord",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "news": {
+    "latest": "Dernières Nouvelles",
+    "trending": "Tendances",
+    "categories": "Catégories"
+  },
+  "empire": {
+    "title": "Empire Sports Central",
+    "description": "Gérez votre empire sportif"
+  }
+}

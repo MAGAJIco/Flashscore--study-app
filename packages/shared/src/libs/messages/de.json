@@ -1,0 +1,54 @@
+
+{
+  "home": {
+    "welcome": "Willkommen bei Sports Central",
+    "tagline": "KI-gestützte Sportvorhersagen und Analysen"
+  },
+  "common": {
+    "back": "Zurück",
+    "next": "Weiter",
+    "home": "Startseite",
+    "profile": "Profil",
+    "predictions": "Vorhersagen",
+    "authors": "Autoren",
+    "social": "Sozial",
+    "liveStreams": "Live-Streams",
+    "quickBets": "Schnellwetten",
+    "sync": "Synchronisieren",
+    "empireBuilder": "Empire Builder",
+    "loading": "Wird geladen...",
+    "error": "Fehler",
+    "retry": "Wiederholen",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Ansehen",
+    "create": "Erstellen",
+    "update": "Aktualisieren",
+    "remove": "Entfernen",
+    "details": "Details",
+    "matches": "Spiele",
+    "news": "Nachrichten",
+    "settings": "Einstellungen",
+    "logout": "Abmelden",
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "success": "Erfolg",
+    "empire": "Imperium",
+    "account": "Konto",
+    "dashboard": "Dashboard",
+    "about": "Über",
+    "contact": "Kontakt"
+  },
+  "news": {
+    "latest": "Neueste Nachrichten",
+    "trending": "Im Trend",
+    "categories": "Kategorien"
+  },
+  "empire": {
+    "title": "Sports Central Imperium",
+    "description": "Verwalten Sie Ihr Sport-Imperium"
+  }
+}

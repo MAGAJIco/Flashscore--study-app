@@ -5,6 +5,8 @@
     "tagline": "Predicciones y Análisis Deportivos con IA"
   },
   "common": {
+    "back": "Atrás",
+    "next": "Siguiente",
     "home": "Inicio",
     "profile": "Perfil",
     "predictions": "Predicciones",
@@ -22,6 +24,11 @@
     "save": "Guardar",
     "delete": "Eliminar",
     "edit": "Editar",
+    "view": "Ver",
+    "create": "Crear",
+    "update": "Actualizar",
+    "remove": "Eliminar",
+    "details": "Detalles",
     "matches": "Partidos",
     "news": "Noticias",
     "settings": "Configuración",
@@ -29,7 +36,11 @@
     "login": "Iniciar sesión",
     "signup": "Registrarse",
     "success": "Éxito",
-    "empire": "Imperio"
+    "empire": "Imperio",
+    "account": "Cuenta",
+    "dashboard": "Panel",
+    "about": "Acerca de",
+    "contact": "Contacto"
   },
   "header": {
     "title": "SPORTS CENTRAL",
@@ -58,12 +69,17 @@
   },
   "empire": {
     "title": "Constructor de Imperio Sports Central",
-    "description": "Construye tu imperio desde los cimientos hasta la azotea legendaria",
+    "description": "Construye tu imperio deportivo desde los cimientos hasta la azotea legendaria",
     "startBuilding": "Comenzar a Construir",
     "viewGrowth": "Ver Crecimiento",
     "foundation": "Fundación",
     "growth": "Crecimiento",
     "rooftop": "Azotea"
+  },
+  "news": {
+    "latest": "Últimas Noticias",
+    "trending": "Tendencias",
+    "categories": "Categorías"
   },
   "settings": {
     "language": "Idioma",
@@ -100,5 +116,60 @@
     "community": "Comunidad",
     "challenges": "Desafíos",
     "leaderboard": "Tabla de clasificación"
+  },
+  "matches": {
+    "live": "En Vivo",
+    "upcoming": "Próximos",
+    "finished": "Finalizados",
+    "score": "Marcador",
+    "time": "Tiempo",
+    "league": "Liga",
+    "team": "Equipo",
+    "details": "Detalles del Partido"
+  },
+  "ai": {
+    "assistant": "Asistente IA",
+    "chat": "Chat IA",
+    "manager": "Gerente IA",
+    "analysis": "Análisis IA",
+    "predictions": "Predicciones IA",
+    "askQuestion": "Hacer una pregunta",
+    "processing": "Procesando..."
+  },
+  "rewards": {
+    "title": "Recompensas",
+    "achievements": "Logros",
+    "points": "Puntos",
+    "unlock": "Desbloquear",
+    "earned": "Ganado",
+    "progress": "Progreso"
+  },
+  "kids": {
+    "mode": "Modo Niños",
+    "safeContent": "Contenido Seguro",
+    "educational": "Educativo",
+    "parentalControls": "Control Parental",
+    "ageAppropriate": "Apropiado para la Edad"
+  },
+  "wallet": {
+    "balance": "Saldo",
+    "transactions": "Transacciones",
+    "earn": "Ganar",
+    "spend": "Gastar",
+    "history": "Historial",
+    "piCoins": "Monedas Pi"
+  },
+  "notifications": {
+    "new": "Nueva Notificación",
+    "markRead": "Marcar como Leído",
+    "viewAll": "Ver Todas",
+    "noNotifications": "Sin Notificaciones"
+  },
+  "errors": {
+    "general": "Algo salió mal",
+    "network": "Error de red",
+    "notFound": "No encontrado",
+    "unauthorized": "No autorizado",
+    "tryAgain": "Intentar de nuevo"
   }
 }
