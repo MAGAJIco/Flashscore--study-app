@@ -1,8 +1,5 @@
 # ========================================================
 # 🧱 VERCEL DEPLOY CONFIG FOR MONOREPO (Render + Vercel)
-# Frontend: apps/web
-# Shared code: packages/shared
-# Backend + ML: hosted separately on Render
 # ========================================================
 
 # Ignore everything by default
@@ -17,25 +14,15 @@
 # ========================================================
 # 🚫 Exclude specific unwanted parts
 # ========================================================
-
-# Backend (Render)
 apps/api/**
-
-# Machine Learning service (Render)
 apps/ml/**
-
-# Documentation and extras
 docs/**
 browser-extension/**
 play-store/**
 recyclebin/**
-
-# Test files
 **/*.test.ts
 **/*.test.tsx
 **/__tests__/**
-
-# Development and local-only files
 .replit
 replit.md
 .env.local
