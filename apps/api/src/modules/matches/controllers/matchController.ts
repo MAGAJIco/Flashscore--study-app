@@ -34,9 +34,17 @@ export const matchController = {
 
   async getLiveMatches(req: FastifyRequest, res: FastifyReply) {
     try {
+      const twoHoursFromNow = new Date(Date.now() + 2 * 60 * 60 * 1000);
+      
       const matches = await Match.find({
-        status: { $in: ['live', 'in_progress', '1H', '2H'] }
-      }).sort({ date: -1 }).limit(50);
+        $or: [
+          { status: { $in: ['live', 'in_progress', '1H', '2H'] } },
+          { 
+            status: 'scheduled',
+            date: { $lte: twoHoursFromNow, $gte: new Date() }
+          }
+        ]
+      }).sort({ date: 1 }).limit(50);
       
       res.send({ success: true, data: matches, count: matches.length });
     } catch (error) {

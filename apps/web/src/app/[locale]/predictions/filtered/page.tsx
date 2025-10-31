@@ -274,8 +274,7 @@ export default function FilteredPredictionsPage() {
                       </div>
                     </div>
                   ))}
-                </div>
-              )}
+              </div>
             </div>
           ) : (
             <div>
@@ -283,15 +282,8 @@ export default function FilteredPredictionsPage() {
                 🏆 Live Matches ({matches.length})
               </h2>
               
-              {matches.length === 0 ? (
-                <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-                  <div className="text-6xl mb-4">⚽</div>
-                  <p className="text-xl font-semibold">No live matches found</p>
-                  <p className="mt-2">Check back when games are in progress</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {matches.map((match) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {matches.map((match) => (
                     <div
                       key={match.id}
                       className="bg-gradient-to-br from-blue-50 to-teal-50 dark:from-blue-900/20 dark:to-teal-900/20 rounded-xl p-6 border-2 border-transparent hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-200 hover:shadow-lg"

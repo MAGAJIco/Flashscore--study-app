@@ -257,12 +257,6 @@ export function LiveCarousel() {
         <div className="flex items-center justify-center py-12">
           <div className="text-white text-xl">Loading live matches...</div>
         </div>
-      ) : matches.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-          <div className="text-6xl mb-4">⚽</div>
-          <div className="text-white text-xl font-semibold mb-2">No Live Matches</div>
-          <div className="text-gray-300">Check back when games are in progress</div>
-        </div>
       ) : (
         <div
           ref={carouselRef}
