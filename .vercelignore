@@ -5,7 +5,6 @@ apps/backend/**
 
 # Ignore docs and other non-frontend files
 docs/**
-android/**
 browser-extension/**
 play-store/**
 recyclebin/**
@@ -21,5 +20,3 @@ replit.md
 .env.local
 .env.development
 
-# Keep shared package for build
-!packages/shared/**
