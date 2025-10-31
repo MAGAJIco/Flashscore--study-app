@@ -28,27 +28,8 @@ interface Match {
   watching?: string; // Added for potential API data
 }
 
-// Fallback data for matches
-const FALLBACK_MATCHES: Match[] = [
-  {
-    id: 1,
-    homeTeam: "Sample Team A",
-    awayTeam: "Sample Team B",
-    homeScore: 2,
-    awayScore: 1,
-    status: "Live",
-    time: "45'",
-    venue: "Demo Stadium",
-    competition: "Demo League",
-    sentiment: {
-      mood: 'excited',
-      intensity: 85,
-      trendingHashtags: ['#SampleA', '#SampleB'],
-      emotionBreakdown: { positive: 60, negative: 20, neutral: 20 }
-    },
-    watching: '10K watching',
-  }
-];
+// No fallback data - only show actual live matches from API
+const FALLBACK_MATCHES: Match[] = [];
 
 const LIVE_MATCHES_DATA = [ // This original LIVE_MATCHES data is now effectively replaced by the API fetch and fallback logic.
   {
@@ -144,14 +125,13 @@ export function LiveCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [showSentiment, setShowSentiment] = useState(true);
   const [animatingCards, setAnimatingCards] = useState<Set<number>>(new Set());
-  const [matches, setMatches] = useState<Match[]>(FALLBACK_MATCHES); // Initialize with fallback data
-  const [loading, setLoading] = useState(false); // Set initial loading state to false as we'll use fallback
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Try to fetch from API, but use fallback if it fails
+    // Fetch only live matches from API
     fetch('/api/matches/live', {
-      cache: 'force-cache', // Force cache for this fetch
-      next: { revalidate: 60 } // Revalidate cache every 60 seconds
+      cache: 'no-store'
     })
       .then(res => {
         if (!res.ok) {
@@ -160,22 +140,18 @@ export function LiveCarousel() {
         return res.json();
       })
       .then(data => {
-        // Only update if data is valid and contains matches
-        if (data?.data && data.data.length > 0) {
+        if (data?.data && Array.isArray(data.data)) {
           setMatches(data.data);
-          setLoading(false); // Ensure loading is false if data is fetched
         } else {
-          // If API returns empty data, fall back to cached/fallback data
-          setMatches(FALLBACK_MATCHES);
-          setLoading(false);
+          setMatches([]);
         }
+        setLoading(false);
       })
       .catch(() => {
-        // If fetch fails entirely, silently use fallback data
-        setMatches(FALLBACK_MATCHES);
-        setLoading(false); // Ensure loading is false on error
+        setMatches([]);
+        setLoading(false);
       });
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, []);
 
   // Simulate real-time sentiment updates - This part remains unchanged in functionality
   useEffect(() => {
@@ -277,12 +253,23 @@ export function LiveCarousel() {
         </div>
       </div>
 
-      <div
-        ref={carouselRef}
-        className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth py-2"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        {matches.map((match, index) => {
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="text-white text-xl">Loading live matches...</div>
+        </div>
+      ) : matches.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <div className="text-6xl mb-4">⚽</div>
+          <div className="text-white text-xl font-semibold mb-2">No Live Matches</div>
+          <div className="text-gray-300">Check back when games are in progress</div>
+        </div>
+      ) : (
+        <div
+          ref={carouselRef}
+          className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth py-2"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {matches.map((match, index) => {
           // Get display data, mapping API/fallback data to the component's needs
           const displayMatch = getMatchDisplayData(match);
           return (
@@ -391,7 +378,8 @@ export function LiveCarousel() {
             </div>
           );
         })}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
