@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--max-old-space-size=512' next dev -p 5000 -H 0.0.0.0 --no-turbopack",
+    "dev": "NODE_OPTIONS='--max-old-space-size=512' next dev -p 5000 -H 0.0.0.0",
     "build": "NODE_OPTIONS='--max-old-space-size=512' next build",
     "start": "next start -p 5000 -H 0.0.0.0",
     "lint": "next lint",
