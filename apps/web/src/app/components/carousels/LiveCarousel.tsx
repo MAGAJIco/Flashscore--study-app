@@ -2,6 +2,82 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 
+interface MatchDetailModalProps {
+  match: any;
+  onClose: () => void;
+}
+
+function MatchDetailModal({ match, onClose }: MatchDetailModalProps) {
+  const displayMatch = getMatchDisplayData(match);
+  
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={onClose}>
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 max-w-2xl w-full mx-4 border-2 border-white/20 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-3xl font-bold text-white">{displayMatch.title}</h2>
+          <button onClick={onClose} className="text-white/60 hover:text-white text-3xl transition-colors">×</button>
+        </div>
+        
+        <div className="space-y-6">
+          <div className="flex items-center justify-between p-6 bg-white/5 rounded-xl">
+            <div className="text-center flex-1">
+              <div className="text-6xl mb-2">{displayMatch.icon}</div>
+              <div className="text-2xl font-bold text-white">{match.homeTeam}</div>
+            </div>
+            <div className="text-center px-6">
+              <div className="text-5xl font-bold text-white">{displayMatch.score}</div>
+              <div className="text-sm text-gray-400 mt-2">{displayMatch.time}</div>
+            </div>
+            <div className="text-center flex-1">
+              <div className="text-6xl mb-2">{displayMatch.icon}</div>
+              <div className="text-2xl font-bold text-white">{match.awayTeam}</div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 bg-white/5 rounded-xl">
+              <div className="text-sm text-gray-400 mb-1">Venue</div>
+              <div className="text-lg font-semibold text-white">{displayMatch.venue}</div>
+            </div>
+            <div className="p-4 bg-white/5 rounded-xl">
+              <div className="text-sm text-gray-400 mb-1">Competition</div>
+              <div className="text-lg font-semibold text-white">{displayMatch.competition}</div>
+            </div>
+            <div className="p-4 bg-white/5 rounded-xl">
+              <div className="text-sm text-gray-400 mb-1">Watching</div>
+              <div className="text-lg font-semibold text-white">{displayMatch.watching}</div>
+            </div>
+            <div className="p-4 bg-white/5 rounded-xl">
+              <div className="text-sm text-gray-400 mb-1">Status</div>
+              <div className="text-lg font-semibold text-red-400">🔴 LIVE</div>
+            </div>
+          </div>
+
+          {match.sentiment && (
+            <div className="p-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl border border-purple-500/20">
+              <div className="text-sm font-bold text-white mb-3">🧠 Live Sentiment Analysis</div>
+              <div className="flex gap-2 h-3 rounded-full overflow-hidden mb-3">
+                <div className="bg-green-500" style={{ width: `${match.sentiment.emotionBreakdown.positive}%` }} title={`Positive: ${match.sentiment.emotionBreakdown.positive}%`}></div>
+                <div className="bg-gray-400" style={{ width: `${match.sentiment.emotionBreakdown.neutral}%` }} title={`Neutral: ${match.sentiment.emotionBreakdown.neutral}%`}></div>
+                <div className="bg-red-500" style={{ width: `${match.sentiment.emotionBreakdown.negative}%` }} title={`Negative: ${match.sentiment.emotionBreakdown.negative}%`}></div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {match.sentiment.trendingHashtags.map((tag: string, i: number) => (
+                  <span key={i} className="bg-blue-500/30 px-3 py-1 rounded-full text-xs text-white">{tag}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <button onClick={onClose} className="w-full py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white font-bold rounded-lg hover:from-red-600 hover:to-orange-600 transition-all">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface SentimentData {
   mood: 'excited' | 'tense' | 'disappointed' | 'jubilant' | 'anxious';
   intensity: number; // 0-100
@@ -127,6 +203,8 @@ export function LiveCarousel() {
   const [animatingCards, setAnimatingCards] = useState<Set<number>>(new Set());
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
+  const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
 
   useEffect(() => {
     // Fetch only live matches from API
@@ -153,10 +231,28 @@ export function LiveCarousel() {
       });
   }, []);
 
-  // Simulate real-time sentiment updates - This part remains unchanged in functionality
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (isHovering || matches.length === 0) return;
+
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+
+        if (scrollLeft >= scrollWidth - clientWidth - 10) {
+          carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          carouselRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+        }
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isHovering, matches]);
+
+  // Simulate real-time sentiment updates
   useEffect(() => {
     const interval = setInterval(() => {
-      // Use the length of the currently displayed `matches` for simulation, not `LIVE_MATCHES_DATA`
       if (matches.length > 0) {
         const randomIndex = Math.floor(Math.random() * matches.length);
         setAnimatingCards(prev => new Set(prev).add(randomIndex));
@@ -171,7 +267,7 @@ export function LiveCarousel() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [matches]); // Depend on `matches` to ensure randomIndex is within bounds
+  }, [matches]);
 
   const scroll = (direction: number) => {
     if (carouselRef.current) {
@@ -260,15 +356,17 @@ export function LiveCarousel() {
       ) : (
         <div
           ref={carouselRef}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
           className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth py-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {matches.map((match, index) => {
-          // Get display data, mapping API/fallback data to the component's needs
           const displayMatch = getMatchDisplayData(match);
           return (
             <div
-              key={index} // Using index as key is generally discouraged if items can be reordered/deleted. If `matches` array comes from an API with stable IDs, use `match.id` instead.
+              key={match.id || index}
+              onClick={() => setSelectedMatch(match)}
               className={`min-w-[320px] max-w-[320px] bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-5 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-transparent hover:border-red-500 relative group overflow-hidden ${
                 animatingCards.has(index) ? 'ring-4 ring-purple-500 ring-opacity-50' : ''
               }`}
@@ -373,6 +471,13 @@ export function LiveCarousel() {
           );
         })}
         </div>
+      )}
+
+      {selectedMatch && (
+        <MatchDetailModal 
+          match={selectedMatch} 
+          onClose={() => setSelectedMatch(null)} 
+        />
       )}
     </div>
   );
