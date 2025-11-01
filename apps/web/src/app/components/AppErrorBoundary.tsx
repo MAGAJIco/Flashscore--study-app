@@ -25,10 +25,11 @@ export class AppErrorBoundary extends Component<Props, State> {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  async componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('Error caught by boundary:', error, errorInfo);
     this.props.onError?.(error, errorInfo);
     
+    // Log error to API
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
       fetch('/api/errors/log', {
         method: 'POST',
@@ -43,6 +44,19 @@ export class AppErrorBoundary extends Component<Props, State> {
     }
     
     this.setState({ errorInfo });
+
+    // Attempt automatic recovery
+    if (typeof window !== 'undefined') {
+      const { errorRecoveryService } = await import('@/lib/services/errorRecoveryService');
+      const recovered = await errorRecoveryService.attemptRecovery(error);
+      
+      if (recovered) {
+        // If recovery successful, reset error state after a brief delay
+        setTimeout(() => {
+          this.setState({ hasError: false, error: undefined, errorInfo: undefined });
+        }, 1000);
+      }
+    }
   }
 
   render() {
