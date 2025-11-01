@@ -1,6 +1,6 @@
 
 import createMiddleware from 'next-intl/middleware';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const handleI18nRouting = createMiddleware({
   locales: ['en', 'es', 'fr', 'de'],
@@ -12,9 +12,14 @@ const handleI18nRouting = createMiddleware({
 export default function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
+  // Redirect root to default locale
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/en', request.url));
+  }
+  
   // Skip i18n for empire routes (handled by locale structure)
   if (pathname.startsWith('/empire')) {
-    return;
+    return NextResponse.next();
   }
   
   const response = handleI18nRouting(request);

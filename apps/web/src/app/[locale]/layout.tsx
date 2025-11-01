@@ -23,6 +23,12 @@ export async function generateStaticParams() {
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
   
+  // Validate locale
+  const validLocales = ['en', 'es', 'fr', 'de'];
+  if (!validLocales.includes(locale)) {
+    notFound();
+  }
+  
   let messages;
   try {
     messages = await getMessages();
