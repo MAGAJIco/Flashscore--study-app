@@ -18,32 +18,13 @@ const nextConfig = {
     NEXT_PUBLIC_ML_URL: process.env.NEXT_PUBLIC_ML_URL,
   },
 
-  allowedDevOrigins: [
-    process.env.REPLIT_DEV_DOMAIN,
-    '127.0.0.1',
-    'localhost',
-    'your-api.onrender.com',
-    'your-ml.onrender.com'
-  ].filter(Boolean).map(origin => {
-    if (origin && !origin.includes('://')) {
-      return `https://${origin}`;
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['*.vercel.app', 'localhost:5000']
     }
-    return origin;
-  }),
-
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-cache, no-store, must-revalidate',
-          },
-        ],
-      },
-    ];
   },
+
+  
 };
 
 module.exports = {

@@ -1,12 +1,17 @@
+
+import { ReactNode } from 'react';
+import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { KidsModeProvider } from '../context/KidsModeContext';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { AppErrorBoundary } from '@/app/components/AppErrorBoundary';
-import { MobileAppLauncher } from '../components/MobileAppLauncher'; // Added MobileAppLauncher import
+import { GoogleNavBar } from '../components/layout/GoogleNavBar';
+import '../globals.css';
 
-export function generateStaticParams() {
+type Props = {
+  children: ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateStaticParams() {
   return [
     { locale: 'en' },
     { locale: 'es' },
@@ -15,16 +20,9 @@ export function generateStaticParams() {
   ];
 }
 
-type LocaleLayoutProps = {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-};
-
-export default async function LocaleLayout({
-  children,
-  params
-}: LocaleLayoutProps) {
+export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
+  
   let messages;
   try {
     messages = await getMessages();
@@ -33,17 +31,13 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale}>
-      <body>
+    <html lang={locale} suppressHydrationWarning>
+      <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
-          <KidsModeProvider>
-            <AppErrorBoundary>
-              <Suspense fallback={null}>
-                {children}
-              </Suspense>
-            </AppErrorBoundary>
-            <MobileAppLauncher /> {/* Included MobileAppLauncher */}
-          </KidsModeProvider>
+          <GoogleNavBar />
+          <main className="pt-16">
+            {children}
+          </main>
         </NextIntlClientProvider>
       </body>
     </html>

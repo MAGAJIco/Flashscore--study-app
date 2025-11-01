@@ -1,15 +1,14 @@
 
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "apps/web/package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "installCommand": "npm install",
-  "buildCommand": "cd apps/web && npm run build",
+  "buildCommand": "npm run build --workspace=apps/web",
   "devCommand": "npm run dev --workspace=apps/web",
+  "installCommand": "npm install",
   "framework": null,
-  "outputDirectory": "apps/web/.next"
+  "outputDirectory": "apps/web/.next",
+  "rewrites": [
+    {
+      "source": "/:locale(en|es|fr|de)/:path*",
+      "destination": "/:locale/:path*"
+    }
+  ]
 }
