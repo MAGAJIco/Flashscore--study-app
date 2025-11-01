@@ -2,10 +2,11 @@
 // apps/web/src/app/[locale]/page.tsx
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import MagajicoCEO from "@/components/MagajicoCEO";
 import LiverpoolNotifications from "@/components/LiverpoolNotifications";
 import { Magajico } from "@/app/components/Magajico";
+import { liveDataApi, type LiveMatch } from "@/lib/api/liveData";
 
 import {
   PortalIcon,
@@ -26,7 +27,64 @@ import {
 export default function Page() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showAIChat, setShowAIChat] = useState(false);
+  const [liveMatches, setLiveMatches] = useState<LiveMatch[]>([]);
+  const [upcomingMatches, setUpcomingMatches] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const liveRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const [live, upcoming] = await Promise.all([
+          fetch('/api/matches/live').then(r => r.json()),
+          fetch('/api/matches/upcoming').then(r => r.json())
+        ]);
+        
+        if (live.success && live.data) {
+          const liveStatuses = ['live', 'in_progress', '1H', '2H'];
+          const formattedLive = live.data.map((match: any) => {
+            const matchDate = new Date(match.date);
+            const now = new Date();
+            const twoHoursFromNow = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+            const isLive = liveStatuses.includes(match.status);
+            const isStartingSoon = !isLive && matchDate <= twoHoursFromNow && matchDate >= now;
+            
+            return {
+              id: match._id,
+              icon: match.competition?.includes('Premier') ? '⚽' :
+                    match.competition?.includes('NBA') ? '🏀' :
+                    match.competition?.includes('NFL') ? '🏈' : '⚽',
+              title: `${match.homeTeam} vs ${match.awayTeam}`,
+              description: match.competition || 'Live Match',
+              time: isLive ? 'LIVE' : isStartingSoon ? 'Starting Soon' : matchDate.toLocaleTimeString(),
+              score: match.score ? `${match.score.home}-${match.score.away}` : '—',
+              watching: `${Math.floor(Math.random() * 100 + 10)}K watching`,
+              homeTeam: match.homeTeam,
+              awayTeam: match.awayTeam,
+              status: match.status,
+              league: match.competition,
+              isLive,
+              isStartingSoon
+            };
+          });
+          setLiveMatches(formattedLive);
+        }
+        
+        if (upcoming.success && upcoming.data) {
+          setUpcomingMatches(upcoming.data);
+        }
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchData();
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   function toggleAppDrawer() {
     setDrawerOpen((s) => !s);
@@ -195,91 +253,81 @@ export default function Page() {
 
           <div className="carousel-wrapper">
             <div className="carousel-container" id="liveCarousel" ref={liveRef}>
-              {/* Cards */}
-              <article className="carousel-card">
-                <span className="card-badge">🔴 LIVE</span>
-                <div className="card-icon">⚽</div>
-                <div className="card-title">Man United vs Arsenal</div>
-                <div className="card-description">Premier League - Thrilling match at Old Trafford</div>
-                <div className="card-meta">
-                  <div className="card-meta-item">⏱️ 67'</div>
-                  <div className="card-meta-item">📊 2-1</div>
-                  <div className="card-meta-item">👥 73K watching</div>
+              {loading ? (
+                <div className="carousel-card" style={{ textAlign: 'center', padding: '40px' }}>
+                  <div style={{ fontSize: '24px' }}>⏳</div>
+                  <div>Loading matches...</div>
                 </div>
-              </article>
-
-              <article className="carousel-card">
-                <span className="card-badge news">LIVE</span>
-                <div className="card-icon">🏀</div>
-                <div className="card-title">Lakers vs Warriors</div>
-                <div className="card-description">NBA - Western Conference showdown</div>
-                <div className="card-meta">
-                  <div className="card-meta-item">⏱️ Q3 02:14</div>
-                  <div className="card-meta-item">📊 98-101</div>
-                  <div className="card-meta-item">👥 18K watching</div>
+              ) : liveMatches.length === 0 ? (
+                <div className="carousel-card" style={{ textAlign: 'center', padding: '40px' }}>
+                  <div style={{ fontSize: '24px' }}>📭</div>
+                  <div>No live matches at the moment</div>
+                  <div style={{ fontSize: '14px', marginTop: '10px', opacity: 0.7 }}>
+                    Check back soon for upcoming matches!
+                  </div>
                 </div>
-              </article>
-
-              <article className="carousel-card">
-                <div className="card-icon">🏈</div>
-                <div className="card-title">Dolphins vs Bills</div>
-                <div className="card-description">NFL - Divisional preview</div>
-                <div className="card-meta">
-                  <div className="card-meta-item">📅 Today</div>
-                  <div className="card-meta-item">📊  — </div>
-                  <div className="card-meta-item">👥 12K watching</div>
-                </div>
-              </article>
-
-              <article className="carousel-card">
-                <div className="card-icon">🎾</div>
-                <div className="card-title">Wimbledon Highlights</div>
-                <div className="card-description">Recap of yesterday's semi-finals</div>
-                <div className="card-meta">
-                  <div className="card-meta-item">⏱️ 2h ago</div>
-                  <div className="card-meta-item">📊 Recap</div>
-                </div>
-              </article>
+              ) : (
+                liveMatches.map((match) => (
+                  <article key={match.id} className="carousel-card">
+                    {match.isLive && (
+                      <span className="card-badge">🔴 LIVE</span>
+                    )}
+                    <div className="card-icon">{match.icon}</div>
+                    <div className="card-title">{match.title}</div>
+                    <div className="card-description">{match.description}</div>
+                    <div className="card-meta">
+                      <div className="card-meta-item">
+                        {match.isLive ? '⏱️ LIVE' : match.isStartingSoon ? '📅 Soon' : `🕐 ${match.time}`}
+                      </div>
+                      <div className="card-meta-item">📊 {match.score}</div>
+                      <div className="card-meta-item">👥 {match.watching}</div>
+                    </div>
+                  </article>
+                ))
+              )}
             </div>
           </div>
         </section>
 
         <section className="overview section">
-          <h2>Overview</h2>
+          <h2>📅 Upcoming Matches</h2>
           <p>
-            This is a demo single-page conversion from static HTML into a Next 16 app `page.tsx`.
-            It keeps the original styling and interactivity (app drawer + horizontal carousel).
+            Matches scheduled more than 2 hours from now
           </p>
 
-          <div className="apps-grid" style={{ marginTop: 20 }}>
-            <div className="app-card">
-              <h3>Portal</h3>
-              <ul>
-                <li>Home</li>
-                <li>Teams</li>
-                <li>Fixtures</li>
-                <li>Standings</li>
-              </ul>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <div style={{ fontSize: '24px' }}>⏳</div>
+              <div>Loading upcoming matches...</div>
             </div>
-
-            <div className="app-card">
-              <h3>Predictions</h3>
-              <ul>
-                <li>Machine learning models</li>
-                <li>Live odds</li>
-                <li>User tips</li>
-              </ul>
+          ) : upcomingMatches.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <div style={{ fontSize: '24px' }}>📭</div>
+              <div>No upcoming matches scheduled</div>
             </div>
-
-            <div className="app-card">
-              <h3>Live</h3>
-              <ul>
-                <li>Real-time score</li>
-                <li>Commentary</li>
-                <li>Streaming links</li>
-              </ul>
+          ) : (
+            <div className="apps-grid" style={{ marginTop: 20 }}>
+              {upcomingMatches.map((match) => (
+                <div key={match._id} className="app-card">
+                  <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>
+                    {match.competition || 'Match'}
+                  </h3>
+                  <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
+                    {match.homeTeam} vs {match.awayTeam}
+                  </div>
+                  <ul style={{ fontSize: '14px' }}>
+                    <li>📅 {new Date(match.date).toLocaleDateString()}</li>
+                    <li>⏰ {new Date(match.date).toLocaleTimeString()}</li>
+                    {match.odds && match.odds[0] && (
+                      <li>
+                        💰 Odds: {match.odds[0].home} / {match.odds[0].draw} / {match.odds[0].away}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              ))}
             </div>
-          </div>
+          )}
         </section>
 
         <footer className="professional-footer">
