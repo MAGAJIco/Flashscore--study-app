@@ -8,7 +8,7 @@ channel = "stable-25_05"
 packages = ["glibcLocales", "libxcrypt", "libyaml"]
 
 [workflows]
-runButton = "Next.js Frontend (Stable)"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -27,13 +27,13 @@ args = "Backend API"
 name = "Next.js Frontend"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd apps/web && npm run dev"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev:web"
+waitForPort = 5000
 
 [[workflows.workflow]]
 name = "Backend API"
@@ -74,16 +74,16 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 32885
-externalPort = 4200
-
-[[ports]]
 localPort = 35145
 externalPort = 3002
 
 [[ports]]
 localPort = 39085
 externalPort = 3003
+
+[[ports]]
+localPort = 42379
+externalPort = 4200
 
 [[ports]]
 localPort = 46221
