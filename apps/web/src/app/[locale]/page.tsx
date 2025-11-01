@@ -7,6 +7,10 @@ import MagajicoCEO from "@/components/MagajicoCEO";
 import LiverpoolNotifications from "@/components/LiverpoolNotifications";
 import { Magajico } from "@/app/components/Magajico";
 import { liveDataApi, type LiveMatch } from "@/lib/api/liveData";
+import { PredictionStreak } from "@/components/PredictionStreak";
+import { DailyPredictionLimit } from "@/components/DailyPredictionLimit";
+import { ConfidenceCalibration } from "@/components/ConfidenceCalibration";
+import { TeamFavorites } from "@/components/TeamFavorites";
 
 import {
   PortalIcon,
@@ -229,6 +233,17 @@ export default function Page() {
         </section>
 
         <MagajicoCEO />
+
+        {/* New Features Section */}
+        <section className="overview section">
+          <h2>🎯 Your Performance Dashboard</h2>
+          <div className="apps-grid">
+            <PredictionStreak userId="demo-user" />
+            <DailyPredictionLimit userId="demo-user" dailyLimit={10} />
+            <TeamFavorites userId="demo-user" />
+            <ConfidenceCalibration userId="demo-user" />
+          </div>
+        </section>
 
         <section className="carousel-section" aria-label="Live matches">
           <div className="carousel-header">

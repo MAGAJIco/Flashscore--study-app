@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Brain, TrendingUp, Target, Zap, AlertCircle, RefreshCw } from 'lucide-react';
+import { SharePrediction } from '@/components/SharePrediction';
 
 interface PredictionResult {
   prediction: string;
@@ -228,6 +229,13 @@ export default function PredictionsPage() {
                 </div>
               </div>
             </div>
+
+            <SharePrediction prediction={{
+              homeTeam,
+              awayTeam,
+              prediction: result.prediction,
+              confidence: result.confidence
+            }} />
           </div>
         )}
 
