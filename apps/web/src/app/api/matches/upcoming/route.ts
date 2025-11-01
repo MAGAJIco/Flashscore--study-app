@@ -23,20 +23,20 @@ export async function GET(request: Request) {
     
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120'
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600'
       }
     });
   } catch (error) {
-    console.error('Error fetching upcoming matches:', error);
+    console.error('Error proxying to backend API:', error);
     
     return NextResponse.json({
       success: true,
       data: [],
-      count: 0,
-      isOffline: true
+      count: 0
     }, {
+      status: 200,
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120'
+        'Cache-Control': 'public, s-maxage=60'
       }
     });
   }

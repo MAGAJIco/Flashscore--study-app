@@ -46,4 +46,13 @@ const nextConfig = {
   },
 };
 
-module.exports = withNextIntl(nextConfig);
+module.exports = {
+  ...nextConfig,
+  experimental: {
+    allowedDevOrigins: [
+      '*.replit.dev',
+      'localhost:5000',
+      '0.0.0.0:5000'
+    ]
+  }
+};
