@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useLocale } from 'next-intl';
 
 interface AppDrawerProps {
   isOpen: boolean;
@@ -10,18 +11,19 @@ interface AppDrawerProps {
 }
 
 const apps = [
-  { icon: '👑', name: 'Empire', route: '/en' },
-  { icon: '🤖', name: 'Predictions', route: '/en/predictions' },
-  { icon: '⚡', name: 'Live', route: '/en/live' },
-  { icon: '👥', name: 'Social', route: '/en/social/feed' },
-  { icon: '🎮', name: 'Kids Mode', route: '/en/kids' },
-  { icon: '🏆', name: 'Rewards', route: '/en/achievements' },
-  { icon: '📊', name: 'Analytics', route: '/en/analytics' },
-  { icon: '💬', name: 'Chat', route: '/en/chats' },
-  { icon: '🎯', name: 'Challenges', route: '/en/challenges' },
+  { icon: '👑', name: 'Empire', route: '' },
+  { icon: '🤖', name: 'Predictions', route: '/predictions' },
+  { icon: '⚡', name: 'Live', route: '/live' },
+  { icon: '👥', name: 'Social', route: '/social/feed' },
+  { icon: '🎮', name: 'Kids Mode', route: '/kids' },
+  { icon: '🏆', name: 'Rewards', route: '/achievements' },
+  { icon: '📊', name: 'Analytics', route: '/analytics' },
+  { icon: '💬', name: 'Chat', route: '/chats' },
+  { icon: '🎯', name: 'Challenges', route: '/challenges' },
 ];
 
 export function AppDrawer({ isOpen, onClose }: AppDrawerProps) {
+  const locale = useLocale();
   return (
     <>
       <div 
@@ -43,7 +45,7 @@ export function AppDrawer({ isOpen, onClose }: AppDrawerProps) {
           {apps.map((app, index) => (
             <Link
               key={index}
-              href={app.route}
+              href={`/${locale}${app.route}`}
               onClick={onClose}
               className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer group"
             >
