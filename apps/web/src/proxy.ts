@@ -12,11 +12,6 @@ const handleI18nRouting = createMiddleware({
 export default function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
-  // Redirect root to default locale
-  if (pathname === '/') {
-    return NextResponse.redirect(new URL('/en', request.url));
-  }
-  
   // Skip i18n for empire routes (handled by locale structure)
   if (pathname.startsWith('/empire')) {
     return NextResponse.next();

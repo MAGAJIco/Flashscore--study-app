@@ -23,10 +23,6 @@ const nextConfig = {
       allowedOrigins: ['*.vercel.app', 'localhost:5000']
     }
   },
-
-  
 };
 
-module.exports = {
-  ...nextConfig,
-};
+module.exports = withNextIntl(nextConfig);
