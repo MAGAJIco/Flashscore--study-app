@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "web", "python-3.11"]
+modules = ["nodejs-20", "python-3.11", "web"]
 [agent]
 expertMode = true
 integrations = ["javascript_openai:1.0.0"]
@@ -80,6 +80,10 @@ externalPort = 3002
 [[ports]]
 localPort = 39085
 externalPort = 3003
+
+[[ports]]
+localPort = 39251
+externalPort = 4200
 
 [[ports]]
 localPort = 46009
