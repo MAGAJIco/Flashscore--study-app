@@ -4,11 +4,15 @@
   "description": "AI-powered sports predictions and live scores",
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
   "background_color": "#1a1f3a",
   "theme_color": "#00ff88",
   "orientation": "portrait-primary",
   "scope": "/",
   "categories": ["sports", "entertainment"],
+  "lang": "en",
+  "dir": "ltr",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "icons": [
     {
       "src": "/icons/icon-16x16.png",

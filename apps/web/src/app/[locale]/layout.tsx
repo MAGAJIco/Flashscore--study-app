@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { GoogleNavBar } from '../components/layout/GoogleNavBar';
 import { HealthMonitorInitializer } from '@/components/HealthMonitorInitializer';
+import { MobileOptimizer } from '../components/MobileOptimizer';
+import { MobileBottomNav } from '../components/MobileBottomNav';
 import '../globals.css';
 
 type Props = {
@@ -39,12 +41,14 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="antialiased">
+        <MobileOptimizer />
         <HealthMonitorInitializer />
         <NextIntlClientProvider messages={messages}>
           <GoogleNavBar />
-          <main className="pt-16">
+          <main className="pt-16 pb-20 safe-bottom mobile-container">
             {children}
           </main>
+          <MobileBottomNav />
         </NextIntlClientProvider>
       </body>
     </html>

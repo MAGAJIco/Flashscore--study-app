@@ -4,7 +4,7 @@
    Premium glass-morphism, animations, and effects
    ============================================ */
 
-/* Glass Morphism Base */
+/* Glass Morphism Base - Mobile Optimized */
 .glass-card {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(20px) saturate(180%);
@@ -13,6 +13,14 @@
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transform: translateZ(0);
+}
+
+@media (max-width: 640px) {
+  .glass-card {
+    border-radius: 12px;
+    padding: 12px;
+  }
 }
 
 .glass-card-dark {
