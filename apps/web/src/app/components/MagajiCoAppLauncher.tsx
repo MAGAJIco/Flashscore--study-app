@@ -179,26 +179,69 @@ export function MagajiCoAppLauncher() {
         </svg>
       </button>
 
-      {/* Quick Access Bottom Nav (Mobile) */}
+      {/* Enhanced Mobile Bottom Nav with All Apps */}
       <div className="fixed bottom-0 left-0 right-0 md:hidden z-40 bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-2xl pb-safe">
-        <div className="flex justify-around items-center px-2 py-2">
+        {/* Primary Quick Access Row */}
+        <div className="flex justify-around items-center px-2 py-2 border-b border-gray-100">
           {primaryApps.map(app => (
             <Link
               key={app.id}
               href={app.href}
-              className="flex flex-col items-center gap-1 px-3 py-2 rounded-xl hover:bg-gray-100 transition-all active:scale-95 relative"
+              className="flex flex-col items-center gap-1 px-2 py-2 rounded-xl hover:bg-gray-100 transition-all active:scale-95 relative"
             >
               {app.badge && (
                 <div className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full animate-pulse">
                   {app.badge}
                 </div>
               )}
-              <div className={`w-8 h-8 bg-gradient-to-r ${app.color} rounded-xl flex items-center justify-center text-xl shadow-md`}>
+              <div className={`w-10 h-10 bg-gradient-to-r ${app.color} rounded-xl flex items-center justify-center text-xl shadow-md`}>
                 {app.icon}
               </div>
-              <span className="text-[10px] font-semibold text-gray-700">{app.name}</span>
+              <span className="text-[9px] font-semibold text-gray-700">{app.name}</span>
             </Link>
           ))}
+        </div>
+
+        {/* Scrollable All Apps Grid */}
+        <div className="overflow-x-auto scrollbar-hide px-3 py-2">
+          <div className="flex gap-3 min-w-max">
+            {categories.map(category => (
+              <div key={category.id} className="flex flex-col">
+                <div className="text-[10px] font-bold text-gray-500 mb-2 px-1">{category.name}</div>
+                <div className="flex gap-2">
+                  {category.apps.map(app => (
+                    <Link
+                      key={app.id}
+                      href={app.href}
+                      className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-gray-100 transition-all active:scale-95 relative min-w-[70px]"
+                    >
+                      {app.badge && (
+                        <div className="absolute top-0 right-0 bg-red-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-full">
+                          {app.badge}
+                        </div>
+                      )}
+                      <div className={`w-12 h-12 bg-gradient-to-r ${app.color} rounded-xl flex items-center justify-center text-lg shadow-md`}>
+                        {app.icon}
+                      </div>
+                      <span className="text-[9px] font-semibold text-gray-700 text-center leading-tight">{app.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* App Launcher Toggle Button */}
+        <div className="flex justify-center py-2 border-t border-gray-100">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full text-xs font-bold shadow-lg active:scale-95 transition-all"
+          >
+            <span>📱</span>
+            <span>View All Apps</span>
+            <span className="bg-white/20 px-2 py-0.5 rounded-full">{apps.length}</span>
+          </button>
         </div>
       </div>
 
