@@ -2,7 +2,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Magajico } from '../components/Magajico';
 import { MagajiCoAppLauncher } from '../components/MagajiCoAppLauncher';
 import { Brain, TrendingUp, Users, Shield, Zap, Globe, Award, Sparkles } from 'lucide-react';
 
@@ -204,9 +203,6 @@ export default function HomePage() {
       {/* App Launcher Section */}
       <section className="py-12">
         <MagajiCoAppLauncher />
-        <div className="mt-12">
-          <Magajico />
-        </div>
       </section>
 
       {/* Bezos-inspired CTA */}
