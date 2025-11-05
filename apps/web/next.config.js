@@ -7,6 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: [
     '.replit.dev',
+    '.replit.app',
     'localhost:5000',
     '0.0.0.0:5000'
   ],
