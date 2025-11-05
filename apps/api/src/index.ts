@@ -66,7 +66,7 @@ async function start(retries = 3) {
     await connectDB();
     await registerRoutes();
 
-    const port = parseInt(process.env.PORT || '3001');
+    const port = parseInt(process.env.PORT || '10000');
     await fastify.listen({ port, host: '0.0.0.0' });
 
     console.log(`✅ API Server running at http://0.0.0.0:${port}`);

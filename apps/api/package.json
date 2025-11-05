@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc && echo 'Build completed successfully'",
     "start": "node dist/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
