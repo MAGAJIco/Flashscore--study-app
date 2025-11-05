@@ -32,6 +32,12 @@ jobs:
 
       - name: Run unit tests
         run: npm test
+        env:
+          CI: true
+          MONGODB_URI: mongodb://localhost:27017/test
+          ALLOW_LIMITED_MODE: true
+          ALLOW_TEST_DEFAULTS: true
+          NEXT_PUBLIC_API_URL: http://localhost:3001
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
