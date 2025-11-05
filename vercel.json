@@ -1,10 +1,11 @@
 
 {
-  "buildCommand": "npm run build --workspace=apps/web",
-  "devCommand": "npm run dev --workspace=apps/web",
+  "buildCommand": "npm run build:web",
+  "devCommand": "npm run dev:web",
   "installCommand": "npm install",
   "framework": null,
   "outputDirectory": "apps/web/.next",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./apps/web",
   "rewrites": [
     {
       "source": "/:locale(en|es|fr|de)/:path*",

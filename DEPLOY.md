@@ -100,7 +100,14 @@ ENVIRONMENT=production
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
 2. Click **Add New** → **Project**
 3. Import your GitHub repository
-4. Vercel auto-detects Next.js configuration from `vercel.json`
+4. **Important: Configure for Monorepo**
+   - **Root Directory**: Leave as `./` (repository root - DO NOT set to `apps/web`)
+   - **Framework Preset**: Other (vercel.json handles the config)
+   - Build settings are automatically read from `vercel.json`
+5. Vercel will use the configuration from `vercel.json`:
+   - Build Command: `npm run build:web`
+   - Output Directory: `apps/web/.next`
+   - Install Command: `npm install`
 
 ### Environment Variables to Set
 
@@ -179,6 +186,14 @@ Both platforms support automatic deployments:
 **Build fails on Vercel:**
 - Ensure shared package builds first (already configured in `vercel.json`)
 - Check build logs for specific errors
+
+**Monorepo error: "ENOENT: no such file or directory, open '/vercel/path0/apps/web/package.json'":**
+- This means the Root Directory is incorrectly set in Vercel project settings
+- **Fix**: In Vercel Project Settings → General → Root Directory:
+  - Set it to `./` (the repository root)
+  - DO NOT set it to `apps/web` or any subdirectory
+- The `vercel.json` configuration handles the monorepo structure automatically
+- After changing, redeploy from the Vercel dashboard
 
 ---
 
