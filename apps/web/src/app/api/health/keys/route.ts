@@ -339,3 +339,30 @@ export async function GET(request: NextRequest) {
     }, { status: 500 });
   }
 }
+import { NextResponse } from 'next/server';
+
+const BACKEND_API_URL = process.env.BACKEND_API_URL || 'http://0.0.0.0:3001';
+
+export async function GET() {
+  try {
+    const response = await fetch(`${BACKEND_API_URL}/health`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(3000),
+    });
+
+    if (!response.ok) {
+      throw new Error('Backend unhealthy');
+    }
+
+    const data = await response.json();
+    return NextResponse.json({ 
+      status: 'healthy',
+      backend: data 
+    });
+  } catch (error) {
+    return NextResponse.json({ 
+      status: 'degraded',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 503 });
+  }
+}

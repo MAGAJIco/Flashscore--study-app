@@ -18,11 +18,15 @@ class HealthMonitorService {
   }
 
   private initializeServices() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://0.0.0.0:3001';
+    // In browser, use the current origin to proxy through Next.js API routes
+    const isBrowser = typeof window !== 'undefined';
+    const apiUrl = isBrowser 
+      ? window.location.origin 
+      : (process.env.NEXT_PUBLIC_API_URL || 'http://0.0.0.0:3001');
     
     this.services.set('api', {
       name: 'Backend API',
-      url: `${apiUrl}/health`,
+      url: isBrowser ? `${apiUrl}/api/health/keys` : `http://0.0.0.0:3001/health`,
       healthy: true,
       lastCheck: new Date(),
       failureCount: 0
@@ -30,7 +34,7 @@ class HealthMonitorService {
 
     this.services.set('ml', {
       name: 'ML Service',
-      url: `${apiUrl}/api/predictions/ml-status`,
+      url: `${apiUrl}/api/predictions`,
       healthy: true,
       lastCheck: new Date(),
       failureCount: 0

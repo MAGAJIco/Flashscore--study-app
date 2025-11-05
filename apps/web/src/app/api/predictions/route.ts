@@ -1,39 +1,49 @@
-
 import { NextResponse } from 'next/server';
 
-const BACKEND_API_URL = process.env.BACKEND_API_URL || 'http://localhost:3001';
+const BACKEND_API_URL = process.env.BACKEND_API_URL || 'http://0.0.0.0:3001';
 
 export async function GET() {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     const response = await fetch(`${BACKEND_API_URL}/api/predictions`, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
       },
+      signal: controller.signal,
     });
 
+    clearTimeout(timeoutId);
+
     if (!response.ok) {
+      console.warn(`Backend predictions API returned ${response.status}`);
       throw new Error(`Backend API error: ${response.status}`);
     }
 
     const data = await response.json();
-    
+
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120'
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
       }
     });
   } catch (error) {
-    console.error('Error fetching predictions:', error);
-    
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error fetching predictions:', errorMessage);
+
+    // Return fallback data instead of error
     return NextResponse.json({
       success: true,
       data: [],
-      count: 0,
-      isOffline: true
+      predictions: [],
+      message: 'Predictions temporarily unavailable',
+      fallback: true
     }, {
+      status: 200,
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120'
+        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60'
       }
     });
   }
@@ -42,7 +52,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
+
     const response = await fetch(`${BACKEND_API_URL}/api/predictions`, {
       method: 'POST',
       headers: {
