@@ -4,9 +4,15 @@ import React from 'react';
 
 interface UserProfileDropdownProps {
   onClose: () => void;
+  userData?: any;
+  onLogout?: () => void;
 }
 
-export function UserProfileDropdown({ onClose }: UserProfileDropdownProps) {
+export function UserProfileDropdown({ onClose, userData, onLogout }: UserProfileDropdownProps) {
+  const displayName = userData?.username || 'User';
+  const displayEmail = userData?.email || 'user@email.com';
+  const initials = displayName.substring(0, 2).toUpperCase();
+
   return (
     <>
       <div 
@@ -17,11 +23,11 @@ export function UserProfileDropdown({ onClose }: UserProfileDropdownProps) {
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-16 h-16 rounded-full bg-white text-indigo-600 flex items-center justify-center text-2xl font-bold">
-              SC
+              {initials}
             </div>
             <div>
-              <div className="font-bold text-lg">Sports Fan</div>
-              <div className="text-sm text-white/80">sportsfan@email.com</div>
+              <div className="font-bold text-lg">{displayName}</div>
+              <div className="text-sm text-white/80">{displayEmail}</div>
             </div>
           </div>
           <button className="w-full bg-white/20 hover:bg-white/30 text-white font-medium py-2 rounded-lg transition-colors">
@@ -57,7 +63,13 @@ export function UserProfileDropdown({ onClose }: UserProfileDropdownProps) {
             <span className="text-xl">⚙️</span>
             <span className="font-medium">Settings</span>
           </button>
-          <button className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3 border-t mt-2">
+          <button 
+            onClick={() => {
+              if (onLogout) onLogout();
+              onClose();
+            }}
+            className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3 border-t mt-2"
+          >
             <span className="text-xl">🚪</span>
             <span className="font-medium text-red-600">Sign Out</span>
           </button>

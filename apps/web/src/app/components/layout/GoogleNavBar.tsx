@@ -7,6 +7,7 @@ import { SearchBar } from '../enhanced/SearchBar';
 import { HelpCenter } from '../modals/HelpCenter';
 import { SettingsPanel } from '../modals/SettingsPanel';
 import { UserProfileDropdown } from '../dropdowns/UserProfileDropdown';
+import { AuthModal } from '../modals/AuthModal';
 import Link from 'next/link';
 
 export function GoogleNavBar() {
@@ -14,8 +15,20 @@ export function GoogleNavBar() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
   const [notificationCount, setNotificationCount] = useState(0);
   const [lastChecked, setLastChecked] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    const user = localStorage.getItem('user_data');
+    if (token && user) {
+      setIsLoggedIn(true);
+      setUserData(JSON.parse(user));
+    }
+  }, []);
 
   useEffect(() => {
     const checkNewPredictions = async () => {
@@ -110,22 +123,51 @@ export function GoogleNavBar() {
             </span>
           </button>
 
-          <div className="relative">
-            <button 
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center font-bold hover:shadow-lg transition-all hover:scale-110 active:scale-95 ring-2 ring-indigo-400 ring-offset-2"
-              title="Your Profile"
+          {isLoggedIn ? (
+            <div className="relative">
+              <button 
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center font-bold hover:shadow-lg transition-all hover:scale-110 active:scale-95 ring-2 ring-indigo-400 ring-offset-2"
+                title="Your Profile"
+              >
+                {userData?.username?.substring(0, 2).toUpperCase() || 'MJ'}
+              </button>
+              {isProfileOpen && (
+                <UserProfileDropdown 
+                  onClose={() => setIsProfileOpen(false)} 
+                  userData={userData}
+                  onLogout={() => {
+                    localStorage.removeItem('auth_token');
+                    localStorage.removeItem('user_data');
+                    setIsLoggedIn(false);
+                    setUserData(null);
+                    setIsProfileOpen(false);
+                  }}
+                />
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => setIsAuthOpen(true)}
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:shadow-lg transition-all hover:scale-105 active:scale-95"
             >
-              MJ
+              Sign In
             </button>
-            {isProfileOpen && <UserProfileDropdown onClose={() => setIsProfileOpen(false)} />}
-          </div>
+          )}
         </div>
       </nav>
 
       <AppDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <HelpCenter isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
       <SettingsPanel isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <AuthModal 
+        isOpen={isAuthOpen} 
+        onClose={() => setIsAuthOpen(false)}
+        onSuccess={(user) => {
+          setIsLoggedIn(true);
+          setUserData(user);
+        }}
+      />
     </>
   );
 }
