@@ -197,14 +197,134 @@ export async function GET(request: NextRequest) {
     };
   };
 
+  const checkPredictionsAPI = async (): Promise<ApiKeyStatus> => {
+    try {
+      const backendUrl = process.env.BACKEND_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${backendUrl}/api/predictions`, {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          name: 'Predictions API',
+          status: 'active',
+          message: `Responding (${data.count || 0} predictions)`,
+          lastChecked: timestamp,
+        };
+      } else {
+        return {
+          name: 'Predictions API',
+          status: 'error',
+          message: `HTTP ${response.status}`,
+          lastChecked: timestamp,
+        };
+      }
+    } catch (error: any) {
+      return {
+        name: 'Predictions API',
+        status: 'error',
+        message: error.message || 'Not responding',
+        lastChecked: timestamp,
+      };
+    }
+  };
+
+  const checkLiveMatchesAPI = async (): Promise<ApiKeyStatus> => {
+    try {
+      const backendUrl = process.env.BACKEND_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${backendUrl}/api/matches/live`, {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          name: 'Live Matches API',
+          status: 'active',
+          message: `Responding (${data.count || 0} live matches)`,
+          lastChecked: timestamp,
+        };
+      } else {
+        return {
+          name: 'Live Matches API',
+          status: 'error',
+          message: `HTTP ${response.status}`,
+          lastChecked: timestamp,
+        };
+      }
+    } catch (error: any) {
+      return {
+        name: 'Live Matches API',
+        status: 'error',
+        message: error.message || 'Not responding',
+        lastChecked: timestamp,
+      };
+    }
+  };
+
+  const checkUpcomingMatchesAPI = async (): Promise<ApiKeyStatus> => {
+    try {
+      const backendUrl = process.env.BACKEND_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${backendUrl}/api/matches/upcoming?limit=5`, {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          name: 'Upcoming Matches API',
+          status: 'active',
+          message: `Responding (${data.count || 0} upcoming matches)`,
+          lastChecked: timestamp,
+        };
+      } else {
+        return {
+          name: 'Upcoming Matches API',
+          status: 'error',
+          message: `HTTP ${response.status}`,
+          lastChecked: timestamp,
+        };
+      }
+    } catch (error: any) {
+      return {
+        name: 'Upcoming Matches API',
+        status: 'error',
+        message: error.message || 'Not responding',
+        lastChecked: timestamp,
+      };
+    }
+  };
+
   try {
-    const [openaiStatus, stripeStatus, mongoStatus] = await Promise.all([
+    const [
+      openaiStatus, 
+      stripeStatus, 
+      mongoStatus, 
+      predictionsStatus,
+      liveMatchesStatus,
+      upcomingMatchesStatus
+    ] = await Promise.all([
       checkOpenAI(),
       checkStripe(),
       checkMongoDB(),
+      checkPredictionsAPI(),
+      checkLiveMatchesAPI(),
+      checkUpcomingMatchesAPI(),
     ]);
 
-    results.push(openaiStatus, stripeStatus, mongoStatus, checkJWT());
+    results.push(
+      openaiStatus, 
+      stripeStatus, 
+      mongoStatus, 
+      checkJWT(),
+      predictionsStatus,
+      liveMatchesStatus,
+      upcomingMatchesStatus
+    );
 
     return NextResponse.json({
       success: true,
