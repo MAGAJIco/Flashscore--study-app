@@ -1,10 +1,10 @@
-# 🚀 Deployment Guide - Sports Central
+# Deployment Guide - Sports Central
 
-Quick guide to deploy Sports Central at **zero cost** using Render (backend) and Vercel (frontend).
+Quick guide to deploy Sports Central at zero cost using Render (backend) and Vercel (frontend).
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 1. **GitHub Account** - Push your code to GitHub
 2. **Render Account** - Sign up at [render.com](https://render.com) (free, no credit card)
@@ -13,7 +13,7 @@ Quick guide to deploy Sports Central at **zero cost** using Render (backend) and
 
 ---
 
-## 🔧 Step 1: Setup MongoDB (Free Tier)
+## Step 1: Setup MongoDB (Free Tier)
 
 1. Create a MongoDB Atlas account
 2. Create a new cluster (select **M0 Free** tier)
@@ -26,7 +26,7 @@ Quick guide to deploy Sports Central at **zero cost** using Render (backend) and
 
 ---
 
-## 🖥️ Step 2: Deploy Backend to Render (Zero Cost)
+## Step 2: Deploy Backend to Render (Zero Cost)
 
 ### Option A: Using Blueprint (Recommended - Deploys Both Services)
 
@@ -88,14 +88,14 @@ ENVIRONMENT=production
    - Backend API: `https://magajico-backend.onrender.com`
    - ML Service: `https://magajico-ml-service.onrender.com`
 
-### ⚠️ Free Tier Notes
+### Free Tier Notes
 - Services sleep after 15 minutes of inactivity
 - First request after sleep takes ~30 seconds to wake up
 - Use [UptimeRobot](https://uptimerobot.com) to ping every 10 min to keep alive (optional)
 
 ---
 
-## 🌐 Step 3: Deploy Frontend to Vercel (Zero Cost)
+## Step 3: Deploy Frontend to Vercel (Zero Cost)
 
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
 2. Click **Add New** → **Project**
@@ -135,7 +135,7 @@ NEXT_PUBLIC_VAPID_PUBLIC_KEY=<your-vapid-public-key>
 
 ---
 
-## ✅ Step 4: Verify Deployment
+## Step 4: Verify Deployment
 
 ### Test Backend
 ```bash
@@ -154,7 +154,7 @@ Visit `https://your-app.vercel.app` and verify the app loads correctly.
 
 ---
 
-## 🔄 Continuous Deployment
+## Continuous Deployment
 
 Both platforms support automatic deployments:
 
@@ -163,7 +163,7 @@ Both platforms support automatic deployments:
 
 ---
 
-## 🔒 Security Checklist
+## Security Checklist
 
 - [ ] Set strong `NEXTAUTH_SECRET` (use `openssl rand -base64 32`)
 - [ ] Configure MongoDB IP whitelist (avoid `0.0.0.0/0` in production)
@@ -172,7 +172,7 @@ Both platforms support automatic deployments:
 
 ---
 
-## 🐛 Common Issues
+## Common Issues
 
 **Backend won't connect to MongoDB:**
 - Verify `MONGODB_URI` is set correctly
@@ -197,7 +197,7 @@ Both platforms support automatic deployments:
 
 ---
 
-## 💰 Cost Breakdown
+## Cost Breakdown
 
 | Service | Platform | Tier | Monthly Cost |
 |---------|----------|------|--------------|
@@ -209,7 +209,7 @@ Both platforms support automatic deployments:
 
 ---
 
-## 📚 Resources
+## Resources
 
 - [Render Docs](https://render.com/docs)
 - [Vercel Docs](https://vercel.com/docs)
@@ -218,7 +218,7 @@ Both platforms support automatic deployments:
 
 ---
 
-## 📞 Need Help?
+## Need Help?
 
 Check the logs:
 - **Render**: Dashboard → Service → Logs tab
@@ -227,4 +227,4 @@ Check the logs:
 
 ---
 
-**That's it!** Your Sports Central app is now deployed at zero cost. 🎉
+**That's it.** Your Sports Central app is now deployed at zero cost.
