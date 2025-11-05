@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server';
 
 const BACKEND_API_URL = process.env.BACKEND_API_URL || 'http://0.0.0.0:3001';
 
+const FALLBACK_PREDICTIONS = {
+  predictions: [],
+  message: 'Predictions service temporarily unavailable',
+  fallback: true
+};
+
 export async function GET() {
   try {
     const controller = new AbortController();
@@ -19,7 +25,13 @@ export async function GET() {
 
     if (!response.ok) {
       console.warn(`Backend predictions API returned ${response.status}`);
-      throw new Error(`Backend API error: ${response.status}`);
+      // Return fallback data if the API call fails
+      return NextResponse.json(FALLBACK_PREDICTIONS, {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60'
+        }
+      });
     }
 
     const data = await response.json();
@@ -33,14 +45,8 @@ export async function GET() {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('Error fetching predictions:', errorMessage);
 
-    // Return fallback data instead of error
-    return NextResponse.json({
-      success: true,
-      data: [],
-      predictions: [],
-      message: 'Predictions temporarily unavailable',
-      fallback: true
-    }, {
+    // Return fallback data in case of any exception
+    return NextResponse.json(FALLBACK_PREDICTIONS, {
       status: 200,
       headers: {
         'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60'

@@ -12,28 +12,27 @@ class HealthMonitorService {
   private checkInterval = 30000; // 30 seconds
   private maxFailures = 3;
   private intervalId?: NodeJS.Timeout;
+  private isMonitoring = false;
 
   constructor() {
-    this.initializeServices();
+    if (typeof window !== 'undefined') {
+      this.initializeServices();
+    }
   }
 
   private initializeServices() {
-    // In browser, use the current origin to proxy through Next.js API routes
-    const isBrowser = typeof window !== 'undefined';
-    const apiUrl = isBrowser 
-      ? window.location.origin 
-      : (process.env.NEXT_PUBLIC_API_URL || 'http://0.0.0.0:3001');
+    const apiUrl = window.location.origin;
     
     this.services.set('api', {
       name: 'Backend API',
-      url: isBrowser ? `${apiUrl}/api/health/keys` : `http://0.0.0.0:3001/health`,
+      url: `${apiUrl}/api/health/keys`,
       healthy: true,
       lastCheck: new Date(),
       failureCount: 0
     });
 
-    this.services.set('ml', {
-      name: 'ML Service',
+    this.services.set('predictions', {
+      name: 'Predictions Service',
       url: `${apiUrl}/api/predictions`,
       healthy: true,
       lastCheck: new Date(),
@@ -46,17 +45,22 @@ class HealthMonitorService {
     if (!service) return false;
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
       const response = await fetch(service.url, {
-        signal: AbortSignal.timeout(5000)
+        signal: controller.signal,
+        cache: 'no-store'
       });
 
+      clearTimeout(timeoutId);
       const healthy = response.ok;
       
       service.healthy = healthy;
       service.lastCheck = new Date();
       service.failureCount = healthy ? 0 : service.failureCount + 1;
 
-      if (service.failureCount >= this.maxFailures) {
+      if (service.failureCount >= this.maxFailures && service.failureCount === this.maxFailures) {
         this.handleServiceFailure(serviceName);
       }
 
@@ -66,7 +70,7 @@ class HealthMonitorService {
       service.lastCheck = new Date();
       service.failureCount++;
 
-      if (service.failureCount >= this.maxFailures) {
+      if (service.failureCount >= this.maxFailures && service.failureCount === this.maxFailures) {
         this.handleServiceFailure(serviceName);
       }
 
@@ -77,7 +81,6 @@ class HealthMonitorService {
   private handleServiceFailure(serviceName: string) {
     console.warn(`⚠️ Service ${serviceName} is unhealthy`);
     
-    // Emit custom event for UI to handle
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('service-unhealthy', {
         detail: { serviceName, service: this.services.get(serviceName) }
@@ -86,21 +89,33 @@ class HealthMonitorService {
   }
 
   startMonitoring() {
+    if (this.isMonitoring || typeof window === 'undefined') return;
+
+    this.isMonitoring = true;
+
+    // Initial check after a short delay
+    setTimeout(() => {
+      this.services.forEach((_, name) => {
+        this.checkHealth(name).catch(err => 
+          console.warn(`Initial health check failed for ${name}:`, err)
+        );
+      });
+    }, 2000);
+
     this.intervalId = setInterval(() => {
       this.services.forEach((_, name) => {
-        this.checkHealth(name);
+        this.checkHealth(name).catch(err => 
+          console.warn(`Health check failed for ${name}:`, err)
+        );
       });
     }, this.checkInterval);
-
-    // Initial check
-    this.services.forEach((_, name) => {
-      this.checkHealth(name);
-    });
   }
 
   stopMonitoring() {
+    this.isMonitoring = false;
     if (this.intervalId) {
       clearInterval(this.intervalId);
+      this.intervalId = undefined;
     }
   }
 

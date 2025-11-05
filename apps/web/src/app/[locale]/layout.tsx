@@ -6,6 +6,8 @@ import { GoogleNavBar } from '../components/layout/GoogleNavBar';
 import { HealthMonitorInitializer } from '@/components/HealthMonitorInitializer';
 import { MobileOptimizer } from '../components/MobileOptimizer';
 import { MobileBottomNav } from '../components/MobileBottomNav';
+import { AppErrorBoundary } from '../components/AppErrorBoundary';
+import { ServiceStatusIndicator } from '../components/ServiceStatusIndicator';
 import '../globals.css';
 
 type Props = {
@@ -35,21 +37,25 @@ export default async function LocaleLayout({ children, params }: Props) {
   try {
     messages = await getMessages();
   } catch (error) {
+    console.error('Failed to load messages:', error);
     notFound();
   }
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="antialiased">
-        <MobileOptimizer />
-        <HealthMonitorInitializer />
-        <NextIntlClientProvider messages={messages}>
-          <GoogleNavBar />
-          <main className="pt-16 pb-20 safe-bottom mobile-container">
-            {children}
-          </main>
-          <MobileBottomNav />
-        </NextIntlClientProvider>
+        <AppErrorBoundary>
+          <MobileOptimizer />
+          <HealthMonitorInitializer />
+          <ServiceStatusIndicator />
+          <NextIntlClientProvider messages={messages}>
+            <GoogleNavBar />
+            <main className="pt-16 pb-20 safe-bottom mobile-container">
+              {children}
+            </main>
+            <MobileBottomNav />
+          </NextIntlClientProvider>
+        </AppErrorBoundary>
       </body>
     </html>
   );

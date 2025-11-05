@@ -1,29 +1,32 @@
-
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { healthMonitor } from '@/lib/services/healthMonitor';
 
 export function HealthMonitorInitializer() {
-  useEffect(() => {
-    // Suppress non-critical console errors
-    const originalError = console.error;
-    console.error = (...args) => {
-      const errorStr = args.join(' ');
-      // Filter out known non-critical errors
-      if (errorStr.includes('404') && (errorStr.includes('icon-') || errorStr.includes('.png'))) {
-        return; // Suppress icon 404 errors
-      }
-      originalError.apply(console, args);
-    };
+  const [isClient, setIsClient] = useState(false);
 
-    healthMonitor.startMonitoring();
-    
-    return () => {
-      healthMonitor.stopMonitoring();
-      console.error = originalError;
-    };
+  useEffect(() => {
+    setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
+    try {
+      healthMonitor.startMonitoring();
+    } catch (error) {
+      console.warn('Health monitor failed to start:', error);
+    }
+
+    return () => {
+      try {
+        healthMonitor.stopMonitoring();
+      } catch (error) {
+        console.warn('Health monitor failed to stop:', error);
+      }
+    };
+  }, [isClient]);
 
   return null;
 }

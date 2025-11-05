@@ -29,6 +29,17 @@ const nextConfig = {
       allowedOrigins: ['*.vercel.app', 'localhost:5000']
     }
   },
+
+  // Production optimizations
+  swcMinify: true,
+  compress: true,
+  poweredByHeader: false,
+
+  // Error handling
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
 };
 
 module.exports = withNextIntl(nextConfig);
