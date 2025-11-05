@@ -1,24 +1,9 @@
-
-'use client';
-
-import { useEffect } from 'react';
-import { healthMonitor } from '@/lib/services/healthMonitor';
-
-export function HealthMonitorInitializer() {
-  useEffect(() => {
-    healthMonitor.startMonitoring();
-    return () => healthMonitor.stopMonitoring();
-  }, []);
-
-  return null;
-}
-
-
 import { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { GoogleNavBar } from '../components/layout/GoogleNavBar';
+import { HealthMonitorInitializer } from '@/components/HealthMonitorInitializer';
 import '../globals.css';
 
 type Props = {
@@ -37,13 +22,13 @@ export async function generateStaticParams() {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
-  
+
   // Validate locale
   const validLocales = ['en', 'es', 'fr', 'de'];
   if (!validLocales.includes(locale)) {
     notFound();
   }
-  
+
   let messages;
   try {
     messages = await getMessages();
@@ -54,6 +39,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="antialiased">
+        <HealthMonitorInitializer />
         <NextIntlClientProvider messages={messages}>
           <GoogleNavBar />
           <main className="pt-16">
