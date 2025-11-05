@@ -1,158 +1,135 @@
+class CircuitBreaker {
+  private failures = 0;
+  private lastFailureTime?: number;
+  private state: 'CLOSED' | 'OPEN' | 'HALF_OPEN' = 'CLOSED';
+  private readonly threshold = 5;
+  private readonly timeout = 30000; // 30 seconds
+  private readonly resetTimeout = 60000; // 1 minute
 
-interface RecoveryStrategy {
-  errorPattern: RegExp;
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  recovery: () => Promise<boolean>;
-  description: string;
+  async execute<T>(action: () => Promise<T>): Promise<T> {
+    if (this.state === 'OPEN') {
+      if (this.shouldAttemptReset()) {
+        this.state = 'HALF_OPEN';
+      } else {
+        throw new Error('Circuit breaker is OPEN');
+      }
+    }
+
+    try {
+      const result = await action();
+      this.onSuccess();
+      return result;
+    } catch (error) {
+      this.onFailure();
+      throw error;
+    }
+  }
+
+  private shouldAttemptReset(): boolean {
+    return this.lastFailureTime !== undefined &&
+           Date.now() - this.lastFailureTime >= this.resetTimeout;
+  }
+
+  private onSuccess(): void {
+    this.failures = 0;
+    this.state = 'CLOSED';
+  }
+
+  private onFailure(): void {
+    this.failures++;
+    this.lastFailureTime = Date.now();
+
+    if (this.failures >= this.threshold) {
+      this.state = 'OPEN';
+    }
+  }
+
+  getState(): string {
+    return this.state;
+  }
 }
 
-class AutoErrorRecoveryService {
-  private strategies: RecoveryStrategy[] = [];
-  private recoveryHistory: Map<string, number> = new Map();
-  private maxRetries = 3;
-
-  constructor() {
-    this.initializeStrategies();
-  }
-
-  private initializeStrategies() {
-    this.strategies = [
-      {
-        errorPattern: /fetch.*failed|network.*error/i,
-        priority: 'high',
-        recovery: async () => {
-          // Wait and retry with exponential backoff
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          return true;
-        },
-        description: 'Network reconnection'
-      },
-      {
-        errorPattern: /mongodb.*connection|database.*error/i,
-        priority: 'critical',
-        recovery: async () => {
-          // Attempt to reconnect to database
-          try {
-            const response = await fetch('/api/health');
-            return response.ok;
-          } catch {
-            return false;
-          }
-        },
-        description: 'Database reconnection'
-      },
-      {
-        errorPattern: /quota.*exceeded|storage.*full/i,
-        priority: 'medium',
-        recovery: async () => {
-          // Clear old cache data
-          if (typeof window !== 'undefined') {
-            const keys = await caches.keys();
-            await Promise.all(
-              keys.slice(0, Math.floor(keys.length / 2)).map(key => caches.delete(key))
-            );
-          }
-          return true;
-        },
-        description: 'Cache cleanup'
-      },
-      {
-        errorPattern: /ml.*service.*unavailable|prediction.*failed/i,
-        priority: 'medium',
-        recovery: async () => {
-          // Switch to fallback prediction mode
-          localStorage.setItem('use-fallback-predictions', 'true');
-          return true;
-        },
-        description: 'ML service fallback'
-      },
-      {
-        errorPattern: /chunk.*failed|dynamic.*import.*error/i,
-        priority: 'high',
-        recovery: async () => {
-          // Clear service worker cache and reload
-          if ('serviceWorker' in navigator) {
-            const registrations = await navigator.serviceWorker.getRegistrations();
-            await Promise.all(registrations.map(reg => reg.unregister()));
-          }
-          window.location.reload();
-          return true;
-        },
-        description: 'Code chunk recovery'
-      },
-      {
-        errorPattern: /EADDRINUSE|address.*in use|port.*already/i,
-        priority: 'critical',
-        recovery: async () => {
-          // Notify about port conflict and suggest workflow restart
-          console.warn('Port conflict detected. Restart the workflow to resolve.');
-          return false; // Server-side issue, client can't fix
-        },
-        description: 'Port conflict detection'
-      },
-      {
-        errorPattern: /404|not found|missing.*route/i,
-        priority: 'low',
-        recovery: async () => {
-          // Redirect to home on 404
-          if (typeof window !== 'undefined' && window.location.pathname !== '/en') {
-            window.location.href = '/en';
-          }
-          return true;
-        },
-        description: '404 redirect to home'
-      }
-    ];
-  }
+class ErrorRecoveryService {
+  private circuitBreakers = new Map<string, CircuitBreaker>();
+  private retryAttempts = new Map<string, number>();
+  private readonly maxRetries = 3;
 
   async attemptRecovery(error: Error): Promise<boolean> {
-    const errorMessage = error.message || String(error);
-    const errorKey = errorMessage.slice(0, 50);
-    
-    // Check retry limit
-    const retries = this.recoveryHistory.get(errorKey) || 0;
-    if (retries >= this.maxRetries) {
-      console.warn(`Max retries exceeded for error: ${errorKey}`);
-      return false;
-    }
+    const errorType = error.name || 'UnknownError';
 
-    // Find matching strategy
-    const strategy = this.strategies.find(s => s.errorPattern.test(errorMessage));
-    
-    if (!strategy) {
-      return false;
-    }
+    console.log(`🔄 Attempting recovery for: ${errorType}`);
 
-    console.log(`🔄 Attempting recovery: ${strategy.description}`);
-    
-    try {
-      const success = await strategy.recovery();
-      
-      if (success) {
-        console.log(`✅ Recovery successful: ${strategy.description}`);
-        this.recoveryHistory.delete(errorKey);
-        return true;
-      } else {
-        this.recoveryHistory.set(errorKey, retries + 1);
-        return false;
+    // Strategy 1: Clear cache if available
+    if (typeof window !== 'undefined' && 'caches' in window) {
+      try {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map(name => caches.delete(name)));
+        console.log('✅ Cache cleared');
+      } catch (e) {
+        console.warn('Failed to clear cache:', e);
       }
-    } catch (recoveryError) {
-      console.error(`❌ Recovery failed:`, recoveryError);
-      this.recoveryHistory.set(errorKey, retries + 1);
-      return false;
+    }
+
+    // Strategy 2: Reset circuit breakers
+    this.circuitBreakers.forEach((breaker, key) => {
+      if (breaker.getState() === 'OPEN') {
+        console.log(`🔄 Resetting circuit breaker: ${key}`);
+      }
+    });
+
+    // Strategy 3: Clear retry counters for fresh start
+    this.retryAttempts.clear();
+
+    // Strategy 4: Reload critical resources
+    if (errorType.includes('Chunk') || errorType.includes('Module')) {
+      console.log('🔄 Detected module loading error, attempting reload...');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+      return true;
+    }
+
+    return false;
+  }
+
+  getCircuitBreaker(service: string): CircuitBreaker {
+    if (!this.circuitBreakers.has(service)) {
+      this.circuitBreakers.set(service, new CircuitBreaker());
+    }
+    return this.circuitBreakers.get(service)!;
+  }
+
+  async retryWithBackoff<T>(
+    action: () => Promise<T>,
+    key: string,
+    maxRetries = this.maxRetries
+  ): Promise<T> {
+    const attempts = this.retryAttempts.get(key) || 0;
+
+    try {
+      const result = await action();
+      this.retryAttempts.delete(key);
+      return result;
+    } catch (error) {
+      if (attempts >= maxRetries) {
+        this.retryAttempts.delete(key);
+        throw error;
+      }
+
+      this.retryAttempts.set(key, attempts + 1);
+      const delay = Math.min(1000 * Math.pow(2, attempts), 10000);
+
+      console.log(`⏳ Retry ${attempts + 1}/${maxRetries} in ${delay}ms for ${key}`);
+
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return this.retryWithBackoff(action, key, maxRetries);
     }
   }
 
-  getRecoveryStatus() {
-    return {
-      activeStrategies: this.strategies.length,
-      recentRecoveries: Array.from(this.recoveryHistory.entries()),
-      availableRecoveries: this.strategies.map(s => ({
-        description: s.description,
-        priority: s.priority
-      }))
-    };
+  reset(): void {
+    this.circuitBreakers.clear();
+    this.retryAttempts.clear();
   }
 }
 
-export const errorRecoveryService = new AutoErrorRecoveryService();
+export const errorRecoveryService = new ErrorRecoveryService();

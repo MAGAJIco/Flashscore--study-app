@@ -5,14 +5,18 @@ interface ServiceHealth {
   healthy: boolean;
   lastCheck: Date;
   failureCount: number;
+  backoffDelay: number;
+  lastSuccessfulCheck?: Date;
 }
 
 class HealthMonitorService {
   private services: Map<string, ServiceHealth> = new Map();
   private checkInterval = 30000; // 30 seconds
-  private maxFailures = 3;
+  private maxFailures = 5;
   private intervalId?: NodeJS.Timeout;
   private isMonitoring = false;
+  private baseBackoffDelay = 5000;
+  private maxBackoffDelay = 60000;
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -28,7 +32,9 @@ class HealthMonitorService {
       url: `${apiUrl}/api/health/keys`,
       healthy: true,
       lastCheck: new Date(),
-      failureCount: 0
+      failureCount: 0,
+      backoffDelay: this.baseBackoffDelay,
+      lastSuccessfulCheck: new Date()
     });
 
     this.services.set('predictions', {
@@ -36,7 +42,9 @@ class HealthMonitorService {
       url: `${apiUrl}/api/predictions`,
       healthy: true,
       lastCheck: new Date(),
-      failureCount: 0
+      failureCount: 0,
+      backoffDelay: this.baseBackoffDelay,
+      lastSuccessfulCheck: new Date()
     });
   }
 
@@ -44,13 +52,26 @@ class HealthMonitorService {
     const service = this.services.get(serviceName);
     if (!service) return false;
 
+    // Implement exponential backoff
+    const now = Date.now();
+    const timeSinceLastCheck = now - service.lastCheck.getTime();
+    if (timeSinceLastCheck < service.backoffDelay && service.failureCount > 0) {
+      return service.healthy;
+    }
+
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
 
       const response = await fetch(service.url, {
         signal: controller.signal,
-        cache: 'no-store'
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        },
+        mode: 'cors',
+        credentials: 'same-origin'
       });
 
       clearTimeout(timeoutId);
@@ -58,7 +79,18 @@ class HealthMonitorService {
       
       service.healthy = healthy;
       service.lastCheck = new Date();
-      service.failureCount = healthy ? 0 : service.failureCount + 1;
+      
+      if (healthy) {
+        service.failureCount = 0;
+        service.backoffDelay = this.baseBackoffDelay;
+        service.lastSuccessfulCheck = new Date();
+      } else {
+        service.failureCount++;
+        service.backoffDelay = Math.min(
+          this.maxBackoffDelay,
+          service.backoffDelay * 2
+        );
+      }
 
       if (service.failureCount >= this.maxFailures && service.failureCount === this.maxFailures) {
         this.handleServiceFailure(serviceName);
@@ -66,9 +98,22 @@ class HealthMonitorService {
 
       return healthy;
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      
+      // Differentiate between network errors and aborts
+      if (errorMessage.includes('aborted')) {
+        console.warn(`⏱️ Health check timeout for ${serviceName}`);
+      } else {
+        console.warn(`🔌 Network error for ${serviceName}:`, errorMessage);
+      }
+
       service.healthy = false;
       service.lastCheck = new Date();
       service.failureCount++;
+      service.backoffDelay = Math.min(
+        this.maxBackoffDelay,
+        service.backoffDelay * 2
+      );
 
       if (service.failureCount >= this.maxFailures && service.failureCount === this.maxFailures) {
         this.handleServiceFailure(serviceName);
@@ -96,17 +141,37 @@ class HealthMonitorService {
     // Initial check after a short delay
     setTimeout(() => {
       this.services.forEach((_, name) => {
-        this.checkHealth(name).catch(err => 
-          console.warn(`Initial health check failed for ${name}:`, err)
-        );
+        this.checkHealth(name).catch(err => {
+          // Silently handle initial failures - system is still loading
+          if (process.env.NODE_ENV === 'development') {
+            console.debug(`Initial health check for ${name} pending:`, err);
+          }
+        });
       });
-    }, 2000);
+    }, 3000);
 
+    // Adaptive monitoring with staggered checks
+    let checkCounter = 0;
     this.intervalId = setInterval(() => {
-      this.services.forEach((_, name) => {
-        this.checkHealth(name).catch(err => 
-          console.warn(`Health check failed for ${name}:`, err)
-        );
+      checkCounter++;
+      
+      this.services.forEach((service, name) => {
+        // Stagger checks to reduce load
+        const staggerDelay = Array.from(this.services.keys()).indexOf(name) * 1000;
+        
+        setTimeout(() => {
+          // Skip check if in backoff period
+          const timeSinceLastCheck = Date.now() - service.lastCheck.getTime();
+          if (timeSinceLastCheck < service.backoffDelay && service.failureCount > 0) {
+            return;
+          }
+
+          this.checkHealth(name).catch(err => {
+            if (process.env.NODE_ENV === 'development' && checkCounter % 5 === 0) {
+              console.debug(`Periodic health check for ${name}:`, err);
+            }
+          });
+        }, staggerDelay);
       });
     }, this.checkInterval);
   }
