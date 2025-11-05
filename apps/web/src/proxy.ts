@@ -9,7 +9,7 @@ const handleI18nRouting = createMiddleware({
   localeDetection: true
 });
 
-export default function proxy(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
   // Skip i18n for empire routes (handled by locale structure)
