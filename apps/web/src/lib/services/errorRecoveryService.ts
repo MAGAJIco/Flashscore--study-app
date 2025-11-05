@@ -79,6 +79,16 @@ class AutoErrorRecoveryService {
           return true;
         },
         description: 'Code chunk recovery'
+      },
+      {
+        errorPattern: /EADDRINUSE|address.*in use|port.*already/i,
+        priority: 'critical',
+        recovery: async () => {
+          // Notify about port conflict and suggest workflow restart
+          console.warn('Port conflict detected. Restart the workflow to resolve.');
+          return false; // Server-side issue, client can't fix
+        },
+        description: 'Port conflict detection'
       }
     ];
   }

@@ -9,6 +9,7 @@ import { predictionsModuleRoutes } from './modules/predictions/routes';
 import { rewardsModuleRoutes } from './modules/rewards/routes';
 import { scraperModuleRoutes } from './modules/scraper/routes';
 import { piCoinModuleRoutes } from './modules/picoins/routes';
+import { gracefulDegradationMiddleware } from './middleware/gracefulDegradation';
 
 dotenv.config({ debug: false });
 
@@ -22,6 +23,9 @@ fastify.register(cors, {
   origin: process.env.FRONTEND_URL || '*',
   credentials: true,
 });
+
+// Graceful degradation for failed services
+fastify.addHook('preHandler', gracefulDegradationMiddleware);
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/magajico';
@@ -56,8 +60,8 @@ async function registerRoutes() {
   fastify.register(piCoinModuleRoutes, { prefix: '/api/picoins' });
 }
 
-// Start server
-async function start() {
+// Start server with retry logic
+async function start(retries = 3) {
   try {
     await connectDB();
     await registerRoutes();
@@ -66,8 +70,14 @@ async function start() {
     await fastify.listen({ port, host: '0.0.0.0' });
 
     console.log(`✅ API Server running at http://0.0.0.0:${port}`);
-  } catch (err) {
+  } catch (err: any) {
+    if (err.code === 'EADDRINUSE' && retries > 0) {
+      console.warn(`⚠️  Port ${process.env.PORT || '3001'} in use, retrying in 2s... (${retries} attempts left)`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return start(retries - 1);
+    }
     fastify.log.error(err);
+    console.error('❌ Failed to start server. Please check if another process is using the port.');
     process.exit(1);
   }
 }
