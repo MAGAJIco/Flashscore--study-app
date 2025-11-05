@@ -5,6 +5,12 @@ const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  allowedDevOrigins: [
+    '.replit.dev',
+    'localhost:5000',
+    '0.0.0.0:5000'
+  ],
 
   images: {
     remotePatterns: [

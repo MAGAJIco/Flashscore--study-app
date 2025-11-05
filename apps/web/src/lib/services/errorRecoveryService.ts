@@ -89,6 +89,18 @@ class AutoErrorRecoveryService {
           return false; // Server-side issue, client can't fix
         },
         description: 'Port conflict detection'
+      },
+      {
+        errorPattern: /404|not found|missing.*route/i,
+        priority: 'low',
+        recovery: async () => {
+          // Redirect to home on 404
+          if (typeof window !== 'undefined' && window.location.pathname !== '/en') {
+            window.location.href = '/en';
+          }
+          return true;
+        },
+        description: '404 redirect to home'
       }
     ];
   }
