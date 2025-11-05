@@ -11,15 +11,15 @@ interface AppDrawerProps {
 }
 
 const apps = [
-  { icon: '👑', name: 'Empire', route: '' },
-  { icon: '🤖', name: 'Predictions', route: '/predictions' },
-  { icon: '⚡', name: 'Live', route: '/live' },
-  { icon: '👥', name: 'Social', route: '/social/feed' },
-  { icon: '🎮', name: 'Kids Mode', route: '/kids' },
-  { icon: '🏆', name: 'Rewards', route: '/achievements' },
-  { icon: '📊', name: 'Analytics', route: '/analytics' },
-  { icon: '💬', name: 'Chat', route: '/chats' },
-  { icon: '🎯', name: 'Challenges', route: '/challenges' },
+  { icon: 'E', name: 'Empire', route: '' },
+  { icon: 'P', name: 'Predictions', route: '/predictions' },
+  { icon: 'L', name: 'Live', route: '/live' },
+  { icon: 'S', name: 'Social', route: '/social/feed' },
+  { icon: 'K', name: 'Kids Mode', route: '/kids' },
+  { icon: 'R', name: 'Rewards', route: '/achievements' },
+  { icon: 'A', name: 'Analytics', route: '/analytics' },
+  { icon: 'C', name: 'Chat', route: '/chats' },
+  { icon: 'Ch', name: 'Challenges', route: '/challenges' },
 ];
 
 export function AppDrawer({ isOpen, onClose }: AppDrawerProps) {
@@ -49,7 +49,7 @@ export function AppDrawer({ isOpen, onClose }: AppDrawerProps) {
               onClick={onClose}
               className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer group"
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-2 text-white shadow-lg group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center text-base font-semibold mb-2 text-gray-700 dark:text-gray-200 shadow-sm group-hover:scale-105 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-transform">
                 {app.icon}
               </div>
               <div className="text-sm font-medium text-gray-700 dark:text-gray-200 text-center">

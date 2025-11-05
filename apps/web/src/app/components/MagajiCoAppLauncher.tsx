@@ -21,20 +21,20 @@ const apps: MicroApp[] = [
   {
     id: 'home',
     name: 'Home',
-    icon: '🏠',
+    icon: 'H',
     href: '/en',
     category: 'navigation',
-    color: 'from-blue-500 to-blue-700',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Your sports hub dashboard',
     isPrimary: true
   },
   {
     id: 'predictions',
     name: 'Predictions',
-    icon: '🎯',
+    icon: 'P',
     href: '/en/predictions',
     category: 'navigation',
-    color: 'from-purple-500 to-indigo-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: '87% accurate ML predictions',
     badge: 'AI',
     isPrimary: true
@@ -42,10 +42,10 @@ const apps: MicroApp[] = [
   {
     id: 'live',
     name: 'Live Matches',
-    icon: '⚡',
+    icon: 'L',
     href: '/en/matches',
     category: 'navigation',
-    color: 'from-emerald-500 to-teal-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Real-time match tracking',
     badge: 'LIVE',
     isPrimary: true
@@ -53,20 +53,20 @@ const apps: MicroApp[] = [
   {
     id: 'social',
     name: 'Social Hub',
-    icon: '👥',
+    icon: 'S',
     href: '/en/social/feed',
     category: 'navigation',
-    color: 'from-pink-500 to-rose-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Connect with fans worldwide',
     isPrimary: true
   },
   {
     id: 'rewards',
     name: 'Rewards',
-    icon: '🏆',
+    icon: 'R',
     href: '/en/achievements',
     category: 'navigation',
-    color: 'from-yellow-500 to-orange-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Earn Pi Coins & badges',
     isPrimary: true
   },
@@ -74,58 +74,58 @@ const apps: MicroApp[] = [
   {
     id: 'news',
     name: 'Sports News',
-    icon: '📰',
+    icon: 'N',
     href: '/en/news',
     category: 'sports',
-    color: 'from-blue-500 to-cyan-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Breaking news worldwide'
   },
   {
     id: 'analytics',
     name: 'Analytics',
-    icon: '📊',
+    icon: 'A',
     href: '/en/analytics',
     category: 'tools',
-    color: 'from-violet-500 to-purple-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Deep performance insights'
   },
   {
     id: 'kids',
     name: 'Kids Mode',
-    icon: '🎮',
+    icon: 'K',
     href: '/en/kids',
     category: 'kids',
-    color: 'from-orange-500 to-amber-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Safe learning environment'
   },
   {
     id: 'chat',
     name: 'AI Chat',
-    icon: '💬',
+    icon: 'C',
     href: '/en/chat',
     category: 'tools',
-    color: 'from-cyan-500 to-blue-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Chat with AI assistant'
   },
   {
     id: 'challenges',
     name: 'Challenges',
-    icon: '🎮',
+    icon: 'Ch',
     href: '/en/challenges',
     category: 'rewards',
-    color: 'from-red-500 to-pink-600',
+    color: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
     description: 'Complete daily challenges'
   }
 ];
 
 const categories = [
-  { id: 'all', label: 'All Apps', icon: '🌟' },
-  { id: 'navigation', label: 'Quick Nav', icon: '🧭' },
-  { id: 'sports', label: 'Sports', icon: '⚽' },
-  { id: 'social', label: 'Social', icon: '👥' },
-  { id: 'tools', label: 'Tools', icon: '🛠️' },
-  { id: 'rewards', label: 'Rewards', icon: '🏆' },
-  { id: 'kids', label: 'Kids', icon: '🎮' }
+  { id: 'all', label: 'All Apps', icon: '*' },
+  { id: 'navigation', label: 'Quick Nav', icon: '→' },
+  { id: 'sports', label: 'Sports', icon: 'S' },
+  { id: 'social', label: 'Social', icon: 'So' },
+  { id: 'tools', label: 'Tools', icon: 'T' },
+  { id: 'rewards', label: 'Rewards', icon: 'R' },
+  { id: 'kids', label: 'Kids', icon: 'K' }
 ];
 
 export function MagajiCoAppLauncher() {
@@ -171,10 +171,10 @@ export function MagajiCoAppLauncher() {
       {/* Floating Launch Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed right-4 bottom-20 md:bottom-4 z-50 w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-2xl hover:shadow-blue-500/50 transition-all hover:scale-110 flex items-center justify-center group"
+        className="fixed right-4 bottom-20 md:bottom-4 z-50 w-14 h-14 bg-gray-100 dark:bg-gray-700 rounded-full shadow-lg hover:shadow-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all hover:scale-105 flex items-center justify-center group"
         aria-label="Open MagajiCo launcher"
       >
-        <svg className="w-6 h-6 text-white transition-transform group-hover:rotate-90" fill="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6 text-gray-700 dark:text-gray-200 transition-transform group-hover:rotate-90" fill="currentColor" viewBox="0 0 24 24">
           <path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/>
         </svg>
       </button>
@@ -211,18 +211,17 @@ export function MagajiCoAppLauncher() {
           />
 
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-            <div className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden pointer-events-auto border border-white/20">
+            <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden pointer-events-auto border border-gray-200 dark:border-gray-700">
 
               {/* Header */}
-              <div className="bg-white/10 backdrop-blur-xl border-b border-white/20 p-6">
+              <div className="bg-gray-50 dark:bg-gray-800 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                    <span className="text-3xl">🚀</span>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     MagajiCo Sports Central
                   </h2>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+                    className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center text-gray-700 dark:text-white transition-colors"
                     aria-label="Close launcher"
                   >
                     ✕
@@ -236,9 +235,9 @@ export function MagajiCoAppLauncher() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search apps... (⌘K)"
-                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 pl-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 pl-12 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400"
                   />
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">→</span>
                 </div>
 
                 {/* Category Filters */}
@@ -249,8 +248,8 @@ export function MagajiCoAppLauncher() {
                       onClick={() => setSelectedCategory(cat.id)}
                       className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
                         selectedCategory === cat.id
-                          ? 'bg-white text-gray-900 font-semibold'
-                          : 'bg-white/10 text-white hover:bg-white/20'
+                          ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
                       }`}
                     >
                       <span className="mr-1">{cat.icon}</span>
