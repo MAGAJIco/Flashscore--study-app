@@ -9,7 +9,12 @@
     "dev:web": "npm run dev --workspace=apps/web",
     "dev:api": "npm run dev --workspace=apps/api",
     "dev:ml": "cd apps/backend/ml && uv run uvicorn api:app --host 0.0.0.0 --port 8000",
-    "install:all": "npm install && npm install --workspace=apps/web && npm install --workspace=apps/api"
+    "install:all": "npm install && npm install --workspace=apps/web && npm install --workspace=apps/api",
+    "build": "npm run build --workspace=apps/api && npm run build --workspace=apps/web",
+    "build:web": "npm run build --workspace=apps/web",
+    "build:api": "npm run build --workspace=apps/api",
+    "test": "npm run test --workspace=apps/api && npm run test --workspace=apps/web",
+    "type-check": "npm run type-check --workspace=packages/shared"
   },
   "devDependencies": {
     "typescript": "^5.3.3"
