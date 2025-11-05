@@ -49,7 +49,7 @@ Keep responses short and conversational. When a user mentions a game, acknowledg
     const response = await openai.chat.completions.create({
       model: "gpt-5",
       messages: conversationHistory,
-      max_tokens: 300,
+      max_completion_tokens: 300,
     });
 
     const assistantMessage = response.choices[0].message.content || "I'm here to help!";
