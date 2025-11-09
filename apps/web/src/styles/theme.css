@@ -1,0 +1,164 @@
+/* MagajiCo Brand Theme - Design Tokens */
+
+:root {
+  /* Primary Brand Colors */
+  --color-brand-primary: #2563eb; /* Blue 600 */
+  --color-brand-secondary: #9333ea; /* Purple 600 */
+  --color-brand-accent: #ec4899; /* Pink 600 */
+
+  /* Extended Palette */
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+
+  --color-purple-500: #a855f7;
+  --color-purple-600: #9333ea;
+  --color-purple-700: #7e22ce;
+
+  --color-pink-500: #ec4899;
+  --color-pink-600: #db2777;
+
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
+
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
+
+  --color-yellow-500: #eab308;
+  --color-yellow-600: #ca8a04;
+
+  /* Neutral Colors */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Typography */
+  --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+
+  /* Font Sizes - Mobile First */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  --text-6xl: 3.75rem;   /* 60px */
+  --text-7xl: 4.5rem;    /* 72px */
+  --text-8xl: 6rem;      /* 96px */
+
+  /* Spacing - Mobile First */
+  --spacing-xs: 0.25rem;  /* 4px */
+  --spacing-sm: 0.5rem;   /* 8px */
+  --spacing-md: 1rem;     /* 16px */
+  --spacing-lg: 1.5rem;   /* 24px */
+  --spacing-xl: 2rem;     /* 32px */
+  --spacing-2xl: 3rem;    /* 48px */
+  --spacing-3xl: 4rem;    /* 64px */
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;  /* 6px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-Index Scale */
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+}
+
+/* Dark Mode Adjustments */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary: var(--color-gray-900);
+    --color-bg-secondary: var(--color-gray-800);
+    --color-text-primary: #ffffff;
+    --color-text-secondary: var(--color-gray-300);
+  }
+}
+
+/* Responsive Breakpoints */
+/* xs: 0px (default) */
+/* sm: 640px */
+/* md: 768px */
+/* lg: 1024px */
+/* xl: 1280px */
+/* 2xl: 1536px */
+
+/* Global Responsive Utilities */
+@media (min-width: 768px) {
+  :root {
+    --text-2xl: 1.875rem;  /* 30px on tablet+ */
+    --text-3xl: 2.25rem;   /* 36px on tablet+ */
+    --text-4xl: 3rem;      /* 48px on tablet+ */
+    --text-5xl: 3.75rem;   /* 60px on tablet+ */
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --text-4xl: 3.75rem;   /* 60px on desktop+ */
+    --text-5xl: 4.5rem;    /* 72px on desktop+ */
+  }
+}
+
+/* Brand Gradients */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--color-brand-secondary), var(--color-brand-accent));
+}
+
+.gradient-full {
+  background: linear-gradient(135deg, var(--color-blue-600), var(--color-purple-600), var(--color-pink-600));
+}
+
+/* Responsive Container Padding */
+.container-responsive {
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .container-responsive {
+    padding-left: var(--spacing-xl);
+    padding-right: var(--spacing-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    padding-left: var(--spacing-3xl);
+    padding-right: var(--spacing-3xl);
+  }
+}
