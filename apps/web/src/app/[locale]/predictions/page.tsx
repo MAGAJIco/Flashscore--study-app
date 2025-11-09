@@ -23,7 +23,7 @@ import {
   Copy,
 } from "lucide-react";
 import { useSmartRetry } from "../../hook/useSmartRetry";
-import StatCard from "../../components/StatCard";
+import LiveCard from "../../components/liveData";
 
 interface PredictionSource {
   name: string;
