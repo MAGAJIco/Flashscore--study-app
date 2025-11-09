@@ -30,15 +30,28 @@ fastify.addHook('preHandler', gracefulDegradationMiddleware);
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/magajico';
 
+// Connect to MongoDB
 async function connectDB() {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log('✅ MongoDB connected successfully');
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    fastify.log.info('✅ MongoDB connected successfully');
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.warn('⚠️  MongoDB connection failed - API will run in limited mode:', message);
+    fastify.log.error('❌ MongoDB connection failed:', error);
+    fastify.log.warn('⚠️  Running in fallback mode without database:', message);
   }
 }
+
+mongoose.connection.on('error', (err) => {
+  fastify.log.error('MongoDB error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  fastify.log.warn('MongoDB disconnected');
+});
 
 // Health check
 fastify.get('/health', async () => {
@@ -63,6 +76,7 @@ async function registerRoutes() {
 // Start server with retry logic
 async function start(retries = 3) {
   try {
+    // Connect to MongoDB first
     await connectDB();
     await registerRoutes();
 
@@ -72,7 +86,7 @@ async function start(retries = 3) {
     console.log(`✅ API Server running at http://0.0.0.0:${port}`);
   } catch (err: any) {
     if (err.code === 'EADDRINUSE' && retries > 0) {
-      console.warn(`⚠️  Port ${process.env.PORT || '3001'} in use, retrying in 2s... (${retries} attempts left)`);
+      console.warn(`⚠️  Port ${process.env.PORT || '10000'} in use, retrying in 2s... (${retries} attempts left)`);
       await new Promise(resolve => setTimeout(resolve, 2000));
       return start(retries - 1);
     }

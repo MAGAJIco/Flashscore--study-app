@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Brain, TrendingUp, Target, Zap, AlertCircle, RefreshCw } from 'lucide-react';
+import { Brain, TrendingUp, Target, Zap, AlertCircle, RefreshCw, Sparkles, Award, Clock } from 'lucide-react';
 import { SharePrediction } from '@/components/SharePrediction';
 
 interface PredictionResult {
@@ -41,6 +41,8 @@ export default function PredictionsPage() {
   const [savedPredictions, setSavedPredictions] = useState<SavedPrediction[]>([]);
   const [loadingPredictions, setLoadingPredictions] = useState(false);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://0.0.0.0:3001';
+
   useEffect(() => {
     fetchPredictions();
     const interval = setInterval(fetchPredictions, 30000); // Refresh every 30 seconds
@@ -50,7 +52,7 @@ export default function PredictionsPage() {
   const fetchPredictions = async () => {
     setLoadingPredictions(true);
     try {
-      const response = await fetch('http://0.0.0.0:3001/api/predictions');
+      const response = await fetch(`${API_URL}/api/predictions`);
       const data = await response.json();
       
       if (data.success && Array.isArray(data.data)) {
@@ -72,7 +74,7 @@ export default function PredictionsPage() {
     try {
       const features = [0.75, 0.65, 0.70, 0.68, 0.62, 0.55, 0.80];
 
-      const response = await fetch('http://0.0.0.0:3001/api/predictions/predict', {
+      const response = await fetch(`${API_URL}/api/predictions/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -107,16 +109,44 @@ export default function PredictionsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-purple-500/10 rounded-lg">
-            <Brain className="w-8 h-8 text-purple-400" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-4 md:p-6 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* Enhanced Header */}
+        <div className="mb-8 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-full border border-purple-500/30 mb-4 backdrop-blur-sm">
+            <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
+            <span className="text-sm font-semibold text-purple-300">AI-Powered Predictions</span>
           </div>
-          <div>
-            <h2 className="text-2xl font-bold text-white">ML Prediction Engine</h2>
-            <p className="text-gray-400">87% accuracy • Powered by AI</p>
+          
+          <div className="flex items-center justify-center gap-4 mb-3">
+            <div className="p-4 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl backdrop-blur-sm border border-white/10 shadow-xl">
+              <Brain className="w-10 h-10 text-purple-400" />
+            </div>
+            <div className="text-left">
+              <h1 className="text-4xl md:text-5xl font-black text-white mb-2 bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                ML Prediction Engine
+              </h1>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 px-3 py-1 bg-green-500/20 rounded-full border border-green-500/30">
+                  <Award className="w-3.5 h-3.5 text-green-400" />
+                  <span className="text-xs font-bold text-green-300">87% Accuracy</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-500/20 rounded-full border border-blue-500/30">
+                  <Zap className="w-3.5 h-3.5 text-blue-400" />
+                  <span className="text-xs font-bold text-blue-300">Powered by AI</span>
+                </div>
+              </div>
+            </div>
           </div>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Advanced machine learning models analyzing team statistics, form, and historical data
+          </p>
         </div>
 
         {error && (
@@ -126,10 +156,11 @@ export default function PredictionsPage() {
           </div>
         )}
 
-        <form onSubmit={handlePredict} className="space-y-4 mb-6 bg-slate-800/50 p-6 rounded-2xl backdrop-blur-sm border border-white/10">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+        <form onSubmit={handlePredict} className="mb-8 bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-6 md:p-8 rounded-3xl backdrop-blur-xl border border-white/10 shadow-2xl hover:border-purple-500/30 transition-all duration-300">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-300">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 Home Team
               </label>
               <input
@@ -137,12 +168,13 @@ export default function PredictionsPage() {
                 value={homeTeam}
                 onChange={(e) => setHomeTeam(e.target.value)}
                 placeholder="e.g., Manchester United"
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                className="w-full px-4 py-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
                 required
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-300">
+                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                 Away Team
               </label>
               <input
@@ -150,7 +182,7 @@ export default function PredictionsPage() {
                 value={awayTeam}
                 onChange={(e) => setAwayTeam(e.target.value)}
                 placeholder="e.g., Liverpool"
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                className="w-full px-4 py-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
                 required
               />
             </div>
@@ -159,72 +191,98 @@ export default function PredictionsPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full mt-6 py-5 bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group relative overflow-hidden"
           >
-            {loading ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Analyzing...
-              </>
-            ) : (
-              <>
-                <Zap className="w-5 h-5" />
-                Generate AI Prediction
-              </>
-            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <span className="relative z-10 flex items-center gap-2">
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Analyzing with AI...
+                </>
+              ) : (
+                <>
+                  <Zap className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  Generate AI Prediction
+                  <Sparkles className="w-4 h-4 opacity-70" />
+                </>
+              )}
+            </span>
           </button>
         </form>
 
         {result && (
-          <div className="space-y-4 animate-in fade-in duration-500">
-            <div className="p-6 bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-2xl">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <Target className="w-6 h-6 text-purple-400" />
-                  <h3 className="text-xl font-bold text-white">Prediction Result</h3>
+          <div className="space-y-6 animate-in fade-in duration-700">
+            <div className="p-8 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-purple-500/20 border border-purple-500/30 rounded-3xl backdrop-blur-xl shadow-2xl relative overflow-hidden">
+              {/* Decorative Elements */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-gradient-to-br from-purple-500/30 to-blue-500/30 rounded-xl backdrop-blur-sm">
+                      <Target className="w-7 h-7 text-purple-300" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-white">Prediction Result</h3>
+                      <p className="text-xs text-gray-400">AI-Generated Analysis</p>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className={`text-5xl font-black ${getConfidenceColor(result.confidence)} mb-1`}>
+                      {result.confidence.toFixed(1)}%
+                    </div>
+                    <p className="text-xs text-gray-400">Confidence</p>
+                  </div>
                 </div>
-                <span className={`text-3xl font-bold ${getConfidenceColor(result.confidence)}`}>
-                  {result.confidence.toFixed(1)}%
-                </span>
-              </div>
 
-              <div className="mb-4">
-                <p className="text-gray-400 mb-2">Predicted Outcome:</p>
-                <p className="text-2xl font-bold text-white capitalize">
-                  {result.prediction} {result.prediction === 'home' ? `(${homeTeam})` : result.prediction === 'away' ? `(${awayTeam})` : ''}
-                </p>
-              </div>
+                <div className="mb-6 p-5 bg-gradient-to-r from-white/5 to-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
+                  <p className="text-sm text-gray-400 mb-2">Predicted Outcome:</p>
+                  <p className="text-3xl font-black text-white capitalize flex items-center gap-2">
+                    <Award className="w-8 h-8 text-yellow-400" />
+                    {result.prediction} {result.prediction === 'home' ? `(${homeTeam})` : result.prediction === 'away' ? `(${awayTeam})` : ''}
+                  </p>
+                </div>
 
-              <div className="grid grid-cols-3 gap-3">
-                <div className="p-4 bg-white/5 rounded-lg">
-                  <p className="text-xs text-gray-400 mb-1">Home Win</p>
-                  <p className="text-2xl font-bold text-green-400">{(result.probabilities.home * 100).toFixed(1)}%</p>
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="p-5 bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-2xl border border-green-500/30 backdrop-blur-sm hover:scale-105 transition-transform">
+                    <p className="text-xs font-semibold text-green-300 mb-2">Home Win</p>
+                    <p className="text-3xl font-black text-green-400">{(result.probabilities.home * 100).toFixed(1)}%</p>
+                  </div>
+                  <div className="p-5 bg-gradient-to-br from-amber-500/20 to-amber-600/20 rounded-2xl border border-amber-500/30 backdrop-blur-sm hover:scale-105 transition-transform">
+                    <p className="text-xs font-semibold text-amber-300 mb-2">Draw</p>
+                    <p className="text-3xl font-black text-amber-400">{(result.probabilities.draw * 100).toFixed(1)}%</p>
+                  </div>
+                  <div className="p-5 bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-2xl border border-blue-500/30 backdrop-blur-sm hover:scale-105 transition-transform">
+                    <p className="text-xs font-semibold text-blue-300 mb-2">Away Win</p>
+                    <p className="text-3xl font-black text-blue-400">{(result.probabilities.away * 100).toFixed(1)}%</p>
+                  </div>
                 </div>
-                <div className="p-4 bg-white/5 rounded-lg">
-                  <p className="text-xs text-gray-400 mb-1">Draw</p>
-                  <p className="text-2xl font-bold text-amber-400">{(result.probabilities.draw * 100).toFixed(1)}%</p>
-                </div>
-                <div className="p-4 bg-white/5 rounded-lg">
-                  <p className="text-xs text-gray-400 mb-1">Away Win</p>
-                  <p className="text-2xl font-bold text-blue-400">{(result.probabilities.away * 100).toFixed(1)}%</p>
-                </div>
-              </div>
 
-              {result.source && (
-                <div className="mt-4 text-xs text-gray-500">
-                  Source: {result.source} • Model: {result.model_version}
-                </div>
-              )}
+                {result.source && (
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Source: <span className="text-purple-400 font-semibold">{result.source}</span> • Model: {result.model_version}</span>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-              <div className="flex items-start gap-2">
-                <TrendingUp className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-sm font-semibold text-blue-300 mb-1">AI Analysis</p>
-                  <p className="text-xs text-gray-400">
+            <div className="p-6 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-2xl backdrop-blur-sm">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-blue-500/20 rounded-lg">
+                  <TrendingUp className="w-6 h-6 text-blue-400" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-base font-bold text-blue-300 mb-2 flex items-center gap-2">
+                    AI Analysis
+                    <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
+                  </p>
+                  <p className="text-sm text-gray-300 leading-relaxed">
                     This prediction is based on advanced machine learning models analyzing team form, 
-                    head-to-head records, home advantage, and current injuries.
+                    head-to-head records, home advantage, and current injuries. Our AI considers 
+                    over 50 different factors to provide accurate predictions.
                   </p>
                 </div>
               </div>
@@ -240,18 +298,27 @@ export default function PredictionsPage() {
         )}
 
         {/* Saved Predictions List */}
-        <div className="mt-8">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-bold text-white flex items-center gap-2">
-              <Target className="w-6 h-6 text-purple-400" />
-              Recent Predictions ({savedPredictions.length})
-            </h3>
+        <div className="mt-12">
+          <div className="flex items-center justify-between mb-6 p-6 bg-gradient-to-r from-slate-800/50 to-slate-900/50 rounded-2xl border border-white/10 backdrop-blur-sm">
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-xl">
+                <Target className="w-6 h-6 text-purple-400" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black text-white">
+                  Recent Predictions
+                </h3>
+                <p className="text-sm text-gray-400">
+                  {savedPredictions.length} predictions • Updated in real-time
+                </p>
+              </div>
+            </div>
             <button
               onClick={fetchPredictions}
               disabled={loadingPredictions}
-              className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors"
+              className="p-3 bg-gradient-to-br from-purple-500/20 to-blue-500/20 hover:from-purple-500/30 hover:to-blue-500/30 rounded-xl transition-all border border-purple-500/30 group"
             >
-              <RefreshCw className={`w-5 h-5 text-gray-400 ${loadingPredictions ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-5 h-5 text-purple-400 group-hover:text-purple-300 ${loadingPredictions ? 'animate-spin' : ''}`} />
             </button>
           </div>
 

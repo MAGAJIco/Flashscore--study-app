@@ -205,30 +205,35 @@ export function MagajiCoAppLauncher() {
         {/* Scrollable All Apps Grid */}
         <div className="overflow-x-auto scrollbar-hide px-3 py-2">
           <div className="flex gap-3 min-w-max">
-            {categories.map(category => (
-              <div key={category.id} className="flex flex-col">
-                <div className="text-[10px] font-bold text-gray-500 mb-2 px-1">{category.name}</div>
-                <div className="flex gap-2">
-                  {category.apps.map(app => (
-                    <Link
-                      key={app.id}
-                      href={app.href}
-                      className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-gray-100 transition-all active:scale-95 relative min-w-[70px]"
-                    >
-                      {app.badge && (
-                        <div className="absolute top-0 right-0 bg-red-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-full">
-                          {app.badge}
+            {categories.filter(cat => cat.id !== 'all').map(category => {
+              const categoryApps = apps.filter(app => app.category === category.id);
+              if (categoryApps.length === 0) return null;
+              
+              return (
+                <div key={category.id} className="flex flex-col">
+                  <div className="text-[10px] font-bold text-gray-500 mb-2 px-1">{category.label}</div>
+                  <div className="flex gap-2">
+                    {categoryApps.map(app => (
+                      <Link
+                        key={app.id}
+                        href={app.href}
+                        className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-gray-100 transition-all active:scale-95 relative min-w-[70px]"
+                      >
+                        {app.badge && (
+                          <div className="absolute top-0 right-0 bg-red-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-full">
+                            {app.badge}
+                          </div>
+                        )}
+                        <div className={`w-12 h-12 bg-gradient-to-r ${app.color} rounded-xl flex items-center justify-center text-lg shadow-md`}>
+                          {app.icon}
                         </div>
-                      )}
-                      <div className={`w-12 h-12 bg-gradient-to-r ${app.color} rounded-xl flex items-center justify-center text-lg shadow-md`}>
-                        {app.icon}
-                      </div>
-                      <span className="text-[9px] font-semibold text-gray-700 text-center leading-tight">{app.name}</span>
-                    </Link>
-                  ))}
+                        <span className="text-[9px] font-semibold text-gray-700 text-center leading-tight">{app.name}</span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
