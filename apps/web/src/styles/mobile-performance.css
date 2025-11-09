@@ -1,0 +1,98 @@
+
+/* Mobile Performance Optimizations */
+
+/* Reduce animations on slow connections */
+.slow-connection * {
+  animation-duration: 0s !important;
+  transition-duration: 0.1s !important;
+}
+
+/* Reduce features in low power mode */
+.low-power-mode .gpu-accelerated {
+  transform: none;
+  will-change: auto;
+}
+
+.low-power-mode * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Save data mode optimizations */
+.save-data img {
+  content-visibility: auto;
+}
+
+.save-data video {
+  display: none;
+}
+
+/* Viewport height units for mobile */
+.min-h-screen-mobile {
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Touch-optimized buttons */
+.touch-button {
+  min-height: 48px;
+  min-width: 48px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Improve scrolling performance */
+.scroll-smooth {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-friendly cards */
+.mobile-card-optimized {
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-card-optimized {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .min-h-screen-mobile {
+    min-height: auto;
+  }
+  
+  .mobile-stack > * + * {
+    margin-top: 8px;
+  }
+}
+
+/* Small screen optimizations */
+@media (max-width: 375px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .touch-button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 10px 20px;
+  }
+}

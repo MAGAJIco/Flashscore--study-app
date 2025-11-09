@@ -6,23 +6,41 @@
 * {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  overscroll-behavior: none;
 }
 
 body {
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  position: relative;
 }
 
-/* Mobile Touch Targets - Min 44px */
-button, a, input, select, textarea {
+/* Mobile Touch Targets - Min 44px (Apple Human Interface Guidelines) */
+button, a, input, select, textarea, [role="button"] {
   min-height: 44px;
   min-width: 44px;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Prevent zoom on input focus (iOS) */
+input, select, textarea {
+  font-size: 16px;
+}
+
+/* Improve touch scrolling */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
 /* Mobile Responsive Typography */
@@ -61,6 +79,8 @@ button, a, input, select, textarea {
   scrollbar-width: none;
   gap: 12px;
   padding: 16px;
+  transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 .mobile-carousel::-webkit-scrollbar {
@@ -69,8 +89,10 @@ button, a, input, select, textarea {
 
 .mobile-carousel-item {
   scroll-snap-align: start;
+  scroll-snap-stop: always;
   flex-shrink: 0;
-  width: 280px;
+  width: min(280px, 85vw);
+  transform: translateZ(0);
 }
 
 /* Mobile Navigation */
@@ -99,11 +121,35 @@ button, a, input, select, textarea {
 .gpu-accelerated {
   transform: translateZ(0);
   will-change: transform;
+  backface-visibility: hidden;
 }
 
 .lazy-load {
   content-visibility: auto;
   contain-intrinsic-size: 0 500px;
+}
+
+/* Image optimization */
+img {
+  content-visibility: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Reduce animation on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Container queries for responsive components */
+@container (max-width: 640px) {
+  .responsive-text {
+    font-size: 0.875rem;
+  }
 }
 
 @layer utilities {
