@@ -27,6 +27,19 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+// Viewport configuration
+export function generateViewport() {
+  return {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    themeColor: [
+      { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+      { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' }
+    ],
+  };
+}
+
 // Metadata configuration
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -50,15 +63,6 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: titles[validLocale],
     description: descriptions[validLocale],
-    viewport: {
-      width: 'device-width',
-      initialScale: 1,
-      maximumScale: 5,
-    },
-    themeColor: [
-      { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-      { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' }
-    ],
   };
 }
 

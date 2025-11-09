@@ -31,9 +31,11 @@ export function GoogleNavBar() {
   }, []);
 
   useEffect(() => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://0.0.0.0:3001';
+    
     const checkNewPredictions = async () => {
       try {
-        const response = await fetch('http://0.0.0.0:3001/api/predictions');
+        const response = await fetch(`${API_URL}/api/predictions`);
         const data = await response.json();
         
         if (data.success && Array.isArray(data.data)) {
@@ -47,7 +49,7 @@ export function GoogleNavBar() {
           }
         }
       } catch (error) {
-        console.error('Failed to check predictions:', error);
+        // Silently fail if API is not available
       }
     };
 
