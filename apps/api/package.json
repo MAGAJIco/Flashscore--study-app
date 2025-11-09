@@ -14,7 +14,7 @@
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "dotenv": "^17.2.3",
-    "fastify": "^4.28.1",
+    "fastify": "^4.29.1",
     "mongoose": "^8.0.0"
   },
   "devDependencies": {
