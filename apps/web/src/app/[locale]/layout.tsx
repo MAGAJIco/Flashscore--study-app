@@ -10,6 +10,7 @@ import { MobileBottomNav } from '../components/MobileBottomNav';
 import { AppErrorBoundary } from '../components/AppErrorBoundary';
 import { ServiceStatusIndicator } from '../components/ServiceStatusIndicator';
 import '../globals.css';
+import '../../styles/mobile-performance.css';
 
 // Font optimization
 const inter = Inter({ 
