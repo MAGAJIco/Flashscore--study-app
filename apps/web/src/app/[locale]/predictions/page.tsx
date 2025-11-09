@@ -41,6 +41,8 @@ export default function PredictionsPage() {
   const [savedPredictions, setSavedPredictions] = useState<SavedPrediction[]>([]);
   const [loadingPredictions, setLoadingPredictions] = useState(false);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://0.0.0.0:3001';
+
   useEffect(() => {
     fetchPredictions();
     const interval = setInterval(fetchPredictions, 30000); // Refresh every 30 seconds
@@ -50,7 +52,7 @@ export default function PredictionsPage() {
   const fetchPredictions = async () => {
     setLoadingPredictions(true);
     try {
-      const response = await fetch('http://0.0.0.0:3001/api/predictions');
+      const response = await fetch(`${API_URL}/api/predictions`);
       const data = await response.json();
       
       if (data.success && Array.isArray(data.data)) {
@@ -72,7 +74,7 @@ export default function PredictionsPage() {
     try {
       const features = [0.75, 0.65, 0.70, 0.68, 0.62, 0.55, 0.80];
 
-      const response = await fetch('http://0.0.0.0:3001/api/predictions/predict', {
+      const response = await fetch(`${API_URL}/api/predictions/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
