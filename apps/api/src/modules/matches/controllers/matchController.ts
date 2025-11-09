@@ -34,6 +34,11 @@ export const matchController = {
 
   async getLiveMatches(req: FastifyRequest, res: FastifyReply) {
     try {
+      // Check if MongoDB is connected
+      if (Match.db.readyState !== 1) {
+        return res.send({ success: true, data: [], count: 0, warning: 'Database not connected' });
+      }
+      
       const twoHoursFromNow = new Date(Date.now() + 2 * 60 * 60 * 1000);
       
       const matches = await Match.find({
@@ -49,12 +54,17 @@ export const matchController = {
       res.send({ success: true, data: matches, count: matches.length });
     } catch (error) {
       req.log.error(error);
-      res.status(500).send({ success: false, error: 'Failed to fetch live matches' });
+      res.send({ success: true, data: [], count: 0, warning: 'Database error' });
     }
   },
 
   async getUpcomingMatches(req: FastifyRequest<{ Querystring: MatchQuery }>, res: FastifyReply) {
     try {
+      // Check if MongoDB is connected
+      if (Match.db.readyState !== 1) {
+        return res.send({ success: true, data: [], count: 0, warning: 'Database not connected' });
+      }
+      
       const limit = parseInt(req.query.limit || '10');
       const twoHoursFromNow = new Date(Date.now() + 2 * 60 * 60 * 1000);
       
@@ -68,7 +78,7 @@ export const matchController = {
       res.send({ success: true, data: matches, count: matches.length });
     } catch (error) {
       req.log.error(error);
-      res.status(500).send({ success: false, error: 'Failed to fetch upcoming matches' });
+      res.send({ success: true, data: [], count: 0, warning: 'Database error' });
     }
   },
 
